@@ -202,9 +202,9 @@
         <div class="sidebar">
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item has-treeview @if(isset($menu) && $menu=='User') menu-open  @endif" style="border-bottom: 1px solid #4f5962; margin-bottom: 4.5%;">
+                    <li class="nav-item has-treeview @if(isset($menu) && $menu=='Admin Profile') menu-open  @endif" style="border-bottom: 1px solid #4f5962; margin-bottom: 4.5%;">
 
-                        <a href="#" class="nav-link @if(isset($menu) && $menu=='User') active  @endif">
+                        <a href="#" class="nav-link @if(isset($menu) && $menu=='Admin Profile') active  @endif">
                             <img src=" {{url('assets/admin/dist/img/AdminLTELogo.png')}}" class="img-circle elevation-2" alt="User Image" style="width: 2.1rem; margin-right: 1.5%;">
                             <p style="padding-right: 6.5%;">
                                 {{ ucfirst(Auth::user()->name) }}
@@ -214,9 +214,9 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <?php $eid = \Illuminate\Support\Facades\Auth::user()->id; ?>
-{{--                                <a href="{{ route('profile_update.edit',['profile_update'=>$eid]) }}" class="nav-link @if(isset($menu) && $menu=='User') active @endif">--}}
-{{--                                    <i class="nav-icon fa fa-pencil"></i><p class="text-warning">Edit Profile</p>--}}
-{{--                                </a>--}}
+                                <a href="{{ route('profile_update.edit',['profile_update'=>$eid]) }}" class="nav-link @if(isset($menu) && $menu=='Admin Profile') active @endif">
+                                    <i class="nav-icon fa fa-pencil"></i><p class="text-warning">Edit Profile</p>
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('admin.logout') }}" class="nav-link">

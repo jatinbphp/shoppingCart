@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\ImageController;
+use App\Http\Controllers\Admin\ProfileUpdateController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\AuthorizationController;
@@ -34,7 +36,10 @@ Route::post('/adminLogin', [AuthorizationController::class, 'adminLogin'])->name
 Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('logout', [AuthorizationController::class, 'adminLogout'])->name('admin.logout');
-    // Route::resource('user', [UserController::class, 'index'])->name('admin.user');
+
+    /*IMAGE UPLOAD IN SUMMER NOTE*/
+    Route::post('image/upload', [ImageController::class,'upload_image']);
+    Route::resource('profile_update', ProfileUpdateController::class);
 
     /*Users*/
     Route::post('users/assign', [UserController::class,'assign'])->name('users.assign');

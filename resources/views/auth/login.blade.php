@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name', 'Laravel') }} | Log in</title>
+    <title>{{ config('app.name', 'Shopping Cart') }} | Log in</title>
     <meta name="_token" content="{!! csrf_token() !!}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -15,7 +15,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="{{ URL::to('/admin') }}"><b>{{ config('app.name', 'Laravel') }}</b> <br>Admin</a>
+        <a href="{{ URL::to('/') }}"><b>{{ config('app.name', 'Shopping Cart') }}</b> <br>User</a>
     </div>
     <!-- /.login-logo -->
     <div class="card">
