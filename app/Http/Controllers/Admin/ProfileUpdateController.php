@@ -45,6 +45,7 @@ class ProfileUpdateController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id.',id',
+            'image' => 'mimes:jpeg,jpg,png,bmp',
             'password' => 'confirmed',
         ]);
 
@@ -54,6 +55,12 @@ class ProfileUpdateController extends Controller
 
         $input = $request->all();
         $user = User::findorFail($id);
+        if($file = $request->file('image')){
+            if (!empty($user['image'])) {
+                unlink($user['image']);
+            }
+            $input['image'] = $this->fileMove($file,'users');
+        }
         $user->update($input);
         \Session::flash('success','Profile has been updated successfully!');
         return redirect('admin/profile_update/'.$id."/edit");
