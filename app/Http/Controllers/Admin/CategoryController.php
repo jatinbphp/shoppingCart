@@ -80,7 +80,7 @@ class CategoryController extends Controller
         $category = Category::findorFail($id);
 
         if($file = $request->file('image')){
-            if (!empty($category['image'])) {
+            if (!empty($category['image']) && file_exists($category['image'])) {
                 unlink($category['image']);
             }
             $input['image'] = $this->fileMove($file,'categories');
