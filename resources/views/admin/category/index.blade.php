@@ -63,8 +63,8 @@
             lengthMenu: [ 100, 200, 300, 400, 500 ],
             ajax: "{{ route('category.index') }}",
             columns: [
-                {data: 'name', "width": "70%", name: 'name'},
-                {data: 'image',  name: 'image', orderable: false, searchable: false, render: function (data,type,row){
+                {data: 'name', "width": "55%", name: 'name'},
+                {data: 'image', "width": "15%", name: 'image', orderable: false, searchable: false, render: function (data,type,row){
                         return '<img src="{{url('/')}}/'+data+'" height="50" alt="Image"/>';
                     }
                 },
@@ -89,10 +89,17 @@
                     }
                 },
                 {data: 'action', "width": "15%", name: 'action', orderable: false, searchable: false, render: function(data,type,row){
-                        $btn = '<div class="btn-group btn-group-sm"><a href="' + "{{ url('admin/category/') }}" + '/' + row.id + '/edit"><button class="btn btn-sm btn-info tip mr-1" data-toggle="tooltip" title="Edit User" data-trigger="hover" type="submit" ><i class="fa fa-edit"></i></button></a></div>';
-                        $btn += '<span data-toggle="tooltip" title="Delete User" data-trigger="hover">'+
-                            '<button class="btn btn-sm btn-danger deleteCategory" data-id="'+row.id+'" type="button"><i class="fa fa-trash"></i></button>'+
-                            '</span>';
+                        $btn = '<div class="btn-group">'+
+                                    '<button type="button" class="btn btn-primary btn-sm">Action</button>'+
+                                '<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">'+
+                                    '<span class="sr-only">Toggle Dropdown</span>'+
+                                '</button>'+
+                                '<div class="dropdown-menu" role="menu">'+
+                                    '<a class="dropdown-item" href="' + "{{ url('admin/category/') }}" + '/' + row.id + '/edit"><i class="fa fa-edit text-info pr-2"></i>Edit Category</a>'+
+                                    '<a class="dropdown-item deleteCategory" data-id="'+row.id+'" href="#"><i class="fa fa-trash text-danger pr-2"></i>Delete Category</a>'+
+                                    '<a class="dropdown-item" href="' + "{{url('admin/category/')}}"+ '/' + row.id +'"><i class="fa fa-sitemap text-primary pr-2"></i>View Sub Category</a>'+
+                                '</div>'+
+                            '</div>';
                         return $btn;
                     }
                 },

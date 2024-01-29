@@ -49,5 +49,6 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     /*Categories*/
     Route::post('category/assign', [CategoryController::class,'assign'])->name('category.assign');
     Route::post('category/unassign', [CategoryController::class,'unassign'])->name('category.unassign');
+    
     Route::resource('category', CategoryController::class);
 });
