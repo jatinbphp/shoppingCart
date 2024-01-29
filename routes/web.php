@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\AuthorizationController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,7 +35,14 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('logout', [AuthorizationController::class, 'adminLogout'])->name('admin.logout');
     // Route::resource('user', [UserController::class, 'index'])->name('admin.user');
+
+    /*Users*/
     Route::post('users/assign', [UserController::class,'assign'])->name('users.assign');
     Route::post('users/unassign', [UserController::class,'unassign'])->name('users.unassign');
     Route::resource('users', UserController::class);
+
+    /*Categories*/
+    Route::post('category/assign', [CategoryController::class,'assign'])->name('category.assign');
+    Route::post('category/unassign', [CategoryController::class,'unassign'])->name('category.unassign');
+    Route::resource('category', CategoryController::class);
 });

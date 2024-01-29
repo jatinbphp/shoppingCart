@@ -239,6 +239,13 @@
                             <p>Users</p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('category.index') }}" class="nav-link @if(isset($menu) && $menu=='Category') active @endif">
+                            <i class="nav-icon fa fa-sitemap"></i>
+                            <p>Category</p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>

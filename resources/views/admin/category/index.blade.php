@@ -9,7 +9,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
                             <li class="breadcrumb-item active">{{$menu}}</li>
                         </ol>
                     </div>
@@ -37,6 +37,7 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
+                                        <th>Image</th>
                                         <th style="width: 15%;">Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -63,8 +64,38 @@
             ajax: "{{ route('category.index') }}",
             columns: [
                 {data: 'name', "width": "70%", name: 'name'},
-                {data: 'status', "width": "15%", name: 'status'},
-                {data: 'action', "width": "15%", name: 'action', orderable: false, searchable: false},
+                {data: 'image',  name: 'image', orderable: false, searchable: false, render: function (data,type,row){
+                        return '<img src="{{url('/')}}/'+data+'" height="50" alt="Image"/>';
+                    }
+                },
+                {data: 'status', "width": "15%", name: 'status', render: function (data,type,row){
+                        $statusBtn = '';
+                        if (data === "active") {
+                            $statusBtn += '<div class="btn-group-horizontal" id="assign_remove_"'+row.id+'">'+
+                                '<button class="btn btn-success unassign ladda-button" data-style="slide-left" id="remove" url="{{route('category.unassign')}}" ruid="'+row.id+'"  type="button" style="height:28px; padding:0 12px"><span class="ladda-label">Active</span> </button>'+
+                                '</div>';
+                            $statusBtn += '<div class="btn-group-horizontal" id="assign_add_"'+row.id+'"  style="display: none">'+
+                                '<button class="btn btn-danger assign ladda-button" data-style="slide-left" id="assign" uid="'+row.id+'" url="{{route('category.assign')}}" type="button"  style="height:28px; padding:0 12px"><span class="ladda-label">In Active</span></button>'+
+                                '</div>';
+                        } else {
+                            $statusBtn += '<div class="btn-group-horizontal" id="assign_add_"'+row.id+'">'+
+                                '<button class="btn btn-danger assign ladda-button" id="assign" data-style="slide-left" uid="'+row.id+'" url="{{route('category.assign')}}"  type="button" style="height:28px; padding:0 12px"><span class="ladda-label">In Active</span></button>'+
+                                '</div>';
+                            $statusBtn += '<div class="btn-group-horizontal" id="assign_remove_"'+row.id+'" style="display: none">'+
+                                '<button class="btn btn-success unassign ladda-button" id="remove" ruid="'+row.id+'" data-style="slide-left" url="{{route('category.unassign')}}" type="button" style="height:28px; padding:0 12px"><span class="ladda-label">Active</span></button>'+
+                                '</div>';
+                        }
+                        return $statusBtn;
+                    }
+                },
+                {data: 'action', "width": "15%", name: 'action', orderable: false, searchable: false, render: function(data,type,row){
+                        $btn = '<div class="btn-group btn-group-sm"><a href="' + "{{ url('admin/category/') }}" + '/' + row.id + '/edit"><button class="btn btn-sm btn-info tip mr-1" data-toggle="tooltip" title="Edit User" data-trigger="hover" type="submit" ><i class="fa fa-edit"></i></button></a></div>';
+                        $btn += '<span data-toggle="tooltip" title="Delete User" data-trigger="hover">'+
+                            '<button class="btn btn-sm btn-danger deleteCategory" data-id="'+row.id+'" type="button"><i class="fa fa-trash"></i></button>'+
+                            '</span>';
+                        return $btn;
+                    }
+                },
             ]
         });
 
