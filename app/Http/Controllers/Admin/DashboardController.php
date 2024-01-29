@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function adminDashBoard()
+    public function index()
     {
-        return view('admin.auth.admin_dashboard');
+        $data['menu'] = "Dashboard";
+        $data['users'] = User::where('role', '!=', 'admin')->count();
+        return view('admin.dashboard', $data);
     }
 }

@@ -18,9 +18,21 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role');
+            $table->string('image')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('status')->nullable();
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
+        \Illuminate\Support\Facades\DB::table('users')->insert([
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'phone' => '0123456789',
+            'password' => bcrypt('123456'),
+            'status' =>'active',
+            'role' => 'admin'
+        ]);
     }
 
     /**

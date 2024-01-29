@@ -31,8 +31,10 @@ Route::get('/admin', [AuthorizationController::class, 'adminLoginForm'])->name('
 Route::post('/adminLogin', [AuthorizationController::class, 'adminLogin'])->name('admin.signin');
 
 Route::prefix('admin')->middleware(['admin'])->group(function () {
-    Route::get('dashboard', [DashboardController::class, 'adminDashBoard'])->name('admin.dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('logout', [AuthorizationController::class, 'adminLogout'])->name('admin.logout');
     // Route::resource('user', [UserController::class, 'index'])->name('admin.user');
-    Route::resource('user', UserController::class);
+    Route::post('users/assign', [UserController::class,'assign'])->name('users.assign');
+    Route::post('users/unassign', [UserController::class,'unassign'])->name('users.unassign');
+    Route::resource('users', UserController::class);
 });

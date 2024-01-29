@@ -1,117 +1,114 @@
 @extends('admin.layouts.app')
 @section('content')
-<div class="content-wrapper">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>{{$menu}}</h1>
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>{{$menu}}</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                            <li class="breadcrumb-item active">{{$menu}}</li>
+                        </ol>
+                    </div>
                 </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-                        <li class="breadcrumb-item active">{{$menu}}</li>
-                    </ol>
-                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            @include ('admin.error')
+            <div id="responce" class="alert alert-success" style="display: none">
             </div>
-        </div><!-- /.container-fluid -->
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-
-        <div id="responce" class="alert alert-success" style="display: none">
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-info card-outline">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <a href="{{ route('user.create') }}"><button class="btn btn-info float-right" type="button" style="margin-right: 1.5%;"><i class="fa fa-plus pr-1"></i> Add New</button></a>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-info card-outline">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a href="{{ route('users.create') }}"><button class="btn btn-info float-right" type="button"><i class="fa fa-plus pr-1"></i> Add New</button></a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-body table-responsive">
-                        <table id="userTable" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Image</th>
-                                    <th style="width: 15%;">Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                        <div class="card-body table-responsive">
+                            <table id="usersTable" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Image</th>
+                                        <th style="width: 15%;">Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
 @endsection
 
 @section('jquery')
 <script type="text/javascript">
-    $(function() {
-        console.log(111);
-        var table = $('#userTable').DataTable({
+    $(function () {
+        var table = $('#usersTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('user.index') }}",
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    searchable: false,
-                    width: '10%'
+            pageLength: 100,
+            lengthMenu: [ 100, 200, 300, 400, 500 ],
+            ajax: "{{ route('users.index') }}",
+            columns: [
+                {data: 'name', "width": "15%", name: 'name'},
+                {data: 'email',  name: 'email'},
+                {data: 'phone',  name: 'phone'},
+                {data: 'image',  name: 'image', orderable: false, searchable: false, render: function (data,type,row){
+                        return '<img src="{{url('/')}}/'+data+'" height="50" alt="Image"/>';
+                    }
                 },
-                {
-                    data: 'name',
-                    "width": "40%",
-                    name: 'name'
+                {data: 'status', "width": "15%", name: 'status', render: function (data,type,row){
+                        $statusBtn = '';
+                        if (data === "active") {
+                            $statusBtn += '<div class="btn-group-horizontal" id="assign_remove_"'+row.id+'">'+
+                                '<button class="btn btn-success unassign ladda-button" data-style="slide-left" id="remove" url="{{route('users.unassign')}}" ruid="'+row.id+'"  type="button" style="height:28px; padding:0 12px"><span class="ladda-label">Active</span> </button>'+
+                            '</div>';
+                            $statusBtn += '<div class="btn-group-horizontal" id="assign_add_"'+row.id+'"  style="display: none">'+
+                                '<button class="btn btn-danger assign ladda-button" data-style="slide-left" id="assign" uid="'+row.id+'" url="{{route('users.assign')}}" type="button"  style="height:28px; padding:0 12px"><span class="ladda-label">In Active</span></button>'+
+                            '</div>';
+                        } else {
+                            $statusBtn += '<div class="btn-group-horizontal" id="assign_add_"'+row.id+'">'+
+                                '<button class="btn btn-danger assign ladda-button" id="assign" data-style="slide-left" uid="'+row.id+'" url="{{route('users.assign')}}"  type="button" style="height:28px; padding:0 12px"><span class="ladda-label">In Active</span></button>'+
+                            '</div>';
+                            $statusBtn += '<div class="btn-group-horizontal" id="assign_remove_"'+row.id+'" style="display: none">'+
+                                '<button class="btn btn-success unassign ladda-button" id="remove" ruid="'+row.id+'" data-style="slide-left" url="{{route('users.unassign')}}" type="button" style="height:28px; padding:0 12px"><span class="ladda-label">Active</span></button>'+
+                            '</div>';
+                        }
+                        return $statusBtn;
+                    }
                 },
-                {
-                    data: 'email',
-                    "width": "40%",
-                    name: 'email'
-                },
-                {
-                    data: 'phone',
-                    "width": "40%",
-                    name: 'phone'
-                },
-                {
-                    data: 'image',
-                    "width": "40%",
-                    name: 'image'
-                },
-                {
-                    data: 'status',
-                    "width": "40%",
-                    name: 'status'
-                },
-                {
-                    data: 'action',
-                    "width": "10%",
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
+                {data: 'action', "width": "15%", name: 'action', orderable: false, searchable: false, render: function(data,type,row){
+                    $btn = '<div class="btn-group btn-group-sm"><a href="' + "{{ url('admin/users/') }}" + '/' + row.id + '/edit"><button class="btn btn-sm btn-info tip mr-1" data-toggle="tooltip" title="Edit User" data-trigger="hover" type="submit" ><i class="fa fa-edit"></i></button></a></div>';
+                    $btn += '<span data-toggle="tooltip" title="Delete User" data-trigger="hover">'+
+                                '<button class="btn btn-sm btn-danger deleteUser" data-id="'+row.id+'" type="button"><i class="fa fa-trash"></i></button>'+
+                        '</span>';
+                            return $btn;
+                    }
                 },
             ]
         });
 
-        $('#userTable tbody').on('click', '.deleteCategory', function(event) {
+        $('#usersTable tbody').on('click', '.deleteUser', function (event) {
             event.preventDefault();
-            var cId = $(this).attr("data-id");
+            var roleId = $(this).attr("data-id");
             swal({
                     title: "Are you sure?",
-                    text: "To delete this category",
+                    text: "You want to delete this user?",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: '#DD6B55',
@@ -120,26 +117,24 @@
                     closeOnConfirm: false,
                     closeOnCancel: false
                 },
-                function(isConfirm) {
-                    if (isConfirm) {
-                        $.ajax({
-                            url: "{{url('admin/category')}}/" + cId,
-                            type: "DELETE",
-                            data: {
-                                _token: '{{csrf_token()}}'
-                            },
-                            success: function(data) {
-                                table.row('.selected').remove().draw(false);
-                                swal("Deleted", "Your data successfully deleted!", "success");
-                            }
-                        });
-                    } else {
-                        swal("Cancelled", "Your data safe!", "error");
-                    }
-                });
+            function(isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        url: "{{url('admin/users')}}/"+roleId,
+                        type: "DELETE",
+                        data: {_token: '{{csrf_token()}}' },
+                        success: function(data){
+                            table.row('.selected').remove().draw(false);
+                            swal("Deleted", "Your data successfully deleted!", "success");
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Your data safe!", "error");
+                }
+            });
         });
 
-        $('#userTable tbody').on('click', '.assign', function(event) {
+        $('#usersTable tbody').on('click', '.assign', function (event) {
             event.preventDefault();
             var user_id = $(this).attr('uid');
             var url = $(this).attr('url');
@@ -148,22 +143,18 @@
             $.ajax({
                 url: url,
                 type: "post",
-                data: {
-                    'id': user_id
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                },
-                success: function(data) {
+                data: {'id': user_id},
+                headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+                success: function(data){
                     l.stop();
-                    $('#assign_remove_' + user_id).show();
-                    $('#assign_add_' + user_id).hide();
+                    $('#assign_remove_'+user_id).show();
+                    $('#assign_add_'+user_id).hide();
                     table.draw(false);
                 }
             });
         });
 
-        $('#userTable tbody').on('click', '.unassign', function(event) {
+        $('#usersTable tbody').on('click', '.unassign', function (event) {
             event.preventDefault();
             var user_id = $(this).attr('ruid');
             var url = $(this).attr('url');
@@ -172,18 +163,15 @@
             $.ajax({
                 url: url,
                 type: "post",
-                data: {
-                    'id': user_id,
-                    '_token': $('meta[name=_token]').attr('content')
-                },
-                success: function(data) {
+                data: {'id': user_id,'_token' : $('meta[name=_token]').attr('content') },
+                success: function(data){
                     l.stop();
-                    $('#assign_remove_' + user_id).hide();
-                    $('#assign_add_' + user_id).show();
+                    $('#assign_remove_'+user_id).hide();
+                    $('#assign_add_'+user_id).show();
                     table.draw(false);
                 }
             });
         });
     });
-</script>
+  </script>
 @endsection
