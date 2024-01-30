@@ -83,7 +83,7 @@
             <label class="col-md-12 control-label" for="status">Status :<span class="text-red">*</span></label>
             <div class="col-md-12">
                 @foreach (\App\Models\User::$status as $key => $value)
-                        <?php $checked = !isset($users) && $key == 'active'?'checked':'';?>
+                        @php $checked = !isset($users) && $key == 'active'?'checked':''; @endphp
                     <label>
                         {!! Form::radio('status', $key, null, ['class' => 'flat-red',$checked]) !!} <span style="margin-right: 10px">{{ $value }}</span>
                     </label>
