@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
+use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -15,8 +16,16 @@ class CategoryController extends Controller
         $data['menu'] = "Category";
 
         if ($request->ajax()) {
-            return Datatables::of(Category::where('parent_category_id',0)->get())
+            return Datatables::of(Category::with('parent')->orderBy('name','ASC')->get())
                 ->addIndexColumn()
+                ->addColumn('categoryName', function($row){
+                    if(!empty($row['parent'])){
+                        return $row->parent->name." -> ".$row->name;
+                    } else {
+                        return $row->name;
+                    }
+                })
+                ->rawColumns(['categoryName'])
                 ->make(true);
         }
 
@@ -26,17 +35,14 @@ class CategoryController extends Controller
     public function create($pcid = null)
     {
         $data['menu'] = "Category";
+
+        $data['categories'] = Category::where('status', 'active')->where('parent_category_id', 0)->pluck('name', 'id')->prepend('Please Select', '0');
+
         return view("admin.category.create",$data);
     }
 
-    public function store(Request $request, $pcid = null)
+    public function store(CategoryRequest $request, $pcid = null)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'image' => 'required|mimes:jpeg,jpg,png,bmp',
-            'status' => 'required',
-        ]);
-
         $input = $request->all();
         $input['user_id'] = Auth::user()->id;
 
@@ -65,17 +71,12 @@ class CategoryController extends Controller
     {
         $data['menu'] = "Category";
         $data['category'] = Category::where('id',$id)->first();
+        $data['categories'] = Category::where('status', 'active')->where('parent_category_id', 0)->where('id', '!=', $id)->pluck('name', 'id')->prepend('Please Select', '0');
         return view('admin.category.edit',$data);
     }
 
-    public function update(Request $request, string $id, $pcid = null)
+    public function update(CategoryRequest $request, string $id, $pcid = null)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'image' => 'mimes:jpeg,jpg,png,bmp',
-            'status' => 'required',
-        ]);
-
         $input = $request->all();
         $category = Category::findorFail($id);
 

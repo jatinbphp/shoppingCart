@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AuthorizationController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,4 +52,10 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::post('category/unassign', [CategoryController::class,'unassign'])->name('category.unassign');
     
     Route::resource('category', CategoryController::class);
+
+    /*Products*/
+    Route::post('products/assign', [ProductController::class,'assign'])->name('products.assign');
+    Route::post('products/unassign', [ProductController::class,'unassign'])->name('products.unassign');
+
+    Route::resource('products', ProductController::class);
 });

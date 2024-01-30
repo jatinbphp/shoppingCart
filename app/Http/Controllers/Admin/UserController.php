@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DataTables;
 use App\Models\User;
-
+use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -30,17 +30,8 @@ class UserController extends Controller
         return view("admin.user.create",$data);
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'confirmed|min:6',
-            'phone' =>'required|numeric',
-            'image' => 'required|mimes:jpeg,jpg,png,bmp',
-            'status' => 'required',
-        ]);
-
         $input = $request->all();
         $input['role'] = 'user';
 
@@ -61,22 +52,13 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $data['menu'] = "User";
+        $data['menu'] = 'Users';
         $data['users'] = User::where('id',$id)->first();
         return view('admin.user.edit',$data);
     }
 
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id.',id',
-            'password' => 'nullable|confirmed|min:6',
-            'phone' =>'required|numeric',
-            'image' => 'mimes:jpeg,jpg,png,bmp',
-            'status' => 'required',
-        ]);
-
         if(empty($request['password'])){
             unset($request['password']);
         }

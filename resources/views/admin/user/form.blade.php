@@ -71,7 +71,7 @@
                 </div>
                 <img id="DisplayImage" @if(!empty($users['image'])) src="{{ url($users['image'])}}" style="margin-top: 1%; padding-bottom:5px; display: block;" @else src="" style="padding-bottom:5px; display: none;" @endif width="150">
                 @if ($errors->has('image'))
-                    <span class="help-block">
+                    <span class="text-danger">
                     <strong>{{ $errors->first('image') }}</strong>
                 </span>
                 @endif

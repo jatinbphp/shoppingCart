@@ -8,7 +8,7 @@ class Category extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['user_id', 'name', 'image', 'status'];
+    protected $fillable = ['user_id', 'name', 'image', 'status', 'parent_category_id'];
 
     const STATUS_ACTIVE = 'active';
     const STATUS_INACTIVE = 'inactive';
@@ -18,8 +18,18 @@ class Category extends Model
         self::STATUS_INACTIVE => 'In Active',
     ];
 
-    public static function getActiveCategories()
+    public function children()
     {
-        return Category::where('status', 'active')->pluck('name', 'id')->prepend('Please Select', '');
+        return $this->hasMany(Category::class, 'parent_category_id', 'id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_category_id', 'id');
+    }
+
+    public function subcategories()
+    {
+        return $this->children()->with('children');
     }
 }

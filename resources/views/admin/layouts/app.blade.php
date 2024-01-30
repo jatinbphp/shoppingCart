@@ -247,7 +247,13 @@
                     <li class="nav-item">
                         <a href="{{ route('category.index') }}" class="nav-link @if(isset($menu) && $menu=='Category') active @endif">
                             <i class="nav-icon fa fa-sitemap"></i>
-                            <p>Category</p>
+                            <p>Categories</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('products.index') }}" class="nav-link @if(isset($menu) && $menu=='Products') active @endif">
+                            <i class="nav-icon fa fa-list"></i>
+                            <p>Products</p>
                         </a>
                     </li>
                 </ul>
@@ -394,6 +400,45 @@
         }, 3000);
     }
     $("#responce").hide();
+
+    $( function() {
+        /SUMMER NOTE CODE/
+        $("textarea[id=description]").summernote({
+            height: 250,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize', 'height']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['table','picture','link','map','minidiag']],
+                ['misc', ['fullscreen', 'codeview']],
+            ],
+            callbacks: {
+                onImageUpload: function(files) {
+                    for (var i = 0; i < files.length; i++)
+                        upload_image(files[i], this);
+                }
+            },
+        });
+
+        function upload_image(file, el) {
+            var form_data = new FormData();
+            form_data.append('image', file);
+            $.ajax({
+                headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+                data: form_data,
+                url: '{{url('admin/image/upload')}}',
+                type: "post",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(img){
+                    $(el).summernote('editor.insertImage', img);
+                }
+            });
+        }
+    });
 </script>
 @yield('jquery')
 </body>
