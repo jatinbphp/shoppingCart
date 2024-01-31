@@ -28,18 +28,15 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a href="{{ route('users.create') }}"><button class="btn btn-info float-right" type="button"><i class="fa fa-plus pr-1"></i> Add New</button></a>
+                                    <a href="{{ route('options.create') }}"><button class="btn btn-info float-right" type="button"><i class="fa fa-plus pr-1"></i> Add New</button></a>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body table-responsive">
-                            <table id="usersTable" class="table table-bordered table-striped">
+                            <table id="optionsTable" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Image</th>
+                                        <th>Option Name</th>
                                         <th style="width: 15%;">Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -58,57 +55,61 @@
 @section('jquery')
 <script type="text/javascript">
     $(function () {
-        var table = $('#usersTable').DataTable({
+        var table = $('#optionsTable').DataTable({
             processing: true,
             serverSide: true,
             pageLength: 100,
             lengthMenu: [ 100, 200, 300, 400, 500 ],
-            ajax: "{{ route('users.index') }}",
+            ajax: "{{ route('options.index') }}",
             columns: [
-                {data: 'name', "width": "15%", name: 'name'},
-                {data: 'email',  name: 'email'},
-                {data: 'phone',  name: 'phone'},
-                {data: 'image',  name: 'image', orderable: false, searchable: false, render: function (data,type,row){
+                {data: 'name', "width": "55%", name: 'name'},
+                /*{data: 'image', "width": "15%", name: 'image', orderable: false, searchable: false, render: function (data,type,row){
                         return '<img src="{{url('/')}}/'+data+'" height="50" alt="Image"/>';
                     }
-                },
+                },*/
                 {data: 'status', "width": "15%", name: 'status', render: function (data,type,row){
                         $statusBtn = '';
                         if (data === "active") {
                             $statusBtn += '<div class="btn-group-horizontal" id="assign_remove_"'+row.id+'">'+
-                                '<button class="btn btn-success unassign ladda-button" data-style="slide-left" id="remove" url="{{route('users.unassign')}}" ruid="'+row.id+'"  type="button" style="height:28px; padding:0 12px"><span class="ladda-label">Active</span> </button>'+
-                            '</div>';
+                                '<button class="btn btn-success unassign ladda-button" data-style="slide-left" id="remove" url="{{route('options.unassign')}}" ruid="'+row.id+'"  type="button" style="height:28px; padding:0 12px"><span class="ladda-label">Active</span> </button>'+
+                                '</div>';
                             $statusBtn += '<div class="btn-group-horizontal" id="assign_add_"'+row.id+'"  style="display: none">'+
-                                '<button class="btn btn-danger assign ladda-button" data-style="slide-left" id="assign" uid="'+row.id+'" url="{{route('users.assign')}}" type="button"  style="height:28px; padding:0 12px"><span class="ladda-label">In Active</span></button>'+
-                            '</div>';
+                                '<button class="btn btn-danger assign ladda-button" data-style="slide-left" id="assign" uid="'+row.id+'" url="{{route('options.assign')}}" type="button"  style="height:28px; padding:0 12px"><span class="ladda-label">In Active</span></button>'+
+                                '</div>';
                         } else {
                             $statusBtn += '<div class="btn-group-horizontal" id="assign_add_"'+row.id+'">'+
-                                '<button class="btn btn-danger assign ladda-button" id="assign" data-style="slide-left" uid="'+row.id+'" url="{{route('users.assign')}}"  type="button" style="height:28px; padding:0 12px"><span class="ladda-label">In Active</span></button>'+
-                            '</div>';
+                                '<button class="btn btn-danger assign ladda-button" id="assign" data-style="slide-left" uid="'+row.id+'" url="{{route('options.assign')}}"  type="button" style="height:28px; padding:0 12px"><span class="ladda-label">In Active</span></button>'+
+                                '</div>';
                             $statusBtn += '<div class="btn-group-horizontal" id="assign_remove_"'+row.id+'" style="display: none">'+
-                                '<button class="btn btn-success unassign ladda-button" id="remove" ruid="'+row.id+'" data-style="slide-left" url="{{route('users.unassign')}}" type="button" style="height:28px; padding:0 12px"><span class="ladda-label">Active</span></button>'+
-                            '</div>';
+                                '<button class="btn btn-success unassign ladda-button" id="remove" ruid="'+row.id+'" data-style="slide-left" url="{{route('options.unassign')}}" type="button" style="height:28px; padding:0 12px"><span class="ladda-label">Active</span></button>'+
+                                '</div>';
                         }
                         return $statusBtn;
                     }
                 },
                 {data: 'action', "width": "15%", name: 'action', orderable: false, searchable: false, render: function(data,type,row){
-                    $btn = '<div class="btn-group btn-group-sm"><a href="' + "{{ url('admin/users/') }}" + '/' + row.id + '/edit"><button class="btn btn-sm btn-info tip mr-1" data-toggle="tooltip" title="Edit User" data-trigger="hover" type="submit" ><i class="fa fa-edit"></i></button></a></div>';
-                    $btn += '<span data-toggle="tooltip" title="Delete User" data-trigger="hover">'+
-                                '<button class="btn btn-sm btn-danger deleteUser" data-id="'+row.id+'" type="button"><i class="fa fa-trash"></i></button>'+
-                        '</span>';
-                            return $btn;
+                        $btn = '<div class="btn-group">'+
+                                    '<button type="button" class="btn btn-primary btn-sm">Action</button>'+
+                                '<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">'+
+                                    '<span class="sr-only">Toggle Dropdown</span>'+
+                                '</button>'+
+                                '<div class="dropdown-menu" role="menu">'+
+                                    '<a class="dropdown-item" href="' + "{{ url('admin/options/') }}" + '/' + row.id + '/edit"><i class="fa fa-edit text-info pr-2"></i>Edit Option</a>'+
+                                    '<a class="dropdown-item deleteOption" data-id="'+row.id+'" href="#"><i class="fa fa-trash text-danger pr-2"></i>Delete Option</a>'+
+                                '</div>'+
+                            '</div>';
+                        return $btn;
                     }
                 },
             ]
         });
 
-        $('#usersTable tbody').on('click', '.deleteUser', function (event) {
+        $('#optionsTable tbody').on('click', '.deleteOption', function (event) {
             event.preventDefault();
             var roleId = $(this).attr("data-id");
             swal({
                     title: "Are you sure?",
-                    text: "You want to delete this user?",
+                    text: "You want to delete this option?",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: '#DD6B55',
@@ -120,7 +121,7 @@
             function(isConfirm) {
                 if (isConfirm) {
                     $.ajax({
-                        url: "{{url('admin/users')}}/"+roleId,
+                        url: "{{url('admin/options')}}/"+roleId,
                         type: "DELETE",
                         data: {_token: '{{csrf_token()}}' },
                         success: function(data){
@@ -134,44 +135,44 @@
             });
         });
 
-        $('#usersTable tbody').on('click', '.assign', function (event) {
+        $('#optionsTable tbody').on('click', '.assign', function (event) {
             event.preventDefault();
-            var user_id = $(this).attr('uid');
+            var option_id = $(this).attr('uid');
             var url = $(this).attr('url');
             var l = Ladda.create(this);
             l.start();
             $.ajax({
                 url: url,
                 type: "post",
-                data: {'id': user_id},
+                data: {'id': option_id},
                 headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
                 success: function(data){
                     l.stop();
-                    $('#assign_remove_'+user_id).show();
-                    $('#assign_add_'+user_id).hide();
+                    $('#assign_remove_'+option_id).show();
+                    $('#assign_add_'+option_id).hide();
                     table.draw(false);
                 }
             });
         });
 
-        $('#usersTable tbody').on('click', '.unassign', function (event) {
+        $('#optionsTable tbody').on('click', '.unassign', function (event) {
             event.preventDefault();
-            var user_id = $(this).attr('ruid');
+            var option_id = $(this).attr('ruid');
             var url = $(this).attr('url');
             var l = Ladda.create(this);
             l.start();
             $.ajax({
                 url: url,
                 type: "post",
-                data: {'id': user_id,'_token' : $('meta[name=_token]').attr('content') },
+                data: {'id': option_id,'_token' : $('meta[name=_token]').attr('content') },
                 success: function(data){
                     l.stop();
-                    $('#assign_remove_'+user_id).hide();
-                    $('#assign_add_'+user_id).show();
+                    $('#assign_remove_'+option_id).hide();
+                    $('#assign_add_'+option_id).show();
                     table.draw(false);
                 }
             });
         });
     });
-</script>
+  </script>
 @endsection

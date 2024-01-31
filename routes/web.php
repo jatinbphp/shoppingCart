@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\OptionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -58,4 +59,10 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::post('products/unassign', [ProductController::class,'unassign'])->name('products.unassign');
 
     Route::resource('products', ProductController::class);
+
+    /*Products*/
+    Route::post('options/assign', [OptionController::class,'assign'])->name('options.assign');
+    Route::post('options/unassign', [OptionController::class,'unassign'])->name('options.unassign');
+
+    Route::resource('options', OptionController::class);
 });

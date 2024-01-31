@@ -17,8 +17,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $data['menu'] = "Products";
-
+        $data['menu'] = 'Products';
         if ($request->ajax()) {
             return Datatables::of(Products::orderBy('product_name','ASC')->get())
                 ->addIndexColumn()
@@ -33,10 +32,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $data['menu'] = "Products";
-
+        $data['menu'] = 'Products';
         $data['categories'] = $this->getCategories();
-
         return view("admin.product.create",$data);
     }
 
@@ -47,11 +44,6 @@ class ProductController extends Controller
     {
         $input = $request->all();
         $input['user_id'] = Auth::user()->id;
-
-        /*if($file = $request->file('image')){
-            $input['image'] = $this->fileMove($file,'categories');
-        }*/
-
         Products::create($input);
 
         \Session::flash('success', 'Product has been inserted successfully!');
@@ -71,7 +63,7 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        $data['menu'] = "Products";
+        $data['menu'] = 'Products';
         $data['product'] = Products::where('id',$id)->first();
         $data['categories'] = $this->getCategories();
         return view('admin.product.edit',$data);
@@ -82,18 +74,8 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, string $id)
     {
-        $data['menu'] = 'Users';
-
         $input = $request->all();
         $product = Products::findorFail($id);
-
-        /*if($file = $request->file('image')){
-            if (!empty($category['image']) && file_exists($category['image'])) {
-                unlink($category['image']);
-            }
-            $input['image'] = $this->fileMove($file,'categories');
-        }*/
-
         $product->update($input);
 
         \Session::flash('success','Product has been updated successfully!');
