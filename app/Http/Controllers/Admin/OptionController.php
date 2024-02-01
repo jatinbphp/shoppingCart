@@ -131,19 +131,7 @@ class OptionController extends Controller
             return 0;
         }
     }
-
-    public function assign(Request $request){
-        $option = Options::findorFail($request['id']);
-        $option['status'] = "active";
-        $option->update($request->all());
-    }
-
-    public function unassign(Request $request){
-        $option = Options::findorFail($request['id']);
-        $option['status'] = "inactive";
-        $option->update($request->all());
-    }
-
+    
     public function removeOptionValues(Request $request)
     {
         $option_values = OptionsValue::findOrFail($request['id']);

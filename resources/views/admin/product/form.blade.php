@@ -135,6 +135,27 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 mb-2">
+                        <h5>Add Options</h5>
+                    </div>
+
+                    <select id="category_id" name="category_id" class="form-control">
+                        <option value="">--Select Option--</option>
+                        @foreach ($options as $key => $option)                            
+                            <option value="{{$option->id}}" {{$selected}}>{{$option->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @section('jquery')
 <script type="text/javascript">
 var i = 2;

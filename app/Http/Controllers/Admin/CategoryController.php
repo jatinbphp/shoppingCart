@@ -118,16 +118,4 @@ class CategoryController extends Controller
             return 0;
         }
     }
-
-    public function assign(Request $request){
-        $category = Category::findorFail($request['id']);
-        $category['status'] = "active";
-        $category->update($request->all());
-    }
-
-    public function unassign(Request $request){
-        $category = Category::findorFail($request['id']);
-        $category['status'] = "inactive";
-        $category->update($request->all());
-    }
 }

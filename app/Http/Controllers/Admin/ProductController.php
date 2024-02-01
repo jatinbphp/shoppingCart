@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Products;
 use App\Models\ProductImages;
+use App\Models\Options;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
@@ -44,6 +45,7 @@ class ProductController extends Controller
     {
         $data['menu'] = 'Products';
         $data['categories'] = $this->getCategories();
+        $data['options'] = Options::with('option_values')->where('status','active')->get();
         return view("admin.product.create",$data);
     }
 
@@ -87,6 +89,7 @@ class ProductController extends Controller
         $data['menu'] = 'Products';
         $data['product'] = Products::with('product_images')->where('id',$id)->first();
         $data['categories'] = $this->getCategories();
+        $data['options'] = Options::with('option_values')->where('status','active')->get();
         return view('admin.product.edit',$data);
     }
 
@@ -129,18 +132,6 @@ class ProductController extends Controller
         }else{
             return 0;
         }
-    }
-
-    public function assign(Request $request){
-        $product = Products::findorFail($request['id']);
-        $product['status'] = "active";
-        $product->update($request->all());
-    }
-
-    public function unassign(Request $request){
-        $product = Products::findorFail($request['id']);
-        $product['status'] = "inactive";
-        $product->update($request->all());
     }
 
     public function removeImage(Request $request)

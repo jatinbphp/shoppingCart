@@ -109,16 +109,4 @@ class UserController extends Controller
             return 0;
         }
     }
-
-    public function assign(Request $request){
-        $customer = User::findorFail($request['id']);
-        $customer['status'] = "active";
-        $customer->update($request->all());
-    }
-
-    public function unassign(Request $request){
-        $customer = User::findorFail($request['id']);
-        $customer['status'] = "inactive";
-        $customer->update($request->all());
-    }
 }
