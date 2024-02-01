@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('options', function (Blueprint $table) {
             $table->id();
-            $table->string('type')->nullable('select');
+            $table->string('type')->default('select');
             $table->string('name')->nullable();
             $table->string('status')->nullable();
             $table->softDeletes();

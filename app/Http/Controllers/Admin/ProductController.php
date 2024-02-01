@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Products;
+use App\Models\ProductImages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
@@ -21,6 +22,15 @@ class ProductController extends Controller
         if ($request->ajax()) {
             return Datatables::of(Products::orderBy('product_name','ASC')->get())
                 ->addIndexColumn()
+                ->addColumn('status', function($row){
+                    $row['table_name'] = 'products';
+                    return view('admin.status-buttons', $row);
+                })
+                ->addColumn('action', function($row){
+                    $row['section_name'] = 'products';
+                    $row['section_title'] = 'Product';
+                    return view('admin.action-buttons', $row);
+                })
                 ->make(true);
         }
 
@@ -44,7 +54,18 @@ class ProductController extends Controller
     {
         $input = $request->all();
         $input['user_id'] = Auth::user()->id;
-        Products::create($input);
+        $product = Products::create($input);
+
+        if ($request->hasFile('file')) {
+            foreach ($request->file('file') as $image) {
+
+                $imageName = $this->fileMove($image,'products');
+                ProductImages::create([
+                    'product_id' => $product->id,
+                    'image' =>  $imageName,
+                ]);
+            }
+        }
 
         \Session::flash('success', 'Product has been inserted successfully!');
         return redirect()->route('products.index');
@@ -64,7 +85,7 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         $data['menu'] = 'Products';
-        $data['product'] = Products::where('id',$id)->first();
+        $data['product'] = Products::with('product_images')->where('id',$id)->first();
         $data['categories'] = $this->getCategories();
         return view('admin.product.edit',$data);
     }
@@ -77,6 +98,17 @@ class ProductController extends Controller
         $input = $request->all();
         $product = Products::findorFail($id);
         $product->update($input);
+
+        if ($request->hasFile('file')) {
+            foreach ($request->file('file') as $image) {
+
+                $imageName = $this->fileMove($image,'products');
+                ProductImages::create([
+                    'product_id' => $id,
+                    'image' =>  $imageName,
+                ]);
+            }
+        }
 
         \Session::flash('success','Product has been updated successfully!');
         return redirect()->route('products.index');
@@ -109,5 +141,17 @@ class ProductController extends Controller
         $product = Products::findorFail($request['id']);
         $product['status'] = "inactive";
         $product->update($request->all());
+    }
+
+    public function removeImage(Request $request)
+    {
+        $option_values = ProductImages::findOrFail($request['id']);
+        if(!empty($option_values)){
+            unlink($request['img_name']);
+            $option_values->delete();
+            return 1;
+        }else{
+            return 0;
+        }
     }
 }

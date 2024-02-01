@@ -305,74 +305,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script src="{{ URL::asset('assets/admin/plugins/ladda/spin.min.js')}}"></script>
 <script src="{{ URL::asset('assets/admin/plugins/ladda/ladda.min.js')}}"></script>
-<script src="{{ URL('assets/admin/dist/js/jquery.validate.js')}}"></script>
 <script src="{{ URL::asset('assets/admin/plugins/jSignature/libs/jSignature.min.js')}}"></script>
 <script src="{{ URL::asset('assets/admin/plugins/jSignature/libs/modernizr.js')}}"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-
+<script src="{{ URL('assets/admin/dist/js/table-actions.js')}}"></script>
 <script>Ladda.bind( 'input[type=submit]' );</script>
 <script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-        $('.select2').select2();
-        $('#example2').DataTable({
-            "paging": false,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": false,
-            "info": true,
-            "autoWidth": false,
-            "dom": '<"top"i>rt<"bottom"flp><"clear">'
-        });
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    $('.select2').select2();
 
-        /*Datepicker*/
-        $('.datepicker').datepicker({
-            format: 'yyyy-m-d',
-            autoclose: true,
-        });
-
-        $('.datepicker2').datepicker({
-            format: 'yyyy-m-d',
-            // startDate: '+0d',
-            autoclose: true,
-            todayHighlight: true
-        });
-
-        $('#reqDateFrom').daterangepicker({
-            singleDatePicker: true,
-            autoUpdateInput: false
-        });
-
-        $('#reqDateFrom').on('apply.daterangepicker', function (event, picker) {
-            if (picker.startDate) {
-                $(this).val(picker.startDate.format('DD/MM/YYYY'));
-            } else {
-                $(this).val('');
-            }
-        });
-
-        $('#reqDateTo').daterangepicker({
-            singleDatePicker: true,
-            autoUpdateInput: false
-        });
-
-        $('#reqDateTo').on('apply.daterangepicker', function (event, picker) {
-            if (picker.startDate) {
-                $(this).val(picker.startDate.format('DD/MM/YYYY'));
-            } else {
-                $(this).val('');
-            }
-        });
-
-        //Flat red color scheme for iCheck
-        $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-            checkboxClass: 'icheckbox_flat-green',
-            radioClass   : 'iradio_flat-green'
-        });
+    /*Datepicker*/
+    $('.datepicker').datepicker({
+        format: 'yyyy-m-d',
+        autoclose: true,
     });
+});
 </script>
-
-<script src="{{ URL::asset('assets/admin/plugins/summernote/summernote.js') }}"></script>
 
 <script type="text/javascript">
     /*DISPLAY IMAGE*/
@@ -399,13 +348,22 @@
         }
     }
 
-    /*REORDER CODE*/
-    function slideout() {
-        setTimeout(function() {
-            $("#responce").slideUp("slow", function() {});
-        }, 3000);
+    function upload_image(file, el) {
+        var form_data = new FormData();
+        form_data.append('image', file);
+        $.ajax({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+            data: form_data,
+            url: '{{url('admin/image/upload')}}',
+            type: "post",
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(img){
+                $(el).summernote('editor.insertImage', img);
+            }
+        });
     }
-    $("#responce").hide();
 
     $( function() {
         /SUMMER NOTE CODE/
@@ -427,23 +385,6 @@
                 }
             },
         });
-
-        function upload_image(file, el) {
-            var form_data = new FormData();
-            form_data.append('image', file);
-            $.ajax({
-                headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
-                data: form_data,
-                url: '{{url('admin/image/upload')}}',
-                type: "post",
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function(img){
-                    $(el).summernote('editor.insertImage', img);
-                }
-            });
-        }
     });
 </script>
 @yield('jquery')

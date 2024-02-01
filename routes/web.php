@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OptionController;
+use App\Http\Controllers\Admin\CommonController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,26 +44,20 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::post('image/upload', [ImageController::class,'upload_image']);
     Route::resource('profile_update', ProfileUpdateController::class);
 
+    /*Common*/
+    Route::post('common/changestatus', [CommonController::class,'changeStatus'])->name('common.changestatus');
+
     /*Users*/
-    Route::post('users/assign', [UserController::class,'assign'])->name('users.assign');
-    Route::post('users/unassign', [UserController::class,'unassign'])->name('users.unassign');
     Route::resource('users', UserController::class);
 
     /*Categories*/
-    Route::post('category/assign', [CategoryController::class,'assign'])->name('category.assign');
-    Route::post('category/unassign', [CategoryController::class,'unassign'])->name('category.unassign');
-    
     Route::resource('category', CategoryController::class);
 
     /*Products*/
-    Route::post('products/assign', [ProductController::class,'assign'])->name('products.assign');
-    Route::post('products/unassign', [ProductController::class,'unassign'])->name('products.unassign');
-
+    Route::post('products/removeimage', [ProductController::class,'removeImage'])->name('products.removeimage');
     Route::resource('products', ProductController::class);
 
-    /*Products*/
-    Route::post('options/assign', [OptionController::class,'assign'])->name('options.assign');
-    Route::post('options/unassign', [OptionController::class,'unassign'])->name('options.unassign');
-
+    /*Options*/
+    Route::post('options/removeoptionvalues', [OptionController::class,'removeOptionValues'])->name('options.removeoptionvalues');
     Route::resource('options', OptionController::class);
 });

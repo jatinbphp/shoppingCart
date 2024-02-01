@@ -24,6 +24,7 @@ class OptionRequest extends FormRequest
         $optionId = $this->route('option');
 
         $rules = [
+            'type' => 'required',
             'status' => 'required',
             'name' => [
                 'required',

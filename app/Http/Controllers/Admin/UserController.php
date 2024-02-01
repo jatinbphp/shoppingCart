@@ -18,6 +18,22 @@ class UserController extends Controller
             $user = User::all()->where('role', 'user');
             return Datatables::of($user)
                 ->addIndexColumn()
+                ->addColumn('image', function($row){
+                    if (!empty($row['image']) && file_exists($row['image'])) {
+                        return url($row['image']);
+                    } else {
+                        return url('uploads/users/user-default-image.png');
+                    }
+                })
+                ->addColumn('status', function($row){
+                    $row['table_name'] = 'users';
+                    return view('admin.status-buttons', $row);
+                })
+                ->addColumn('action', function($row){
+                    $row['section_name'] = 'users';
+                    $row['section_title'] = 'User';
+                    return view('admin.action-buttons', $row);
+                })
                 ->make(true);
         }
 

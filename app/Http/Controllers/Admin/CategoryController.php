@@ -24,7 +24,22 @@ class CategoryController extends Controller
                         return $row->name;
                     }
                 })
-                ->rawColumns(['categoryName'])
+                ->addColumn('image', function($row){
+                    if (!empty($row['image']) && file_exists($row['image'])) {
+                        return url($row['image']);
+                    } else {
+                        return url('uploads/categories/default-category-image.jpeg');
+                    }
+                })
+                ->addColumn('status', function($row){
+                    $row['table_name'] = 'categories';
+                    return view('admin.status-buttons', $row);
+                })
+                ->addColumn('action', function($row){
+                    $row['section_name'] = 'category';
+                    $row['section_title'] = 'Category';
+                    return view('admin.action-buttons', $row);
+                })
                 ->make(true);
         }
 
