@@ -28,7 +28,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a href="{{ route('users.create') }}"class="btn btn-default">Add New</a>
+                                    <a href="{{ route('users.create') }}" class="btn btn-info float-right">Add New</a>
                                 </div>
                             </div>
                         </div>
