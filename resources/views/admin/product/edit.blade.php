@@ -30,7 +30,7 @@
                             @include ('admin.product.form')
                         </div>
                         <div class="card-footer">
-                            <a href="{{ route('products.index') }}" ><button class="btn btn-default" type="button">Back</button></a>
+                            <a href="{{ route('products.index') }}" class="btn btn-default">Back</a>
                             <button class="btn btn-info float-right" type="submit">Update</button>
                         </div>
                         {!! Form::close() !!}

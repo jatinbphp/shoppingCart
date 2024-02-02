@@ -28,7 +28,8 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a href="{{ route('products.create') }}"><button class="btn btn-info float-right" type="button"><i class="fa fa-plus pr-1"></i> Add New</button></a>
+                                    <a href="{{ route('products.create') }}" class="btn btn-info float-right"><i class="fa fa-plus pr-1"></i> Add New</a>
+                                    <a href="{{ route('products.import.product') }}" class="btn btn-info float-right mr-1"><i class="fa fa-plus pr-1"></i> Import</a>
                                 </div>
                             </div>
                         </div>

@@ -36,7 +36,7 @@
                                 @include ('admin.user.profile_form')
                             </div>
                             <div class="card-footer">
-                                <a href="{{ url('admin/dashboard') }}" ><button class="btn btn-default" type="button">Back</button></a>
+                                <a href="{{ url('admin/dashboard') }}" class="btn btn-default">Back</a>
                                 <button class="btn btn-info float-right" type="submit">Update</button>
                             </div>
                         {!! Form::close() !!}

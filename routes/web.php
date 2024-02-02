@@ -54,6 +54,8 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::resource('category', CategoryController::class);
 
     /*Products*/
+    Route::get('products/import-product', [ProductController::class,'importProduct'])->name('products.import.product');
+    Route::post('products/import-product-store', [ProductController::class,'importProductStore'])->name('products.import.product.store');
     Route::post('products/removeimage', [ProductController::class,'removeImage'])->name('products.removeimage');
     Route::resource('products', ProductController::class);
 

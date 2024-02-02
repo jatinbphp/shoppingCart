@@ -70,14 +70,7 @@ class CategoryController extends Controller
 
     public function show(Request $request, string $id)
     {
-        $data['menu'] = 'Category';
-        if ($request->ajax()) {
-            return Datatables::of(Category::where('parent_category_id',$id)->get())
-                ->addIndexColumn()
-                ->make(true);
-        }
-        $data['parent_id'] = $id;
-        return view('admin.category.subCategory', $data);
+        //
     }
 
     public function edit(string $id, $pcid = null)

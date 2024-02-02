@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('product_name')->nullable();
             $table->longText('description')->nullable();
             $table->string('price')->nullable();
-            $table->string('status')->nullable();
+            $table->string('status')->default('active');
             $table->softDeletes();
             $table->timestamps();
         });

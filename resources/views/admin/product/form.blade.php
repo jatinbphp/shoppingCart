@@ -145,7 +145,7 @@
                         <h5>Add Options</h5>
                     </div>
 
-                    <select id="category_id" name="category_id" class="form-control">
+                    <select id="option_id" name="option_id" class="form-control">
                         <option value="">--Select Option--</option>
                         @foreach ($options as $key => $option)                            
                             <option value="{{$option->id}}" {{$selected}}>{{$option->name}}</option>

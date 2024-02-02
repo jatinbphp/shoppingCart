@@ -35,7 +35,7 @@
                             @include ('admin.user.form')
                         </div>
                         <div class="card-footer">
-                            <a href="{{ route('users.index') }}" ><button class="btn btn-default" type="button">Back</button></a>
+                            <a href="{{ route('users.index') }}" class="btn btn-default">Back</a>
                             <button class="btn btn-info float-right" type="submit">Update</button>
                         </div>
                         {!! Form::close() !!}

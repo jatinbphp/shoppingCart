@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id')->nullable();
             $table->integer('parent_category_id')->default(0);
-            $table->string('name');
-            $table->string('status');
-            $table->string('image');
+            $table->string('name')->nullable();
+            $table->string('status')->default('active');
+            $table->string('image')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

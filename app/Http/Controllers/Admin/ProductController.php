@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProductImportRequest;
 
 class ProductController extends Controller
 {
@@ -144,5 +145,77 @@ class ProductController extends Controller
         }else{
             return 0;
         }
+    }
+
+    public function importProduct()
+    {
+        $data['menu'] = 'Products';        
+        return view("admin.product.import",$data);
+    }
+
+    public function importProductStore(ProductImportRequest $request)
+    {
+        
+        $file = $request->file('file');
+        $csvFile = $this->fileMove($file,'product-csv');
+
+        if (($handle = fopen($csvFile, 'r')) !== false) {
+            // Read the header row
+            $header = fgetcsv($handle);
+
+            // Process each row
+            while (($row = fgetcsv($handle)) !== false) {
+                $data = array_combine($header, $row);
+
+                if(!empty($data['CATEGORY_NAME']) && !empty($data['PRODUCT_NAME']) && !empty($data['SKU']) && !empty($data['DESCRIPTION']) && !empty($data['PRICE']) && !empty($data['STATUS'])){
+                    $categoryName = $data['CATEGORY_NAME'];
+
+                    // check Category
+                    $category = Category::where('name',$categoryName)->first();
+                    if(empty($category)){
+                        $inputCategory = [
+                            'user_id' => Auth::user()->id,
+                            'name' => $categoryName,
+                        ];
+                        $category = Category::create($inputCategory);
+                    }
+
+                    // check Product
+                    $product = Products::where('sku',$data['SKU'])->first();
+                    $inputProduct = [
+                        'user_id' => Auth::user()->id,
+                        'category_id' => $category->id,
+                        'sku' => $data['SKU'],
+                        'product_name' => $data['PRODUCT_NAME'],
+                        'description' => $data['DESCRIPTION'],
+                        'price' => (is_numeric($data['PRICE'])) ? $data['PRICE'] : 0,
+                        'status' => $data['STATUS'],
+                    ];
+                    if(empty($product)){
+                        $product = Products::create($inputProduct);
+                    } else {
+                        $product->update($inputProduct);
+                    }
+
+                    // check product image
+                    if(!empty($data['PRODUCT_IMAGES'])){
+                        foreach (explode(",", $data['PRODUCT_IMAGES']) as $key => $value) {
+                            $productsImage = ProductImages::where('image','uploads/products/'.trim($value))->where('product_id',$product->id)->first();
+
+                            if(empty($productsImage)){
+                                ProductImages::create([
+                                    'product_id' => $product->id,
+                                    'image' =>  'uploads/products/'.trim($value),
+                                ]);
+                            }
+                        }
+                    }
+                }
+            }
+            fclose($handle);
+        }
+
+        \Session::flash('success', 'Product has been imported successfully!');
+        return redirect()->route('products.index');
     }
 }
