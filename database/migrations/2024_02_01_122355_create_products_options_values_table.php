@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('products_options_values', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_option_id')->default(0);
             $table->integer('product_id')->default(0);
             $table->integer('option_id')->default(0);
-            $table->integer('option_value_id')->default(0);
-            $table->string('extra_price')->default(0);
+            $table->string('option_value')->default(0);
+            $table->string('option_price')->default(0);
+            $table->string('status')->default('active');
             $table->softDeletes();
             $table->timestamps();
         });

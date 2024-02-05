@@ -9,5 +9,5 @@ class ProductsOptionsValues extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['product_option_id', 'product_id', 'option_id', 'option_value_id', 'extra_price'];
+    protected $fillable = ['product_id', 'option_id', 'option_value', 'option_price'];
 }

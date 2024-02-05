@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('products_options', function (Blueprint $table) {
             $table->id();
             $table->integer('product_id')->default(0);
-            $table->integer('option_id')->default(0);
+            $table->string('option_name')->default(0);
             $table->integer('required')->default(0);
+            $table->string('status')->default('active');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class ProductsOptions extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $fillable = ['product_id', 'option_id', 'required'];
+    protected $fillable = ['product_id', 'option_name', 'required'];
+
+    public function product_option_values()
+    {
+        return $this->hasMany(ProductsOptionsValues::class, 'option_id')->orderBy('id', 'ASC');
+    }
 }

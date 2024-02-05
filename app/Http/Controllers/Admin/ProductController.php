@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Products;
 use App\Models\ProductImages;
-use App\Models\Options;
+use App\Models\ProductsOptions;
+use App\Models\ProductsOptionsValues;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
@@ -46,7 +47,7 @@ class ProductController extends Controller
     {
         $data['menu'] = 'Products';
         $data['categories'] = $this->getCategories();
-        $data['options'] = Options::with('option_values')->where('status','active')->get();
+        $data['product_options'] = [];
         return view("admin.product.create",$data);
     }
 
@@ -70,6 +71,34 @@ class ProductController extends Controller
             }
         }
 
+        // options & options values
+        if(!empty($input['options'])){
+            $this->addProductOptionAddUpdate($input, $product->id);
+        }
+
+        /*// options & options values
+        if(!empty($input['options'])){
+            foreach ($input['options'] as $key => $value) {
+
+                $inputOption = [
+                    'product_id' => $product->id,
+                    'option_name' => $value
+                ];
+                $option = ProductsOptions::create($inputOption);
+
+                if(!empty($input['option_values'][$key])){
+                    foreach ($input['option_values'][$key] as $oKey => $oValue) {
+                        $inputOptionValues = [
+                            'product_id' => $product->id,
+                            'option_id' => $option->id,
+                            'option_value' => $oValue,
+                            'option_price' => $input['option_price'][$key][$oKey],
+                        ];
+                        ProductsOptionsValues::create($inputOptionValues);
+                    }
+                }
+            }
+        }*/
         \Session::flash('success', 'Product has been inserted successfully!');
         return redirect()->route('products.index');
     }
@@ -90,7 +119,7 @@ class ProductController extends Controller
         $data['menu'] = 'Products';
         $data['product'] = Products::with('product_images')->where('id',$id)->first();
         $data['categories'] = $this->getCategories();
-        $data['options'] = Options::with('option_values')->where('status','active')->get();
+        $data['product_options'] = ProductsOptions::with('product_option_values')->where('product_id',$id)->where('status','active')->get();
         return view('admin.product.edit',$data);
     }
 
@@ -114,8 +143,100 @@ class ProductController extends Controller
             }
         }
 
+        // options & options values
+        if(!empty($input['options'])){
+            $this->addProductOptionAddUpdate($input, $id);
+        }
+
         \Session::flash('success','Product has been updated successfully!');
         return redirect()->route('products.index');
+    }
+
+    public function addProductOptionAddUpdate($input, $product_id)
+    {
+        $option_ids = [];
+        $option_values_ids = [];
+        if(!empty($input['options']['old'])){
+            foreach ($input['options']['old'] as $key => $value) {
+                $optionOld = ProductsOptions::where('id',$key)->where('product_id',$product_id)->first();
+                $inputOption = [
+                    'product_id' => $product_id,
+                    'option_name' => $value
+                ];
+                $optionOld->update($inputOption);
+
+                $option_ids[] = $optionOld->id;
+
+                if(!empty($input['option_values']['old'][$key])){
+                    foreach ($input['option_values']['old'][$key] as $oKey => $oValue) {
+
+                        $option_value = ProductsOptionsValues::where('id',$oKey)->where('option_id',$optionOld->id)->where('product_id',$product_id)->first();
+                        $inputOptionValues = [
+                            'product_id' => $product_id,
+                            'option_id' => $optionOld->id,
+                            'option_value' => $oValue,
+                            'option_price' => $input['option_price']['old'][$key][$oKey],
+                        ];
+
+                        if(empty($option_value)){
+                            $option_new_value = ProductsOptionsValues::create($inputOptionValues);
+
+                            $option_values_ids[] = $option_new_value->id;
+                        } else {
+                            $option_value->update($inputOptionValues);
+
+                            $option_values_ids[] = $option_value->id;
+                        }
+                    }
+                }
+
+                if(!empty($input['option_values']['new'][$key])){
+                    foreach ($input['option_values']['new'][$key] as $oKey => $oValue) {
+                        $inputOptionValues = [
+                            'product_id' => $product_id,
+                            'option_id' => $optionOld->id,
+                            'option_value' => $oValue,
+                            'option_price' => $input['option_price']['new'][$key][$oKey],
+                        ];
+                        $option_new_value = ProductsOptionsValues::create($inputOptionValues);
+
+                        $option_values_ids[] = $option_new_value->id;
+                    }
+                }
+            }
+
+            if(count($option_ids)>0){
+                ProductsOptions::whereNotIn('id', $option_ids)->where('product_id', $product_id)->delete();
+                ProductsOptionsValues::whereNotIn('option_id', $option_ids)->where('product_id', $product_id)->delete();
+            }
+
+            if(count($option_values_ids)>0){
+                ProductsOptionsValues::whereNotIn('id', $option_values_ids)->where('product_id', $product_id)->delete();
+            }
+        }
+        
+        if(!empty($input['options']['new'])){
+            foreach ($input['options']['new'] as $key => $value) {
+
+                $inputOption = [
+                    'product_id' => $product_id,
+                    'option_name' => $value
+                ];
+                $optionNew = ProductsOptions::create($inputOption);
+
+                if(!empty($input['option_values']['new'][$key])){
+                    foreach ($input['option_values']['new'][$key] as $oKey => $oValue) {
+                        $inputOptionValues = [
+                            'product_id' => $product_id,
+                            'option_id' => $optionNew->id,
+                            'option_value' => $oValue,
+                            'option_price' => $input['option_price']['new'][$key][$oKey],
+                        ];
+                        ProductsOptionsValues::create($inputOptionValues);
+                    }
+                }
+            }
+        }
     }
 
     /**
