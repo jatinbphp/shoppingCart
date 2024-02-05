@@ -1,194 +1,260 @@
+<ul class="nav nav-tabs" id="myTabs">
+    <li class="nav-item">
+        <a class="nav-link active" id="tab1" data-toggle="tab" href="#content1">General Information</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" id="tab2" data-toggle="tab" href="#content2">Product Images</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" id="tab3" data-toggle="tab" href="#content3">Options</a>
+    </li>
+</ul>
+
 {!! Form::hidden('redirects_to', URL::previous()) !!}
-<div class="row">
+<div class="tab-content mt-2">
+    <div class="row tab-pane fade show active" id="content1">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card mb-4">
+                <div class="card-body">
 
-    <div class="col-md-12">
-        <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
-            <label class="control-label" for="category_id">Select Category :<span class="text-red">*</span></label>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
+                                <label class="control-label" for="category_id">Select Category :<span class="text-red">*</span></label>
 
-            <select id="category_id" name="category_id" class="form-control">
-                <option value="">--Select Category--</option>
-                @foreach ($categories as $key => $val)
-                    @php $selected = isset($product) && $product->category_id == $val->id?'selected':''; @endphp
-                    <option value="{{$val->id}}" {{$selected}}>{{$val->categoryName}}</option>
-                @endforeach
-            </select>
+                                <select id="category_id" name="category_id" class="form-control">
+                                    <option value="">--Select Category--</option>
+                                    @foreach ($categories as $key => $val)
+                                        @php $selected = isset($product) && $product->category_id == $val->id?'selected':''; @endphp
+                                        <option value="{{$val->id}}" {{$selected}}>{{$val->categoryName}}</option>
+                                    @endforeach
+                                </select>
 
-            @if ($errors->has('category_id'))
-                <span class="text-danger">
-                    <strong>{{ $errors->first('category_id') }}</strong>
-                </span>
-            @endif
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="form-group{{ $errors->has('product_name') ? ' has-error' : '' }}">
-            <label class="control-label" for="product_name">Product Name :<span class="text-red">*</span></label>
-            {!! Form::text('product_name', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Name', 'id' => 'product_name']) !!}
-            @if ($errors->has('product_name'))
-                <span class="text-danger">
-                    <strong>{{ $errors->first('product_name') }}</strong>
-                </span>
-            @endif
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="form-group{{ $errors->has('sku') ? ' has-error' : '' }}">
-            <label class="control-label" for="sku">SKU :<span class="text-red">*</span></label>
-            {!! Form::text('sku', null, ['class' => 'form-control', 'placeholder' => 'Enter SKU', 'id' => 'sku']) !!}
-            @if ($errors->has('sku'))
-                <span class="text-danger">
-                    <strong>{{ $errors->first('sku') }}</strong>
-                </span>
-            @endif
-        </div>
-    </div>
-
-    <div class="col-md-12">
-        <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-            <label class="control-label" for="description">Description :<span class="text-red">*</span></label>
-            {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Enter Description', 'id' => 'description', 'rows' => '4']) !!}
-            @if ($errors->has('description'))
-                <span class="text-danger">
-                    <strong>{{ $errors->first('description') }}</strong>
-                </span>
-            @endif
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
-            <label class="control-label" for="price">Price :<span class="text-red">*</span></label>
-            {!! Form::text('price', null, ['class' => 'form-control', 'placeholder' => 'Enter Price', 'id' => 'price']) !!}
-            @if ($errors->has('price'))
-                <span class="text-danger">
-                    <strong>{{ $errors->first('price') }}</strong>
-                </span>
-            @endif
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
-            <label class="col-md-12 control-label" for="status">Status :<span class="text-red">*</span></label>
-            <div class="col-md-12">
-                @foreach (\App\Models\Products::$status as $key => $value)
-                        @php $checked = !isset($product) && $key == 'active'?'checked':''; @endphp
-                    <label>
-                        {!! Form::radio('status', $key, null, ['class' => 'flat-red',$checked]) !!} <span style="margin-right: 10px">{{ $value }}</span>
-                    </label>
-                @endforeach
-                <br class="statusError">
-                @if ($errors->has('status'))
-                    <span class="text-danger" id="statusError">
-                        <strong>{{ $errors->first('status') }}</strong>
-                    </span>
-                @endif
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="row additionalImageClass">
-                    <div class="col-lg-12 mb-2">
-                        <h5>Add Product Images</h5>
-                    </div>
-
-                    <?php 
-                    if(!empty($product)){
-                        if (!empty($product->product_images)) {
-                            foreach ($product->product_images as $key => $value) { ?>
-                                <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
-                                    <div class="imagePreviewPlus">
-                                        <div class="text-right">
-                                            <button type="button" class="btn btn-danger removeImage" onclick="removeAdditionalProductImg('<?php echo $value['image']; ?>','<?php echo $value['id']; ?>','<?php echo $product->id; ?>');"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                        </div>
-                                        <img style="width: inherit; height: inherit;" @if(!empty($value['image'])) src="{{ url($value['image'])}}" @endif alt="">
-                                    </div>
-                                </div>
-                            <?php 
-                            }
-                        }
-                    } ?>
-
-                    <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
-                        <div class="boxImage imgUp">
-                            <div class="loader-contetn loader1">
-                                <div class="loader-01"> </div>
+                                @if ($errors->has('category_id'))
+                                    <span class="text-danger">
+                                        <strong>{{ $errors->first('category_id') }}</strong>
+                                    </span>
+                                @endif
                             </div>
-                            <div class="imagePreview"></div>
-                            <label class="btn btn-primary">
-                                Upload<input type="file" name="file[]" class="uploadFile img" id="file-1" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;" data-overwrite-initial="false" data-min-file-count="1">
-                            </label>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group{{ $errors->has('product_name') ? ' has-error' : '' }}">
+                                <label class="control-label" for="product_name">Product Name :<span class="text-red">*</span></label>
+                                {!! Form::text('product_name', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Name', 'id' => 'product_name']) !!}
+                                @if ($errors->has('product_name'))
+                                    <span class="text-danger">
+                                        <strong>{{ $errors->first('product_name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group{{ $errors->has('sku') ? ' has-error' : '' }}">
+                                <label class="control-label" for="sku">SKU :<span class="text-red">*</span></label>
+                                {!! Form::text('sku', null, ['class' => 'form-control', 'placeholder' => 'Enter SKU', 'id' => 'sku']) !!}
+                                @if ($errors->has('sku'))
+                                    <span class="text-danger">
+                                        <strong>{{ $errors->first('sku') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 imgAdd">
-                        <div class="imagePreviewPlus imgUp"><i class="fa fa-plus fa-4x"></i></div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
+                                <label class="control-label" for="description">Description :<span class="text-red">*</span></label>
+                                {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Enter Description', 'id' => 'description', 'rows' => '4']) !!}
+                                @if ($errors->has('description'))
+                                    <span class="text-danger">
+                                        <strong>{{ $errors->first('description') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
+                                <label class="control-label" for="price">Price :<span class="text-red">*</span></label>
+                                {!! Form::text('price', null, ['class' => 'form-control', 'placeholder' => 'Enter Price', 'id' => 'price']) !!}
+                                @if ($errors->has('price'))
+                                    <span class="text-danger">
+                                        <strong>{{ $errors->first('price') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
+                                <label class="col-md-12 control-label" for="status">Status :<span class="text-red">*</span></label>
+                                <div class="col-md-12">
+                                    @foreach (\App\Models\Products::$status as $key => $value)
+                                            @php $checked = !isset($product) && $key == 'active'?'checked':''; @endphp
+                                        <label>
+                                            {!! Form::radio('status', $key, null, ['class' => 'flat-red',$checked]) !!} <span style="margin-right: 10px">{{ $value }}</span>
+                                        </label>
+                                    @endforeach
+                                    <br class="statusError">
+                                    @if ($errors->has('status'))
+                                        <span class="text-danger" id="statusError">
+                                            <strong>{{ $errors->first('status') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-@php
-$optionValuesCounter = 1;
-@endphp
-
-@if(count($product_options)>0)
-    <div class="row">
+    <div class="row tab-pane fade" id="content2">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card mb-4">
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row additionalImageClass">
                         <div class="col-lg-12 mb-2">
-                            <h5>Add Options</h5>
+                            <h5>Add Product Images</h5>
+                        </div>
+
+                        <?php 
+                        if(!empty($product)){
+                            if (!empty($product->product_images)) {
+                                foreach ($product->product_images as $key => $value) { ?>
+                                    <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="imagePreviewPlus">
+                                            <div class="text-right">
+                                                <button type="button" class="btn btn-danger removeImage" onclick="removeAdditionalProductImg('<?php echo $value['image']; ?>','<?php echo $value['id']; ?>','<?php echo $product->id; ?>');"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                            </div>
+                                            <img style="width: inherit; height: inherit;" @if(!empty($value['image'])) src="{{ url($value['image'])}}" @endif alt="">
+                                        </div>
+                                    </div>
+                                <?php 
+                                }
+                            }
+                        } ?>
+
+                        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
+                            <div class="boxImage imgUp">
+                                <div class="loader-contetn loader1">
+                                    <div class="loader-01"> </div>
+                                </div>
+                                <div class="imagePreview"></div>
+                                <label class="btn btn-primary">
+                                    Upload<input type="file" name="file[]" class="uploadFile img" id="file-1" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;" data-overwrite-initial="false" data-min-file-count="1">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 imgAdd">
+                            <div class="imagePreviewPlus imgUp"><i class="fa fa-plus fa-4x"></i></div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    @foreach ($product_options as $key => $option)
-                        <div class="card" id="options_{{ $option->id }}">
-                            <div class="row p-2">
-                                <div class="col-md-4">
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <div class="form-group{{ $errors->has('options') ? ' has-error' : '' }}">
-                                                <label class="control-label" for="options">Option Name :<span class="text-red">*</span></label>
-                                                {!! Form::text("options[old][$option->id]", $option->option_name, ['class' => 'form-control','required', 'placeholder' => "Enter Option Name"]) !!}
-                                                @if ($errors->has('options'))
-                                                    <span class="text-danger">
-                                                        <strong>{{ $errors->first('options') }}</strong>
-                                                    </span>
+    @php
+    $optionValuesCounter = 1;
+    @endphp
+
+    @if(count($product_options)>0)
+        <div class="row tab-pane fade" id="content3">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12 mb-2">
+                                <h5>Add Options</h5>
+                            </div>
+                        </div>
+
+                        @foreach ($product_options as $key => $option)
+                            <div class="card" id="options_{{ $option->id }}">
+                                <div class="row p-2">
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group{{ $errors->has('options') ? ' has-error' : '' }}">
+                                                    <label class="control-label" for="options">Option Name :<span class="text-red">*</span></label>
+                                                    {!! Form::text("options[old][$option->id]", $option->option_name, ['class' => 'form-control','required', 'placeholder' => "Enter Option Name"]) !!}
+                                                    @if ($errors->has('options'))
+                                                        <span class="text-danger">
+                                                            <strong>{{ $errors->first('options') }}</strong>
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-1">
+                                                @if($key==0)
+                                                    <button type="button" class="btn btn-info" id="optionBtn" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
+                                                @else
+                                                    <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{$option->id}}, 0)" style="margin-top: 30px;"><i class="fa fa-trash"></i></button>
                                                 @endif
                                             </div>
                                         </div>
-
-                                        <div class="col-md-1">
-                                            @if($key==0)
-                                                <button type="button" class="btn btn-info" id="optionBtn" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
-                                            @else
-                                                <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{$option->id}}, 0)" style="margin-top: 30px;"><i class="fa fa-trash"></i></button>
-                                            @endif
-                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-8">
+                                    <div class="col-md-8">
 
-                                    @if(count($option->product_option_values)>0)
-                                        @foreach ($option->product_option_values as $vkey => $option_value)
-                                            <div class="row" id="options_values_{{ $option_value->id }}">
+                                        @if(count($option->product_option_values)>0)
+                                            @foreach ($option->product_option_values as $vkey => $option_value)
+                                                <div class="row" id="options_values_{{ $option_value->id }}">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
+                                                            @if($vkey==0)
+                                                            <label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>
+                                                            @endif
+
+                                                            {!! Form::text("option_values[old][$option->id][$option_value->id]", $option_value->option_value, ['class' => 'form-control','required', 'placeholder' => "Enter Option Value"]) !!}
+                                                            @if ($errors->has('option_values'))
+                                                                <span class="text-danger">
+                                                                    <strong>{{ $errors->first('option_values') }}</strong>
+                                                                </span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
+                                                            @if($vkey==0)
+                                                            <label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>
+                                                            @endif
+
+                                                            {!! Form::text("option_price[old][$option->id][$option_value->id]", $option_value->option_price, ['class' => 'form-control','required', 'placeholder' => "Enter Option Price"]) !!}
+                                                            @if ($errors->has('option_price'))
+                                                                <span class="text-danger">
+                                                                    <strong>{{ $errors->first('option_price') }}</strong>
+                                                                </span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-1">
+                                                        @if($vkey==0)
+                                                            <button type="button" class="btn btn-info" onclick="optionValuesBtn({{ $option->id }}, {{ $option->id }})" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
+                                                        @else
+                                                            <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{ $option_value->id }}, 1)"><i class="fa fa-trash"></i></button>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                            <div id="extraValuesOption_{{ $option->id }}_{{ $option->id }}"></div>
+                                        @else 
+                                            <div class="row" id="options_values_1">
                                                 <div class="col-md-6">
                                                     <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
-                                                        @if($vkey==0)
                                                         <label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>
-                                                        @endif
-
-                                                        {!! Form::text("option_values[old][$option->id][$option_value->id]", $option_value->option_value, ['class' => 'form-control','required', 'placeholder' => "Enter Option Value"]) !!}
+                                                        {!! Form::text("option_values[new][$option->id][]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Value"]) !!}
                                                         @if ($errors->has('option_values'))
                                                             <span class="text-danger">
                                                                 <strong>{{ $errors->first('option_values') }}</strong>
@@ -199,11 +265,8 @@ $optionValuesCounter = 1;
 
                                                 <div class="col-md-4">
                                                     <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
-                                                        @if($vkey==0)
                                                         <label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>
-                                                        @endif
-
-                                                        {!! Form::text("option_price[old][$option->id][$option_value->id]", $option_value->option_price, ['class' => 'form-control','required', 'placeholder' => "Enter Option Price"]) !!}
+                                                        {!! Form::text("option_price[new][$option->id][]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Price"]) !!}
                                                         @if ($errors->has('option_price'))
                                                             <span class="text-danger">
                                                                 <strong>{{ $errors->first('option_price') }}</strong>
@@ -213,131 +276,96 @@ $optionValuesCounter = 1;
                                                 </div>
 
                                                 <div class="col-md-1">
-                                                    @if($vkey==0)
-                                                        <button type="button" class="btn btn-info" onclick="optionValuesBtn({{ $option->id }}, {{ $option->id }})" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
-                                                    @else
-                                                        <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{ $option_value->id }}, 1)"><i class="fa fa-trash"></i></button>
-                                                    @endif
+                                                    <button type="button" class="btn btn-info" onclick="optionValuesBtn({{ $option->id }}, {{ $option->id }})" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
                                                 </div>
                                             </div>
-                                        @endforeach
-                                        <div id="extraValuesOption_{{ $option->id }}_{{ $option->id }}"></div>
-                                    @else 
-                                        <div class="row" id="options_values_1">
-                                            <div class="col-md-6">
-                                                <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
-                                                    <label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>
-                                                    {!! Form::text("option_values[new][$option->id][]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Value"]) !!}
-                                                    @if ($errors->has('option_values'))
-                                                        <span class="text-danger">
-                                                            <strong>{{ $errors->first('option_values') }}</strong>
-                                                        </span>
-                                                    @endif
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
-                                                    <label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>
-                                                    {!! Form::text("option_price[new][$option->id][]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Price"]) !!}
-                                                    @if ($errors->has('option_price'))
-                                                        <span class="text-danger">
-                                                            <strong>{{ $errors->first('option_price') }}</strong>
-                                                        </span>
-                                                    @endif
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-1">
-                                                <button type="button" class="btn btn-info" onclick="optionValuesBtn({{ $option->id }}, {{ $option->id }})" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
-                                            </div>
-                                        </div>
-                                        <div id="extraValuesOption_{{ $option->id }}_{{ $option->id }}"></div>
-                                    @endif
+                                            <div id="extraValuesOption_{{ $option->id }}_{{ $option->id }}"></div>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @php
-                    $optionValuesCounter = $option->id;
-                    @endphp
-                    @endforeach
-                    <div id="extraOption"></div>
+                        @php
+                        $optionValuesCounter = $option->id;
+                        @endphp
+                        @endforeach
+                        <div id="extraOption"></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-@else
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-12 mb-2">
-                            <h5>Add Options</h5>
-                        </div>
-                    </div>
-
-                    <div class="card" id="options_1">
-                        <div class="row p-2">
-                            <div class="col-md-4">
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <div class="form-group{{ $errors->has('options') ? ' has-error' : '' }}">
-                                            <label class="control-label" for="options">Option Name :<span class="text-red">*</span></label>
-                                            {!! Form::text("options[new][1]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Name"]) !!}
-                                            @if ($errors->has('options'))
-                                                <span class="text-danger">
-                                                    <strong>{{ $errors->first('options') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-1">
-                                        <button type="button" class="btn btn-info" id="optionBtn" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="row" id="options_values_1">
-                                    <div class="col-md-6">
-                                        <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
-                                            <label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>
-                                            {!! Form::text("option_values[new][1][]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Value"]) !!}
-                                            @if ($errors->has('option_values'))
-                                                <span class="text-danger">
-                                                    <strong>{{ $errors->first('option_values') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
-                                            <label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>
-                                            {!! Form::text("option_price[new][1][]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Price"]) !!}
-                                            @if ($errors->has('option_price'))
-                                                <span class="text-danger">
-                                                    <strong>{{ $errors->first('option_price') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-1">
-                                        <button type="button" class="btn btn-info" onclick="optionValuesBtn(1, 1)" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
-                                    </div>
-                                </div>
-                                <div id="extraValuesOption_1_1"></div>
+    @else
+        <div class="row tab-pane fade" id="content3">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12 mb-2">
+                                <h5>Add Options</h5>
                             </div>
                         </div>
+
+                        <div class="card" id="options_1">
+                            <div class="row p-2">
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group{{ $errors->has('options') ? ' has-error' : '' }}">
+                                                <label class="control-label" for="options">Option Name :<span class="text-red">*</span></label>
+                                                {!! Form::text("options[new][1]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Name"]) !!}
+                                                @if ($errors->has('options'))
+                                                    <span class="text-danger">
+                                                        <strong>{{ $errors->first('options') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <button type="button" class="btn btn-info" id="optionBtn" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="row" id="options_values_1">
+                                        <div class="col-md-6">
+                                            <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
+                                                <label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>
+                                                {!! Form::text("option_values[new][1][]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Value"]) !!}
+                                                @if ($errors->has('option_values'))
+                                                    <span class="text-danger">
+                                                        <strong>{{ $errors->first('option_values') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
+                                                <label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>
+                                                {!! Form::text("option_price[new][1][]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Price"]) !!}
+                                                @if ($errors->has('option_price'))
+                                                    <span class="text-danger">
+                                                        <strong>{{ $errors->first('option_price') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <button type="button" class="btn btn-info" onclick="optionValuesBtn(1, 1)" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
+                                        </div>
+                                    </div>
+                                    <div id="extraValuesOption_1_1"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="extraOption"></div>
                     </div>
-                    <div id="extraOption"></div>
                 </div>
             </div>
         </div>
-    </div>
-@endif
+    @endif
+</div>
 
 @section('jquery')
 <script type="text/javascript">
