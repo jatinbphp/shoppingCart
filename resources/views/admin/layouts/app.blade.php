@@ -195,7 +195,7 @@
         </ul>
     </nav>
     <aside class="main-sidebar sidebar-dark-primary elevation-4" id="left-menubar" style="height: 100%; min-height:0!important; overflow-x: hidden;">
-        <a href="{{url('/admin')}}" class="brand-link" style="text-align: center">
+        <a href="{{ url('admin/dashboard') }}" class="brand-link" style="text-align: center">
             <span class="brand-text font-weight-light"><b>{{ config('app.name', 'Shopping Cart') }} Admin</b></span>
         </a>
 
