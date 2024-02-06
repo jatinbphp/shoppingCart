@@ -174,7 +174,7 @@
                     <div class="row">
                         <div class="col-md-12 mb-2">
                         <p class="h5">Add Options
-                            <button type="button" class="btn btn-info text-left" id="optionBtn"><i class="fa fa-plus"></i> </button>
+                            <button type="button" class="btn btn-info" id="optionBtn" style="float: right;"><i class="fa fa-plus"></i> Add Option</button>
                             </p>
                         </div>
                     </div>
@@ -187,7 +187,7 @@
                                             <div class="col-md-10">
                                                 <div class="form-group{{ $errors->has('options') ? ' has-error' : '' }}">
                                                     <label class="control-label" for="options">Option Name :<span class="text-red">*</span></label>
-                                                    {!! Form::text("options[old][$option->id]", $option->option_name, ['class' => 'form-control','required', 'placeholder' => "Enter Option Name"]) !!}
+                                                    {!! Form::text("options[old][$option->id]", $option->option_name, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Name"]) !!}
                                                     @if ($errors->has('options'))
                                                         <span class="text-danger">
                                                             <strong>{{ $errors->first('options') }}</strong>
@@ -218,7 +218,7 @@
                                                 <div class="row" id="options_values_{{ $option_value->id }}">
                                                     <div class="col-md-5">
                                                         <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
-                                                            {!! Form::text("option_values[old][$option->id][$option_value->id]", $option_value->option_value, ['class' => 'form-control','required', 'placeholder' => "Enter Option Value"]) !!}
+                                                            {!! Form::text("option_values[old][$option->id][$option_value->id]", $option_value->option_value, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Value"]) !!}
                                                             @if ($errors->has('option_values'))
                                                                 <span class="text-danger">
                                                                     <strong>{{ $errors->first('option_values') }}</strong>
@@ -229,7 +229,7 @@
 
                                                     <div class="col-md-5">
                                                         <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
-                                                            {!! Form::text("option_price[old][$option->id][$option_value->id]", $option_value->option_price, ['class' => 'form-control','required', 'placeholder' => "Enter Option Price"]) !!}
+                                                            {!! Form::text("option_price[old][$option->id][$option_value->id]", $option_value->option_price, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Price"]) !!}
                                                             @if ($errors->has('option_price'))
                                                                 <span class="text-danger">
                                                                     <strong>{{ $errors->first('option_price') }}</strong>
@@ -262,7 +262,7 @@
                                                     </div>
                                                 <div class="col-md-5">
                                                     <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
-                                                        {!! Form::text("option_values[new][$option->id][]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Value"]) !!}
+                                                        {!! Form::text("option_values[new][$option->id][]", null, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Value"]) !!}
                                                         @if ($errors->has('option_values'))
                                                             <span class="text-danger">
                                                                 <strong>{{ $errors->first('option_values') }}</strong>
@@ -273,7 +273,7 @@
 
                                                 <div class="col-md-5">
                                                     <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
-                                                        {!! Form::text("option_price[new][$option->id][]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Price"]) !!}
+                                                        {!! Form::text("option_price[new][$option->id][]", null, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Price"]) !!}
                                                         @if ($errors->has('option_price'))
                                                             <span class="text-danger">
                                                                 <strong>{{ $errors->first('option_price') }}</strong>
@@ -304,7 +304,7 @@
                                         <div class="col-md-10">
                                             <div class="form-group{{ $errors->has('options') ? ' has-error' : '' }}">
                                                 <label class="control-label" for="options">Option Name :<span class="text-red">*</span></label>
-                                                {!! Form::text("options[new][1]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Name"]) !!}
+                                                {!! Form::text("options[new][1]", null, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Name"]) !!}
                                                 @if ($errors->has('options'))
                                                     <span class="text-danger">
                                                         <strong>{{ $errors->first('options') }}</strong>
@@ -326,7 +326,7 @@
                                     <div class="row" id="options_values_1">
                                         <div class="col-md-5">
                                             <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
-                                                {!! Form::text("option_values[new][1][]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Value"]) !!}
+                                                {!! Form::text("option_values[new][1][]", null, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Value"]) !!}
                                                 @if ($errors->has('option_values'))
                                                     <span class="text-danger">
                                                         <strong>{{ $errors->first('option_values') }}</strong>
@@ -337,7 +337,7 @@
 
                                         <div class="col-md-5">
                                             <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
-                                                {!! Form::text("option_price[new][1][]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Price"]) !!}
+                                                {!! Form::text("option_price[new][1][]", null, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Price"]) !!}
                                                 @if ($errors->has('option_price'))
                                                     <span class="text-danger">
                                                         <strong>{{ $errors->first('option_price') }}</strong>
@@ -366,19 +366,18 @@
 @section('jquery')
 <script type="text/javascript">
 var optionName = {{$optionValuesCounter}};
-var optionValues = {{$optionValuesCounter}};
 
 $('#optionBtn').on('click', function(){
     optionName = optionName + 1;
 
-    var exOptionContent = '<div class="card" id="options_'+optionName+'">'+
+    var exOptionContent = '<div class="card product-attribute" id="options_'+optionName+'">'+
             '<div class="row p-2">'+
                 '<div class="col-md-4">'+
                     '<div class="row">'+
                         '<div class="col-md-10">'+
                             '<label class="control-label" for="options">Option Name :<span class="text-red">*</span></label>'+
                             '<div class="form-group">'+
-                                '<input type="text" name="options[new]['+optionName+']" class="form-control" required placeholder="Enter Option Name">'+
+                                '<input type="text" name="options[new]['+optionName+']" class="form-control" required- placeholder="Enter Option Name">'+
                             '</div>'+
                         '</div>'+
                         '<div class="col-md-1">'+
@@ -399,16 +398,16 @@ $('#optionBtn').on('click', function(){
                     '<div class="row" id="options_values_'+optionName+'">'+
                         '<div class="col-md-5">'+
                             '<div class="form-group">'+
-                                '<input type="text" name="option_values[new]['+optionName+'][]" class="form-control" required placeholder="Enter Option Value">'+
+                                '<input type="text" name="option_values[new]['+optionName+'][]" class="form-control" required- placeholder="Enter Option Value">'+
                             '</div>'+
                         '</div>'+
                         '<div class="col-md-5">'+
                             '<div class="form-group">'+
-                                '<input type="text" name="option_price[new]['+optionName+'][]" class="form-control" required placeholder="Enter Option Price">'+
+                                '<input type="text" name="option_price[new]['+optionName+'][]" class="form-control" required- placeholder="Enter Option Price">'+
                             '</div>'+
                         '</div>'+
                         '<div class="col-md-2">'+
-                            '<button type="button" class="btn btn-danger deleteExp mr-1" onClick="removeOptionRow('+optionValues+', 1)"><i class="fa fa-trash"></i></button>'+
+                            '<button type="button" class="btn btn-danger deleteExp mr-1" onClick="removeOptionRow('+optionName+', 1)"><i class="fa fa-trash"></i></button>'+
                             '<button type="button" class="btn btn-info add-option" onclick="optionValuesBtn('+optionName+', '+optionName+')"><i class="fa fa-plus"></i> </button>'+
                         '</div>'+                    
                     '</div>'+
@@ -419,21 +418,21 @@ $('#optionBtn').on('click', function(){
 });
 
 function optionValuesBtn(option_value_number, option_number) {
-    optionValues = optionValues + 1;
+    optionName = optionName + 1;
 
-    var exOptionContent = '<div class="row" id="options_values_'+optionValues+'">'+
+    var exOptionContent = '<div class="row" id="options_values_'+optionName+'">'+
                             '<div class="col-md-5">'+
                                 '<div class="form-group">'+
-                                    '<input type="text" name="option_values[new]['+option_value_number+'][]" class="form-control" required placeholder="Enter Option Value">'+
+                                    '<input type="text" name="option_values[new]['+option_value_number+'][]" class="form-control" required- placeholder="Enter Option Value">'+
                                 '</div>'+
                             '</div>'+
                             '<div class="col-md-5">'+
                                 '<div class="form-group">'+
-                                    '<input type="text" name="option_price[new]['+option_value_number+'][]" class="form-control" required placeholder="Enter Option Price">'+
+                                    '<input type="text" name="option_price[new]['+option_value_number+'][]" class="form-control" required- placeholder="Enter Option Price">'+
                                 '</div>'+
                             '</div>'+
                             '<div class="col-md-2">'+
-                                '<button type="button" class="btn btn-danger deleteExp mr-1" onClick="removeOptionRow('+optionValues+', 1)"><i class="fa fa-trash"></i></button>'+
+                                '<button type="button" class="btn btn-danger deleteExp mr-1" onClick="removeOptionRow('+optionName+', 1)"><i class="fa fa-trash"></i></button>'+
                             '</div>'+                    
                         '</div>';
     $('#extraValuesOption_'+option_value_number+'_'+option_number).append(exOptionContent);
@@ -497,22 +496,20 @@ function createOptionAlert(title, text, type) {
 var i = 2;
 $(".imgAdd").click(function(){
 
-    var html = '<div class="col-lg-2 col-md-4 col-sm-6 col-xs-12" id="imgBox_'+i+'">';
-        html += '<div class="boxImage imgUp">';
-            html += '<div class="loader-contetn loader'+i+'"><div class="loader-01"></div></div>';
-            html += '<div class="imagePreview">';
-                html += '<div class="text-right" style="position: absolute;">';
-                    html += '<button class="btn btn-danger deleteProdcutImage" data-id="'+i+'"><i class="fa fa-trash" aria-hidden="true"></i></button>';
-                html += '</div>';
-            html += '</div>';
-            html += '<label class="btn btn-primary"> Upload<input type="file" id="file-'+i+'" class="uploadFile img" name="file[]" value="Upload Photo" style="width: 0px; height: 0px; overflow: hidden;" data-overwrite-initial="false" data-min-file-count="1" />';
-            html += '</label>';
-        html += '</div>';
-    html += '</div>';
+    var html = '<div class="col-lg-2 col-md-4 col-sm-6 col-xs-12" id="imgBox_'+i+'">'+
+                    '<div class="boxImage imgUp">'+
+                        '<div class="loader-contetn loader'+i+'"><div class="loader-01"></div></div>';
+                        '<div class="imagePreview">'+
+                            '<div class="text-right" style="position: absolute;">'+
+                                '<button class="btn btn-danger deleteProdcutImage" data-id="'+i+'"><i class="fa fa-trash" aria-hidden="true"></i></button>'+
+                            '</div>'+
+                        '</div>'+
+                        '<label class="btn btn-primary"> Upload<input type="file" id="file-'+i+'" class="uploadFile img" name="file[]" value="Upload Photo" style="width: 0px; height: 0px; overflow: hidden;" data-overwrite-initial="false" data-min-file-count="1" />'+
+                        '</label>'+
+                    '</div>'+
+                '</div>';
 
     $(this).closest(".row").find('.imgAdd').before(html);
-
-    /*$(this).closest(".row").find('.imgAdd').before('<div class="col-lg-2 col-md-4 col-sm-6 col-xs-12" id="imgBox_'+i+'"><div class="boxImage imgUp"><div class="loader-contetn loader'+i+'"><div class="loader-01"> </div></div><div class="imagePreview"><div class="text-right" style="position: absolute;"><button class="btn btn-danger deleteProdcutImage" data-id="'+i+'"><i class="fa fa-trash" aria-hidden="true"></i></button>'+'</div></div><label class="btn btn-primary">Upload<input type="file" id="file-'+i+'" class="uploadFile img" name="file[]" value="Upload Photo" style="width:0px;height:0px;overflow:hidden;" data-overwrite-initial="false" data-min-file-count="1"></label></div></div>');*/
 
     i++;
 });
