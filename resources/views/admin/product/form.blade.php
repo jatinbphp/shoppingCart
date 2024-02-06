@@ -245,10 +245,6 @@
                                                         @endif
                                                     </div>
                                                 </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> ded092ee42d7325690c5b771234831d66e79b1f4
                                                 @php
                                                 $optionValuesCounter = $option_value->id;
                                                 @endphp
@@ -291,12 +287,7 @@
                                                     <button type="button" class="btn btn-info add-option" onclick="optionValuesBtn({{ $option->id }}, {{ $option->id }})"><i class="fa fa-plus"></i> </button>
                                                 </div>
                                             </div>
-<<<<<<< HEAD
-                                            <div id="extraValuesOption_{{ $option->id }}_{{ $option->id }}"></div>
-=======
                                             <!-- <div id="extraValuesOption_{{ $option->id }}_{{ $option->id }}"></div> -->
-
->>>>>>> ded092ee42d7325690c5b771234831d66e79b1f4
                                             @php
                                             $optionValuesCounter = $option->id;
                                             @endphp
