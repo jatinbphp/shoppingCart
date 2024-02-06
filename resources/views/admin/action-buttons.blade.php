@@ -3,10 +3,10 @@
         <i class="fa fa-edit"></i>
     </a>
 </div>
+@if($section_name!='content')
 <span data-toggle="tooltip" title="Delete {{$section_title}}" data-trigger="hover">
     <button class="btn btn-sm btn-danger deleteRecord" data-id="{{$id}}" type="button" data-url="{{ url('admin/'.$section_name.'/'.$id) }}" data-section="{{$section_name}}_table">
         <i class="fa fa-trash"></i>
     </button>
 </span>
-
-
+@endif

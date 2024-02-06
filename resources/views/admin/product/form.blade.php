@@ -247,6 +247,10 @@
                                                         @endif
                                                     </div>
                                                 </div>
+
+                                                @php
+                                                $optionValuesCounter = $option_value->id;
+                                                @endphp
                                             @endforeach
                                             <div id="extraValuesOption_{{ $option->id }}_{{ $option->id }}"></div>
                                         @else 
@@ -280,13 +284,13 @@
                                                 </div>
                                             </div>
                                             <div id="extraValuesOption_{{ $option->id }}_{{ $option->id }}"></div>
+                                            @php
+                                            $optionValuesCounter = $option->id;
+                                            @endphp
                                         @endif
                                     </div>
                                 </div>
                             </div>
-                        @php
-                        $optionValuesCounter = $option->id;
-                        @endphp
                         @endforeach
                         <div id="extraOption"></div>
                     </div>

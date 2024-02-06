@@ -19,8 +19,8 @@
     <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/iCheck/flat/blue.css')}}">
     <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/iCheck/all.css')}}">
     <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/jqvmap/jqvmap.min.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+    <!-- <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/jqvmap/jqvmap.min.css') }}"> -->
+    <!-- <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}"> -->
     <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
@@ -28,159 +28,6 @@
     <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/ladda/ladda-themeless.min.css')}}">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-    <style>
-        .candidate, .job-title {cursor: pointer}
-        a.disabled {
-            pointer-events: none;
-            cursor: default;
-        }
-        .disabled{color: #c5c5c5!important;}
-
-        [type="radio"]:checked,
-        [type="radio"]:not(:checked) {
-            position: absolute;
-            left: -9999px;
-        }
-        [type="radio"]:checked + label,
-        [type="radio"]:not(:checked) + label
-        {
-            position: relative;
-            padding-left: 28px;
-            cursor: pointer;
-            line-height: 20px;
-            display: inline-block;
-        }
-        [type="radio"]:checked + label:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 20px;
-            height: 20px;
-            border: 4px solid #1ABC9C;
-            border-radius: 100%;
-            background: #fff;
-        }
-        [type="radio"]:not(:checked) + label:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 20px;
-            height: 20px;
-            border: 4px solid #ddd;
-            border-radius: 100%;
-            background: #fff;
-        }
-        [type="radio"]:checked + label:after,
-        [type="radio"]:not(:checked) + label:after {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: #1ABC9C;
-            position: absolute;
-            top: 7px;
-            left: 7px;
-            border-radius: 100%;
-            -webkit-transition: all 0.2s ease;
-            transition: all 0.2s ease;
-        }
-        [type="radio"]:not(:checked) + label:after {
-            opacity: 0;
-            -webkit-transform: scale(0);
-            transform: scale(0);
-        }
-        [type="radio"]:checked + label:after {
-            opacity: 1;
-            -webkit-transform: scale(1);
-            transform: scale(1);
-        }
-        .border-warning-10{
-            border: 10px solid #ffc107!important;
-        }
-        .border-width-5{
-            border: 5px solid!important;
-        }
-        .border-color-info{
-            color: #B266B3!important;
-        }
-        .border-color-warning{
-            color: #ffc107!important;
-        }
-        .border-top {
-            border-top: 1px solid #050505 !important;
-        }
-        .border-right {
-            border-right: 1px solid #050505 !important;
-        }
-        .border-bottom {
-            border-bottom: 1px solid #050505 !important;
-        }
-        .border-left {
-            border-left: 1px solid #050505 !important;
-        }
-        .color-group {
-            background-color: #E7FFF9
-        }
-        #overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7); /* Adjust the transparency as needed */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        #spinner {
-            border: 10px solid #f3f3f3;
-            border-top: 10px solid #0b0b0c;
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .hidden-element {
-            display: none;
-        }
-
-        caption {
-            caption-side: top;
-        }
-
-        .border-with-label {
-            position: relative;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-
-        .border-with-label::before {
-            content: attr(data-label);
-            position: absolute;
-            top: -10px;
-            left: 10px;
-            padding: 0 5px;
-            font-size: 15px;
-            font-weight: bold;
-        }
-
-        .element-border {
-            border: 1px solid black !important;
-        }
-
-        .rm-left-border {
-            border-left: none !important;
-        }
-    </style>
 </head>
 <body class="hold-transition sidebar-mini" id="bodyid">
 <div class="wrapper">
@@ -262,6 +109,12 @@
                             <p>Product Options</p>
                         </a>
                     </li> -->
+                    <li class="nav-item">
+                        <a href="{{ route('content.index') }}" class="nav-link @if(isset($menu) && $menu=='Content Management') active @endif">
+                            <i class="nav-icon fa fa-list"></i>
+                            <p>Content Management</p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -285,16 +138,14 @@
 <script src="{{ URL('assets/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
 <script src="{{ URL('assets/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
 <script src="{{ URL('assets/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{ URL('assets/admin/plugins/jszip/jszip.min.js')}}"></script>
+<!-- <script src="{{ URL('assets/admin/plugins/jszip/jszip.min.js')}}"></script> -->
 <script src="{{ URL::asset('assets/admin/plugins/select2/select2.full.min.js')}}"></script>
-<script src="{{ URL('assets/admin/plugins/chart.js/Chart.min.js')}}"></script>
-<script src="{{ URL('assets/admin/plugins/sparklines/sparkline.js')}}"></script>
 <script src="{{ URL('assets/admin/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
 <script src="{{ URL('assets/admin/plugins/moment/moment.min.js')}}"></script>
 <script src="{{ URL('assets/admin/plugins/daterangepicker/daterangepicker.js')}}"></script>
 <script src="{{ URL('assets/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
 <script src="{{ URL('assets/admin/plugins/summernote/summernote-bs4.min.js')}}"></script>
-<script src="{{ URL('assets/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
+<!-- <script src="{{ URL('assets/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script> -->
 <script src="{{ URL('assets/admin/dist/js/adminlte.js')}}"></script>
 <script src="{{ URL('assets/admin/dist/js/demo.js')}}"></script>
 <!-- <script src="{{ URL('assets/admin/dist/js/pages/dashboard.js')}}"></script> -->
@@ -305,8 +156,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script src="{{ URL::asset('assets/admin/plugins/ladda/spin.min.js')}}"></script>
 <script src="{{ URL::asset('assets/admin/plugins/ladda/ladda.min.js')}}"></script>
-<script src="{{ URL::asset('assets/admin/plugins/jSignature/libs/jSignature.min.js')}}"></script>
-<script src="{{ URL::asset('assets/admin/plugins/jSignature/libs/modernizr.js')}}"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script src="{{ URL('assets/admin/dist/js/table-actions.js')}}"></script>
 <script>Ladda.bind( 'input[type=submit]' );</script>

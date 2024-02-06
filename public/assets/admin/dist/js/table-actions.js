@@ -65,6 +65,18 @@ $(function () {
         ]
     });
 
+    var content_table = $('#contentTable').DataTable({
+        processing: true,
+        serverSide: true,
+        pageLength: 100,
+        lengthMenu: [ 100, 200, 300, 400, 500 ],
+        ajax: $("#route_name").val(),
+        columns: [
+            {data: 'title', name: 'title'},
+            {data: 'action',  name: 'action'},                
+        ]
+    });
+
     //Delete Record
     $('.datatable-dynamic tbody').on('click', '.deleteRecord', function (event) {
         event.preventDefault();

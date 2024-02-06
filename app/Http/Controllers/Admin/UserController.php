@@ -85,7 +85,7 @@ class UserController extends Controller
 
         if($file = $request->file('image')){
             if (!empty($user['image'])) {
-                unlink($user['image']);
+                @unlink($user['image']);
             }
             $input['image'] = $this->fileMove($file,'users');
         }

@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OptionController;
 use App\Http\Controllers\Admin\CommonController;
+use App\Http\Controllers\Admin\ContentManagementController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -63,4 +64,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     /*Options*/
     Route::post('options/removeoptionvalues', [OptionController::class,'removeOptionValues'])->name('options.removeoptionvalues');
     Route::resource('options', OptionController::class);
+
+    /*Content Management*/
+    Route::resource('content', ContentManagementController::class);
 });
