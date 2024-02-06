@@ -167,19 +167,20 @@
     $optionValuesCounter = 1;
     @endphp
 
-    @if(count($product_options)>0)
-        <div class="row tab-pane fade" id="content3">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12 mb-2">
-                                <h5>Add Options</h5>
-                            </div>
+    <div class="row tab-pane fade" id="content3">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-2">
+                        <p class="h5">Add Options
+                            <button type="button" class="btn btn-info text-left" id="optionBtn"><i class="fa fa-plus"></i> </button>
+                            </p>
                         </div>
-
-                        @foreach ($product_options as $key => $option)
-                            <div class="card" id="options_{{ $option->id }}">
+                    </div>
+                    @if(count($product_options)>0)
+                        @foreach ($product_options as $key => $option) 
+                        <div class="card product-attribute" id="options_{{ $option->id }}">
                                 <div class="row p-2">
                                     <div class="col-md-4">
                                         <div class="row">
@@ -196,25 +197,27 @@
                                             </div>
 
                                             <div class="col-md-1">
-                                                @if($key==0)
-                                                    <button type="button" class="btn btn-info" id="optionBtn" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
-                                                @else
-                                                    <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{$option->id}}, 0)" style="margin-top: 30px;"><i class="fa fa-trash"></i></button>
-                                                @endif
+                                                <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{$option->id}}, 0)" style="margin-top: 30px;"><i class="fa fa-trash"></i></button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-8" id="extraValuesOption_{{ $option->id }}_{{ $option->id }}">
 
                                         @if(count($option->product_option_values)>0)
                                             @foreach ($option->product_option_values as $vkey => $option_value)
-                                                <div class="row" id="options_values_{{ $option_value->id }}">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
-                                                            @if($vkey==0)
+                                                @if($vkey==0)
+                                                    <div class='row'>
+                                                        <div class="col-md-5">
                                                             <label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>
-                                                            @endif
-
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                <div class="row" id="options_values_{{ $option_value->id }}">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
                                                             {!! Form::text("option_values[old][$option->id][$option_value->id]", $option_value->option_value, ['class' => 'form-control','required', 'placeholder' => "Enter Option Value"]) !!}
                                                             @if ($errors->has('option_values'))
                                                                 <span class="text-danger">
@@ -224,12 +227,8 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-5">
                                                         <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
-                                                            @if($vkey==0)
-                                                            <label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>
-                                                            @endif
-
                                                             {!! Form::text("option_price[old][$option->id][$option_value->id]", $option_value->option_price, ['class' => 'form-control','required', 'placeholder' => "Enter Option Price"]) !!}
                                                             @if ($errors->has('option_price'))
                                                                 <span class="text-danger">
@@ -239,23 +238,25 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-1">
+                                                    <div class="col-md-2">
+                                                        <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{ $option_value->id }}, 1)"><i class="fa fa-trash"></i></button>
                                                         @if($vkey==0)
-                                                            <button type="button" class="btn btn-info" onclick="optionValuesBtn({{ $option->id }}, {{ $option->id }})" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
-                                                        @else
-                                                            <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{ $option_value->id }}, 1)"><i class="fa fa-trash"></i></button>
+                                                            <button type="button" class="btn btn-info add-option" onclick="optionValuesBtn({{ $option->id }}, {{ $option->id }})"><i class="fa fa-plus"></i> </button>
                                                         @endif
                                                     </div>
                                                 </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> ded092ee42d7325690c5b771234831d66e79b1f4
                                                 @php
                                                 $optionValuesCounter = $option_value->id;
                                                 @endphp
                                             @endforeach
-                                            <div id="extraValuesOption_{{ $option->id }}_{{ $option->id }}"></div>
+                                            <!-- <div id="extraValuesOption_{{ $option->id }}_{{ $option->id }}"></div> -->
                                         @else 
                                             <div class="row" id="options_values_1">
-                                                <div class="col-md-6">
+                                                <div class="col-md-5">
                                                     <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
                                                         <label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>
                                                         {!! Form::text("option_values[new][$option->id][]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Value"]) !!}
@@ -267,7 +268,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-5">
                                                     <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
                                                         <label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>
                                                         {!! Form::text("option_price[new][$option->id][]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Price"]) !!}
@@ -280,10 +281,15 @@
                                                 </div>
 
                                                 <div class="col-md-1">
-                                                    <button type="button" class="btn btn-info" onclick="optionValuesBtn({{ $option->id }}, {{ $option->id }})" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
+                                                    <button type="button" class="btn btn-info add-option" onclick="optionValuesBtn({{ $option->id }}, {{ $option->id }})" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
                                                 </div>
                                             </div>
+<<<<<<< HEAD
                                             <div id="extraValuesOption_{{ $option->id }}_{{ $option->id }}"></div>
+=======
+                                            <!-- <div id="extraValuesOption_{{ $option->id }}_{{ $option->id }}"></div> -->
+
+>>>>>>> ded092ee42d7325690c5b771234831d66e79b1f4
                                             @php
                                             $optionValuesCounter = $option->id;
                                             @endphp
@@ -292,23 +298,8 @@
                                 </div>
                             </div>
                         @endforeach
-                        <div id="extraOption"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @else
-        <div class="row tab-pane fade" id="content3">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12 mb-2">
-                                <h5>Add Options</h5>
-                            </div>
-                        </div>
-
-                        <div class="card" id="options_1">
+                    @else
+                        <div class="card product-attribute" id="options_1">
                             <div class="row p-2">
                                 <div class="col-md-4">
                                     <div class="row">
@@ -323,15 +314,11 @@
                                                 @endif
                                             </div>
                                         </div>
-
-                                        <div class="col-md-1">
-                                            <button type="button" class="btn btn-info" id="optionBtn" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
-                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-8" id="extraValuesOption_1_1">
                                     <div class="row" id="options_values_1">
-                                        <div class="col-md-6">
+                                        <div class="col-md-5">
                                             <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
                                                 <label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>
                                                 {!! Form::text("option_values[new][1][]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Value"]) !!}
@@ -343,7 +330,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-4">
+                                        <div class="col-md-5">
                                             <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
                                                 <label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>
                                                 {!! Form::text("option_price[new][1][]", null, ['class' => 'form-control','required', 'placeholder' => "Enter Option Price"]) !!}
@@ -356,19 +343,19 @@
                                         </div>
 
                                         <div class="col-md-1">
-                                            <button type="button" class="btn btn-info" onclick="optionValuesBtn(1, 1)" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
+                                            <button type="button" class="btn btn-info add-option" onclick="optionValuesBtn(1, 1)" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>
                                         </div>
                                     </div>
-                                    <div id="extraValuesOption_1_1"></div>
+                                    <!-- <div id="extraValuesOption_1_1"></div> -->
                                 </div>
                             </div>
                         </div>
-                        <div id="extraOption"></div>
-                    </div>
+                    @endif
+                <div id="extraOption"></div>
                 </div>
             </div>
         </div>
-    @endif
+    </div>
 </div>
 
 @section('jquery')
@@ -395,25 +382,31 @@ $('#optionBtn').on('click', function(){
                     '</div>'+
                 '</div>'+
 
-                '<div class="col-md-8">'+
+                '<div class="col-md-8" id="extraValuesOption_'+optionName+'_'+optionName+'">'+
+                    '<div class="row">'+
+                        '<div class="col-md-5">'+
+                            '<label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>'+
+                        '</div>'+
+                        '<div class="col-md-5">'+
+                            '<label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>'+
+                        '</div>'+
+                    '</div>'+
                     '<div class="row" id="options_values_'+optionName+'">'+
-                        '<div class="col-md-6">'+
+                        '<div class="col-md-5">'+
                             '<div class="form-group">'+
-                                '<label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>'+
                                 '<input type="text" name="option_values[new]['+optionName+'][]" class="form-control" required placeholder="Enter Option Value">'+
                             '</div>'+
                         '</div>'+
-                        '<div class="col-md-4">'+
+                        '<div class="col-md-5">'+
                             '<div class="form-group">'+
-                                '<label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>'+
                                 '<input type="text" name="option_price[new]['+optionName+'][]" class="form-control" required placeholder="Enter Option Price">'+
                             '</div>'+
                         '</div>'+
-                        '<div class="col-md-1">'+
-                            '<button type="button" class="btn btn-info" onclick="optionValuesBtn('+optionName+', '+optionName+')" style="margin-top: 30px;"><i class="fa fa-plus"></i> </button>'+
+                        '<div class="col-md-2">'+
+                            '<button type="button" class="btn btn-danger deleteExp mr-1" onClick="removeOptionRow('+optionValues+', 1)"><i class="fa fa-trash"></i></button>'+
+                            '<button type="button" class="btn btn-info add-option" onclick="optionValuesBtn('+optionName+', '+optionName+')"><i class="fa fa-plus"></i> </button>'+
                         '</div>'+                    
                     '</div>'+
-                    '<div id="extraValuesOption_'+optionName+'_'+optionName+'"></div>'+
                 '</div>'+
             '</div>'+
         '</div>';
@@ -424,18 +417,18 @@ function optionValuesBtn(option_value_number, option_number) {
     optionValues = optionValues + 1;
 
     var exOptionContent = '<div class="row" id="options_values_'+optionValues+'">'+
-                            '<div class="col-md-6">'+
+                            '<div class="col-md-5">'+
                                 '<div class="form-group">'+
                                     '<input type="text" name="option_values[new]['+option_value_number+'][]" class="form-control" required placeholder="Enter Option Value">'+
                                 '</div>'+
                             '</div>'+
-                            '<div class="col-md-4">'+
+                            '<div class="col-md-5">'+
                                 '<div class="form-group">'+
                                     '<input type="text" name="option_price[new]['+option_value_number+'][]" class="form-control" required placeholder="Enter Option Price">'+
                                 '</div>'+
                             '</div>'+
-                            '<div class="col-md-1">'+
-                                '<button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow('+optionValues+', 1)"><i class="fa fa-trash"></i></button>'+
+                            '<div class="col-md-2">'+
+                                '<button type="button" class="btn btn-danger deleteExp mr-1" onClick="removeOptionRow('+optionValues+', 1)"><i class="fa fa-trash"></i></button>'+
                             '</div>'+                    
                         '</div>';
     $('#extraValuesOption_'+option_value_number+'_'+option_number).append(exOptionContent);
@@ -445,8 +438,10 @@ function removeOptionRow(divId, type){
     const removeRowAlert = createOptionAlert("Are you sure?", "Do want to delete this row", "warning");
     swal(removeRowAlert, function(isConfirm) {
         if (isConfirm) {
-            deleteRow(divId, type);
-            swal.close();
+            var flag =  deleteRow(divId, type);
+            if(flag){
+                swal.close();
+            }
         } else{
              swal("Cancelled", "Your data safe!", "error");
         }
@@ -456,10 +451,28 @@ function removeOptionRow(divId, type){
 //remove the row
 function deleteRow(divId, type){
     if(type==1){
+        console.log($('#options_values_'+divId).parent('div').children('div').length);
+        if($('#options_values_'+divId).parent('div').children('div').length <= 2){
+            swal("Error", "You cannot remove all option values. If you wish to remove them, you must delete the entire option.", "error");
+            return 0;
+        }
+        var mainDiv = $('#options_values_'+divId);
+        var divWithAddOptionClass = mainDiv.find('.add-option').closest('.row');
+        if(divWithAddOptionClass.length > 0){
+            var addButton = divWithAddOptionClass.find('.add-option');
+            var secondDiv = mainDiv.next('.row');
+            var colMd2Div = secondDiv.find('.col-md-2');
+            addButton.detach();
+            colMd2Div.append(addButton);
+        }
         $('#options_values_'+divId).remove();
     } else {
         $('#options_'+divId).remove();
+        if ($(".product-attribute").length == 0) {
+            $('#optionBtn').click();
+        }
     }
+    return 1;  
 }
 
 function createOptionAlert(title, text, type) {
