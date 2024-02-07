@@ -121,7 +121,7 @@ class ProductController extends Controller
         }
 
         // options & options values
-        if(!empty($input['addresses'])){
+        if(!empty($input['options'])){
             $this->addProductOptionAddUpdate($input, $id);
         }
 
