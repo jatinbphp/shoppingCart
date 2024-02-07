@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OptionController;
 use App\Http\Controllers\Admin\CommonController;
 use App\Http\Controllers\Admin\ContentManagementController;
+use App\Http\Controllers\Admin\ContactUsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -67,4 +68,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
 
     /*Content Management*/
     Route::resource('content', ContentManagementController::class);
+
+    /*Contact Us*/
+    Route::resource('contactus', ContactUsController::class);
 });

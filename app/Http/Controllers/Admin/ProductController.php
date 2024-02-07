@@ -76,29 +76,6 @@ class ProductController extends Controller
             $this->addProductOptionAddUpdate($input, $product->id);
         }
 
-        /*// options & options values
-        if(!empty($input['options'])){
-            foreach ($input['options'] as $key => $value) {
-
-                $inputOption = [
-                    'product_id' => $product->id,
-                    'option_name' => $value
-                ];
-                $option = ProductsOptions::create($inputOption);
-
-                if(!empty($input['option_values'][$key])){
-                    foreach ($input['option_values'][$key] as $oKey => $oValue) {
-                        $inputOptionValues = [
-                            'product_id' => $product->id,
-                            'option_id' => $option->id,
-                            'option_value' => $oValue,
-                            'option_price' => $input['option_price'][$key][$oKey],
-                        ];
-                        ProductsOptionsValues::create($inputOptionValues);
-                    }
-                }
-            }
-        }*/
         \Session::flash('success', 'Product has been inserted successfully!');
         return redirect()->route('products.index');
     }
@@ -144,7 +121,7 @@ class ProductController extends Controller
         }
 
         // options & options values
-        if(!empty($input['options'])){
+        if(!empty($input['addresses'])){
             $this->addProductOptionAddUpdate($input, $id);
         }
 

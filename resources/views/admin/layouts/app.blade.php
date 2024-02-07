@@ -115,6 +115,12 @@
                             <p>Content Management</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('contactus.index') }}" class="nav-link @if(isset($menu) && $menu=='Contact Us') active @endif">
+                            <i class="nav-icon fa fa-envelope"></i>
+                            <p>Contact Us</p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>

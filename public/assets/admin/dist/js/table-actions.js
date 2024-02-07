@@ -65,6 +65,7 @@ $(function () {
         ]
     });
 
+    //CMS Table
     var content_table = $('#contentTable').DataTable({
         processing: true,
         serverSide: true,
@@ -73,6 +74,21 @@ $(function () {
         ajax: $("#route_name").val(),
         columns: [
             {data: 'title', name: 'title'},
+            {data: 'action',  name: 'action'},                
+        ]
+    });
+
+    //Contact Us Table
+    var contactus_table = $('#contactusTable').DataTable({
+        processing: true,
+        serverSide: true,
+        pageLength: 100,
+        lengthMenu: [ 100, 200, 300, 400, 500 ],
+        ajax: $("#route_name").val(),
+        columns: [
+            {data: 'name', name: 'name'},
+            {data: 'email', name: 'email'},
+            {data: 'message', name: 'message'},
             {data: 'action',  name: 'action'},                
         ]
     });
@@ -110,7 +126,9 @@ $(function () {
                             products_table.row('.selected').remove().draw(false);   
                         } else if(section=='options_table'){
                             options_table.row('.selected').remove().draw(false);   
-                        }                   
+                        } else if(section=='contactus_table'){
+                            contactus_table.row('.selected').remove().draw(false);   
+                        }                  
                         swal("Deleted", "Your data successfully deleted!", "success");
                     }
                 });
