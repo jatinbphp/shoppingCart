@@ -93,6 +93,24 @@ $(function () {
         ]
     });
 
+    //Order Table 
+    var orders_table = $('#ordersTable').DataTable({
+        processing: true,
+        serverSide: true,
+        pageLength: 100,
+        lengthMenu: [100, 200, 300, 400, 500],
+        ajax: $("#route_name").val(),
+        columns: [
+            { data: 'order_id', name: 'order_id' },
+            { data: 'user_name', name: 'user_name' },
+            { data: 'user_email', name: 'user_email' },
+            { data: 'total_amount', name: 'total_amount' },
+            { data: 'status', name: 'status' },
+            { data: 'action', name: 'action' },
+
+        ]
+    });
+
     //Delete Record
     $('.datatable-dynamic tbody').on('click', '.deleteRecord', function (event) {
         event.preventDefault();
@@ -128,7 +146,10 @@ $(function () {
                             options_table.row('.selected').remove().draw(false);   
                         } else if(section=='contactus_table'){
                             contactus_table.row('.selected').remove().draw(false);   
-                        }                  
+                        } else if (section == 'orders_table') {
+                            orders_table.row('.selected').remove().draw(false);
+                        }
+                 
                         swal("Deleted", "Your data successfully deleted!", "success");
                     }
                 });
