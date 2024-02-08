@@ -20,8 +20,6 @@
         <!-- Main content -->
         <section class="content">
             @include ('admin.error')
-            <div id="responce" class="alert alert-success" style="display: none">
-            </div>
             <div class="row">
                 <div class="col-12">
                     <div class="card card-info card-outline">

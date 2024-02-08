@@ -60,7 +60,7 @@ class ProductController extends Controller
         $input['user_id'] = Auth::user()->id;
         $product = Products::create($input);
 
-        if ($request->hasFile('file')) {
+        /*if ($request->hasFile('file')) {
             foreach ($request->file('file') as $image) {
 
                 $imageName = $this->fileMove($image,'products');
@@ -74,10 +74,10 @@ class ProductController extends Controller
         // options & options values
         if(!empty($input['options'])){
             $this->addProductOptionAddUpdate($input, $product->id);
-        }
+        }*/
 
-        \Session::flash('success', 'Product has been inserted successfully!');
-        return redirect()->route('products.index');
+        \Session::flash('success', 'Product has been inserted successfully! Please add product images, options and options values.');
+        return redirect()->route('products.edit', ['product' => $product->id]);
     }
 
     /**

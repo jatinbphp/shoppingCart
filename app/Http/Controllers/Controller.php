@@ -26,6 +26,7 @@ class Controller extends BaseController
         $results = DB::table('categories')
             ->select('categories.id', 'categories.name as category_name', 'parents.name as parent_name')
             ->leftJoin('categories as parents', 'categories.parent_category_id', '=', 'parents.id')
+            ->where('categories.status', 'active')
             ->orderBy('categories.name', 'ASC')
             ->get();
 

@@ -4,13 +4,16 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" id="tab2" data-toggle="tab" href="#content2">Product Images</a>
+        <a class="nav-link @if(!isset($product)) disabled @endif" id="tab2" data-toggle="tab" href="#content2">Product Images</a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" id="tab3" data-toggle="tab" href="#content3">Options</a>
+        <a class="nav-link @if(!isset($product)) disabled @endif" id="tab3" data-toggle="tab" href="#content3">Options</a>
     </li>
 </ul>
+<style type="text/css">
+.nav-tabs .active {color: #007bff !important;}
+</style>
 
 {!! Form::hidden('redirects_to', URL::previous()) !!}
 <div class="tab-content mt-2">

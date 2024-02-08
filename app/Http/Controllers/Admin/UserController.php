@@ -57,13 +57,13 @@ class UserController extends Controller
         }
         $user = User::create($input);
 
-        // addresses
+        /*// addresses
         if(!empty($input['addresses'])){
             $this->addUpdateAddresses($input, $user->id);
-        }
+        }*/
 
-        \Session::flash('success', 'User has been inserted successfully!');
-        return redirect()->route('users.index');
+        \Session::flash('success', 'User has been inserted successfully! Please add user addresses.');
+        return redirect()->route('users.edit', ['user' => $user->id]);
     }
 
     public function show($id)

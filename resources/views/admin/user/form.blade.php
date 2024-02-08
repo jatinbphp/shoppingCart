@@ -4,7 +4,7 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" id="tab2" data-toggle="tab" href="#content2">Addresses</a>
+        <a class="nav-link @if(!isset($users)) disabled @endif" id="tab2" data-toggle="tab" href="#content2">Addresses</a>
     </li>
 </ul>
 
@@ -14,7 +14,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card mb-4">
                 <div class="card-body">
-
+                    
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
