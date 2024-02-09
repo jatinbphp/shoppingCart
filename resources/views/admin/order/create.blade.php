@@ -43,7 +43,7 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="{{route('orders.addproduct')}}" method="post">
+                <form action="{{route('orders.addproduct')}}" method="post" id="addProductForm">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
@@ -74,9 +74,7 @@
                             </div>
                         </div>
 
-                        <div id="ajaxOption">
-
-                        </div>
+                        <div id="ajaxOption"></div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-info" id="add_product">Add</button>

@@ -10,5 +10,5 @@ class OrderItem extends Model
 {
     use HasFactory,SoftDeletes ;
 
-    protected $fillable = ['order_id', 'prodcut_id', 'product_price','product_qty', 'sub_total'];
+    protected $fillable = ['order_id', 'product_id', 'product_name', 'product_sku', 'product_price','product_qty', 'sub_total'];
 }

@@ -20,6 +20,7 @@
 
     <!-- Main content -->
     <section class="content">
+        @include ('admin.error')
         <div class="row">
             <div class="col-12">
                 <div class="card card-info card-outline">
@@ -36,11 +37,11 @@
                         <table id="ordersTable" class="table table-bordered table-striped datatable-dynamic">
                             <thead>
                                 <tr>
-                                    <th>Order ID</th>
+                                    <th style="width: 15%;">Order ID</th>
                                     <th>User Name</th>
-                                    <th>User Email</th>
-                                    <th>Total Amount</th>
-                                    <th style="width: 10%;">Status</th>
+                                    <th style="width: 15%;">Total Amount</th>
+                                    <th style="width: 18%;">Date Added</th>
+                                    <th style="width: 15%;">Status</th>
                                     <th style="width: 10%;">Action</th>
                                 </tr>
                             </thead>

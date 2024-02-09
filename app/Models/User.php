@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\UserAddresses;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -55,4 +55,9 @@ class User extends Authenticatable
         self::STATUS_ACTIVE => 'Active',
         self::STATUS_INACTIVE => 'In Active',
     ];
+
+    public function user_addresses()
+    {
+        return $this->hasMany(UserAddresses::class, 'user_id')->orderBy('id', 'ASC');
+    }
 }

@@ -5,10 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\OrderOption;
+use App\Models\ProductsOptions;
+use App\Models\ProductsOptionsValues;
 use App\Models\User;
 use App\Models\Cart;
 use App\Models\Products;
+use App\Models\UserAddresses;
 use Yajra\DataTables\DataTables;
+use App\Http\Requests\OrderRequest;
 
 class OrderController extends Controller
 {
@@ -19,15 +25,18 @@ class OrderController extends Controller
     {
         $data['menu'] = 'Orders';
         if ($request->ajax()) {
-            return DataTables::of(Order::select())
+            return DataTables::of(Order::select()->orderBy('id', 'DESC'))
+                ->addColumn('order_id', function($order) {
+                    return env('ORDER_PREFIX').'-'.date("Y", strtotime($order->created_at)).'-'.$order->id; 
+                })
                 ->addColumn('user_name', function($order) {
                     return $order->user->name; 
                 })
-                ->addColumn('user_email', function($order) {
-                    return $order->user->email;
-                })
                 ->addColumn('total_amount', function($order) {
-                    return '£ '.number_format($order->total_amount, 2);
+                    return env('CURRENCY').number_format($order->total_amount, 2);
+                })
+                ->addColumn('created_at', function($row){
+                    return $row['created_at']->format('Y-m-d h:i:s');
                 })
                 ->addColumn('action', function($row){
                     $row['section_name'] = 'orders';
@@ -56,22 +65,37 @@ class OrderController extends Controller
         if ($request->ajax()) {
             return DataTables::of(Cart::select()->where('csrf_token',csrf_token())->get())
                 ->addColumn('product_name', function($order) {
-                    return $order->product->product_name; 
+
+                    $product_name = $order->product->product_name; 
+
+                    $options = json_decode($order->options);
+                    if(!empty($options)){
+                        foreach ($options as $keyO => $valueO) {
+
+                            $product_option = ProductsOptions::where('id',$keyO)->first();
+                            $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
+
+                            $product_name .= '</br><small>'.$product_option->option_name.' - '.$product_option_value->option_value.' X '.env('CURRENCY').$product_option_value->option_price.'</small>';
+                        }
+                    }
+
+                    return $product_name;
                 })
                 ->addColumn('sku', function($order) {
                     return $order->product->sku; 
                 })
                 ->addColumn('unit_price', function($order) {
-                    return '£ '.number_format($order->product->price, 2);
+                    return env('CURRENCY').number_format($order->product->price, 2);
                 })
                 ->addColumn('total', function($order) {
-                    return '£ '.number_format(($order->quantity*$order->product->price), 2);
+                    return env('CURRENCY').number_format(($order->quantity*$order->product->price), 2);
                 })
                 ->addColumn('action', function($row){
-                    $row['section_name'] = 'orders_products';
+                    $row['section_name'] = 'cart_products';
                     $row['section_title'] = 'order';
                     return view('admin.action-buttons', $row);
                 })
+                ->rawColumns(['product_name'])
                 ->make(true);
         }
     }
@@ -90,9 +114,69 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
-        //
+        $input = $request->all();
+        $order_products = Cart::with('product')->where('csrf_token',csrf_token())->get();
+        if(!empty($order_products)){
+            $order = Order::create($input);
+
+            $orderTotal = 0;
+            foreach ($order_products as $key => $value) {
+
+                $orderTotal += ($value->product->price*$value->quantity);
+
+                 $inputOrderItem = [
+                    'order_id' => $order->id,
+                    'product_id' => $value->product_id,
+                    'product_name' => $value->product->product_name,
+                    'product_sku' => $value->product->sku,
+                    'product_price' => $value->product->price,
+                    'product_qty' => $value->quantity,
+                    'sub_total' => ($value->product->price*$value->quantity),
+                ];
+
+                $OrderItem = OrderItem::create($inputOrderItem);
+
+                $options = json_decode($value->options);
+                if(!empty($options)){
+                    foreach ($options as $keyO => $valueO) {
+
+                        $product_option = ProductsOptions::where('id',$keyO)->first();
+                        $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
+
+                        $inputOrderOption = [
+                            'order_id' => $order->id,
+                            'order_product_id' => $OrderItem->id,
+                            'product_option_id' => $keyO,
+                            'product_option_value_id' => $valueO,
+                            'name' => $product_option->option_name,
+                            'value' => $product_option_value->option_value,
+                            'price' => $product_option_value->option_price,
+                        ];
+
+                        OrderOption::create($inputOrderOption);
+                    }
+                }
+                //OrderOption
+            }
+
+            //update total in order table
+            $address = UserAddresses::findOrFail($input['address_id']);
+            $order['address_info'] = json_encode($address);
+            $order['total_amount'] = $orderTotal;
+            $order->save();
+
+            // clear cart
+            Cart::with('csrf_token',csrf_token())->delete();
+
+            \Session::flash('success','Order has been updated successfully!');
+            return redirect()->route('orders.index');
+            
+        } else {
+            \Session::flash('success', 'Please add Product.');
+            return redirect()->route('orders.create');
+        }
     }
 
     /**
@@ -146,13 +230,12 @@ class OrderController extends Controller
 
     public function addProductToCart(Request $request)
     {
-
         $this->validate($request, [
             'product_id' => 'required',
             'quantity' =>'required|numeric',
             'options' => 'required|array',
             'options.*' => 'array', // Ensure each option is an array
-            'options.*.*' => 'numeric' // Ensure each option value is numeric
+            'options.*' => 'numeric' // Ensure each option value is numeric
         ]);
 
         $input = $request->all();
@@ -162,5 +245,12 @@ class OrderController extends Controller
         Cart::create($input);
 
         return $input = $request->all();
+    }
+
+    public function getAddressesByUser($userId)
+    {   
+        $user = User::with('user_addresses')->where('id', $userId)->first();
+        $addresses = $user->user_addresses;
+        return response()->json($addresses);
     }
 } 

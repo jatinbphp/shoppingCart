@@ -52,20 +52,6 @@ $(function () {
         ]
     });
 
-    //Option Table
-    var options_table = $('#optionsTable').DataTable({
-        processing: true,
-        serverSide: true,
-        pageLength: 100,
-        lengthMenu: [ 100, 200, 300, 400, 500 ],
-        ajax: $("#route_name").val(),
-        columns: [
-            {data: 'name', "width": "55%", name: 'name'},
-            {data: 'status',  name: 'status'},
-            {data: 'action',  name: 'action'},
-        ]
-    });
-
     //CMS Table
     var content_table = $('#contentTable').DataTable({
         processing: true,
@@ -104,15 +90,15 @@ $(function () {
         columns: [
             { data: 'order_id', name: 'order_id'},
             { data: 'user_name', name: 'user_name'},
-            { data: 'user_email', name: 'user_email'},
             { data: 'total_amount', name: 'total_amount'},
+            { data: 'created_at', name: 'created_at'},
             { data: 'status', name: 'status', orderable: false},
             { data: 'action', name: 'action', orderable: false},
 
         ]
     });
 
-    //Order Product Table 
+    /*//Order Product Table 
     var orders_products_table = $('#orderProductTable').DataTable({
         processing: true,
         serverSide: true,
@@ -128,7 +114,7 @@ $(function () {
             //{ data: 'action', name: 'action' },
 
         ]
-    });
+    });*/
 
     //Delete Record
     $('.datatable-dynamic tbody').on('click', '.deleteRecord', function (event) {
