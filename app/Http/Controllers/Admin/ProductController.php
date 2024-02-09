@@ -316,4 +316,13 @@ class ProductController extends Controller
         \Session::flash('success', 'Product has been imported successfully!');
         return redirect()->route('products.index');
     }
+
+    public function getOptions(Request $request)
+    {
+        $data['product_options'] = [];
+        if(!empty($request->product_id)){
+            $data['product_options'] = ProductsOptions::with('product_option_values')->where('product_id',$request->product_id)->where('status','active')->get();
+        }
+        return view('admin.order.product-options', $data);
+    }
 }

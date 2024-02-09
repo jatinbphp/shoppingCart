@@ -22,9 +22,14 @@
     <section class="content">
         <div class="row">
             <div class="col-12">
-                <div class="card">
+                <div class="card card-info card-outline">
                     <div class="card-header">
-                        <h3 class="card-title">Order Listing</h3>
+                        <!-- <h3 class="card-title">Order Listing</h3> -->
+                        <!-- <div class="row">
+                            <div class="col-md-12">
+                                <a href="{{ route('orders.create') }}" class="btn btn-info float-right"><i class="fa fa-plus pr-1"></i> Add New</a>
+                            </div>
+                        </div> -->
                     </div>
                     <div class="card-body">
                          <input type="hidden" id="route_name" value="{{ route('orders.index')}}">
@@ -53,39 +58,39 @@
 <script>
     $(document).ready(function() {
         $('#ordersTable tbody').on('change', '.orderStatus', function (event) {
-        event.preventDefault();
-        var orderId = $(this).attr('data-id');
-        var status = $(this).val();
-        swal({
-            title: "Are you sure?",
-            text: "To update status of this order",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: '#17a2b8',
-            confirmButtonText: 'Yes, Sure',
-            cancelButtonText: "No, cancel",
-            closeOnConfirm: false,
-            closeOnCancel: false
-        },
-        function(isConfirm) {
-            if (isConfirm) {
-                $.ajax({
-                    url: "{{ route('orders.update', ':orderId') }}".replace(':orderId', orderId),
-                    type: "post",
-                    data: {'_method': 'put', 'status': status, '_token': $('meta[name=_token]').attr('content') },
-                    success: function(data){
-                        if(data.status == 1){
-                            swal("Success", "Order status is updated", "success");
-                        } else {
-                            swal("Error", "Something is wrong!", "error");
+            event.preventDefault();
+            var orderId = $(this).attr('data-id');
+            var status = $(this).val();
+            swal({
+                title: "Are you sure?",
+                text: "To update status of this order",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#17a2b8',
+                confirmButtonText: 'Yes, Sure',
+                cancelButtonText: "No, cancel",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function(isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        url: "{{ route('orders.update', ':orderId') }}".replace(':orderId', orderId),
+                        type: "post",
+                        data: {'_method': 'put', 'status': status, '_token': $('meta[name=_token]').attr('content') },
+                        success: function(data){
+                            if(data.status == 1){
+                                swal("Success", "Order status is updated", "success");
+                            } else {
+                                swal("Error", "Something is wrong!", "error");
+                            }
                         }
-                    }
-                });
-            } else {
-                swal("Cancelled", "Your data is safe!", "error");
-            }
-        });
-    }); 
+                    });
+                } else {
+                    swal("Cancelled", "Your data is safe!", "error");
+                }
+            });
+        }); 
     });
 </script>
 

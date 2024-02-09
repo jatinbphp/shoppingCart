@@ -74,5 +74,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::resource('contactus', ContactUsController::class);
 
     /*Orders*/
+    Route::post('orders/addproduct', [OrderController::class,'addProductToCart'])->name('orders.addproduct');
+    Route::get('/index_product', [OrderController::class, 'index_product'])->name('orders.index_product');
     Route::resource('orders',OrderController::class);
 });

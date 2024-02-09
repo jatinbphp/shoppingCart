@@ -105,7 +105,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('orders.index') }}" class="nav-link @if(isset($menu) && $menu=='Orders') active @endif">
-                            <i class="nav-icon fa fa-list"></i>
+                            <i class="nav-icon fa fa-cart-plus"></i>
                             <p>Orders</p>
                         </a>
                     </li>

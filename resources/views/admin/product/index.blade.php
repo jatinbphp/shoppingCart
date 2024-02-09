@@ -37,6 +37,7 @@
                                 <thead>
                                     <tr>
                                         <th>Product Name</th>
+                                        <th>SKU</th>
                                         <th style="width: 10%;">Status</th>
                                         <th style="width: 10%;">Action</th>
                                     </tr>

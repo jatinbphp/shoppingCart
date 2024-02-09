@@ -14,8 +14,8 @@ $(function () {
                     return '<img src="'+data+'" height="50" alt="Image"/>';
                 }
             },
-            {data: 'status',  name: 'status'},    
-            {data: 'action',  name: 'action'},                
+            {data: 'status',  name: 'status', orderable: false},    
+            {data: 'action',  name: 'action', orderable: false},                
         ]
     });
 
@@ -32,8 +32,8 @@ $(function () {
                     return '<img src="'+data+'" height="50" alt="Image"/>';
                 }
             },
-            {data: 'status',  name: 'status'},
-            {data: 'action',  name: 'action'},
+            {data: 'status',  name: 'status', orderable: false},
+            {data: 'action',  name: 'action', orderable: false},
         ]
     });
 
@@ -45,9 +45,10 @@ $(function () {
         lengthMenu: [ 100, 200, 300, 400, 500 ],
         ajax: $("#route_name").val(),
         columns: [
-            {data: 'product_name', "width": "55%", product_name: 'product_name'},
-            {data: 'status',  name: 'status'},
-            {data: 'action',  name: 'action'},
+            {data: 'product_name', product_name: 'product_name'},
+            {data: 'sku',  name: 'sku'},
+            {data: 'status',  name: 'status', orderable: false},
+            {data: 'action',  name: 'action', orderable: false},
         ]
     });
 
@@ -74,7 +75,7 @@ $(function () {
         ajax: $("#route_name").val(),
         columns: [
             {data: 'title', name: 'title'},
-            {data: 'action',  name: 'action'},                
+            {data: 'action',  name: 'action', orderable: false},                
         ]
     });
 
@@ -89,7 +90,7 @@ $(function () {
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
             {data: 'message', name: 'message'},
-            {data: 'action',  name: 'action'},                
+            {data: 'action',  name: 'action', orderable: false},                
         ]
     });
 
@@ -101,11 +102,29 @@ $(function () {
         lengthMenu: [100, 200, 300, 400, 500],
         ajax: $("#route_name").val(),
         columns: [
-            { data: 'order_id', name: 'order_id' },
-            { data: 'user_name', name: 'user_name' },
-            { data: 'user_email', name: 'user_email' },
-            { data: 'total_amount', name: 'total_amount' },
-            { data: 'status', name: 'status' },
+            { data: 'order_id', name: 'order_id'},
+            { data: 'user_name', name: 'user_name'},
+            { data: 'user_email', name: 'user_email'},
+            { data: 'total_amount', name: 'total_amount'},
+            { data: 'status', name: 'status', orderable: false},
+            { data: 'action', name: 'action', orderable: false},
+
+        ]
+    });
+
+    //Order Product Table 
+    var orders_products_table = $('#orderProductTable').DataTable({
+        processing: true,
+        serverSide: true,
+        pageLength: 100,
+        lengthMenu: [100, 200, 300, 400, 500],
+        ajax: $("#route_name").val(),
+        columns: [
+            { data: 'id', name: 'id' },
+            { data: 'id', name: 'id' },
+            { data: 'id', name: 'id' },
+            { data: 'id', name: 'id' },
+            { data: 'id', name: 'id' },
             { data: 'action', name: 'action' },
 
         ]
