@@ -25,11 +25,11 @@
                 <div class="card card-info card-outline">
                     <div class="card-header">
                         <!-- <h3 class="card-title">Order Listing</h3> -->
-                        <!-- <div class="row">
+                        <div class="row">
                             <div class="col-md-12">
                                 <a href="{{ route('orders.create') }}" class="btn btn-info float-right"><i class="fa fa-plus pr-1"></i> Add New</a>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="card-body">
                          <input type="hidden" id="route_name" value="{{ route('orders.index')}}">

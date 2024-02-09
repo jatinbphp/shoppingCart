@@ -3,7 +3,7 @@
 .dataTables_length, #orderProductTable_filter, .dataTables_info, .dataTables_paginate{display: none;}
 </style>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
             <label class="control-label" for="user_id">Select User :<span class="text-red">*</span></label>
             <select id="user_id" name="user_id" class="form-control">
@@ -33,14 +33,14 @@
                             <th>Quantity</th>
                             <th>Unit Price</th>
                             <th>Total</th>
-                            <th style="width: 10%;">Action</th>
+                            <!-- <th style="width: 10%;">Action</th> -->
                         </tr>
                     </thead>
                     <tbody>
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th colspan="6">
+                            <th colspan="5">
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" style="float: right;"><i class="fa fa-plus"></i></button>
                             </th>
                         </tr>
@@ -49,10 +49,57 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-12">
+        <div class="form-group{{ $errors->has('delivey_method') ? ' has-error' : '' }}">
+            <label class="control-label" for="delivey_method">Delivey Method :<span class="text-red">*</span></label>
+            <select name="delivey_method" class="form-control" id="delivey_method">
+                @foreach (\App\Models\Order::$allDeliveryMethod as $key => $value)
+                    <option value="{{ $key }}" class="flat-red">{{ $value }}</option>
+                @endforeach
+            </select>
+            @if ($errors->has('delivey_method'))
+                <span class="text-danger">
+                    <strong>{{ $errors->first('delivey_method') }}</strong>
+                </span>
+            @endif
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="form-group{{ $errors->has('notes') ? ' has-error' : '' }}">
+            <label class="control-label" for="notes">Notes :<span class="text-red">*</span></label>
+            {!! Form::textarea('notes', null, ['class' => 'form-control', 'placeholder' => 'Enter Notes', 'id' => 'notes', 'rows' => '2']) !!}
+            @if ($errors->has('notes'))
+                <span class="text-danger">
+                    <strong>{{ $errors->first('notes') }}</strong>
+                </span>
+            @endif
+        </div>
+    </div>
 </div>
 @section('jquery')
 <script type="text/javascript">
 $(document).ready(function(){
+
+    //Order Product Table 
+    var orders_products_table = $('#orderProductTable').DataTable({
+        processing: true,
+        serverSide: true,
+        pageLength: 100,
+        lengthMenu: [100, 200, 300, 400, 500],
+        ajax: $("#route_name").val(),
+        columns: [
+            { data: 'product_name', name: 'product_name' },
+            { data: 'sku', name: 'sku' },
+            { data: 'quantity', name: 'quantity' },
+            { data: 'unit_price', name: 'unit_price' },
+            { data: 'total', name: 'total' },
+            //{ data: 'action', name: 'action' },
+
+        ]
+    });
+
     $('#product_id').change(function(){
         // Call your function here
         var product_id = $(this).val();
@@ -66,7 +113,6 @@ $(document).ready(function(){
              },
             success: function(data){                        
                 $("#ajaxOption").html(data);
-                //swal("Deleted", "Your image successfully deleted!", "success");
             }
         });
     });
@@ -85,11 +131,8 @@ $(document).ready(function(){
             type: 'POST',
             data: form.serialize(),
             success: function(response){
-                // If form submission is successful, handle success response
-                console.log(response);
-                // Clear any previous error messages if needed
-                $('#errorMessages').empty();
-                // Display success message or perform any other actions
+                orders_products_table.row('.selected').remove().draw(false);
+                swal("Success", "Your product has been added to the order!", "success");
             },
             error: function(xhr, status, error){
                 var errors = JSON.parse(xhr.responseText).errors;

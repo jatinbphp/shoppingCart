@@ -501,7 +501,7 @@ $(".imgAdd").click(function(){
 
     var html = '<div class="col-lg-2 col-md-4 col-sm-6 col-xs-12" id="imgBox_'+i+'">'+
                     '<div class="boxImage imgUp">'+
-                        '<div class="loader-contetn loader'+i+'"><div class="loader-01"></div></div>';
+                        '<div class="loader-contetn loader'+i+'"><div class="loader-01"></div></div>'+
                         '<div class="imagePreview">'+
                             '<div class="text-right" style="position: absolute;">'+
                                 '<button class="btn btn-danger deleteProdcutImage" data-id="'+i+'"><i class="fa fa-trash" aria-hidden="true"></i></button>'+

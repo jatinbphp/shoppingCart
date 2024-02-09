@@ -26,6 +26,9 @@ class OrderController extends Controller
                 ->addColumn('user_email', function($order) {
                     return $order->user->email;
                 })
+                ->addColumn('total_amount', function($order) {
+                    return '£ '.number_format($order->total_amount, 2);
+                })
                 ->addColumn('action', function($row){
                     $row['section_name'] = 'orders';
                     $row['section_title'] = 'order';
@@ -52,6 +55,18 @@ class OrderController extends Controller
         $data['menu'] = 'Orders';
         if ($request->ajax()) {
             return DataTables::of(Cart::select()->where('csrf_token',csrf_token())->get())
+                ->addColumn('product_name', function($order) {
+                    return $order->product->product_name; 
+                })
+                ->addColumn('sku', function($order) {
+                    return $order->product->sku; 
+                })
+                ->addColumn('unit_price', function($order) {
+                    return '£ '.number_format($order->product->price, 2);
+                })
+                ->addColumn('total', function($order) {
+                    return '£ '.number_format(($order->quantity*$order->product->price), 2);
+                })
                 ->addColumn('action', function($row){
                     $row['section_name'] = 'orders_products';
                     $row['section_title'] = 'order';

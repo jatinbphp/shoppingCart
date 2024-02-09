@@ -120,12 +120,12 @@ $(function () {
         lengthMenu: [100, 200, 300, 400, 500],
         ajax: $("#route_name").val(),
         columns: [
-            { data: 'id', name: 'id' },
-            { data: 'id', name: 'id' },
-            { data: 'id', name: 'id' },
-            { data: 'id', name: 'id' },
-            { data: 'id', name: 'id' },
-            { data: 'action', name: 'action' },
+            { data: 'product_name', name: 'product_name' },
+            { data: 'sku', name: 'sku' },
+            { data: 'quantity', name: 'quantity' },
+            { data: 'unit_price', name: 'unit_price' },
+            { data: 'total', name: 'total' },
+            //{ data: 'action', name: 'action' },
 
         ]
     });
