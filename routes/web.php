@@ -77,6 +77,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::post('orders/update_qty', [OrderController::class, 'updateQty'])->name('orders.update_qty');
     Route::delete('orders/delete_product/{cart_id}', [OrderController::class, 'deleteCart'])->name('orders.delete_product');
     Route::get('/addresses/{userId}', [OrderController::class,'getAddressesByUser'])->name('addresses.by_user');
+    Route::post('orders/update_status', [OrderController::class,'updateOrderStatus'])->name('orders.update_status');
     Route::post('orders/addproduct', [OrderController::class,'addProductToCart'])->name('orders.addproduct');
     Route::get('/index_product', [OrderController::class, 'index_product'])->name('orders.index_product');
     Route::resource('orders',OrderController::class);

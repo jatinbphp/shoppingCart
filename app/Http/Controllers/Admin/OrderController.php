@@ -291,4 +291,18 @@ class OrderController extends Controller
         
         return 1;
     }
+
+    public function updateOrderStatus(Request $request)
+    { 
+        $data['status'] = 0;
+        $order = Order::findOrFail($request->id);
+        $input = $request->all();
+        
+        if (!empty($order)) {
+            $order->update(['status' => $request->status]);
+            $data['status'] = 1;
+        }
+
+        return $data;
+    }
 } 

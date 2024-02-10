@@ -76,9 +76,9 @@
             function(isConfirm) {
                 if (isConfirm) {
                     $.ajax({
-                        url: "{{ route('orders.update', ':orderId') }}".replace(':orderId', orderId),
+                        url: "{{route('orders.update_status')}}",
                         type: "post",
-                        data: {'_method': 'put', 'status': status, '_token': $('meta[name=_token]').attr('content') },
+                        data: {'id': orderId, 'status': status, '_token': $('meta[name=_token]').attr('content') },
                         success: function(data){
                             if(data.status == 1){
                                 swal("Success", "Order status is updated", "success");
