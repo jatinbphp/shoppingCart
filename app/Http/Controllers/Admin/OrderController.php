@@ -75,7 +75,7 @@ class OrderController extends Controller
                             $product_option = ProductsOptions::where('id',$keyO)->first();
                             $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
 
-                            $product_name .= '</br><small>'.$product_option->option_name.' - '.$product_option_value->option_value.' X '.env('CURRENCY').$product_option_value->option_price.'</small>';
+                            $product_name .= '</br><small><b>'.$product_option->option_name.' :</b> '.$product_option_value->option_value.'</small>';
                         }
                     }
 
@@ -90,12 +90,20 @@ class OrderController extends Controller
                 ->addColumn('total', function($order) {
                     return env('CURRENCY').number_format(($order->quantity*$order->product->price), 2);
                 })
+                ->addColumn('quantity', function($row){
+                    $quantity = '<div class="qty">';
+                    $quantity .= '<button type="button" id="minus" data-id="'.$row->id.'"><i class="fa fa-minus" aria-hidden="true"></i></button>';
+                    $quantity .= '<input type="text" id="quantity'.$row->id.'" value="'.$row->quantity.'">';
+                    $quantity .= '<button type="button" id="plus" data-id="'.$row->id.'"><i class="fa fa-plus" aria-hidden="true"></i></button>';
+                    $quantity .= '</div>';
+                    return $quantity;
+                })
                 ->addColumn('action', function($row){
                     $row['section_name'] = 'cart_products';
-                    $row['section_title'] = 'order';
+                    $row['section_title'] = 'product';
                     return view('admin.action-buttons', $row);
                 })
-                ->rawColumns(['product_name'])
+                ->rawColumns(['product_name', 'quantity'])
                 ->make(true);
         }
     }
@@ -239,12 +247,20 @@ class OrderController extends Controller
         ]);
 
         $input = $request->all();
-        $input['added_by_admin'] = 1;
-        $input['options'] = json_encode($input['options']);
-        $input['csrf_token'] = $input['_token'];
-        Cart::create($input);
 
-        return $input = $request->all();
+        $cart = Cart::where('csrf_token',csrf_token())->where('user_id', 0)->where('added_by_admin', 1)->where('product_id', $input['product_id'])->where('options', json_encode($input['options']))->first();
+
+        if(empty($cart)){
+            $input['added_by_admin'] = 1;
+            $input['options'] = json_encode($input['options']);
+            $input['csrf_token'] = $input['_token'];
+            Cart::create($input);
+        } else{
+            $cart['quantity'] = ($cart['quantity']+$input['quantity']);
+            $cart->save();
+        }
+
+        return $cart;
     }
 
     public function getAddressesByUser($userId)
@@ -252,5 +268,27 @@ class OrderController extends Controller
         $user = User::with('user_addresses')->where('id', $userId)->first();
         $addresses = $user->user_addresses;
         return response()->json($addresses);
+    }
+
+    public function deleteCart(Request $request, $id)
+    {
+        $cart = Cart::find($id);
+
+        if ($cart) {
+            $cart->delete();
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public function updateQty(Request $request)
+    {
+        $input = $request->all();
+        $cart = Cart::find($input['id']);
+        $cart['quantity'] = ($input['type']==1) ? ($cart['quantity']-1) : ($cart['quantity']+1);
+        $cart->save();
+        
+        return 1;
     }
 } 

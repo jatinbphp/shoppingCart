@@ -152,7 +152,7 @@ class ProductController extends Controller
                             'product_id' => $product_id,
                             'option_id' => $optionOld->id,
                             'option_value' => $oValue,
-                            'option_price' => $input['option_price']['old'][$key][$oKey],
+                            /*'option_price' => $input['option_price']['old'][$key][$oKey],*/
                         ];
 
                         if(empty($option_value)){
@@ -173,7 +173,7 @@ class ProductController extends Controller
                             'product_id' => $product_id,
                             'option_id' => $optionOld->id,
                             'option_value' => $oValue,
-                            'option_price' => $input['option_price']['new'][$key][$oKey],
+                            /*'option_price' => $input['option_price']['new'][$key][$oKey],*/
                         ];
                         $option_new_value = ProductsOptionsValues::create($inputOptionValues);
 
@@ -207,7 +207,7 @@ class ProductController extends Controller
                             'product_id' => $product_id,
                             'option_id' => $optionNew->id,
                             'option_value' => $oValue,
-                            'option_price' => $input['option_price']['new'][$key][$oKey],
+                            /*'option_price' => $input['option_price']['new'][$key][$oKey],*/
                         ];
                         ProductsOptionsValues::create($inputOptionValues);
                     }

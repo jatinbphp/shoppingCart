@@ -136,6 +136,39 @@ $(document).ready(function(){
         }
     });
 
+    //Delete Record
+    $('.datatable-dynamic tbody').on('click', '.deleteCartRecord', function (event) {
+        event.preventDefault();
+        var id = $(this).attr("data-id");
+
+        swal({
+            title: "Are you sure?",
+            text: "You want to delete this record?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes, Delete',
+            cancelButtonText: "No, cancel",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url: "{{ route('orders.delete_product', ':cart_id') }}".replace(':cart_id', id),
+                    type: "DELETE",
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+                    success: function(data){
+                        reloadOrderProductsTable();
+                        swal("Deleted", "Your data successfully deleted!", "success");
+                    }
+                });
+            } else {
+                swal("Cancelled", "Your data safe!", "error");
+            }
+        });
+    });
+
     function reloadOrderProductsTable() {
         orders_products_table.ajax.reload(null, false);
     }
@@ -217,6 +250,40 @@ $(document).ready(function(){
             }
         });
     });
+
+    $(document).on("click", "#plus", function(e) {
+        e.preventDefault();
+        var id = $(this).attr("data-id");
+        var quantityInput = $('#quantity'+id);
+        var currentValue = parseInt(quantityInput.val());
+        quantityInput.val(currentValue + 1);
+        updateQty(id, 2)
+    });
+
+    $(document).on("click", "#minus", function(e) {
+        var id = $(this).attr("data-id");
+        var quantityInput = $('#quantity'+id);
+        var currentValue = parseInt(quantityInput.val());
+        if (currentValue > 1) {
+            quantityInput.val(currentValue - 1);
+            updateQty(id, 1)
+        }
+    });
+
+    function updateQty(id, type) {
+        $.ajax({
+            url: "{{route('orders.update_qty')}}",
+            type: "POST",
+            data: {
+                _token: '{{csrf_token()}}',
+                'id': id,
+                'type': type,
+             },
+            success: function(data){                        
+                reloadOrderProductsTable();
+            }
+        });
+    }
 });
 </script>
 @endsection

@@ -213,9 +213,9 @@
                                                         <div class="col-md-5">
                                                             <label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>
                                                         </div>
-                                                        <div class="col-md-5">
+                                                        <!-- <div class="col-md-5">
                                                             <label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 @endif
                                                 <div class="row" id="options_values_{{ $option_value->id }}">
@@ -230,7 +230,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-5">
+                                                    <!-- <div class="col-md-5">
                                                         <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
                                                             {!! Form::text("option_price[old][$option->id][$option_value->id]", $option_value->option_price, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Price"]) !!}
                                                             @if ($errors->has('option_price'))
@@ -239,7 +239,7 @@
                                                                 </span>
                                                             @endif
                                                         </div>
-                                                    </div>
+                                                    </div> -->
 
                                                     <div class="col-md-2">
                                                         <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{ $option_value->id }}, 1)"><i class="fa fa-trash"></i></button>
@@ -259,9 +259,9 @@
                                                         <div class="col-md-5">
                                                             <label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>
                                                         </div>
-                                                        <div class="col-md-5">
+                                                        <!-- <div class="col-md-5">
                                                             <label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 <div class="col-md-5">
                                                     <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
@@ -274,7 +274,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-5">
+                                                <!-- <div class="col-md-5">
                                                     <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
                                                         {!! Form::text("option_price[new][$option->id][]", null, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Price"]) !!}
                                                         @if ($errors->has('option_price'))
@@ -283,7 +283,7 @@
                                                             </span>
                                                         @endif
                                                     </div>
-                                                </div>
+                                                </div> -->
 
                                                 <div class="col-md-2">
                                                     <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{ $option->id }}, 1)"><i class="fa fa-trash"></i></button>
@@ -322,9 +322,9 @@
                                         <div class="col-md-5">
                                             <label class="control-label" for="option_values">Option Values1s :<span class="text-red">*</span></label>
                                         </div>
-                                        <div class="col-md-5">
+                                        <!-- <div class="col-md-5">
                                             <label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="row" id="options_values_1">
                                         <div class="col-md-5">
@@ -338,7 +338,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-5">
+                                        <!-- <div class="col-md-5">
                                             <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
                                                 {!! Form::text("option_price[new][1][]", null, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Price"]) !!}
                                                 @if ($errors->has('option_price'))
@@ -347,7 +347,7 @@
                                                     </span>
                                                 @endif
                                             </div>
-                                        </div>
+                                        </div> -->
 
                                         <div class="col-md-2">
                                             <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow(1, 1)"><i class="fa fa-trash"></i></button>
@@ -394,9 +394,9 @@ $('#optionBtn').on('click', function(){
                         '<div class="col-md-5">'+
                             '<label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>'+
                         '</div>'+
-                        '<div class="col-md-5">'+
+                        /*'<div class="col-md-5">'+
                             '<label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>'+
-                        '</div>'+
+                        '</div>'+*/
                     '</div>'+
                     '<div class="row" id="options_values_'+optionName+'">'+
                         '<div class="col-md-5">'+
@@ -404,11 +404,11 @@ $('#optionBtn').on('click', function(){
                                 '<input type="text" name="option_values[new]['+optionName+'][]" class="form-control" required- placeholder="Enter Option Value">'+
                             '</div>'+
                         '</div>'+
-                        '<div class="col-md-5">'+
+                        /*'<div class="col-md-5">'+
                             '<div class="form-group">'+
                                 '<input type="text" name="option_price[new]['+optionName+'][]" class="form-control" required- placeholder="Enter Option Price">'+
                             '</div>'+
-                        '</div>'+
+                        '</div>'+*/
                         '<div class="col-md-2">'+
                             '<button type="button" class="btn btn-danger deleteExp mr-1" onClick="removeOptionRow('+optionName+', 1)"><i class="fa fa-trash"></i></button>'+
                             '<button type="button" class="btn btn-info add-option" onclick="optionValuesBtn('+optionName+', '+optionName+')"><i class="fa fa-plus"></i> </button>'+
@@ -429,11 +429,11 @@ function optionValuesBtn(option_value_number, option_number) {
                                     '<input type="text" name="option_values[new]['+option_value_number+'][]" class="form-control" required- placeholder="Enter Option Value">'+
                                 '</div>'+
                             '</div>'+
-                            '<div class="col-md-5">'+
+                            /*'<div class="col-md-5">'+
                                 '<div class="form-group">'+
                                     '<input type="text" name="option_price[new]['+option_value_number+'][]" class="form-control" required- placeholder="Enter Option Price">'+
                                 '</div>'+
-                            '</div>'+
+                            '</div>'+*/
                             '<div class="col-md-2">'+
                                 '<button type="button" class="btn btn-danger deleteExp mr-1" onClick="removeOptionRow('+optionName+', 1)"><i class="fa fa-trash"></i></button>'+
                             '</div>'+                    

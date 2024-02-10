@@ -570,32 +570,6 @@ function createAddressAlert(title, text, type) {
     };
 }
 
-var i = 2;
-$(".imgAdd").click(function(){
-
-    var html = '<div class="col-lg-2 col-md-4 col-sm-6 col-xs-12" id="imgBox_'+i+'">'+
-                    '<div class="boxImage imgUp">'+
-                        '<div class="loader-contetn loader'+i+'"><div class="loader-01"></div></div>';
-                        '<div class="imagePreview">'+
-                            '<div class="text-right" style="position: absolute;">'+
-                                '<button class="btn btn-danger deleteProdcutImage" data-id="'+i+'"><i class="fa fa-trash" aria-hidden="true"></i></button>'+
-                            '</div>'+
-                        '</div>'+
-                        '<label class="btn btn-primary"> Upload<input type="file" id="file-'+i+'" class="uploadFile img" name="file[]" value="Upload Photo" style="width: 0px; height: 0px; overflow: hidden;" data-overwrite-initial="false" data-min-file-count="1" />'+
-                        '</label>'+
-                    '</div>'+
-                '</div>';
-
-    $(this).closest(".row").find('.imgAdd').before(html);
-
-    i++;
-});
-
-$(document).on("click", ".deleteProdcutImage" , function() {
-    var id = $(this).data('id');
-    $(document).find('#imgBox_'+id).remove(); 
-});
-
 $(function() {
     $(document).on("change",".uploadFile", function(){
         var uploadFile = $(this);
@@ -624,39 +598,6 @@ function readURL(input) {
         }
         reader.readAsDataURL(input.files[0]);
     }
-}
-
-function removeAdditionalProductImg(img_name, image_id, product_id){
-    swal({
-            title: "Are you sure?",
-            text: "You want to delete this image",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'Yes, Delete',
-            cancelButtonText: "No, cancel",
-            closeOnConfirm: false,
-            closeOnCancel: false
-        },
-    function(isConfirm) {
-        if (isConfirm) {
-            $.ajax({
-                url: "{{route('products.removeimage')}}",
-                type: "POST",
-                data: {
-                    _token: '{{csrf_token()}}',
-                    'id': image_id,
-                    'product_id': product_id,
-                    'img_name': img_name,
-                 },
-                success: function(data){                        
-                    swal("Deleted", "Your image successfully deleted!", "success");
-                }
-            });
-        } else {
-            swal("Cancelled", "Your data safe!", "error");
-        }
-    });
 }
 </script>
 @endsection

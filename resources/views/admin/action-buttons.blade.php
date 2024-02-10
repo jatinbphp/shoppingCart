@@ -14,7 +14,7 @@
 @endif
 @if($section_name=='cart_products')
 <span data-toggle="tooltip" title="Delete {{$section_title}}" data-trigger="hover">
-    <button class="btn btn-sm btn-danger deleteRecord" data-id="{{$id}}" type="button" data-url="{{ url('admin/'.$section_name.'/'.$id) }}" data-section="{{$section_name}}_table">
+    <button class="btn btn-sm btn-danger deleteCartRecord" data-id="{{$id}}" type="button">
         <i class="fa fa-trash"></i>
     </button>
 </span>
