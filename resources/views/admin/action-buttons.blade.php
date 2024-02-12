@@ -1,4 +1,4 @@
-@if($section_name!='contactus' && $section_name!='cart_products')
+@if($section_name!='contactus' && $section_name!='cart_products' && $section_name!='orders')
 <div class="btn-group btn-group-sm">
     <a href="{{ url('admin/'.$section_name.'/'.$id.'/edit') }}" title="Edit {{$section_title}}" class="btn btn-sm btn-info tip mr-1">
         <i class="fa fa-edit"></i>
