@@ -6,12 +6,7 @@
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
             <label class="control-label" for="user_id">Select User :<span class="text-red">*</span></label>
-            <select id="user_id" name="user_id" class="form-control">
-                <option value="">--Select User--</option>
-                @foreach ($users as $key => $user)
-                    <option value="{{$user->id}}">{{$user->name}} ({{$user->email}})</option>
-                @endforeach
-            </select>
+            {!! Form::select("user_id", $users, null, ["class" => "form-control select2", "id" => "user_id"]) !!}
             @if ($errors->has('user_id'))
                 <span class="text-danger">
                     <strong>{{ $errors->first('user_id') }}</strong>
@@ -23,9 +18,7 @@
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('address_id') ? ' has-error' : '' }}">
             <label class="control-label" for="address_id">Select User Address:<span class="text-red">*</span></label>
-            <select id="address_id" name="address_id" class="form-control">
-                <option value="">--Select Address--</option>
-            </select>
+            {!! Form::select("address_id", ['' => 'Please Select'], null, ["class" => "form-control select2", "id" => "address_id"]) !!}
             @if ($errors->has('address_id'))
                 <span class="text-danger">
                     <strong>{{ $errors->first('address_id') }}</strong>
@@ -63,7 +56,19 @@
                     <td></td>
                 </tr>
             </tfoot>
-        </table>  
+        </table> 
+         
+    </div>
+
+    <div class="col-md-12">
+        <div class="form-group{{ $errors->has('address_id') ? ' has-error' : '' }}">
+            {!! Form::hidden('products', null, ['class' => 'form-control', 'id' => 'products']) !!}
+            @if ($errors->has('products'))
+                <span class="text-danger">
+                    <strong>{{ $errors->first('products') }}</strong>
+                </span>
+            @endif
+        </div>
     </div>
 
     <div class="col-md-12">
@@ -84,7 +89,7 @@
 
     <div class="col-md-12">
         <div class="form-group{{ $errors->has('notes') ? ' has-error' : '' }}">
-            <label class="control-label" for="notes">Leave a message :<span class="text-red">*</span></label></br>
+            <label class="control-label w-100" for="notes">Leave a message :</label>
             <small>If you would like to add a comment about your order, please write it in the field below.</small>
             {!! Form::textarea('notes', null, ['class' => 'form-control', 'placeholder' => 'Enter Notes', 'id' => 'notes', 'rows' => '2']) !!}
             @if ($errors->has('notes'))
@@ -119,6 +124,7 @@ $(document).ready(function(){
 
             if (orders_products_table.data().length === 0) {
                 $('#orderProductTable tfoot').hide()
+                $("#products").val();
             } else {
                 $('#orderProductTable tfoot').show()
                 var total = 0;
@@ -132,6 +138,8 @@ $(document).ready(function(){
                 });
 
                 $('#sub_total, #grand_total').text(formattedTotal);
+
+                $("#products").val(1);
             }
         }
     });
@@ -191,6 +199,12 @@ $(document).ready(function(){
         });
     });
 
+    if($("#user_id").val()){
+        setTimeout(function(){
+            $('#user_id').val($("#user_id").val()).trigger('change');
+        }, 1000);
+    }
+
     //get Addresses
     $('#user_id').change(function(){
         // Call your function here
@@ -204,14 +218,16 @@ $(document).ready(function(){
                     'user_id': user_id,
                  },
                 success: function(data){                        
-                    $('#address_id').empty().append('<option value="">Select Address</option>');
+                    $('#address_id').empty().append('<option value="">Please Select</option>');
+                    $('#address_id').select2('destroy').select2();
                     data.forEach(function(address) {
                         $('#address_id').append('<option value="' + address.id + '">' + address.title + '</option>');
                     });
                 }
             });
         } else {
-            $('#address_id').empty().append('<option value="">Select Address</option>');
+            $('#address_id').empty().append('<option value="">Please Select</option>');
+            $('#address_id').select2('destroy').select2();
         }
     });
 

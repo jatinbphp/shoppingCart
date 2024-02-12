@@ -7,15 +7,15 @@ $(function () {
         lengthMenu: [ 100, 200, 300, 400, 500 ],
         ajax: $("#route_name").val(),
         columns: [
-            {data: 'name', "width": "15%", name: 'name'},
+            {data: 'name', name: 'name'},
             {data: 'email',  name: 'email'},
             {data: 'phone',  name: 'phone'},
-            {data: 'image',  name: 'image', orderable: false, searchable: false, render: function (data,type,row){
+            {data: 'image', "width": "10%",  name: 'image', orderable: false, searchable: false, render: function (data,type,row){
                     return '<img src="'+data+'" height="50" alt="Image"/>';
                 }
             },
-            {data: 'status',  name: 'status', orderable: false},    
-            {data: 'action',  name: 'action', orderable: false},                
+            {data: 'status', "width": "12%",  name: 'status', orderable: false},    
+            {data: 'action', "width": "10%",  name: 'action', orderable: false},                
         ]
     });
 
@@ -27,13 +27,13 @@ $(function () {
         lengthMenu: [ 100, 200, 300, 400, 500 ],
         ajax: $("#route_name").val(),
         columns: [
-            {data: 'categoryName', "width": "55%", categoryName: 'categoryName'},
-            {data: 'image', "width": "15%", name: 'image', orderable: false, searchable: false, render: function (data,type,row){
+            {data: 'categoryName', categoryName: 'categoryName'},
+            {data: 'image', "width": "10%", name: 'image', orderable: false, searchable: false, render: function (data,type,row){
                     return '<img src="'+data+'" height="50" alt="Image"/>';
                 }
             },
-            {data: 'status',  name: 'status', orderable: false},
-            {data: 'action',  name: 'action', orderable: false},
+            {data: 'status', "width": "12%",  name: 'status', orderable: false},
+            {data: 'action', "width": "10%",  name: 'action', orderable: false},
         ]
     });
 
@@ -47,8 +47,8 @@ $(function () {
         columns: [
             {data: 'product_name', product_name: 'product_name'},
             {data: 'sku',  name: 'sku'},
-            {data: 'status',  name: 'status', orderable: false},
-            {data: 'action',  name: 'action', orderable: false},
+            {data: 'status', "width": "12%",  name: 'status', orderable: false},
+            {data: 'action', "width": "10%",  name: 'action', orderable: false},
         ]
     });
 
@@ -61,7 +61,7 @@ $(function () {
         ajax: $("#route_name").val(),
         columns: [
             {data: 'title', name: 'title'},
-            {data: 'action',  name: 'action', orderable: false},                
+            {data: 'action', "width": "5%",  name: 'action', orderable: false},                
         ]
     });
 
@@ -76,7 +76,7 @@ $(function () {
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
             {data: 'message', name: 'message'},
-            {data: 'action',  name: 'action', orderable: false},                
+            {data: 'action', "width": "5%",  name: 'action', orderable: false},                
         ]
     });
 
@@ -93,28 +93,10 @@ $(function () {
             { data: 'total_amount', name: 'total_amount'},
             { data: 'created_at', name: 'created_at'},
             { data: 'status', name: 'status', orderable: false},
-            { data: 'action', name: 'action', orderable: false},
+            { data: 'action', "width": "14%", name: 'action', orderable: false},
 
         ]
     });
-
-    /*//Order Product Table 
-    var orders_products_table = $('#orderProductTable').DataTable({
-        processing: true,
-        serverSide: true,
-        pageLength: 100,
-        lengthMenu: [100, 200, 300, 400, 500],
-        ajax: $("#route_name").val(),
-        columns: [
-            { data: 'product_name', name: 'product_name' },
-            { data: 'sku', name: 'sku' },
-            { data: 'quantity', name: 'quantity' },
-            { data: 'unit_price', name: 'unit_price' },
-            { data: 'total', name: 'total' },
-            //{ data: 'action', name: 'action' },
-
-        ]
-    });*/
 
     //Delete Record
     $('.datatable-dynamic tbody').on('click', '.deleteRecord', function (event) {
@@ -207,5 +189,62 @@ $(function () {
             }
         });
     });
+
+    //change order status
+    $('#ordersTable tbody').on('change', '.orderStatus', function (event) {
+            event.preventDefault();
+            var orderId = $(this).attr('data-id');
+            var status = $(this).val();
+            swal({
+                title: "Are you sure?",
+                text: "To update status of this order",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#17a2b8',
+                confirmButtonText: 'Yes, Sure',
+                cancelButtonText: "No, cancel",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function(isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        url: $("#order_update").val(),
+                        type: "post",
+                        data: {'id': orderId, 'status': status, '_token': $('meta[name=_token]').attr('content') },
+                        success: function(data){
+                            if(data.status == 1){
+                                swal("Success", "Order status is updated", "success");
+                            } else {
+                                swal("Error", "Something is wrong!", "error");
+                            }
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Your data is safe!", "error");
+                }
+            });
+        });
+
+    //get Order Indo
+    $('.datatable-dynamic tbody').on('click', '.order-info', function (event) {
+        event.preventDefault();
+        var url = $(this).attr('data-url');
+        var id = $(this).attr("data-id");
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            data: {
+                'id': id,
+            },
+            headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+            success: function(data){
+                $('#oderModal .modal-content').html(data);
+                $('#oderModal').modal('show');
+            }
+        });
+    });
+    
 });
 

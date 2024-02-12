@@ -17,7 +17,7 @@
                                 <div class="form-group{{ $errors->has('options') ? ' has-error' : '' }}">
                                     <label class="control-label" for="options">{{$option->option_name}} :<span class="text-red">*</span></label>
                                     <select id="options" name="options[{{$option->id}}]" class="form-control" required>
-                                        <option value="">--Select {{$option->option_name}}--</option>
+                                        <option value="">Please Select</option>
                                         @foreach ($option->product_option_values as $key => $option_value)
                                             <option value="{{$option_value->id}}">{{$option_value->option_value}} - {{$option_value->option_price}}</option>
                                         @endforeach

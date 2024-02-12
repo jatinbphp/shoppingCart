@@ -29,7 +29,7 @@
                                 <thead>
                                     <tr>
                                         <th>Title</th>
-                                        <th style="width: 10%;">Action</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>

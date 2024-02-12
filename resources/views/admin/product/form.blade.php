@@ -28,7 +28,7 @@
                                 <label class="control-label" for="category_id">Select Category :<span class="text-red">*</span></label>
 
                                 <select id="category_id" name="category_id" class="form-control">
-                                    <option value="">--Select Category--</option>
+                                    <option value="">Please Select</option>
                                     @foreach ($categories as $key => $val)
                                         @php $selected = isset($product) && $product->category_id == $val->id?'selected':''; @endphp
                                         <option value="{{$val->id}}" {{$selected}}>{{$val->categoryName}}</option>

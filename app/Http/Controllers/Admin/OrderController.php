@@ -114,7 +114,7 @@ class OrderController extends Controller
     public function create()
     {
         $data['menu'] = 'Orders';
-        $data['users'] = User::where('status', 'active')->where('role', 'user')->get();
+        $data['users'] = User::where('status', 'active')->where('role', 'user')->pluck('name', 'id')->prepend('Please Select', '');
         $data['products'] = Products::where('status', 'active')->get();
         return view("admin.order.create",$data);
     }
@@ -192,7 +192,8 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data['order'] = Order::find($id);
+        return view('admin.order.show_modal', $data);
     }
 
     /**

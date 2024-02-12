@@ -57,7 +57,7 @@
                             <div class="form-group{{ $errors->has('product_id') ? ' has-error' : '' }}">
                                 <label class="control-label" for="product_id">Select Product :<span class="text-red">*</span></label>
                                 <select id="product_id" name="product_id" class="form-control" required>
-                                    <option value="">--Select Product--</option>
+                                    <option value="">Please Select</option>
                                     @foreach ($products as $key => $product)
                                         <option value="{{$product->id}}">{{$product->product_name}}</option>
                                     @endforeach

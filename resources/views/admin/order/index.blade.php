@@ -33,16 +33,17 @@
                         </div>
                     </div>
                     <div class="card-body">
-                         <input type="hidden" id="route_name" value="{{ route('orders.index')}}">
+                        <input type="hidden" id="route_name" value="{{ route('orders.index')}}">
+                        <input type="hidden" id="order_update" value="{{ route('orders.update_status')}}">
                         <table id="ordersTable" class="table table-bordered table-striped datatable-dynamic">
                             <thead>
                                 <tr>
-                                    <th style="width: 15%;">Order ID</th>
+                                    <th>Order ID</th>
                                     <th>User Name</th>
-                                    <th style="width: 15%;">Total Amount</th>
-                                    <th style="width: 18%;">Date Added</th>
-                                    <th style="width: 15%;">Status</th>
-                                    <th style="width: 10%;">Action</th>
+                                    <th>Total Amount</th>
+                                    <th>Date Added</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,45 +55,13 @@
         </div>
     </section>
 </div>
-@endsection
-@section('jquery')
-<script>
-    $(document).ready(function() {
-        $('#ordersTable tbody').on('change', '.orderStatus', function (event) {
-            event.preventDefault();
-            var orderId = $(this).attr('data-id');
-            var status = $(this).val();
-            swal({
-                title: "Are you sure?",
-                text: "To update status of this order",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: '#17a2b8',
-                confirmButtonText: 'Yes, Sure',
-                cancelButtonText: "No, cancel",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            },
-            function(isConfirm) {
-                if (isConfirm) {
-                    $.ajax({
-                        url: "{{route('orders.update_status')}}",
-                        type: "post",
-                        data: {'id': orderId, 'status': status, '_token': $('meta[name=_token]').attr('content') },
-                        success: function(data){
-                            if(data.status == 1){
-                                swal("Success", "Order status is updated", "success");
-                            } else {
-                                swal("Error", "Something is wrong!", "error");
-                            }
-                        }
-                    });
-                } else {
-                    swal("Cancelled", "Your data is safe!", "error");
-                }
-            });
-        }); 
-    });
-</script>
 
+<!-- Modal -->
+<div class="modal fade" id="oderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <!-- Modal content -->
+        </div>
+    </div>
+</div>
 @endsection

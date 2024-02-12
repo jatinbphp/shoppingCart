@@ -26,8 +26,16 @@ class OrderRequest extends FormRequest
         $rules = [
             'user_id' => 'required',
             'address_id' => 'required',
+            'products' => 'required',
         ];
 
         return $rules;
+    }
+
+    public function messages(): array
+    {
+        return [
+            'products.required' => 'Please select Products',
+        ];
     }
 }

@@ -31,7 +31,7 @@
                                         <th>Name</th>
                                         <th>Email Address</th>
                                         <th>Message</th>
-                                        <th style="width: 10%;">Action</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
