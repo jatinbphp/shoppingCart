@@ -75,7 +75,7 @@ class OrderController extends Controller
                             $product_option = ProductsOptions::where('id',$keyO)->first();
                             $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
 
-                            $product_name .= '</br><small><b>'.$product_option->option_name.' :</b> '.$product_option_value->option_value.'</small>';
+                            $product_name .= '</br><small><b>'.$product_option->option_name.' :</b> '.$product_option_value->option_value.' <a class="editOption" href="javascript:void(0)" data-option_id="'.$keyO.'" data-option_value_id="'.$valueO.'" data-product_id="'.$order->product->id.'" data-id="'.$order->id.'"/>Edit</a></small>';
                         }
                     }
 
@@ -305,5 +305,34 @@ class OrderController extends Controller
         }
 
         return $data;
+    }
+
+    public function editProductOptionToCart(Request $request)
+    {
+        $this->validate($request, [
+            'cart_id' => 'required',
+            'option_id' =>'required|numeric',
+            'options' => 'required|array',
+            'options.*' => 'array', // Ensure each option is an array
+            'options.*' => 'numeric' // Ensure each option value is numeric
+        ]);
+
+        $input = $request->all();
+
+        $cart = Cart::find($input['cart_id']);
+
+        if(!empty($cart)){
+
+            $optionsArray = [];
+            if(!empty($cart['options'])){
+                 $optionsArray = json_decode($cart['options'], true);
+                 $optionsArray[$input['option_id']] = $input['options'][$input['option_id']];
+            }
+
+            $cart['options'] = json_encode($optionsArray);
+            $cart->save();
+        }
+        
+        return $cart;
     }
 } 

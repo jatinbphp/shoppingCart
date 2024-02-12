@@ -61,6 +61,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::post('products/import-product-store', [ProductController::class,'importProductStore'])->name('products.import.product.store');
     Route::post('products/removeimage', [ProductController::class,'removeImage'])->name('products.removeimage');
     Route::post('products/getoptions', [ProductController::class,'getOptions'])->name('products.getoptions');
+    Route::post('products/editoption', [ProductController::class,'editOption'])->name('products.editoption');
     Route::resource('products', ProductController::class);
 
     /*Options*/
@@ -79,6 +80,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/addresses/{userId}', [OrderController::class,'getAddressesByUser'])->name('addresses.by_user');
     Route::post('orders/update_status', [OrderController::class,'updateOrderStatus'])->name('orders.update_status');
     Route::post('orders/addproduct', [OrderController::class,'addProductToCart'])->name('orders.addproduct');
+    Route::post('orders/editoption', [OrderController::class,'editProductOptionToCart'])->name('orders.editoption');
     Route::get('/index_product', [OrderController::class, 'index_product'])->name('orders.index_product');
     Route::resource('orders',OrderController::class);
 });

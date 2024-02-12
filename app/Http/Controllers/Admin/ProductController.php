@@ -325,4 +325,23 @@ class ProductController extends Controller
         }
         return view('admin.order.product-options', $data);
     }
+
+    public function editOption(Request $request)
+    {
+        $data['product_options'] = [];
+        if(!empty($request->product_id)){
+            $data['option_value_id'] = $request->option_value_id;
+            $data['product_options'] = ProductsOptions::with('product_option_values')
+                ->when($request->has('product_id'), function ($query) use ($request) {
+                    return $query->where('product_id', $request->product_id);
+                })
+                ->when($request->has('option_id'), function ($query) use ($request) {
+                    return $query->where('id', $request->option_id);
+                })
+                ->where('status', 'active')
+                ->get();
+
+        }
+        return view('admin.order.product-edit-options', $data);
+    }
 }

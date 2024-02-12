@@ -84,4 +84,30 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myOptionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{{route('orders.editoption')}}" method="post" id="editProductOptionForm">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Option</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {!! Form::hidden('option_id', null, ['class' => 'form-control', 'id' => 'edit_option_id']) !!}
+                        {!! Form::hidden('cart_id', null, ['class' => 'form-control', 'id' => 'edit_cart_id']) !!}
+
+                        <div id="ajaxEditOption"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info" id="edit_product">Update</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection

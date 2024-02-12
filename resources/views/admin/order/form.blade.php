@@ -300,6 +300,70 @@ $(document).ready(function(){
             }
         });
     }
+
+    //Edit Option
+    $('.datatable-dynamic tbody').on('click', '.editOption', function (event) {
+        event.preventDefault();
+        var option_id = $(this).attr("data-option_id");
+        var option_value_id = $(this).attr("data-option_value_id");
+        var product_id = $(this).attr("data-product_id");
+        var id = $(this).attr("data-id");
+
+        $('#edit_cart_id').val(id);
+        $('#edit_option_id').val(option_id);
+
+        $.ajax({
+            url: "{{route('products.editoption')}}",
+            type: "POST",
+            data: {
+                _token: '{{csrf_token()}}',
+                'product_id': product_id,
+                'option_value_id': option_value_id,
+                'option_id': option_id,
+                'cart_id': id,
+             },
+            success: function(data){          
+                $('#myOptionModal').modal('show');              
+                $("#ajaxEditOption").html(data);
+            }
+        });
+    });
+
+    // edit product option in the Cart
+    $(document).on("click", "#edit_product", function(e) {
+        e.preventDefault();
+        var form = $(this).closest("form");
+
+        $('.product_id').html('');
+        $('.quantity').html('');
+        $('.options_error').html('');
+
+        // AJAX request
+        $.ajax({
+            url: form.attr("action"),
+            type: 'POST',
+            data: form.serialize(),
+            success: function(response){
+                $("#ajaxEditOption").empty();
+                $('#myOptionModal').modal('hide');
+                $('#editProductOptionForm')[0].reset(); // Resetting the form
+                reloadOrderProductsTable();
+                swal("Success", "Your product option has been updated to the order!", "success");
+            },
+            error: function(xhr, status, error){
+                var errors = JSON.parse(xhr.responseText).errors;
+                $.each(errors, function(key, value) {
+
+                    if(key=='product_id' || key=='quantity'){
+                        $('.'+key).html('<strong>' + value + '</strong>');
+                    } else {
+                        $('.options_error').html('<strong>All options field is required.</strong>');
+                    }
+
+                });
+            }
+        });
+    });
 });
 </script>
 @endsection
