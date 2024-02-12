@@ -22,6 +22,16 @@ class Order extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function address()
+    {
+        return $this->belongsTo(UserAddresses::class);
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
     const STATUS_TYPE_PENDING  = 'pending';
     const STATUS_TYPE_REJECT   = 'reject';
     const STATUS_TYPE_COMPLETE = 'complete';
