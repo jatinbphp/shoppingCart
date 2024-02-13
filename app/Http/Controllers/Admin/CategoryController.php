@@ -68,9 +68,15 @@ class CategoryController extends Controller
         return redirect()->route('category.index');
     }
 
-    public function show(Request $request, string $id)
+    public function show($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        
+        return view('admin.show_modal', [
+            'section_info' => $category->toArray(),
+            'type' => 'Category',
+            'required_columns' => ['id', 'image', 'name', 'status', 'created_at']
+        ]);
     }
 
     public function edit(string $id, $pcid = null)

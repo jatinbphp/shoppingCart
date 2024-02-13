@@ -50,9 +50,15 @@ class ContactUsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $content_management = ContentManagement::findOrFail($id);
+        
+        return view('admin.show_modal', [
+            'section_info' => $content_management->toArray(),
+            'type' => 'Content Management',
+            'required_columns' => ['id', 'title', 'description']
+        ]);
     }
 
     /**

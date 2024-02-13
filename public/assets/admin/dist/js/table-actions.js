@@ -15,7 +15,7 @@ $(function () {
                 }
             },
             {data: 'status', "width": "12%",  name: 'status', orderable: false},    
-            {data: 'action', "width": "10%",  name: 'action', orderable: false},                
+            {data: 'action', "width": "15%",  name: 'action', orderable: false},                
         ]
     });
 
@@ -33,7 +33,7 @@ $(function () {
                 }
             },
             {data: 'status', "width": "12%",  name: 'status', orderable: false},
-            {data: 'action', "width": "10%",  name: 'action', orderable: false},
+            {data: 'action', "width": "15%",  name: 'action', orderable: false},
         ]
     });
 
@@ -48,7 +48,7 @@ $(function () {
             {data: 'product_name', product_name: 'product_name'},
             {data: 'sku',  name: 'sku'},
             {data: 'status', "width": "12%",  name: 'status', orderable: false},
-            {data: 'action', "width": "10%",  name: 'action', orderable: false},
+            {data: 'action', "width": "15%",  name: 'action', orderable: false},
         ]
     });
 
@@ -61,7 +61,7 @@ $(function () {
         ajax: $("#route_name").val(),
         columns: [
             {data: 'title', name: 'title'},
-            {data: 'action', "width": "5%",  name: 'action', orderable: false},                
+            {data: 'action', "width": "12%",  name: 'action', orderable: false},                
         ]
     });
 
@@ -242,6 +242,26 @@ $(function () {
             success: function(data){
                 $('#oderModal .modal-content').html(data);
                 $('#oderModal').modal('show');
+            }
+        });
+    });
+
+    //get Order Indo
+    $('.datatable-dynamic tbody').on('click', '.view-info', function (event) {
+        event.preventDefault();
+        var url = $(this).attr('data-url');
+        var id = $(this).attr("data-id");
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            data: {
+                'id': id,
+            },
+            headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+            success: function(data){
+                $('#commonModal .modal-content').html(data);
+                $('#commonModal').modal('show');
             }
         });
     });

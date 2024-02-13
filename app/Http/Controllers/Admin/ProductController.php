@@ -83,9 +83,15 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $products = Products::findOrFail($id);
+        
+        return view('admin.show_modal', [
+            'section_info' => $products->toArray(),
+            'type' => 'Product',
+            'required_columns' => ['id', 'product_name', 'sku', 'description', 'price', 'category_id', 'status', 'created_at']
+        ]);
     }
 
     /**
