@@ -52,12 +52,12 @@ class ContactUsController extends Controller
      */
     public function show($id)
     {
-        $content_management = ContentManagement::findOrFail($id);
+        $contact_us = ContactUs::findOrFail($id);
         
         return view('admin.show_modal', [
-            'section_info' => $content_management->toArray(),
-            'type' => 'Content Management',
-            'required_columns' => ['id', 'title', 'description']
+            'section_info' => $contact_us->toArray(),
+            'type' => 'Contact Us',
+            'required_columns' => ['id', 'name', 'email', 'message', 'created_at']
         ]);
     }
 
