@@ -24,14 +24,17 @@ class CategoryController extends Controller
                         return $row->name;
                     }
                 })
-                ->addColumn('image', function($row){
+                ->editColumn('image', function($row){
                     if (!empty($row['image']) && file_exists($row['image'])) {
                         return url($row['image']);
                     } else {
                         return url('uploads/categories/default-category-image.jpeg');
                     }
                 })
-                ->addColumn('status', function($row){
+                ->editColumn('created_at', function($row){
+                    return $row['created_at']->format('Y-m-d h:i:s');
+                })
+                ->editColumn('status', function($row){
                     $row['table_name'] = 'categories';
                     return view('admin.status-buttons', $row);
                 })
@@ -70,12 +73,12 @@ class CategoryController extends Controller
 
     public function show($id)
     {
-        $category = Category::findOrFail($id);
+        $category = Category::with('parent')->findOrFail($id);
         
         return view('admin.show_modal', [
             'section_info' => $category->toArray(),
             'type' => 'Category',
-            'required_columns' => ['id', 'image', 'name', 'status', 'created_at']
+            'required_columns' => ['id', 'image', 'name', 'parent', 'status', 'created_at']
         ]);
     }
 

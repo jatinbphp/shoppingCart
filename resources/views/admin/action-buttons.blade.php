@@ -25,9 +25,9 @@
         <i class="fa fa-eye"></i>
     </a>
 </div>
-@elseif($section_name!='contactus')
+@else
 <div class="btn-group btn-group-sm">
-    <a href="javascript:void(0)" title="View {{$section_title}}" data-id="{{$id}}" class="btn btn-sm btn-warning tip mr-1 view-info" data-url="{{ route($section_name.'.show', [strtolower(str_replace(' ', '_', $section_title)) => $id]) }}">
+    <a href="javascript:void(0)" title="View {{$section_title}}" data-id="{{$id}}" class="btn btn-sm btn-warning tip mr-1 view-info" data-url="{{ route($section_name.'.show', [$section_name != 'contactus' ? strtolower(str_replace(' ', '_', $section_title)) : 'contactu' => $id]) }}">
         <i class="fa fa-eye"></i>
     </a>
 </div>

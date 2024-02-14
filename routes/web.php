@@ -9,7 +9,6 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\OptionController;
 use App\Http\Controllers\Admin\CommonController;
 use App\Http\Controllers\Admin\ContentManagementController;
 use App\Http\Controllers\Admin\ContactUsController;
@@ -63,10 +62,6 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::post('products/getoptions', [ProductController::class,'getOptions'])->name('products.getoptions');
     Route::post('products/editoption', [ProductController::class,'editOption'])->name('products.editoption');
     Route::resource('products', ProductController::class);
-
-    /*Options*/
-    Route::post('options/removeoptionvalues', [OptionController::class,'removeOptionValues'])->name('options.removeoptionvalues');
-    Route::resource('options', OptionController::class);
 
     /*Content Management*/
     Route::resource('content', ContentManagementController::class);

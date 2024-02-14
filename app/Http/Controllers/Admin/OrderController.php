@@ -32,18 +32,13 @@ class OrderController extends Controller
                 ->addColumn('user_name', function($order) {
                     return $order->user->name; 
                 })
-                ->addColumn('total_amount', function($order) {
+                ->editColumn('total_amount', function($order) {
                     return env('CURRENCY').number_format($order->total_amount, 2);
                 })
-                ->addColumn('created_at', function($row){
+                ->editColumn('created_at', function($row){
                     return $row['created_at']->format('Y-m-d h:i:s');
                 })
-                ->addColumn('action', function($row){
-                    $row['section_name'] = 'orders';
-                    $row['section_title'] = 'order';
-                    return view('admin.action-buttons', $row);
-                })
-                ->addColumn('status', function($row){
+                ->editColumn('status', function($row){
                     $select = '<select class="form-control select2 orderStatus" id="status'.$row->unique_id.'"  data-id="'.$row->id.'" >';
                         foreach(Order::$allStatus as $status){
                             $selected = ($status == $row->status) ? ' selected="selected"' : '';
@@ -51,6 +46,11 @@ class OrderController extends Controller
                         }
                     $select .= '</select>';
                     return $select;
+                })
+                ->addColumn('action', function($row){
+                    $row['section_name'] = 'orders';
+                    $row['section_title'] = 'order';
+                    return view('admin.action-buttons', $row);
                 })
                 ->rawColumns(['status'])
                 ->make(true);

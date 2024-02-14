@@ -23,4 +23,8 @@ class Products extends Model
     {
         return $this->hasMany(ProductImages::class, 'product_id')->orderBy('id', 'ASC');
     }
+
+    public function category(){
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }

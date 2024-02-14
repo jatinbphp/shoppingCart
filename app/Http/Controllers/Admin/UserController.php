@@ -19,14 +19,17 @@ class UserController extends Controller
             $user = User::all()->where('role', 'user');
             return Datatables::of($user)
                 ->addIndexColumn()
-                ->addColumn('image', function($row){
+                ->editColumn('image', function($row){
                     if (!empty($row['image']) && file_exists($row['image'])) {
                         return url($row['image']);
                     } else {
                         return url('uploads/users/user-default-image.png');
                     }
                 })
-                ->addColumn('status', function($row){
+                ->editColumn('created_at', function($row){
+                    return $row['created_at']->format('Y-m-d h:i:s');
+                })
+                ->editColumn('status', function($row){
                     $row['table_name'] = 'users';
                     return view('admin.status-buttons', $row);
                 })
@@ -73,7 +76,7 @@ class UserController extends Controller
         return view('admin.show_modal', [
             'section_info' => $user->toArray(),
             'type' => 'User',
-            'required_columns' => ['id', 'image', 'name', 'email', 'role', 'email', 'phone', 'status', 'created_at']
+            'required_columns' => ['id', 'image', 'name', 'email', 'role', 'phone', 'status', 'created_at']
         ]);
     }
 

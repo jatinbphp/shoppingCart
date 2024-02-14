@@ -38,11 +38,12 @@
                         <table id="ordersTable" class="table table-bordered table-striped datatable-dynamic">
                             <thead>
                                 <tr>
+                                    <th>#</th>
                                     <th>Order ID</th>
                                     <th>User Name</th>
                                     <th>Total Amount</th>
-                                    <th>Date Added</th>
                                     <th>Status</th>
+                                    <th>Date Created</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>

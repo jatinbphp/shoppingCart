@@ -18,7 +18,16 @@
                                         @if (array_key_exists($key, $section_info))
                                             <tr>
                                                 <th style="width: 25%;">
-                                                    {!! $key != 'created_at' ? ucwords(str_replace('_', ' ', $key)) : 'Created Date' !!} :
+                                                    @switch($key)
+                                                        @case('created_at')
+                                                            {!! 'Created Date' !!} :
+                                                            @break
+                                                        @case('parent')
+                                                            {!! 'Parent Category' !!} :
+                                                            @break
+                                                        @default
+                                                            {!! ucwords(str_replace('_', ' ', $key)) !!} :
+                                                    @endswitch
                                                 </th>
                                                 <td>
                                                     @switch($key)
@@ -37,13 +46,21 @@
                                                         @case('role')
                                                             {{ ucwords(str_replace('_', ' ', $section_info[$key])) }}
                                                             @break
-                                                        @case('supplier')
+                                                        @case('price')
+                                                            {{ env('CURRENCY') }}{{ number_format($section_info[$key], 2) }}
+                                                            @break
+                                                        @case('parent')
                                                             @if(is_array($section_info[$key]))
-                                                                {{ $section_info[$key]['name'] }} <br>
-                                                                {{ $section_info[$key]['email'] }}
+                                                                {{ $section_info[$key]['name'] }}
                                                             @else
-                                                                {{ $section_info[$key]->name }} <br>
-                                                                {{ $section_info[$key]->email }}
+                                                                -
+                                                            @endif
+                                                            @break
+                                                        @case('category')
+                                                            @if(is_array($section_info[$key]))
+                                                                {{ $section_info[$key]['name'] }}
+                                                            @else
+                                                                -
                                                             @endif
                                                             @break
                                                         @default

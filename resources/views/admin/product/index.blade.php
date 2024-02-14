@@ -36,9 +36,12 @@
                             <table id="productsTable" class="table table-bordered table-striped datatable-dynamic">
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Product Name</th>
                                         <th>SKU</th>
+                                        <th>Price</th>
                                         <th>Status</th>
+                                        <th>Date Created</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>

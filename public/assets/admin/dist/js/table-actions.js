@@ -7,16 +7,24 @@ $(function () {
         lengthMenu: [ 100, 200, 300, 400, 500 ],
         ajax: $("#route_name").val(),
         columns: [
+            {
+                data: 'id', width: '10%', name: 'id',
+                render: function(data, type, row) {
+                    return '#' + data; // Prepend '#' to the 'id' data
+                }
+            },
             {data: 'name', name: 'name'},
             {data: 'email',  name: 'email'},
-            {data: 'phone',  name: 'phone'},
+            /*{data: 'phone',  name: 'phone'},
             {data: 'image', "width": "10%",  name: 'image', orderable: false, searchable: false, render: function (data,type,row){
                     return '<img src="'+data+'" height="50" alt="Image"/>';
                 }
-            },
-            {data: 'status', "width": "12%",  name: 'status', orderable: false},    
+            },*/
+            {data: 'status', "width": "12%",  name: 'status', orderable: false}, 
+            {data: 'created_at', "width": "18%", name: 'created_at'},   
             {data: 'action', "width": "15%",  name: 'action', orderable: false},                
-        ]
+        ],
+        "order": [[0, "DESC"]]
     });
 
     //Category Table
@@ -27,14 +35,22 @@ $(function () {
         lengthMenu: [ 100, 200, 300, 400, 500 ],
         ajax: $("#route_name").val(),
         columns: [
-            {data: 'categoryName', categoryName: 'categoryName'},
-            {data: 'image', "width": "10%", name: 'image', orderable: false, searchable: false, render: function (data,type,row){
-                    return '<img src="'+data+'" height="50" alt="Image"/>';
+            {
+                data: 'id', width: '10%', name: 'id',
+                render: function(data, type, row) {
+                    return '#' + data; // Prepend '#' to the 'id' data
                 }
             },
+            {data: 'categoryName', categoryName: 'categoryName'},
+            /*{data: 'image', "width": "10%", name: 'image', orderable: false, searchable: false, render: function (data,type,row){
+                    return '<img src="'+data+'" height="50" alt="Image"/>';
+                }
+            },*/
             {data: 'status', "width": "12%",  name: 'status', orderable: false},
+            {data: 'created_at', "width": "18%", name: 'created_at'},
             {data: 'action', "width": "15%",  name: 'action', orderable: false},
-        ]
+        ],
+        "order": [[1, "ASC"]]
     });
 
     //Product Table
@@ -45,11 +61,20 @@ $(function () {
         lengthMenu: [ 100, 200, 300, 400, 500 ],
         ajax: $("#route_name").val(),
         columns: [
+            {
+                data: 'id', width: '10%', name: 'id',
+                render: function(data, type, row) {
+                    return '#' + data; // Prepend '#' to the 'id' data
+                }
+            },
             {data: 'product_name', product_name: 'product_name'},
-            {data: 'sku',  name: 'sku'},
+            {data: 'sku', "width": "15%",  name: 'sku'},
+            {data: 'price', "width": "12%",  name: 'price'},
             {data: 'status', "width": "12%",  name: 'status', orderable: false},
+            {data: 'created_at', name: 'created_at'},
             {data: 'action', "width": "15%",  name: 'action', orderable: false},
-        ]
+        ],
+        "order": [[0, "DESC"]]
     });
 
     //CMS Table
@@ -60,9 +85,16 @@ $(function () {
         lengthMenu: [ 100, 200, 300, 400, 500 ],
         ajax: $("#route_name").val(),
         columns: [
+            {
+                data: 'id', width: '10%', name: 'id',
+                render: function(data, type, row) {
+                    return '#' + data; // Prepend '#' to the 'id' data
+                }
+            },
             {data: 'title', name: 'title'},
             {data: 'action', "width": "12%",  name: 'action', orderable: false},                
-        ]
+        ],
+        "order": [[0, "ASC"]]
     });
 
     //Contact Us Table
@@ -73,11 +105,19 @@ $(function () {
         lengthMenu: [ 100, 200, 300, 400, 500 ],
         ajax: $("#route_name").val(),
         columns: [
+            {
+                data: 'id', width: '10%', name: 'id',
+                render: function(data, type, row) {
+                    return '#' + data; // Prepend '#' to the 'id' data
+                }
+            },
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
             {data: 'message', name: 'message'},
-            {data: 'action', "width": "5%",  name: 'action', orderable: false},                
-        ]
+            {data: 'created_at', name: 'created_at'},
+            {data: 'action', "width": "10%",  name: 'action', orderable: false},                
+        ],
+        "order": [[0, "DESC"]]
     });
 
     //Order Table 
@@ -88,14 +128,21 @@ $(function () {
         lengthMenu: [100, 200, 300, 400, 500],
         ajax: $("#route_name").val(),
         columns: [
+            {
+                data: 'id', width: '10%', name: 'id',
+                render: function(data, type, row) {
+                    return '#' + data; // Prepend '#' to the 'id' data
+                }
+            },
             { data: 'order_id', name: 'order_id'},
             { data: 'user_name', name: 'user_name'},
             { data: 'total_amount', name: 'total_amount'},
-            { data: 'created_at', name: 'created_at'},
             { data: 'status', name: 'status', orderable: false},
+            { data: 'created_at', name: 'created_at'},
             { data: 'action', "width": "14%", name: 'action', orderable: false},
 
-        ]
+        ],
+        "order": [[0, "DESC"]]
     });
 
     //Delete Record

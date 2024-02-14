@@ -28,6 +28,7 @@
                             <table id="contentTable" class="table table-bordered table-striped datatable-dynamic">
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Title</th>
                                         <th>Action</th>
                                     </tr>

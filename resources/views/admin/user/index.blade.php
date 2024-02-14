@@ -35,11 +35,13 @@
                             <table id="usersTable" class="table table-bordered table-striped datatable-dynamic">
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Image</th>
+                                        <!-- <th>Phone</th>
+                                        <th>Image</th> -->
                                         <th>Status</th>
+                                        <th>Date Created</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>

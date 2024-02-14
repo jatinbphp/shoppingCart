@@ -20,6 +20,9 @@ class ContactUsController extends Controller
             $cms = ContactUs::all();
             return Datatables::of($cms)
                 ->addIndexColumn()
+                ->editColumn('created_at', function($row){
+                    return $row['created_at']->format('Y-m-d h:i:s');
+                })
                 ->addColumn('action', function($row){
                     $row['section_name'] = 'contactus';
                     $row['section_title'] = 'Contact Us';

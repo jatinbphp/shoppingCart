@@ -25,7 +25,13 @@ class ProductController extends Controller
         if ($request->ajax()) {
             return Datatables::of(Products::orderBy('product_name','ASC')->get())
                 ->addIndexColumn()
-                ->addColumn('status', function($row){
+                ->editColumn('price', function($row) {
+                    return env('CURRENCY').number_format($row->price, 2);
+                })
+                ->editColumn('created_at', function($row){
+                    return $row['created_at']->format('Y-m-d h:i:s');
+                })
+                ->editColumn('status', function($row){
                     $row['table_name'] = 'products';
                     return view('admin.status-buttons', $row);
                 })
@@ -85,12 +91,12 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $products = Products::findOrFail($id);
+        $products = Products::with('category')->findOrFail($id);
         
         return view('admin.show_modal', [
             'section_info' => $products->toArray(),
             'type' => 'Product',
-            'required_columns' => ['id', 'product_name', 'sku', 'description', 'price', 'category_id', 'status', 'created_at']
+            'required_columns' => ['id', 'category', 'product_name', 'sku', 'description', 'price', 'status', 'created_at']
         ]);
     }
 

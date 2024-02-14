@@ -28,9 +28,11 @@
                             <table id="contactusTable" class="table table-bordered table-striped datatable-dynamic">
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Name</th>
                                         <th>Email Address</th>
                                         <th>Message</th>
+                                        <th>Date Created</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
