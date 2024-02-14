@@ -28,7 +28,7 @@
     </div>
 
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <input type="hidden" id="route_name" value="{{ route('orders.index_product') }}">
+        <input type="hidden" id="route_name" value="{{ isset($order) ? route('orders.index_order_product') : route('orders.index_product') }}">
         <table id="orderProductTable" class="table table-bordered table-striped datatable-dynamic">
             <thead>
                 <tr>
@@ -148,6 +148,7 @@ $(document).ready(function(){
     $('.datatable-dynamic tbody').on('click', '.deleteCartRecord', function (event) {
         event.preventDefault();
         var id = $(this).attr("data-id");
+        var type = $(this).attr("data-type");
 
         swal({
             title: "Are you sure?",
@@ -163,7 +164,7 @@ $(document).ready(function(){
         function(isConfirm) {
             if (isConfirm) {
                 $.ajax({
-                    url: "{{ route('orders.delete_product', ':cart_id') }}".replace(':cart_id', id),
+                    url: "{{ route('orders.delete_product', [':cart_id', ':type']) }}".replace(':cart_id', id).replace(':type', type),
                     type: "DELETE",
                     headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
                     success: function(data){
@@ -269,37 +270,41 @@ $(document).ready(function(){
 
     $(document).on("click", "#plus", function(e) {
         e.preventDefault();
-        var id = $(this).attr("data-id");
+        var id = $(this).data("id");
+        var action = $(this).data("action");
         var quantityInput = $('#quantity'+id);
         var currentValue = parseInt(quantityInput.val());
         quantityInput.val(currentValue + 1);
-        updateQty(id, 2)
+        updateQty(id, 2, action);
     });
 
     $(document).on("click", "#minus", function(e) {
-        var id = $(this).attr("data-id");
+        var id = $(this).data("id");
+        var action = $(this).data("action");
         var quantityInput = $('#quantity'+id);
         var currentValue = parseInt(quantityInput.val());
         if (currentValue > 1) {
             quantityInput.val(currentValue - 1);
-            updateQty(id, 1)
+            updateQty(id, 1, action);
         }
     });
 
-    function updateQty(id, type) {
+    function updateQty(id, type, action) {
         $.ajax({
-            url: "{{route('orders.update_qty')}}",
+            url: "{{ route('orders.update_qty') }}",
             type: "POST",
             data: {
-                _token: '{{csrf_token()}}',
-                'id': id,
-                'type': type,
-             },
-            success: function(data){                        
+                _token: '{{ csrf_token() }}',
+                id: id,
+                type: type,
+                action: action
+            },
+            success: function(data) {                        
                 reloadOrderProductsTable();
             }
         });
     }
+
 
     //Edit Option
     $('.datatable-dynamic tbody').on('click', '.editOption', function (event) {
@@ -333,10 +338,6 @@ $(document).ready(function(){
     $(document).on("click", "#edit_product", function(e) {
         e.preventDefault();
         var form = $(this).closest("form");
-
-        $('.product_id').html('');
-        $('.quantity').html('');
-        $('.options_error').html('');
 
         // AJAX request
         $.ajax({

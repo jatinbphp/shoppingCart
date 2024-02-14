@@ -75,7 +75,7 @@ class OrderController extends Controller
                             $product_option = ProductsOptions::where('id',$keyO)->first();
                             $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
 
-                            $product_name .= '</br><small><b>'.$product_option->option_name.' :</b> '.$product_option_value->option_value.' <a class="editOption" href="javascript:void(0)" data-option_id="'.$keyO.'" data-option_value_id="'.$valueO.'" data-product_id="'.$order->product->id.'" data-id="'.$order->id.'"/>Edit</a></small>';
+                            $product_name .= '</br><small><b>'.$product_option->option_name.' :</b> '.$product_option_value->option_value.' <a class="editOption" href="javascript:void(0)" data-option_id="'.$keyO.'" data-option_value_id="'.$valueO.'" data-product_id="'.$order->product->id.'" data-id="'.$order->id.'" data-type="add"/>Edit</a></small>';
                         }
                     }
 
@@ -92,14 +92,66 @@ class OrderController extends Controller
                 })
                 ->addColumn('quantity', function($row){
                     $quantity = '<div class="qty">';
-                    $quantity .= '<button type="button" id="minus" data-id="'.$row->id.'"><i class="fa fa-minus" aria-hidden="true"></i></button>';
+                    $quantity .= '<button type="button" id="minus" data-id="'.$row->id.'" data-action="add"><i class="fa fa-minus" aria-hidden="true"></i></button>';
                     $quantity .= '<input type="text" id="quantity'.$row->id.'" value="'.$row->quantity.'">';
-                    $quantity .= '<button type="button" id="plus" data-id="'.$row->id.'"><i class="fa fa-plus" aria-hidden="true"></i></button>';
+                    $quantity .= '<button type="button" id="plus" data-id="'.$row->id.'" data-action="add"><i class="fa fa-plus" aria-hidden="true"></i></button>';
                     $quantity .= '</div>';
                     return $quantity;
                 })
                 ->addColumn('action', function($row){
                     $row['section_name'] = 'cart_products';
+                    $row['section_title'] = 'product';
+                    return view('admin.action-buttons', $row);
+                })
+                ->rawColumns(['product_name', 'quantity'])
+                ->make(true);
+        }
+    }
+
+    public function index_order_product(Request $request)
+    {
+        $data['menu'] = 'Orders';
+        if ($request->ajax()) {
+            return DataTables::of(OrderItem::select()->with('product')->where('order_id',654)->get())
+                ->addColumn('product_name', function($order) {
+
+                    $product_name = $order->product_name; 
+
+                    $options = OrderOption::where('order_id',$order->order_id)->where('order_product_id',$order->id)->get();
+                    if(!empty($options)){
+                        foreach ($options as $keyO => $valueO) {
+
+                            $product_option = ProductsOptions::where('id',$valueO->product_option_id)->first();
+                            $product_option_value = ProductsOptionsValues::where('id', $valueO->product_option_value_id)->first();
+
+                            $product_name .= '</br><small><b>'.$product_option->option_name.' :</b> '.$product_option_value->option_value.' <a class="editOption" href="javascript:void(0)" data-option_id="'.$valueO->product_option_id.'" data-option_value_id="'.$valueO->product_option_value_id.'" data-product_id="'.$order->product->id.'" data-id="'.$order->id.'"  data-type="edit"/>Edit</a></small>';
+                        }
+                    }
+
+                    return $product_name;
+                })
+                ->addColumn('sku', function($order) {
+                    //return $order->product->sku; 
+                    return $order->product_sku;
+                })
+                ->addColumn('unit_price', function($order) {
+                    //return env('CURRENCY').number_format($order->product->price, 2);
+                    return env('CURRENCY').number_format($order->product_price, 2);
+                })
+                ->addColumn('total', function($order) {
+                    //return env('CURRENCY').number_format(($order->quantity*$order->product->price), 2);
+                    return env('CURRENCY').number_format(($order->product_qty*$order->product_price), 2);
+                })
+                ->addColumn('quantity', function($row){
+                    $quantity = '<div class="qty">';
+                    $quantity .= '<button type="button" id="minus" data-id="'.$row->id.'" data-action="edit"><i class="fa fa-minus" aria-hidden="true"></i></button>';
+                    $quantity .= '<input type="text" id="quantity'.$row->id.'" value="'.$row->product_qty.'">';
+                    $quantity .= '<button type="button" id="plus" data-id="'.$row->id.'" data-action="edit"><i class="fa fa-plus" aria-hidden="true"></i></button>';
+                    $quantity .= '</div>';
+                    return $quantity;
+                })
+                ->addColumn('action', function($row){
+                    $row['section_name'] = 'order_products';
                     $row['section_title'] = 'product';
                     return view('admin.action-buttons', $row);
                 })
@@ -202,6 +254,8 @@ class OrderController extends Controller
     public function edit(string $id)
     {
         $data['menu'] = 'Orders';
+        $data['users'] = User::where('status', 'active')->where('role', 'user')->pluck('name', 'id')->prepend('Please Select', '');
+        $data['products'] = Products::where('status', 'active')->get();
         $data['order'] = Order::where('id',$id)->first();
         return view('admin.order.edit',$data);
     }
@@ -249,19 +303,39 @@ class OrderController extends Controller
 
         $input = $request->all();
 
-        $cart = Cart::where('csrf_token',csrf_token())->where('user_id', 0)->where('added_by_admin', 1)->where('product_id', $input['product_id'])->where('options', json_encode($input['options']))->first();
+        if($input['order_id']==0){
+            $cart = Cart::where('csrf_token',csrf_token())->where('user_id', 0)->where('added_by_admin', 1)->where('product_id', $input['product_id'])->where('options', json_encode($input['options']))->first();
 
-        if(empty($cart)){
-            $input['added_by_admin'] = 1;
-            $input['options'] = json_encode($input['options']);
-            $input['csrf_token'] = $input['_token'];
-            Cart::create($input);
-        } else{
-            $cart['quantity'] = ($cart['quantity']+$input['quantity']);
-            $cart->save();
+            if(empty($cart)){
+                $input['added_by_admin'] = 1;
+                $input['options'] = json_encode($input['options']);
+                $input['csrf_token'] = $input['_token'];
+                Cart::create($input);
+            } else{
+                $cart['quantity'] = ($cart['quantity']+$input['quantity']);
+                $cart->save();
+            }
+        } else {
+            $order = Order::find($input['order_id']);
+            $product = Products::find($input['product_id']);
+
+            $inputOrderItem = [
+                'order_id' => $input['order_id'],
+                'product_id' => $input['product_id'],
+                'product_name' => $product->product_name,
+                'product_sku' => $product->sku,
+                'product_price' => $product->price,
+                'product_qty' => $input['quantity'],
+                'sub_total' => ($product->price*$input['quantity']),
+            ];
+            $OrderItem = OrderItem::create($inputOrderItem);
+
+            $sumOfSubTotal = OrderItem::where('order_id', $input['order_id'])->sum('sub_total');            
+            $order->total_amount = $sumOfSubTotal;
+            $order->save(); // Save changes
         }
 
-        return $cart;
+        return 1;
     }
 
     public function getAddressesByUser($userId)
@@ -271,24 +345,62 @@ class OrderController extends Controller
         return response()->json($addresses);
     }
 
-    public function deleteCart(Request $request, $id)
+    public function deleteCart(Request $request, $id, $type)
     {
-        $cart = Cart::find($id);
+        // Check the type to determine the model to use
+        if ($type == 'cart') {
+            $cart = Cart::find($id);    
+        } else {
+            $cart = OrderItem::find($id);
+        }
 
+        // If the cart item exists, delete it and return success
         if ($cart) {
             $cart->delete();
-            return 1;
+
+            if ($type != 'cart') {
+                $sumOfSubTotal = OrderItem::where('order_id', $cart->order_id)->sum('sub_total');
+                $order = Order::find($cart->order_id);
+                $order->total_amount = $sumOfSubTotal;
+                $order->save(); // Save changes
+            }
+
+            return response()->json(['status' => 'success']);
         } else {
-            return 0;
+            // If the cart item does not exist, return failure
+            return response()->json(['status' => 'error']);
         }
     }
 
     public function updateQty(Request $request)
     {
         $input = $request->all();
-        $cart = Cart::find($input['id']);
-        $cart['quantity'] = ($input['type']==1) ? ($cart['quantity']-1) : ($cart['quantity']+1);
-        $cart->save();
+        if($input['action']=='add'){
+            $cart = Cart::find($input['id']);
+
+            if ($cart) {
+                $quantityChange = ($input['type'] == 1) ? -1 : 1; // Determine quantity change based on type
+                $cart->quantity += $quantityChange; // Update cart quantity
+                $cart->save(); // Save changes
+            }
+
+        } else {
+            $orderitem = OrderItem::find($input['id']);
+
+            if ($orderitem) {
+                $quantityChange = ($input['type'] == 1) ? -1 : 1; // Determine quantity change based on type
+                $orderitem->product_qty += $quantityChange; // Update product quantity
+
+                // Update product price based on quantity change
+                $orderitem->sub_total = $orderitem->product_price*$orderitem->product_qty;
+                $orderitem->save(); // Save changes
+
+                $sumOfSubTotal = OrderItem::where('order_id', $orderitem->order_id)->sum('sub_total');
+                $order = Order::find($orderitem->order_id);
+                $order->total_amount = $sumOfSubTotal;
+                $order->save(); // Save changes
+            }
+        }
         
         return 1;
     }
@@ -330,7 +442,16 @@ class OrderController extends Controller
             }
 
             $cart['options'] = json_encode($optionsArray);
-            $cart->save();
+
+            $checkCart = Cart::where('csrf_token',csrf_token())->where('user_id', 0)->where('added_by_admin', 1)->where('product_id', $cart['product_id'])->where('options', json_encode($input['options']))->where('id', '!=', $input['cart_id'])->first();
+
+            if(empty($checkCart)){
+                $cart->save();
+            } else {
+                $cart['quantity'] += $checkCart['quantity'];
+                $cart->save();
+                $checkCart->delete();
+            }
         }
         
         return $cart;

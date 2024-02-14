@@ -39,5 +39,6 @@
             </div>
         </section>
     </div>
+    @include('admin.order.modals', ['flag_order_id' => $order->id])
 @endsection
 
