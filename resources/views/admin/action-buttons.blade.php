@@ -30,7 +30,7 @@
 
 @if($section_name == 'cart_products' || $section_name == 'order_products')
     <span data-toggle="tooltip" title="Delete {{$section_title}}" data-trigger="hover">
-        <button class="btn btn-sm btn-danger deleteCartRecord" data-id="{{$id}}" data-type="{{ ($section_name == 'cart_products') ? 'cart' : 'orderd' }}" type="button">
+        <button class="btn btn-sm btn-danger deleteCartRecord" data-id="{{$id}}" type="button">
             <i class="fa fa-trash"></i>
         </button>
     </span>

@@ -28,7 +28,8 @@
     </div>
 
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <input type="hidden" id="route_name" value="{{ isset($order) ? route('orders.index_order_product') : route('orders.index_product') }}">
+        <input type="hidden" id="route_name" value="{{ route('orders.index_product') }}">
+        <input type="hidden" id="order_id" name="order_id" value="{{ isset($order) ? $order->id : 0}}">
         <table id="orderProductTable" class="table table-bordered table-striped datatable-dynamic">
             <thead>
                 <tr>
@@ -104,13 +105,23 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
+    var isFirstLoad = true;
+
     //Order Product Table 
     var orders_products_table = $('#orderProductTable').DataTable({
         processing: true,
         serverSide: true,
         pageLength: 100,
         lengthMenu: [100, 200, 300, 400, 500],
-        ajax: $("#route_name").val(),
+        ajax: {
+            url: $("#route_name").val(),
+            type: "GET",
+            data: function(d) {
+                // Pass order_id based on isFirstLoad
+                d.first_time_load = isFirstLoad ? 0 : 1,
+                d.order_id = $("#order_id").val();
+            }
+        },
         columns: [
             { data: 'product_name', name: 'product_name', orderable: false },
             { data: 'sku', name: 'sku', orderable: false },
@@ -141,6 +152,9 @@ $(document).ready(function(){
 
                 $("#products").val(1);
             }
+
+            // After the first load, set isFirstLoad to false
+            isFirstLoad = false;
         }
     });
 
@@ -148,7 +162,6 @@ $(document).ready(function(){
     $('.datatable-dynamic tbody').on('click', '.deleteCartRecord', function (event) {
         event.preventDefault();
         var id = $(this).attr("data-id");
-        var type = $(this).attr("data-type");
 
         swal({
             title: "Are you sure?",
@@ -164,7 +177,7 @@ $(document).ready(function(){
         function(isConfirm) {
             if (isConfirm) {
                 $.ajax({
-                    url: "{{ route('orders.delete_product', [':cart_id', ':type']) }}".replace(':cart_id', id).replace(':type', type),
+                    url: "{{ route('orders.delete_product', [':cart_id']) }}".replace(':cart_id', id),
                     type: "DELETE",
                     headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
                     success: function(data){
@@ -271,33 +284,30 @@ $(document).ready(function(){
     $(document).on("click", "#plus", function(e) {
         e.preventDefault();
         var id = $(this).data("id");
-        var action = $(this).data("action");
         var quantityInput = $('#quantity'+id);
         var currentValue = parseInt(quantityInput.val());
         quantityInput.val(currentValue + 1);
-        updateQty(id, 2, action);
+        updateQty(id, 2);
     });
 
     $(document).on("click", "#minus", function(e) {
         var id = $(this).data("id");
-        var action = $(this).data("action");
         var quantityInput = $('#quantity'+id);
         var currentValue = parseInt(quantityInput.val());
         if (currentValue > 1) {
             quantityInput.val(currentValue - 1);
-            updateQty(id, 1, action);
+            updateQty(id, 1);
         }
     });
 
-    function updateQty(id, type, action) {
+    function updateQty(id, type) {
         $.ajax({
             url: "{{ route('orders.update_qty') }}",
             type: "POST",
             data: {
                 _token: '{{ csrf_token() }}',
                 id: id,
-                type: type,
-                action: action
+                type: type
             },
             success: function(data) {                        
                 reloadOrderProductsTable();
@@ -312,12 +322,10 @@ $(document).ready(function(){
         var option_id = $(this).attr("data-option_id");
         var option_value_id = $(this).attr("data-option_value_id");
         var product_id = $(this).attr("data-product_id");
-        var type = $(this).attr("data-type");
         var id = $(this).attr("data-id");
 
         $('#edit_cart_id').val(id);
         $('#edit_option_id').val(option_id);
-        $('#edit_type').val(type);
         $('#edit_product_id').val(product_id);
 
         $.ajax({
