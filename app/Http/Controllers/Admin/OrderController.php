@@ -112,7 +112,7 @@ class OrderController extends Controller
     {
         $data['menu'] = 'Orders';
         if ($request->ajax()) {
-            return DataTables::of(OrderItem::select()->with('product')->where('order_id',654)->get())
+            return DataTables::of(OrderItem::select()->with('product')->where('order_id',3000)->get())
                 ->addColumn('product_name', function($order) {
 
                     $product_name = $order->product_name; 
@@ -124,7 +124,7 @@ class OrderController extends Controller
                             $product_option = ProductsOptions::where('id',$valueO->product_option_id)->first();
                             $product_option_value = ProductsOptionsValues::where('id', $valueO->product_option_value_id)->first();
 
-                            $product_name .= '</br><small><b>'.$product_option->option_name.' :</b> '.$product_option_value->option_value.' <a class="editOption" href="javascript:void(0)" data-option_id="'.$valueO->product_option_id.'" data-option_value_id="'.$valueO->product_option_value_id.'" data-product_id="'.$order->product->id.'" data-id="'.$order->id.'"  data-type="edit"/>Edit</a></small>';
+                            $product_name .= '</br><small><b>'.$product_option->option_name.' :</b> '.$product_option_value->option_value.' <a class="editOption" href="javascript:void(0)" data-option_id="'.$valueO->product_option_id.'" data-option_value_id="'.$valueO->product_option_value_id.'" data-product_id="'.$order->product->id.'" data-id="'.$valueO->id.'"  data-type="edit"/>Edit</a></small>';
                         }
                     }
 
@@ -333,6 +333,26 @@ class OrderController extends Controller
             $sumOfSubTotal = OrderItem::where('order_id', $input['order_id'])->sum('sub_total');            
             $order->total_amount = $sumOfSubTotal;
             $order->save(); // Save changes
+
+            if(!empty($input['options'])){
+                foreach ($input['options'] as $key => $value) {
+
+                    $product_option = ProductsOptions::where('id',$key)->first();
+                    $product_option_value = ProductsOptionsValues::where('id', $value)->first();
+
+                    $inputOrderOption = [
+                        'order_id' => $input['order_id'],
+                        'order_product_id' => $OrderItem->id,
+                        'product_option_id' => $key,
+                        'product_option_value_id' => $value,
+                        'name' => $product_option->option_name,
+                        'value' => $product_option_value->option_value,
+                        'price' => $product_option_value->option_price,
+                    ];
+
+                    OrderOption::create($inputOrderOption);
+                }
+            }
         }
 
         return 1;
@@ -360,6 +380,8 @@ class OrderController extends Controller
 
             if ($type != 'cart') {
                 $sumOfSubTotal = OrderItem::where('order_id', $cart->order_id)->sum('sub_total');
+                //$sumOfSubTotal = OrderItem::where('order_id', $cart->order_id)->selectRaw('SUM(sub_total * product_qty) as total')->first()->total;
+
                 $order = Order::find($cart->order_id);
                 $order->total_amount = $sumOfSubTotal;
                 $order->save(); // Save changes
@@ -396,6 +418,7 @@ class OrderController extends Controller
                 $orderitem->save(); // Save changes
 
                 $sumOfSubTotal = OrderItem::where('order_id', $orderitem->order_id)->sum('sub_total');
+                //$sumOfSubTotal = OrderItem::where('order_id', $orderitem->order_id)->selectRaw('SUM(sub_total * product_qty) as total')->first()->total;
                 $order = Order::find($orderitem->order_id);
                 $order->total_amount = $sumOfSubTotal;
                 $order->save(); // Save changes
@@ -431,29 +454,68 @@ class OrderController extends Controller
 
         $input = $request->all();
 
-        $cart = Cart::find($input['cart_id']);
+        if($input['type']=='add'){
 
-        if(!empty($cart)){
+            $cart = Cart::find($input['cart_id']);
 
-            $optionsArray = [];
-            if(!empty($cart['options'])){
-                 $optionsArray = json_decode($cart['options'], true);
-                 $optionsArray[$input['option_id']] = $input['options'][$input['option_id']];
+            if(!empty($cart)){
+
+                $optionsArray = [];
+                if(!empty($cart['options'])){
+                     $optionsArray = json_decode($cart['options'], true);
+                     $optionsArray[$input['option_id']] = $input['options'][$input['option_id']];
+                }
+
+                $cart['options'] = json_encode($optionsArray);
+
+                $checkCart = Cart::where('csrf_token',csrf_token())->where('user_id', 0)->where('added_by_admin', 1)->where('product_id', $cart['product_id'])->where('options', json_encode($input['options']))->where('id', '!=', $input['cart_id'])->first();
+
+                if(empty($checkCart)){
+                    $cart->save();
+                } else {
+                    $cart['quantity'] += $checkCart['quantity'];
+                    $cart->save();
+                    $checkCart->delete();
+                }
             }
+        } else {
 
-            $cart['options'] = json_encode($optionsArray);
+            $option = OrderOption::where('id',$input['cart_id'])->first();
+            if(!empty($option)){
 
-            $checkCart = Cart::where('csrf_token',csrf_token())->where('user_id', 0)->where('added_by_admin', 1)->where('product_id', $cart['product_id'])->where('options', json_encode($input['options']))->where('id', '!=', $input['cart_id'])->first();
+                $checkOrderOption = OrderOption::where('id', '!=',$input['cart_id'])->where('product_option_id',$input['option_id'])->where('product_option_value_id',$input['options'][$input['option_id']])->first();
 
-            if(empty($checkCart)){
-                $cart->save();
-            } else {
-                $cart['quantity'] += $checkCart['quantity'];
-                $cart->save();
-                $checkCart->delete();
+                $product_option = ProductsOptions::where('id',$input['option_id'])->first();
+                $product_option_value = ProductsOptionsValues::where('id', $input['options'][$input['option_id']])->first();
+
+                $option['product_option_value_id'] = $input['options'][$input['option_id']];
+                $option['name'] = $product_option['option_name'];
+                $option['value'] = $product_option_value['option_value'];
+                $option['price'] = $product_option_value['option_price'];
+
+                if(empty($checkOrderOption)){
+                    $option->save();
+                } else {
+                    $OrderItem = OrderItem::find($option['order_product_id']);
+                    $checkOrderOptionItem = OrderItem::where('id',$checkOrderOption['order_product_id'])->first();
+
+                    if(!empty($checkOrderOptionItem)){
+                        $checkOrderOptionItem['product_qty'] = ($OrderItem['product_qty']+$checkOrderOptionItem['product_qty']);
+                        $checkOrderOptionItem['sub_total'] = ($checkOrderOptionItem['product_price']*$checkOrderOptionItem['product_qty']);
+                        $checkOrderOptionItem->save();
+                    }
+                    
+                    $OrderItem->delete();
+                    $option->delete();
+
+                    $sumOfSubTotal = OrderItem::where('order_id', $option->order_id)->sum('sub_total');
+                    $order = Order::find($option->order_id);
+                    $order->total_amount = $sumOfSubTotal;
+                    $order->save(); // Save changes
+                }
+                
             }
         }
-        
-        return $cart;
+        return 1;
     }
 } 

@@ -312,10 +312,13 @@ $(document).ready(function(){
         var option_id = $(this).attr("data-option_id");
         var option_value_id = $(this).attr("data-option_value_id");
         var product_id = $(this).attr("data-product_id");
+        var type = $(this).attr("data-type");
         var id = $(this).attr("data-id");
 
         $('#edit_cart_id').val(id);
         $('#edit_option_id').val(option_id);
+        $('#edit_type').val(type);
+        $('#edit_product_id').val(product_id);
 
         $.ajax({
             url: "{{route('products.editoption')}}",

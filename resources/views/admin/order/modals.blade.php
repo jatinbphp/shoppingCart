@@ -57,6 +57,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    {!! Form::hidden('product_id', null, ['class' => 'form-control', 'id' => 'edit_product_id']) !!}
+                    {!! Form::hidden('type', null, ['class' => 'form-control', 'id' => 'edit_type']) !!}
                     {!! Form::hidden('option_id', null, ['class' => 'form-control', 'id' => 'edit_option_id']) !!}
                     {!! Form::hidden('cart_id', null, ['class' => 'form-control', 'id' => 'edit_cart_id']) !!}
 
