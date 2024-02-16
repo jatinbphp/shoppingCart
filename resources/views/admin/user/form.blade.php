@@ -80,8 +80,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
-                                <label class="col-md-12 control-label" for="image">Image<span class="text-red">*</span></label>
-                                <div class="col-md-12">
+                                <label class="control-label" for="image">Image<span class="text-red">*</span></label>
+                                <div class="">
                                     <div class="fileError">
                                         {!! Form::file('image', ['class' => '', 'id'=> 'image','accept'=>'image/*', 'onChange'=>'AjaxUploadImage(this)']) !!}
                                     </div>
@@ -96,8 +96,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
-                                <label class="col-md-12 control-label" for="status">Status :<span class="text-red">*</span></label>
-                                <div class="col-md-12">
+                                <label class="control-label" for="status">Status :<span class="text-red">*</span></label>
+                                <div class="">
                                     @foreach (\App\Models\User::$status as $key => $value)
                                             @php $checked = !isset($users) && $key == 'active'?'checked':''; @endphp
                                         <label>

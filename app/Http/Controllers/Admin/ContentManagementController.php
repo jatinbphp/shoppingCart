@@ -24,7 +24,7 @@ class ContentManagementController extends Controller
                 ->addColumn('action', function($row){
                     $row['section_name'] = 'content';
                     $row['section_title'] = 'Content';
-                    return view('admin.action-buttons', $row);
+                    return view('admin.common.action-buttons', $row);
                 })
                 ->make(true);
         }
@@ -55,7 +55,7 @@ class ContentManagementController extends Controller
     {
         $content_management = ContentManagement::findOrFail($id);
         
-        return view('admin.show_modal', [
+        return view('admin.common.show_modal', [
             'section_info' => $content_management->toArray(),
             'type' => 'Content Management',
             'required_columns' => ['id', 'title', 'description']

@@ -36,12 +36,12 @@ class CategoryController extends Controller
                 })
                 ->editColumn('status', function($row){
                     $row['table_name'] = 'categories';
-                    return view('admin.status-buttons', $row);
+                    return view('admin.common.status-buttons', $row);
                 })
                 ->addColumn('action', function($row){
                     $row['section_name'] = 'category';
                     $row['section_title'] = 'Category';
-                    return view('admin.action-buttons', $row);
+                    return view('admin.common.action-buttons', $row);
                 })
                 ->make(true);
         }
@@ -75,7 +75,7 @@ class CategoryController extends Controller
     {
         $category = Category::with('parent')->findOrFail($id);
         
-        return view('admin.show_modal', [
+        return view('admin.common.show_modal', [
             'section_info' => $category->toArray(),
             'type' => 'Category',
             'required_columns' => ['id', 'image', 'name', 'parent', 'status', 'created_at']

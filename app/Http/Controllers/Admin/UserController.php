@@ -31,12 +31,12 @@ class UserController extends Controller
                 })
                 ->editColumn('status', function($row){
                     $row['table_name'] = 'users';
-                    return view('admin.status-buttons', $row);
+                    return view('admin.common.status-buttons', $row);
                 })
                 ->addColumn('action', function($row){
                     $row['section_name'] = 'users';
                     $row['section_title'] = 'User';
-                    return view('admin.action-buttons', $row);
+                    return view('admin.common.action-buttons', $row);
                 })
                 ->make(true);
         }
@@ -73,7 +73,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         
-        return view('admin.show_modal', [
+        return view('admin.common.show_modal', [
             'section_info' => $user->toArray(),
             'type' => 'User',
             'required_columns' => ['id', 'image', 'name', 'email', 'role', 'phone', 'status', 'created_at']

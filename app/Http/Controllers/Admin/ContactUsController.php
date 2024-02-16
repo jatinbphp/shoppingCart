@@ -26,7 +26,7 @@ class ContactUsController extends Controller
                 ->addColumn('action', function($row){
                     $row['section_name'] = 'contactus';
                     $row['section_title'] = 'Contact Us';
-                    return view('admin.action-buttons', $row);
+                    return view('admin.common.action-buttons', $row);
                 })
                 ->make(true);
         }
@@ -57,7 +57,7 @@ class ContactUsController extends Controller
     {
         $contact_us = ContactUs::findOrFail($id);
         
-        return view('admin.show_modal', [
+        return view('admin.common.show_modal', [
             'section_info' => $contact_us->toArray(),
             'type' => 'Contact Us',
             'required_columns' => ['id', 'name', 'email', 'message', 'created_at']

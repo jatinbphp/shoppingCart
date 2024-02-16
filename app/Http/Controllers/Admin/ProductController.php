@@ -33,12 +33,12 @@ class ProductController extends Controller
                 })
                 ->editColumn('status', function($row){
                     $row['table_name'] = 'products';
-                    return view('admin.status-buttons', $row);
+                    return view('admin.common.status-buttons', $row);
                 })
                 ->addColumn('action', function($row){
                     $row['section_name'] = 'products';
                     $row['section_title'] = 'Product';
-                    return view('admin.action-buttons', $row);
+                    return view('admin.common.action-buttons', $row);
                 })
                 ->make(true);
         }
@@ -93,7 +93,7 @@ class ProductController extends Controller
     {
         $products = Products::with(['category', 'product_images', 'options.product_option_values'])->findOrFail($id);
         
-        return view('admin.show_modal', [
+        return view('admin.common.show_modal', [
             'section_info' => $products->toArray(),
             'type' => 'Product',
             'required_columns' => ['id', 'category', 'product_name', 'sku', 'description', 'price', 'status', 'created_at', 'product_images', 'options']
@@ -207,21 +207,23 @@ class ProductController extends Controller
         if(!empty($input['options']['new'])){
             foreach ($input['options']['new'] as $key => $value) {
 
-                $inputOption = [
-                    'product_id' => $product_id,
-                    'option_name' => $value
-                ];
-                $optionNew = ProductsOptions::create($inputOption);
+                if(!empty($value)){
+                    $inputOption = [
+                        'product_id' => $product_id,
+                        'option_name' => $value
+                    ];
+                    $optionNew = ProductsOptions::create($inputOption);
 
-                if(!empty($input['option_values']['new'][$key])){
-                    foreach ($input['option_values']['new'][$key] as $oKey => $oValue) {
-                        $inputOptionValues = [
-                            'product_id' => $product_id,
-                            'option_id' => $optionNew->id,
-                            'option_value' => $oValue,
-                            /*'option_price' => $input['option_price']['new'][$key][$oKey],*/
-                        ];
-                        ProductsOptionsValues::create($inputOptionValues);
+                    if(!empty($input['option_values']['new'][$key])){
+                        foreach ($input['option_values']['new'][$key] as $oKey => $oValue) {
+                            $inputOptionValues = [
+                                'product_id' => $product_id,
+                                'option_id' => $optionNew->id,
+                                'option_value' => $oValue,
+                                /*'option_price' => $input['option_price']['new'][$key][$oKey],*/
+                            ];
+                            ProductsOptionsValues::create($inputOptionValues);
+                        }
                     }
                 }
             }

@@ -27,6 +27,8 @@ class OrderRequest extends FormRequest
             'user_id' => 'required',
             'address_id' => 'required',
             'products' => 'required',
+            'delivey_method' => 'required',
+            'status' => 'required',
         ];
 
         return $rules;

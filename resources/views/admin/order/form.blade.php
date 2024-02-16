@@ -47,12 +47,12 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <th class="text-right" colspan="4">Sub-Total</th>
+                    <th class="text-right" colspan="4">Sub-Total :</th>
                     <td class="text-right" id="sub_total">0.00</td>
                     <td></td>
                 </tr>
                 <tr>
-                    <th class="text-right" colspan="4">Total</th>
+                    <th class="text-right" colspan="4">Total :</th>
                     <td class="text-right" id="grand_total">0.00</td>
                     <td></td>
                 </tr>
@@ -72,9 +72,25 @@
         </div>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-6">
+        <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
+            <label class="control-label" for="status">Select Status :<span class="text-red">*</span></label>
+            <select name="status" class="form-control" id="status">
+                @foreach (\App\Models\Order::$allStatus as $key => $value)
+                    <option value="{{ $value }}" class="flat-red">{{ucfirst($value)}}</option>
+                @endforeach
+            </select>
+            @if ($errors->has('status'))
+                <span class="text-danger">
+                    <strong>{{ $errors->first('status') }}</strong>
+                </span>
+            @endif
+        </div>
+    </div>
+
+    <div class="col-md-6">
         <div class="form-group{{ $errors->has('delivey_method') ? ' has-error' : '' }}">
-            <label class="control-label" for="delivey_method">Delivey Method :<span class="text-red">*</span></label>
+            <label class="control-label" for="delivey_method">Select Delivey Method :<span class="text-red">*</span></label>
             <select name="delivey_method" class="form-control" id="delivey_method">
                 @foreach (\App\Models\Order::$allDeliveryMethod as $key => $value)
                     <option value="{{ $key }}" class="flat-red">{{ $value }}</option>

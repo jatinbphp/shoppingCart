@@ -50,7 +50,7 @@ class OrderController extends Controller
                 ->addColumn('action', function($row){
                     $row['section_name'] = 'orders';
                     $row['section_title'] = 'order';
-                    return view('admin.action-buttons', $row);
+                    return view('admin.common.action-buttons', $row);
                 })
                 ->rawColumns(['status'])
                 ->make(true);
@@ -140,7 +140,7 @@ class OrderController extends Controller
                 ->addColumn('action', function($row){
                     $row['section_name'] = 'cart_products';
                     $row['section_title'] = 'product';
-                    return view('admin.action-buttons', $row);
+                    return view('admin.common.action-buttons', $row);
                 })
                 ->rawColumns(['product_name', 'quantity'])
                 ->make(true);
@@ -305,8 +305,9 @@ class OrderController extends Controller
             $address = UserAddresses::findOrFail($input['address_id']);
             $order['address_info'] = json_encode($address);
             $order['total_amount'] = $orderTotal;
-            $order['notes'] = $input['notes'];
+            $order['status'] = $input['status'];
             $order['delivey_method'] = $input['delivey_method'];
+            $order['notes'] = $input['notes'];
             $order->save();
 
             // clear cart

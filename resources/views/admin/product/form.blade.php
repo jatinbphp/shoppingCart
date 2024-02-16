@@ -97,8 +97,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
-                                <label class="col-md-12 control-label" for="status">Status :<span class="text-red">*</span></label>
-                                <div class="col-md-12">
+                                <label class="control-label" for="status">Status :<span class="text-red">*</span></label>
+                                <div class="">
                                     @foreach (\App\Models\Products::$status as $key => $value)
                                             @php $checked = !isset($product) && $key == 'active'?'checked':''; @endphp
                                         <label>
@@ -320,7 +320,7 @@
                                 <div class="col-md-8" id="extraValuesOption_1_1">
                                     <div class='row'>
                                         <div class="col-md-5">
-                                            <label class="control-label" for="option_values">Option Values1s :<span class="text-red">*</span></label>
+                                            <label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>
                                         </div>
                                         <!-- <div class="col-md-5">
                                             <label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>
