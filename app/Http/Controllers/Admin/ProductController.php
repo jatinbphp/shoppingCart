@@ -23,7 +23,7 @@ class ProductController extends Controller
     {
         $data['menu'] = 'Products';
         if ($request->ajax()) {
-            return Datatables::of(Products::orderBy('product_name','ASC'))
+            return Datatables::of(Products::select())
                 ->addIndexColumn()
                 ->editColumn('price', function($row) {
                     return env('CURRENCY').number_format($row->price, 2);

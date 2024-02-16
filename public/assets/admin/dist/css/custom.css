@@ -12,3 +12,4 @@
 .qty input{width:50px;text-align:center}
 .qty button{background-color:#138496;color:#fff;border:none;padding:5px 10px;cursor:pointer;border-radius:3px}
 .qty button:hover{background-color:#0056b3}
+.dt-body-right {text-align: right;}

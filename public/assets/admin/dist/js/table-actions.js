@@ -20,9 +20,9 @@ $(function () {
                     return '<img src="'+data+'" height="50" alt="Image"/>';
                 }
             },*/
-            {data: 'status', "width": "12%",  name: 'status', orderable: false}, 
-            {data: 'created_at', "width": "18%", name: 'created_at'},   
-            {data: 'action', "width": "15%",  name: 'action', orderable: false},                
+            {data: 'status', "width": "10%",  name: 'status', orderable: false}, 
+            {data: 'created_at', "width": "15%", name: 'created_at'},   
+            {data: 'action', "width": "12%",  name: 'action', orderable: false},                
         ],
         "order": [[0, "DESC"]]
     });
@@ -46,9 +46,9 @@ $(function () {
                     return '<img src="'+data+'" height="50" alt="Image"/>';
                 }
             },*/
-            {data: 'status', "width": "12%",  name: 'status', orderable: false},
-            {data: 'created_at', "width": "18%", name: 'created_at'},
-            {data: 'action', "width": "15%",  name: 'action', orderable: false},
+            {data: 'status', "width": "10%",  name: 'status', orderable: false},
+            {data: 'created_at', "width": "15%", name: 'created_at'},
+            {data: 'action', "width": "12%",  name: 'action', orderable: false},
         ],
         "order": [[1, "ASC"]]
     });
@@ -68,11 +68,11 @@ $(function () {
                 }
             },
             {data: 'product_name', product_name: 'product_name'},
-            {data: 'sku', "width": "15%",  name: 'sku'},
-            {data: 'price', "width": "12%",  name: 'price'},
-            {data: 'status', "width": "12%",  name: 'status', orderable: false},
-            {data: 'created_at', name: 'created_at'},
-            {data: 'action', "width": "15%",  name: 'action', orderable: false},
+            {data: 'sku', "width": "12%",  name: 'sku'},
+            {data: 'price', "width": "10%",  name: 'price'},
+            {data: 'status', "width": "10%",  name: 'status', orderable: false},
+            {data: 'created_at', "width": "15%", name: 'created_at'},
+            {data: 'action', "width": "12%",  name: 'action', orderable: false},
         ],
         "order": [[0, "DESC"]]
     });
@@ -92,7 +92,7 @@ $(function () {
                 }
             },
             {data: 'title', name: 'title'},
-            {data: 'action', "width": "12%",  name: 'action', orderable: false},                
+            {data: 'action', "width": "10%",  name: 'action', orderable: false},                
         ],
         "order": [[0, "ASC"]]
     });
@@ -114,7 +114,7 @@ $(function () {
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
             {data: 'message', name: 'message'},
-            {data: 'created_at', name: 'created_at'},
+            {data: 'created_at', "width": "15%", name: 'created_at'},
             {data: 'action', "width": "10%",  name: 'action', orderable: false},                
         ],
         "order": [[0, "DESC"]]
@@ -137,9 +137,9 @@ $(function () {
             { data: 'order_id', name: 'order_id'},
             { data: 'user_name', name: 'user_name'},
             { data: 'total_amount', name: 'total_amount'},
-            { data: 'status', name: 'status', orderable: false},
-            { data: 'created_at', name: 'created_at'},
-            { data: 'action', "width": "14%", name: 'action', orderable: false},
+            { data: 'status', "width": "12%", name: 'status', orderable: false},
+            { data: 'created_at', "width": "15%", name: 'created_at'},
+            { data: 'action', "width": "12%", name: 'action', orderable: false},
 
         ],
         "order": [[0, "DESC"]]
