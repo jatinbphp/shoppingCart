@@ -216,7 +216,13 @@ $(document).ready(function(){
     if($("#user_id").val()){
         setTimeout(function(){
             $('#user_id').val($("#user_id").val()).trigger('change');
-        }, 1000);
+
+            @if(isset($order->id))
+                setTimeout(function() {
+                    $('#address_id').val({{ $order->address_id}}).trigger('change');
+                }, 500);
+            @endif
+        }, 500);
     }
 
     //get Addresses
