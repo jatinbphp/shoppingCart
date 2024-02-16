@@ -63,6 +63,33 @@
                                                                 -
                                                             @endif
                                                             @break
+                                                        @case('product_images')
+                                                            @if(!empty($section_info[$key]))
+                                                                <div class="row">
+                                                                    @foreach($section_info[$key] as $image)
+                                                                        <div class="col-md-2">
+                                                                            <img src="{{ asset($image['image']) }}" style="width:100%"/>
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
+                                                            @endif
+                                                            @break
+                                                        @case('options')
+                                                            @if(!empty($section_info[$key]))
+                                                                @foreach ($section_info[$key] as $option)
+                                                                    <strong>{{ $option['option_name'] }}:</strong>
+                                                                    @if(!empty($option['product_option_values']))
+                                                                        @foreach ($option['product_option_values'] as $index => $value)
+                                                                            {{ $value['option_value'] }}
+                                                                            @if (!$loop->last)
+                                                                                ,
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @endif
+                                                                    <br>
+                                                                @endforeach
+                                                            @endif
+                                                            @break
                                                         @default
                                                             {!! $section_info[$key] !!}
                                                     @endswitch

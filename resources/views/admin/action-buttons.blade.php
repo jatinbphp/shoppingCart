@@ -1,6 +1,6 @@
 @if($section_name != 'contactus' && $section_name != 'cart_products' && $section_name != 'order_products')
     <div class="btn-group btn-group-sm">
-        <a href="{{ url('admin/'.$section_name.'/'.$id.'/edit') }}" title="Edit {{$section_title}}" class="btn btn-sm btn-info tip mr-1">
+        <a href="{{ url('admin/'.$section_name.'/'.$id.'/edit') }}" title="Edit {{$section_title}}" class="btn btn-sm btn-info tip ">
             <i class="fa fa-edit"></i>
         </a>
     </div>
@@ -16,13 +16,13 @@
 
 @if($section_name == 'orders')
     <div class="btn-group btn-group-sm">
-        <a href="javascript:void(0)" title="View {{$section_title}}" data-id="{{$id}}" class="btn btn-sm btn-warning tip mr-1 order-info" data-url="{{ route('orders.show', ['order' => $id]) }}">
+        <a href="javascript:void(0)" title="View {{$section_title}}" data-id="{{$id}}" class="btn btn-sm btn-warning tip  order-info" data-url="{{ route('orders.show', ['order' => $id]) }}">
             <i class="fa fa-eye"></i>
         </a>
     </div>
 @elseif($section_name != 'cart_products' && $section_name != 'order_products')
     <div class="btn-group btn-group-sm">
-        <a href="javascript:void(0)" title="View {{$section_title}}" data-id="{{$id}}" class="btn btn-sm btn-warning tip mr-1 view-info" data-url="{{ route($section_name.'.show', [$section_name != 'contactus' ? strtolower(str_replace(' ', '_', $section_title)) : 'contactu' => $id]) }}">
+        <a href="javascript:void(0)" title="View {{$section_title}}" data-id="{{$id}}" class="btn btn-sm btn-warning tip  view-info" data-url="{{ route($section_name.'.show', [$section_name != 'contactus' ? strtolower(str_replace(' ', '_', $section_title)) : 'contactu' => $id]) }}">
             <i class="fa fa-eye"></i>
         </a>
     </div>

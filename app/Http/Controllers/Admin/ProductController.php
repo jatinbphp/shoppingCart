@@ -23,7 +23,7 @@ class ProductController extends Controller
     {
         $data['menu'] = 'Products';
         if ($request->ajax()) {
-            return Datatables::of(Products::orderBy('product_name','ASC')->get())
+            return Datatables::of(Products::orderBy('product_name','ASC'))
                 ->addIndexColumn()
                 ->editColumn('price', function($row) {
                     return env('CURRENCY').number_format($row->price, 2);
@@ -91,12 +91,12 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $products = Products::with('category')->findOrFail($id);
+        $products = Products::with(['category', 'product_images', 'options.product_option_values'])->findOrFail($id);
         
         return view('admin.show_modal', [
             'section_info' => $products->toArray(),
             'type' => 'Product',
-            'required_columns' => ['id', 'category', 'product_name', 'sku', 'description', 'price', 'status', 'created_at']
+            'required_columns' => ['id', 'category', 'product_name', 'sku', 'description', 'price', 'status', 'created_at', 'product_images', 'options']
         ]);
     }
 

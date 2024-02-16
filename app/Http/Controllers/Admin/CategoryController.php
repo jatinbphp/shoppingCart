@@ -15,7 +15,7 @@ class CategoryController extends Controller
     {
         $data['menu'] = 'Category';
         if ($request->ajax()) {
-            return Datatables::of(Category::with('parent')->orderBy('name','ASC')->get())
+            return Datatables::of(Category::with('parent')->orderBy('name','ASC'))
                 ->addIndexColumn()
                 ->addColumn('categoryName', function($row){
                     if(!empty($row['parent'])){
