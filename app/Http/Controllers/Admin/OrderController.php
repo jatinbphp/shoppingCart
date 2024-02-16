@@ -98,7 +98,7 @@ class OrderController extends Controller
 
             $table_data = Cart::select()->where('order_id',$request->order_id);
         } else {
-            $table_data = Cart::select()->where('csrf_token',csrf_token());
+            $table_data = Cart::select()->where('order_id',0)->where('csrf_token',csrf_token());
         }
 
         if ($request->ajax()) {
@@ -164,7 +164,7 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {
         $input = $request->all();
-        $order_products = Cart::with('product')->where('csrf_token',csrf_token())->get();
+        $order_products = Cart::with('product')->where('csrf_token',csrf_token())->where('order_id',0)->get();
         if(!empty($order_products)){
             $order = Order::create($input);
 
@@ -215,7 +215,7 @@ class OrderController extends Controller
             $order->save();
 
             // clear cart
-            Cart::with('csrf_token',csrf_token())->delete();
+            Cart::with('csrf_token',csrf_token())->where('order_id',0)->delete();
 
             \Session::flash('success','Order has been updated successfully!');
             return redirect()->route('orders.index');
@@ -310,7 +310,7 @@ class OrderController extends Controller
             $order->save();
 
             // clear cart
-            Cart::with('csrf_token',csrf_token())->delete();
+            Cart::with('csrf_token',csrf_token())->where('order_id',$input['order_id'])->delete();
 
             \Session::flash('success','Order has been updated successfully!');
             return redirect()->route('orders.index');   
