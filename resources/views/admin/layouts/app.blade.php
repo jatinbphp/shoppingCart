@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name', 'Shopping Cart') }}</title>
+    <title>{{ config('app.name', 'Shopping Cart') }} @if(isset($menu)) | {{$menu}} @endif</title>
     <meta name="_token" content="{!! csrf_token() !!}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="refresh" content = "28800; url={{ route('login') }}">
@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 </head>
-<body class="hold-transition sidebar-mini" id="bodyid">
+<body class="hold-transition sidebar-mini sidebar-collapse" id="bodyid">
 <div class="wrapper">
     <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
         <ul class="navbar-nav">
