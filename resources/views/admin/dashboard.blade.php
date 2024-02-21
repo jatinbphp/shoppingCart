@@ -4,52 +4,51 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-3 col-6 mt-3">
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <h3>{{$users}}</h3>
-                                <p>Total Users</p>
+                    <div class="col-12 col-sm-6 col-md-3 mt-2">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-info elevation-1">
+                                <i class="fas fa-users"></i>
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Total Users</span>
+                                <span class="info-box-number">{{$total_users}}</span>
                             </div>
-                            <div class="icon">
-                                <i class="fa fa-users"></i>
-                            </div>
-                            <a href="{{route('users.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-6 mt-3">
-                        <div class="small-box bg-success">
-                            <div class="inner">
-                                <h3>{{$category}}</h3>
-                                <p>Total Categories</p>
+                    <div class="col-12 col-sm-6 col-md-3 mt-2">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-danger elevation-1">
+                                <i class="fas fa-tag"></i>
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Total Products</span>
+                                <span class="info-box-number">{{$total_products}}</span>
                             </div>
-                            <div class="icon">
-                                <i class="fa fa-sitemap"></i>
-                            </div>
-                            <a href="{{route('category.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-6 mt-3">
-                        <div class="small-box bg-warning">
-                            <div class="inner">
-                                <h3>{{$products}}</h3>
-                                <p>Total Products</p>
+                    <div class="clearfix hidden-md-up">
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3 mt-2">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-success elevation-1">
+                                <i class="fas fa-shopping-cart">
+                                </i>
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Total Orders</span>
+                                <span class="info-box-number">{{$total_orders}}</span>
                             </div>
-                            <div class="icon">
-                                <i class="fa fa-tag"></i>
-                            </div>
-                            <a href="{{route('products.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-6 mt-3">
-                        <div class="small-box bg-danger">
-                            <div class="inner">
-                                <h3>{{$orders}}</h3>
-                                <p>Total Orders</p>
+                    <div class="col-12 col-sm-6 col-md-3 mt-2">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-warning elevation-1">
+                                <i class="fas fa-credit-card"></i>
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Total Sales</span>
+                                <span class="info-box-number">{{$total_amount_sum}}</span>
                             </div>
-                            <div class="icon">
-                                <i class="fa fa-cart-plus"></i>
-                            </div>
-                            <a href="{{route('orders.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
