@@ -23,28 +23,30 @@
         @include ('admin.common.error')
         <div class="row">
             <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        {!! Form::open(['url' => null, 'id' => 'reports-filter-Form', 'class' => 'form-horizontal','files'=>true]) !!}
+                            @include ('admin.reports.filter_purchase_products')
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
                 <div class="card card-info card-outline">
                     <div class="card-header">
                         <h3 class="card-title">Manage {{$menu}}</h3>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <a href="{{ route('orders.create') }}" class="btn btn-sm btn-info float-right"><i class="fa fa-plus pr-1"></i> Add New</a>
-                            </div>
-                        </div>
                     </div>
                     <div class="card-body">
-                        <input type="hidden" id="route_name" value="{{ route('orders.index')}}">
-                        <input type="hidden" id="order_update" value="{{ route('orders.update_status')}}">
-                        <table id="ordersTable" class="table table-bordered table-striped datatable-dynamic">
+                        <input type="hidden" id="route_name" value="{{ route('reports.purchase_product')}}">
+                        <table id="purchaseProductReportTable" class="table table-bordered table-striped datatable-dynamic">
                             <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Order ID</th>
-                                    <th>User</th>
+                                <tr>                                    
+                                    <th>Product Name</th>
+                                    <th>SKU</th>
+                                    <th>Quantity</th>
                                     <th>Total</th>
-                                    <th>Status</th>
-                                    <th>Created Date</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>

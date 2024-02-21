@@ -21,7 +21,7 @@
             @include ('admin.common.error')
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card card-info">
+                    <div class="card card-info card-outline">
                         <div class="card-header">
                             <h3 class="card-title">Add {{$menu}}</h3>
                         </div>
@@ -31,7 +31,7 @@
                         </div>
                         <div class="card-footer">
                             <a href="{{ route('category.index') }}" class="btn btn-default">Back</a>
-                            <button class="btn btn-info float-right" type="submit">Add</button>
+                            <button class="btn btn-info float-right" type="submit">Save</button>
                         </div>
                         {!! Form::close() !!}
                     </div>

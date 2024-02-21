@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name', 'Laravel') }} | Log in</title>
+    <title>Log in | {{ config('app.name', 'Blu Leisure') }}</title>
     <meta name="_token" content="{!! csrf_token() !!}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -20,17 +20,27 @@
     <!-- /.login-logo -->
     <div class="card">
         <div class="card-body login-card-body">
+            @include ('admin.common.error')
             <p class="login-box-msg">Sign in to start your session</p>
             <form method="POST" action="{{ route('admin.signin') }}">
                 {{ csrf_field() }}
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} has-feedback">
                     <input type="text" id="email" name="email" class="form-control" placeholder="Email" value="{{ old('email') }}">
-
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    @if ($errors->has('email'))
+                        <span class="text-danger">
+                            <strong>{{ $errors->first('email') }}</strong>
+                        </span>
+                    @endif
                 </div>
                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} has-feedback">
                     <input type="password" id="password" name="password" class="form-control" placeholder="Password">
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    @if ($errors->has('password'))
+                        <span class="text-danger">
+                            <strong>{{ $errors->first('password') }}</strong>
+                        </span>
+                    @endif
                 </div>
                 <div class="row">
                     <div class="col-sm-8">

@@ -1,7 +1,4 @@
 {!! Form::hidden('redirects_to', URL::previous()) !!}
-<style type="text/css">
-.dataTables_length, #orderProductTable_filter, .dataTables_info, .dataTables_paginate{display: none;}
-</style>
 <div class="row">
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
@@ -127,8 +124,9 @@ $(document).ready(function(){
     var orders_products_table = $('#orderProductTable').DataTable({
         processing: true,
         serverSide: true,
-        pageLength: 100,
-        lengthMenu: [100, 200, 300, 400, 500],
+        searching: false, // Hide search box
+        paging: false, // Hide pagination
+        info: false, // Hide information about number of records
         ajax: {
             url: $("#route_name").val(),
             type: "GET",

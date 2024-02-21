@@ -10,6 +10,8 @@ class OrderItem extends Model
 {
     use HasFactory, SoftDeletes ;
 
+    protected $foreignKey = 'product_id';
+
     protected $fillable = ['order_id', 'product_id', 'product_name', 'product_sku', 'product_price','product_qty', 'sub_total'];
 
     public function order()

@@ -60,4 +60,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserAddresses::class, 'user_id')->orderBy('id', 'ASC');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function orderItems()
+    {
+        return $this->hasManyThrough(OrderItem::class, Order::class);
+    }
 }

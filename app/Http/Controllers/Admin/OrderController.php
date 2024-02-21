@@ -444,4 +444,46 @@ class OrderController extends Controller
 
         return 1;
     }
+
+    public function index_order_dashborad(Request $request)
+    {
+        $data['menu'] = 'Orders';
+        if ($request->ajax()) {
+            return DataTables::of(Order::select()->orderBy('id', 'DESC')->take(5)->get())
+                ->addColumn('order_id', function($order) {
+                    return env('ORDER_PREFIX').'-'.date("Y", strtotime($order->created_at)).'-'.$order->id; 
+                })
+                ->addColumn('user_name', function($order) {
+                    return $order->user->name; 
+                })
+                ->editColumn('total_amount', function($order) {
+                    return env('CURRENCY').number_format($order->total_amount, 2);
+                })
+                ->editColumn('created_at', function($row){
+                    return $row['created_at']->format('Y-m-d h:i:s');
+                })
+                ->editColumn('status', function($row){
+                    return ucfirst($row->status);
+                })
+                ->editColumn('status', function($row){
+                   $status = [
+                        'pending' => '<span class="badge badge-primary">Pending</span>',
+                        'reject'  => '<span class="badge badge-warning">Reject</span>',
+                        'complete'=> '<span class="badge badge-success">Complete</span>',
+                        'cancel'  => '<span class="badge badge-danger">Cancel</span>',
+                   ]; 
+                   return $status[$row->status] ?? null;
+                })
+                ->addColumn('action', function($row){
+                    $row['order_dashboard'] = 1;
+                    $row['section_name'] = 'orders';
+                    $row['section_title'] = 'order';
+                    return view('admin.common.action-buttons', $row);
+                })
+                ->rawColumns(['status'])
+                ->make(true);
+        }
+
+        return view('admin.order.index', $data);
+    }
 } 

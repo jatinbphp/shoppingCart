@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name', 'Shopping Cart') }} @if(isset($menu)) | {{$menu}} @endif</title>
+    <title>@if(isset($menu)) {{$menu}} | @endif {{ config('app.name', 'Blu Leisure') }}</title>
     <meta name="_token" content="{!! csrf_token() !!}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="refresh" content = "28800; url={{ route('login') }}">
@@ -37,13 +37,13 @@
                 <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="{{ url('admin/dashboard') }}" class="nav-link">Home</a>
+                <a href="{{ url('admin/dashboard') }}" class="nav-link"></a>
             </li>
         </ul>
     </nav>
     <aside class="main-sidebar sidebar-dark-primary elevation-4" id="left-menubar" style="height: 100%; min-height:0!important; overflow-x: hidden;">
         <a href="{{ url('admin/dashboard') }}" class="brand-link" style="text-align: center">
-            <span class="brand-text font-weight-light"><b>{{ config('app.name', 'Shopping Cart') }} Admin</b></span>
+            <span class="brand-text font-weight-light"><b>{{ config('app.name', 'Blu Leisure') }} Admin</b></span>
         </a>
 
         <div class="sidebar">
@@ -99,7 +99,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('products.index') }}" class="nav-link @if(isset($menu) && $menu=='Products') active @endif">
-                            <i class="nav-icon fa fa-list"></i>
+                            <i class="nav-icon fa fa-tag"></i>
                             <p>Products</p>
                         </a>
                     </li>
@@ -111,7 +111,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('content.index') }}" class="nav-link @if(isset($menu) && $menu=='Content Management') active @endif">
-                            <i class="nav-icon fa fa-list"></i>
+                            <i class="nav-icon fa fa-desktop"></i>
                             <p>Content Management</p>
                         </a>
                     </li>
@@ -121,6 +121,31 @@
                             <p>Contact Us</p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link @if(isset($menu) && $menu=='User Orders Report') active @endif">
+                            <i class="nav-icon fa fa-flag"></i>
+                            <p>
+                                Reports
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item @if(isset($menu) && $menu=='User Orders Report') active @endif">
+                                <a href="{{ route('reports.user_orders')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>User Orders Report</p>
+                                </a>
+                            </li>
+                            <li class="nav-item @if(isset($menu) && $menu=='Products Purchased Report') active @endif">
+                                <a href="{{ route('reports.purchase_product')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Product Purchase Report</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
                 </ul>
             </nav>
         </div>
@@ -172,7 +197,7 @@
 <script src="{{ URL::asset('assets/admin/plugins/ladda/spin.min.js')}}"></script>
 <script src="{{ URL::asset('assets/admin/plugins/ladda/ladda.min.js')}}"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-<script src="{{ URL('assets/admin/dist/js/table-actions.js')}}"></script>
+<script src="{{ URL('assets/admin/dist/js/table-actions.js')}}?{{ time() }}"></script>
 <script>Ladda.bind( 'input[type=submit]' );</script>
 <script>
 $(function () {

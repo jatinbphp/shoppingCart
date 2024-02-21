@@ -24,10 +24,11 @@
                 <div class="col-12">
                     <div class="card card-info card-outline">
                         <div class="card-header">
+                            <h3 class="card-title">Manage {{$menu}}</h3>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a href="{{ route('products.create') }}" class="btn btn-info float-right"><i class="fa fa-plus pr-1"></i> Add New</a>
-                                    <a href="{{ route('products.import.product') }}" class="btn btn-info float-right mr-1"><i class="fa fa-plus pr-1"></i> Import</a>
+                                    <a href="{{ route('products.create') }}" class="btn btn-sm btn-info float-right"><i class="fa fa-plus pr-1"></i> Add New</a>
+                                    <a href="{{ route('products.import.product') }}" class="btn btn-sm btn-info float-right mr-1"><i class="fa fa-plus pr-1"></i> Import</a>
                                 </div>
                             </div>
                         </div>
@@ -41,7 +42,7 @@
                                         <th>SKU</th>
                                         <th>Price</th>
                                         <th>Status</th>
-                                        <th>Date Created</th>
+                                        <th>Created Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>

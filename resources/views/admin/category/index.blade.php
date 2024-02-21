@@ -24,9 +24,10 @@
                 <div class="col-12">
                     <div class="card card-info card-outline">
                         <div class="card-header">
+                            <h3 class="card-title">Manage {{$menu}}</h3>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a href="{{ route('category.create') }}" class="btn btn-info float-right">Add New</a>
+                                    <a href="{{ route('category.create') }}" class="btn btn-sm btn-info float-right">Add New</a>
                                 </div>
                             </div>
                         </div>
@@ -39,7 +40,7 @@
                                         <th>Name</th>
                                         <!-- <th>Image</th> -->
                                         <th>Status</th>
-                                        <th>Date Created</th>
+                                        <th>Created Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>

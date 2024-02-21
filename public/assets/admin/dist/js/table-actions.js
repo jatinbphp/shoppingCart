@@ -69,7 +69,7 @@ $(function () {
             },
             {data: 'product_name', product_name: 'product_name'},
             {data: 'sku', "width": "12%",  name: 'sku'},
-            {data: 'price', "width": "10%",  name: 'price'},
+            {data: 'price', "width": "10%",  name: 'price', orderable: false, class: 'text-right'},
             {data: 'status', "width": "10%",  name: 'status', orderable: false},
             {data: 'created_at', "width": "15%", name: 'created_at'},
             {data: 'action', "width": "12%",  name: 'action', orderable: false},
@@ -136,11 +136,71 @@ $(function () {
             },
             { data: 'order_id', name: 'order_id'},
             { data: 'user_name', name: 'user_name'},
-            { data: 'total_amount', name: 'total_amount'},
+            { data: 'total_amount', name: 'total_amount', orderable: false, class: 'text-right'},
             { data: 'status', "width": "12%", name: 'status', orderable: false},
             { data: 'created_at', "width": "15%", name: 'created_at'},
             { data: 'action', "width": "12%", name: 'action', orderable: false},
 
+        ],
+        "order": [[0, "DESC"]]
+    });
+
+    //Order Dashboard Table 
+    var orders_table = $('#ordersDasboardTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: $("#route_name").val(),
+        searching: false, // Hide search box
+        paging: false, // Hide pagination
+        info: false, // Hide information about number of records
+        columns: [
+            {
+                data: 'id', width: '10%', name: 'id',
+                render: function(data, type, row) {
+                    return '#' + data; // Prepend '#' to the 'id' data
+                },
+                orderable: false // Disable sorting for this column
+            },
+            { data: 'order_id', name: 'order_id', orderable: false},
+            { data: 'user_name', name: 'user_name', orderable: false},
+            { data: 'total_amount', name: 'total_amount', orderable: false, class: 'text-right'},
+            { data: 'status', "width": "12%", name: 'status', orderable: false},
+            { data: 'created_at', "width": "15%", name: 'created_at', orderable: false},
+            { data: 'action', "width": "5%", name: 'action', orderable: false},
+
+        ],
+        "order": [[0, "DESC"]]
+    });
+
+    //User Orders Report Table
+    var user_orders_report_table = $('#userOrdersReportTable').DataTable({
+        processing: true,
+        serverSide: true,
+        pageLength: 100,
+        lengthMenu: [ 100, 200, 300, 400, 500 ],
+        ajax: $("#route_name").val(),
+        columns: [
+            {data: 'name', name: 'name'},
+            {data: 'email',  name: 'email'},
+            {data: 'total_orders',  name: 'total_orders', orderable: false},
+            {data: 'total_order_items',  name: 'total_order_items', orderable: false},
+            {data: 'total_amount_sum',  name: 'total_amount_sum', orderable: false, class: 'text-right'},
+        ],
+        "order": [[4, "DESC"]]
+    });
+
+    //Purchase Product Report Table
+    var purchase_product_report_table = $('#purchaseProductReportTable').DataTable({
+        processing: true,
+        serverSide: true,
+        pageLength: 100,
+        lengthMenu: [ 100, 200, 300, 400, 500 ],
+        ajax: $("#route_name").val(),
+        columns: [            
+            {data: 'product_name', product_name: 'product_name'},
+            {data: 'sku',  name: 'sku'},
+            {data: 'product_qty_sum', "width": "10%",  name: 'product_qty_sum', orderable: false},
+            {data: 'product_price_sum', "width": "15%",  name: 'product_price_sum', orderable: false, class: 'text-right'},            
         ],
         "order": [[0, "DESC"]]
     });
@@ -287,8 +347,8 @@ $(function () {
             },
             headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
             success: function(data){
-                $('#oderModal .modal-content').html(data);
-                $('#oderModal').modal('show');
+                $('#commonModal .modal-content').html(data);
+                $('#commonModal').modal('show');
             }
         });
     });

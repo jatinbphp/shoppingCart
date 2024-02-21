@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\CommonController;
 use App\Http\Controllers\Admin\ContentManagementController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ReportController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -78,6 +79,10 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::post('orders/addproduct', [OrderController::class,'addProductToCart'])->name('orders.addproduct');
     Route::post('orders/editoption', [OrderController::class,'editProductOptionToCart'])->name('orders.editoption');
     Route::get('/index_product', [OrderController::class, 'index_product'])->name('orders.index_product');
-    //Route::get('/index_order_product', [OrderController::class, 'index_order_product'])->name('orders.index_order_product');
+    Route::get('/index_order_dashborad', [OrderController::class, 'index_order_dashborad'])->name('orders.index_dashboard');
     Route::resource('orders',OrderController::class);
+
+    /*Reports*/
+    Route::get('reports/user_orders', [ReportController::class, 'index_user_orders'])->name('reports.user_orders');
+    Route::get('reports/purchase_product', [ReportController::class, 'index_purchase_product'])->name('reports.purchase_product');
 });

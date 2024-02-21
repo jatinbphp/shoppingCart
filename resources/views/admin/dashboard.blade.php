@@ -35,7 +35,7 @@
                                 <p>Total Products</p>
                             </div>
                             <div class="icon">
-                                <i class="fa fa-list"></i>
+                                <i class="fa fa-tag"></i>
                             </div>
                             <a href="{{route('products.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
@@ -47,18 +47,41 @@
                                 <p>Total Orders</p>
                             </div>
                             <div class="icon">
-                                <i class="fa fa-list"></i>
+                                <i class="fa fa-cart-plus"></i>
                             </div>
                             <a href="{{route('orders.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-info card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">Latest Orders</h3>
+                            </div>
+                            <div class="card-body">
+                                <input type="hidden" id="route_name" value="{{ route('orders.index_dashboard')}}">
+                                <table id="ordersDasboardTable" class="table table-bordered table-striped datatable-dynamic">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Order ID</th>
+                                            <th>User</th>
+                                            <th>Total</th>
+                                            <th>Status</th>
+                                            <th>Created Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     </div>
-@endsection
-@section('jquery')
-<script>
-
-</script>
 @endsection
