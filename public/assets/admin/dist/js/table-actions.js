@@ -140,7 +140,6 @@ $(function () {
             { data: 'status', "width": "12%", name: 'status', orderable: false},
             { data: 'created_at', "width": "15%", name: 'created_at'},
             { data: 'action', "width": "12%", name: 'action', orderable: false},
-
         ],
         "order": [[0, "DESC"]]
     });
@@ -167,7 +166,6 @@ $(function () {
             { data: 'status', "width": "12%", name: 'status', orderable: false},
             { data: 'created_at', "width": "15%", name: 'created_at', orderable: false},
             { data: 'action', "width": "5%", name: 'action', orderable: false},
-
         ],
         "order": [[0, "DESC"]]
     });
@@ -201,6 +199,22 @@ $(function () {
             {data: 'sku',  name: 'sku'},
             {data: 'product_qty_sum', "width": "10%",  name: 'product_qty_sum', orderable: false},
             {data: 'product_price_sum', "width": "15%",  name: 'product_price_sum', orderable: false, class: 'text-right'},            
+        ],
+        "order": [[0, "DESC"]]
+    });
+
+    //Order Table 
+    var sales_report_table = $('#salesReportTable').DataTable({
+        processing: true,
+        serverSide: true,
+        pageLength: 100,
+        lengthMenu: [100, 200, 300, 400, 500],
+        ajax: $("#route_name").val(),
+        columns: [
+            { data: 'created_date', name: 'created_date', orderable: false},
+            { data: 'total_orders', name: 'total_orders', orderable: false},
+            { data: 'total_order_items', name: 'total_order_items', orderable: false},
+            { data: 'total_amount', name: 'total_amount', orderable: false, class: 'text-right'},
         ],
         "order": [[0, "DESC"]]
     });

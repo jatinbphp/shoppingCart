@@ -85,4 +85,5 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     /*Reports*/
     Route::get('reports/user_orders', [ReportController::class, 'index_user_orders'])->name('reports.user_orders');
     Route::get('reports/purchase_product', [ReportController::class, 'index_purchase_product'])->name('reports.purchase_product');
+    Route::get('reports/sales', [ReportController::class, 'index_sales'])->name('reports.sales');
 });

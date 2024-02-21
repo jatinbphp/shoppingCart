@@ -49,9 +49,9 @@
         <div class="sidebar">
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item has-treeview @if(isset($menu) && $menu=='Admin Profile') menu-open  @endif" style="border-bottom: 1px solid #4f5962; margin-bottom: 4.5%;">
+                    <li class="nav-item has-treeview @if(isset($menu) && $menu=='Edit Profile') menu-open  @endif" style="border-bottom: 1px solid #4f5962; margin-bottom: 4.5%;">
 
-                        <a href="#" class="nav-link @if(isset($menu) && $menu=='Admin Profile') active  @endif">
+                        <a href="#" class="nav-link @if(isset($menu) && $menu=='Edit Profile') active  @endif">
                             @if(Auth::user()->image)
                                 <img src=" {{asset(Auth::user()->image)}}" class="img-circle elevation-2" alt="User Image" style="width: 2.1rem; margin-right: 1.5%;">
                             @else
@@ -65,7 +65,7 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <?php $eid = \Illuminate\Support\Facades\Auth::user()->id; ?>
-                                <a href="{{ route('profile_update.edit',['profile_update'=>$eid]) }}" class="nav-link @if(isset($menu) && $menu=='Admin Profile') active @endif">
+                                <a href="{{ route('profile_update.edit',['profile_update'=>$eid]) }}" class="nav-link @if(isset($menu) && $menu=='Edit Profile') active @endif">
                                     <i class="nav-icon fa fa-pencil"></i><p class="text-warning">Edit Profile</p>
                                 </a>
                             </li>
@@ -105,7 +105,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('orders.index') }}" class="nav-link @if(isset($menu) && $menu=='Orders') active @endif">
-                            <i class="nav-icon fa fa-cart-plus"></i>
+                            <i class="nav-icon fa fa-shopping-cart"></i>
                             <p>Orders</p>
                         </a>
                     </li>
@@ -122,8 +122,8 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a href="#" class="nav-link @if(isset($menu) && $menu=='User Orders Report') active @endif">
+                    <li class="nav-item @if(isset($menu) && in_array($menu, ['User Orders Report', 'Products Purchased Report', 'Sales Report'])) menu-open  @endif">
+                        <a href="#" class="nav-link @if(isset($menu) && in_array($menu, ['User Orders Report', 'Products Purchased Report', 'Sales Report'])) active @endif">
                             <i class="nav-icon fa fa-flag"></i>
                             <p>
                                 Reports
@@ -131,16 +131,23 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item @if(isset($menu) && $menu=='User Orders Report') active @endif">
-                                <a href="{{ route('reports.user_orders')}}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                            <li class="nav-item">
+                                <a href="{{ route('reports.user_orders')}}" class="nav-link @if(isset($menu) && $menu=='User Orders Report') active @endif">
+                                    <i class="fas fa-file-alt nav-icon"></i>
                                     <p>User Orders Report</p>
                                 </a>
                             </li>
-                            <li class="nav-item @if(isset($menu) && $menu=='Products Purchased Report') active @endif">
-                                <a href="{{ route('reports.purchase_product')}}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                            <li class="nav-item">
+                                <a href="{{ route('reports.purchase_product')}}" class="nav-link @if(isset($menu) && $menu=='Products Purchased Report') active @endif">
+                                    <i class="fas fa-chart-bar nav-icon"></i>
                                     <p>Product Purchase Report</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('reports.sales')}}" class="nav-link @if(isset($menu) && $menu=='Sales Report') active @endif">
+                                    <i class="fas fa-chart-line nav-icon"></i>
+                                    <p>Sales Report</p>
                                 </a>
                             </li>
                         </ul>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DataTables;
 use App\Models\User;
 use App\Models\Products;
+use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
@@ -74,5 +75,34 @@ class ReportController extends Controller
         }
 
         return view('admin.reports.index_purchase_products', $data);
+    }
+
+    public function index_sales(Request $request)
+    {
+        $data['menu'] = 'Sales Report';
+
+        if ($request->ajax()) {
+
+            $collection = Order::select([
+                DB::raw('DATE(orders.created_at) as created_date'),
+                DB::raw('COUNT(DISTINCT orders.id) as total_orders'),
+                DB::raw('SUM(orders.total_amount) as total_amount'),
+                DB::raw('SUM(order_items.product_qty) as total_order_items')
+            ])
+            ->leftJoin('order_items', 'orders.id', '=', 'order_items.order_id')
+            ->groupBy(DB::raw('DATE(orders.created_at)'))
+            ->orderBy('created_date', 'DESC');
+
+            return DataTables::of($collection)
+                ->addColumn('total_order_items', function($row) {
+                    return $row->total_order_items;
+                })
+                ->addColumn('total_amount', function($row) {
+                    return env('CURRENCY') . number_format($row->total_amount, 2);
+                })
+                ->make(true);
+        }
+
+        return view('admin.reports.index_sales', $data);
     }
 }
