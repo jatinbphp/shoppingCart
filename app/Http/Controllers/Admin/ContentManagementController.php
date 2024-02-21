@@ -16,10 +16,9 @@ class ContentManagementController extends Controller
     public function index(Request $request)
     {
         $data['menu'] = 'Content Management';
-        if ($request->ajax()) {
 
-            $cms = ContentManagement::all();
-            return Datatables::of($cms)
+        if ($request->ajax()) {
+            return Datatables::of(ContentManagement::all())
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
                     $row['section_name'] = 'content';

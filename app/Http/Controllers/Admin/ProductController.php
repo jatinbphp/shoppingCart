@@ -22,6 +22,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $data['menu'] = 'Products';
+
         if ($request->ajax()) {
             return Datatables::of(Products::select())
                 ->addIndexColumn()
@@ -52,8 +53,10 @@ class ProductController extends Controller
     public function create()
     {
         $data['menu'] = 'Products';
+
         $data['categories'] = $this->getCategories();
         $data['product_options'] = [];
+
         return view("admin.product.create",$data);
     }
 
@@ -106,9 +109,11 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         $data['menu'] = 'Products';
+
         $data['product'] = Products::with('product_images')->where('id',$id)->first();
         $data['categories'] = $this->getCategories();
         $data['product_options'] = ProductsOptions::with('product_option_values')->where('product_id',$id)->where('status','active')->get();
+        
         return view('admin.product.edit',$data);
     }
 
@@ -267,7 +272,6 @@ class ProductController extends Controller
 
     public function importProductStore(ProductImportRequest $request)
     {
-        
         $file = $request->file('file');
         $csvFile = $this->fileMove($file,'product-csv');
 

@@ -24,6 +24,7 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $data['menu'] = 'Orders';
+
         if ($request->ajax()) {
             return DataTables::of(Order::select()->orderBy('id', 'DESC'))
                 ->addColumn('order_id', function($order) {
@@ -153,8 +154,10 @@ class OrderController extends Controller
     public function create()
     {
         $data['menu'] = 'Orders';
+
         $data['users'] = User::where('status', 'active')->where('role', 'user')->pluck('name', 'id')->prepend('Please Select', '');
         $data['products'] = Products::where('status', 'active')->get();
+        
         return view("admin.order.create",$data);
     }
 
@@ -241,9 +244,11 @@ class OrderController extends Controller
     public function edit(string $id)
     {
         $data['menu'] = 'Orders';
+
         $data['users'] = User::where('status', 'active')->where('role', 'user')->pluck('name', 'id')->prepend('Please Select', '');
         $data['products'] = Products::where('status', 'active')->get();
         $data['order'] = Order::where('id',$id)->first();
+        
         return view('admin.order.edit',$data);
     }
 

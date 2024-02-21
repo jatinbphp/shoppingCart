@@ -14,6 +14,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $data['menu'] = 'Category';
+
         if ($request->ajax()) {
             return Datatables::of(Category::with('parent')->orderBy('name','ASC'))
                 ->addIndexColumn()
@@ -52,6 +53,7 @@ class CategoryController extends Controller
     public function create($pcid = null)
     {
         $data['menu'] = 'Category';
+
         $data['categories'] = Category::where('status', 'active')->where('parent_category_id', 0)->pluck('name', 'id')->prepend('Please Select', '0');
 
         return view("admin.category.create",$data);
@@ -65,6 +67,7 @@ class CategoryController extends Controller
         if($file = $request->file('image')){
             $input['image'] = $this->fileMove($file,'categories');
         }
+
         Category::create($input);
 
         \Session::flash('success', 'Category has been inserted successfully!');
@@ -85,8 +88,10 @@ class CategoryController extends Controller
     public function edit(string $id, $pcid = null)
     {        
         $data['menu'] = 'Category';
+
         $data['category'] = Category::where('id',$id)->first();
         $data['categories'] = Category::where('status', 'active')->where('parent_category_id', 0)->where('id', '!=', $id)->pluck('name', 'id')->prepend('Please Select', '0');
+        
         return view('admin.category.edit',$data);
     }
 
@@ -101,6 +106,7 @@ class CategoryController extends Controller
             }
             $input['image'] = $this->fileMove($file,'categories');
         }
+        
         $category->update($input);
 
         \Session::flash('success','Category has been updated successfully!');

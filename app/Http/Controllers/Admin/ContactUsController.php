@@ -15,10 +15,9 @@ class ContactUsController extends Controller
     public function index(Request $request)
     {
         $data['menu'] = 'Contact Us';
-        if ($request->ajax()) {
 
-            $cms = ContactUs::all();
-            return Datatables::of($cms)
+        if ($request->ajax()) {
+            return Datatables::of(ContactUs::all())
                 ->addIndexColumn()
                 ->editColumn('created_at', function($row){
                     return $row['created_at']->format('Y-m-d h:i:s');

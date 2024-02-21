@@ -14,8 +14,8 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $data['menu'] = 'Users';
-        if ($request->ajax()) {
 
+        if ($request->ajax()) {
             $user = User::all()->where('role', 'user');
             return Datatables::of($user)
                 ->addIndexColumn()
@@ -47,7 +47,9 @@ class UserController extends Controller
     public function create()
     {
         $data['menu'] = 'Users';
+
         $data['user_addresses'] = [];
+
         return view("admin.user.create",$data);
     }
 
@@ -83,8 +85,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $data['menu'] = 'Users';
+
         $data['users'] = User::where('id',$id)->first();
         $data['user_addresses'] = UserAddresses::where('user_id',$id)->get();
+        
         return view('admin.user.edit',$data);
     }
 

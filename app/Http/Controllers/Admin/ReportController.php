@@ -14,6 +14,7 @@ class ReportController extends Controller
     public function index_user_orders(Request $request)
     {
         $data['menu'] = 'User Orders Report';
+        
         if ($request->ajax()) {
 
             $usersWithOrdersAndProducts = User::where('role', 'user')->whereHas('orders')
