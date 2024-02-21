@@ -26,7 +26,7 @@
                 <div class="card">
                     <div class="card-body">
                         {!! Form::open(['url' => null, 'id' => 'reports-filter-Form', 'class' => 'form-horizontal','files'=>true]) !!}
-                            @include ('admin.reports.filter_purchase_products')
+                            @include ('admin.reports.filter_sales')
                         {!! Form::close() !!}
                     </div>
                 </div>
