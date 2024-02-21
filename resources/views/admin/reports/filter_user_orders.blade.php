@@ -1,6 +1,11 @@
 <div class="row">
     <div class="col-md-2">
         <div class="form-group">
+            <label class="control-label" for="user_id">User :<span class="text-red d-none">*</span></label>            
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
             <label class="control-label" for="brand_id">Order Status :<span class="text-red d-none">*</span></label>
         </div>
     </div>
