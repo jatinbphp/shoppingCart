@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('product_price')->default(0);
             $table->string('product_qty')->default(0);
             $table->string('sub_total')->default(0);
-            $table->softDeletes();
             $table->timestamps();
         });
     }

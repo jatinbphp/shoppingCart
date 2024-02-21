@@ -16,18 +16,36 @@ class ReportController extends Controller
     {
         $data['menu'] = 'User Orders Report';
         
-        if ($request->ajax()) {
+        if($request->ajax()) {
+            $collection = User::where('role', 'user')->whereHas('orders')
+                ->withCount([
+                    'orders',
+                    'orderItems',
+                    'orders as total_amount_sum' => function ($query) {
+                        $query->select(DB::raw('coalesce(sum(total_amount), 0) as total_amount_sum'));
+                    }
+                ])
+                ->when($request->input('status'), function ($query, $status) {
+                    return $query->whereHas('orders', function ($subquery) use ($status) {
+                        $subquery->where('status', $status);
+                    });
+                })
+                ->when($request->input('user_id'), function ($query, $user_id) {
+                    return $query->whereHas('orders', function ($subquery) use ($user_id) {
+                        $subquery->where('user_id', $user_id);
+                    });
+                })
+                ->when($request->input('daterange'), function ($query, $daterange) {
+                    $start_date = explode("-", $daterange)[0];
+                    $end_date = explode("-", $daterange)[1];
+                    return $query->whereHas('orders', function ($subquery) use ($start_date, $end_date) {
+                        $subquery->whereDate('created_at', '>=', $start_date)
+                                 ->whereDate('created_at', '<=', $end_date);
+                    });
+                });
 
-            $usersWithOrdersAndProducts = User::where('role', 'user')->whereHas('orders')
-            ->withCount([
-                'orders',
-                'orderItems',
-                'orders as total_amount_sum' => function ($query) {
-                    $query->select(DB::raw('coalesce(sum(total_amount), 0) as total_amount_sum'));
-                }
-            ]);
 
-            return Datatables::of($usersWithOrdersAndProducts)
+            return Datatables::of($collection)
                 ->addIndexColumn()
                 ->addColumn('total_orders', function($row) {
                     return $row->orders_count;
@@ -40,6 +58,8 @@ class ReportController extends Controller
                 })                
                 ->make(true);
         }
+
+        $data['users'] = User::where('role', 'user')->where('status', 'active')->pluck('name', 'id');
 
         return view('admin.reports.index_user_orders', $data);
     }
@@ -73,6 +93,9 @@ class ReportController extends Controller
                 })
                 ->make(true);
         }
+
+        $data['products'] = Products::where('status', 'active')->pluck('product_name', 'id');
+        $data['users'] = User::where('role', 'user')->where('status', 'active')->pluck('name', 'id');
 
         return view('admin.reports.index_purchase_products', $data);
     }

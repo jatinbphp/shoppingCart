@@ -176,7 +176,20 @@ $(function () {
         serverSide: true,
         pageLength: 100,
         lengthMenu: [ 100, 200, 300, 400, 500 ],
-        ajax: $("#route_name").val(),
+        ajax: {
+            url: $("#route_name").val(),
+            data: function (d) {
+                var formDataArray = $('#report-filter-Form').find(':input:not(select[multiple])').serializeArray();
+
+                var formData = {};
+                $.each(formDataArray, function(i, field){
+                    formData[field.name] = field.value;
+                });
+                d = $.extend(d, formData);
+                
+                return d;
+            },
+        },
         columns: [
             {data: 'name', name: 'name'},
             {data: 'email',  name: 'email'},
@@ -193,7 +206,20 @@ $(function () {
         serverSide: true,
         pageLength: 100,
         lengthMenu: [ 100, 200, 300, 400, 500 ],
-        ajax: $("#route_name").val(),
+        ajax: {
+            url: $("#route_name").val(),
+            data: function (d) {
+                var formDataArray = $('#report-filter-Form').find(':input:not(select[multiple])').serializeArray();
+
+                var formData = {};
+                $.each(formDataArray, function(i, field){
+                    formData[field.name] = field.value;
+                });
+                d = $.extend(d, formData);
+                
+                return d;
+            },
+        },
         columns: [            
             {data: 'product_name', product_name: 'product_name'},
             {data: 'sku',  name: 'sku'},
@@ -209,7 +235,20 @@ $(function () {
         serverSide: true,
         pageLength: 100,
         lengthMenu: [100, 200, 300, 400, 500],
-        ajax: $("#route_name").val(),
+        ajax: {
+            url: $("#route_name").val(),
+            data: function (d) {
+                var formDataArray = $('#report-filter-Form').find(':input:not(select[multiple])').serializeArray();
+
+                var formData = {};
+                $.each(formDataArray, function(i, field){
+                    formData[field.name] = field.value;
+                });
+                d = $.extend(d, formData);
+                
+                return d;
+            },
+        },
         columns: [
             { data: 'created_date', name: 'created_date', orderable: false},
             { data: 'total_orders', name: 'total_orders', orderable: false},
@@ -386,6 +425,34 @@ $(function () {
             }
         });
     });
+
+    // stock order filter
+    $('#apply-filter').click(function() {
+        var dataType = $(this).data('type');
+
+        if(dataType=='user-orders'){
+            user_orders_report_table.ajax.reload(null, false);
+        } else if(dataType=='purchase-products'){
+            purchase_product_report_table.ajax.reload(null, false);
+        } else if(dataType=='sales-orders'){
+            sales_report_table.ajax.reload(null, false);
+        }
+    });
     
+    // clear filter
+    $('#clear-filter').click(function() {
+        var dataType = $(this).data('type');
+
+        $('#report-filter-Form')[0].reset();
+        $(".select2").val("").trigger("change");
+
+        if(dataType=='user-orders'){
+            user_orders_report_table.ajax.reload(null, false);
+        } else if(dataType=='purchase-products'){    
+            purchase_product_report_table.ajax.reload(null, false);
+        } else if(dataType=='sales-orders'){    
+            sales_report_table.ajax.reload(null, false);
+        }   
+    });
 });
 

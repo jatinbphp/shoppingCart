@@ -41,9 +41,9 @@ class OrderController extends Controller
                 })
                 ->editColumn('status', function($row){
                     $select = '<select class="form-control select2 orderStatus" id="status'.$row->unique_id.'"  data-id="'.$row->id.'" >';
-                        foreach(Order::$allStatus as $status){
-                            $selected = ($status == $row->status) ? ' selected="selected"' : '';
-                            $select .= '<option '.$selected.' value="'.$status.'">'.ucfirst($status).'</option>';
+                        foreach(Order::$allStatus as $key => $status){
+                            $selected = ($key == $row->status) ? ' selected="selected"' : '';
+                            $select .= '<option '.$selected.' value="'.$key.'">'.ucfirst($status).'</option>';
                         }
                     $select .= '</select>';
                     return $select;
@@ -62,13 +62,12 @@ class OrderController extends Controller
 
     public function index_product(Request $request)
     {
-
         $data['menu'] = 'Orders';
         
         if(isset($request->order_id) && $request->order_id>0){
 
             if($request->first_time_load==0){
-                Cart::with('order_id',$request->order_id)->delete();
+                Cart::where('order_id',$request->order_id)->delete();
 
                 $OrderItems = OrderItem::where('order_id', $request->order_id)->get();
 
@@ -218,7 +217,7 @@ class OrderController extends Controller
             $order->save();
 
             // clear cart
-            Cart::with('csrf_token',csrf_token())->where('order_id',0)->delete();
+            Cart::where('csrf_token',csrf_token())->where('order_id',0)->delete();
 
             \Session::flash('success','Order has been updated successfully!');
             return redirect()->route('orders.index');
@@ -261,8 +260,8 @@ class OrderController extends Controller
         $order_products = Cart::with('product')->where('csrf_token',csrf_token())->where('order_id',$input['order_id'])->get();
         if(!empty($order_products)){
 
-            OrderItem::with('order_id',$input['order_id'])->delete();
-            OrderOption::with('order_id',$input['order_id'])->delete();
+            OrderItem::where('order_id',$input['order_id'])->delete();
+            OrderOption::where('order_id',$input['order_id'])->delete();
 
             $order = Order::find($input['order_id']);    
 
@@ -316,7 +315,7 @@ class OrderController extends Controller
             $order->save();
 
             // clear cart
-            Cart::with('csrf_token',csrf_token())->where('order_id',$input['order_id'])->delete();
+            Cart::where('csrf_token',csrf_token())->where('order_id',$input['order_id'])->delete();
 
             \Session::flash('success','Order has been updated successfully!');
             return redirect()->route('orders.index');   
@@ -452,9 +451,8 @@ class OrderController extends Controller
 
     public function index_order_dashborad(Request $request)
     {
-        $data['menu'] = 'Orders';
         if ($request->ajax()) {
-            return DataTables::of(Order::select()->orderBy('id', 'DESC')->take(5)->get())
+            return DataTables::of(Order::select()->orderBy('id', 'DESC')->take(5))
                 ->addColumn('order_id', function($order) {
                     return env('ORDER_PREFIX').'-'.date("Y", strtotime($order->created_at)).'-'.$order->id; 
                 })
@@ -466,9 +464,6 @@ class OrderController extends Controller
                 })
                 ->editColumn('created_at', function($row){
                     return $row['created_at']->format('Y-m-d h:i:s');
-                })
-                ->editColumn('status', function($row){
-                    return ucfirst($row->status);
                 })
                 ->editColumn('status', function($row){
                    $status = [
@@ -488,7 +483,5 @@ class OrderController extends Controller
                 ->rawColumns(['status'])
                 ->make(true);
         }
-
-        return view('admin.order.index', $data);
     }
 } 

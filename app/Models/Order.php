@@ -37,10 +37,10 @@ class Order extends Model
     const STATUS_TYPE_COMPLETE = 'complete';
     const STATUS_TYPE_CANCEL   = 'cancel';
     public static $allStatus = [
-        self::STATUS_TYPE_PENDING,
-        self::STATUS_TYPE_REJECT,
-        self::STATUS_TYPE_COMPLETE,
-        self::STATUS_TYPE_CANCEL,
+        self::STATUS_TYPE_PENDING => 'Pending',
+        self::STATUS_TYPE_REJECT => 'Reject',
+        self::STATUS_TYPE_COMPLETE => 'Complete',
+        self::STATUS_TYPE_CANCEL => 'Cancel',
     ];
     
     const DELIVERY_METHOD_FEDEX = 'FEDEX';
