@@ -68,16 +68,38 @@ class ReportController extends Controller
     {
         $data['menu'] = 'Products Purchased Report';
 
-        $collection = Products::whereHas('orderItems')
-            ->withCount([
-                'orderItems',
-                'orderItems as product_price_sum' => function ($query) {
-                    $query->select(DB::raw('coalesce(sum(sub_total), 0) as product_price_sum'));
-                },
-                'orderItems as product_qty_sum' => function ($query) {
-                    $query->select(DB::raw('coalesce(sum(product_qty), 0) as product_qty_sum'));
-                }
-            ]);
+        $collection = Products::join('order_items', 'products.id', '=', 'order_items.product_id')
+                        ->join('orders', 'orders.id', '=', 'order_items.order_id')
+                        ->select(
+                            'products.*',
+                            DB::raw('SUM(order_items.product_qty) as total_quantity'),
+                            DB::raw('SUM(order_items.sub_total) as total_amount')
+                        )
+                        ->when($request->input('status'), function ($query, $status) {
+                            $query->where('orders.status', $status);
+                        })
+                        ->when($request->input('product_id'), function ($query, $product_id) {
+                            $query->where('products.id', $product_id);
+                        })
+                        ->when($request->input('daterange'), function ($query, $daterange) {
+                            $dates = explode("-", $daterange);
+                            if (count($dates) == 2) {
+                                $start_date = date('Y-m-d', strtotime(trim($dates[0])));
+                                $end_date = date('Y-m-d', strtotime(trim($dates[1])));
+                                $query->whereDate('orders.created_at', '>=', $start_date)
+                                    ->whereDate('orders.created_at', '<=', $end_date);
+                            }
+                        })
+                        ->groupBy('products.id')
+                        ->withCount([
+                            'orderItems',
+                            'orderItems as product_price_sum' => function ($query) {
+                                $query->select(DB::raw('coalesce(sum(sub_total), 0) as product_price_sum'));
+                            },
+                            'orderItems as product_qty_sum' => function ($query) {
+                                $query->select(DB::raw('coalesce(sum(product_qty), 0) as product_qty_sum'));
+                            }
+                        ]);
 
         if ($request->ajax()) {
             return Datatables::of($collection)
@@ -95,7 +117,6 @@ class ReportController extends Controller
         }
 
         $data['products'] = Products::where('status', 'active')->pluck('product_name', 'id');
-        $data['users'] = User::where('role', 'user')->where('status', 'active')->pluck('name', 'id');
 
         return view('admin.reports.index_purchase_products', $data);
     }
@@ -113,6 +134,18 @@ class ReportController extends Controller
                 DB::raw('SUM(order_items.product_qty) as total_order_items')
             ])
             ->leftJoin('order_items', 'orders.id', '=', 'order_items.order_id')
+            ->when($request->input('status'), function ($query, $status) {
+                $query->where('status', $status);
+            })
+            ->when($request->input('daterange'), function ($query, $daterange) {
+                $dates = explode("-", $daterange);
+                if (count($dates) == 2) {
+                    $start_date = date('Y-m-d', strtotime(trim($dates[0])));
+                    $end_date = date('Y-m-d', strtotime(trim($dates[1])));
+                    $query->whereDate('order_items.created_at', '>=', $start_date)
+                        ->whereDate('order_items.created_at', '<=', $end_date);
+                }
+            })
             ->groupBy(DB::raw('DATE(orders.created_at)'))
             ->orderBy('created_date', 'DESC');
 

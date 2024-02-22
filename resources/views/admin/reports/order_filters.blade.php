@@ -24,7 +24,7 @@
             <select name="status" class="form-control" id="status">
                 <option value="">Please Select</option>
                 @foreach (\App\Models\Order::$allStatus as $key => $value)
-                    <option value="{{ $value }}">{{ucfirst($value)}}</option>
+                    <option value="{{ $key }}">{{ucfirst($value)}}</option>
                 @endforeach
             </select>
         </div>
