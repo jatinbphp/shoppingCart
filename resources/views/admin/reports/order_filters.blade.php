@@ -20,7 +20,7 @@
 
     <div class="col-md-3">
         <div class="form-group">
-            <label class="control-label" for="brand_id">Order Status :<span class="text-red d-none">*</span></label>
+            <label class="control-label" for="status">Order Status :<span class="text-red d-none">*</span></label>
             <select name="status" class="form-control" id="status">
                 <option value="">Please Select</option>
                 @foreach (\App\Models\Order::$allStatus as $key => $value)
@@ -31,7 +31,7 @@
     </div>
     <div class="col-md-4">
         <div class="form-group">
-            <label class="control-label" for="practice_id">Order Date :<span class="text-red d-none">*</span></label>
+            <label class="control-label" for="daterange">Order Date :<span class="text-red d-none">*</span></label>
             <input class="form-control" type="text" name="daterange" placeholder="Please select" />
         </div>
     </div>

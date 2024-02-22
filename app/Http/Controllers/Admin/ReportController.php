@@ -15,6 +15,98 @@ class ReportController extends Controller
     public function index_user_orders(Request $request)
     {
         $data['menu'] = 'User Orders Report';
+        if ($request->ajax()) {
+
+            $dateRange = $request->input('daterange');
+            $dateStart = null;
+            $dateEnd = null;
+            if (!empty($dateRange) && strpos($dateRange, ' - ') !== false) {
+                [$dateStart, $dateEnd] = explode(' - ', $dateRange);
+            }
+            
+            $usersWithOrdersAndProducts = User::where('role', 'user')->whereHas('orders')
+            ->when($request->input('user_id'), function ($query, $userId) {
+                return $query->where('id', $userId);
+            })
+            ->whereHas('orders', function ($query) use ($request) {
+                if ($request->input('status')) {
+                    $query->where('status', $request->input('status'));
+                }
+            })
+            ->whereHas('orders', function ($query) use ($dateStart, $dateEnd) {
+                if (!is_null($dateStart)) {
+                    $query->whereDate('created_at', '>=', $dateStart);
+                }
+                if (!is_null($dateEnd)) {
+                    $query->whereDate('created_at', '<=', $dateEnd);
+                }
+            })
+            ->withCount([
+                'orders' => function ($query) use ($request, $dateStart, $dateEnd) {
+                    if ($request->input('status')) {
+                        $query->where('status', $request->input('status'));
+                    }
+                    if (!is_null($dateStart)) {
+                        $query->whereDate('orders.created_at', '>=', $dateStart);
+                    }
+                    if (!is_null($dateEnd)) {
+                        $query->whereDate('orders.created_at', '<=', $dateEnd);
+                    }
+                },
+                'orderItems' => function ($query) use ($request, $dateStart, $dateEnd) {
+                    if ($request->input('status')) {
+                        $query->where('status', $request->input('status'));
+                    }
+                    if (!is_null($dateStart)) {
+                        $query->whereHas('order', function ($query) use ($dateStart) {
+                            $query->whereDate('created_at', '>=', $dateStart);
+                        });
+                    }
+                    if (!is_null($dateEnd)) {
+                        $query->whereHas('order', function ($query) use ($dateEnd) {
+                            $query->whereDate('created_at', '<=', $dateEnd);
+                        });
+                    }
+                },
+                'orders as total_amount_sum' => function ($query) use ($request, $dateStart, $dateEnd) {
+                    if ($request->input('status')) {
+                        $query->where('status', $request->input('status'));
+                    }
+                    if (!is_null($dateStart)) {
+                        $query->whereDate('orders.created_at', '>=', $dateStart);
+                    }
+                    if (!is_null($dateEnd)) {
+                        $query->whereDate('orders.created_at', '<=', $dateEnd);
+                    }
+                    $query->select(DB::raw('coalesce(sum(total_amount), 0) as total_amount_sum'));
+                }
+            ]);
+                
+            return Datatables::of($usersWithOrdersAndProducts)
+                ->addIndexColumn()
+
+                ->addColumn('total_orders', function($row) {
+                    return $row->orders_count;
+                })
+                ->addColumn('total_order_items', function($row) {
+                    return $row->order_items_count;
+                })
+                ->addColumn('total_amount_sum', function($row) {
+                    return env('CURRENCY').number_format($row->total_amount_sum, 2);
+                })                
+                ->make(true);
+        }
+         
+         $data['users']=  User::where('role','user')->pluck('name', 'id'); 
+         $data['status'] = Order::$allStatus; 
+        
+        return view('admin.reports.index_user_orders', $data);
+    }
+
+    /*
+    public function index_user_orders(Request $request)
+    {
+        $data['menu'] = 'User Orders Report';
         
         if($request->ajax()) {
             $collection = User::where('role', 'user')->whereHas('orders')
@@ -62,7 +154,7 @@ class ReportController extends Controller
         $data['users'] = User::where('role', 'user')->where('status', 'active')->pluck('name', 'id');
 
         return view('admin.reports.index_user_orders', $data);
-    }
+    }*/
 
     public function index_purchase_product(Request $request)
     {
