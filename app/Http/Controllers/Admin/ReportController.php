@@ -103,59 +103,6 @@ class ReportController extends Controller
         return view('admin.reports.index_user_orders', $data);
     }
 
-    /*
-    public function index_user_orders(Request $request)
-    {
-        $data['menu'] = 'User Orders Report';
-        
-        if($request->ajax()) {
-            $collection = User::where('role', 'user')->whereHas('orders')
-                ->withCount([
-                    'orders',
-                    'orderItems',
-                    'orders as total_amount_sum' => function ($query) {
-                        $query->select(DB::raw('coalesce(sum(total_amount), 0) as total_amount_sum'));
-                    }
-                ])
-                ->when($request->input('status'), function ($query, $status) {
-                    return $query->whereHas('orders', function ($subquery) use ($status) {
-                        $subquery->where('status', $status);
-                    });
-                })
-                ->when($request->input('user_id'), function ($query, $user_id) {
-                    return $query->whereHas('orders', function ($subquery) use ($user_id) {
-                        $subquery->where('user_id', $user_id);
-                    });
-                })
-                ->when($request->input('daterange'), function ($query, $daterange) {
-                    $start_date = explode("-", $daterange)[0];
-                    $end_date = explode("-", $daterange)[1];
-                    return $query->whereHas('orders', function ($subquery) use ($start_date, $end_date) {
-                        $subquery->whereDate('created_at', '>=', $start_date)
-                                 ->whereDate('created_at', '<=', $end_date);
-                    });
-                });
-
-
-            return Datatables::of($collection)
-                ->addIndexColumn()
-                ->addColumn('total_orders', function($row) {
-                    return $row->orders_count;
-                })
-                ->addColumn('total_order_items', function($row) {
-                    return $row->order_items_count;
-                })
-                ->addColumn('total_amount_sum', function($row) {
-                    return env('CURRENCY').number_format($row->total_amount_sum, 2);
-                })                
-                ->make(true);
-        }
-
-        $data['users'] = User::where('role', 'user')->where('status', 'active')->pluck('name', 'id');
-
-        return view('admin.reports.index_user_orders', $data);
-    }*/
-
     public function index_purchase_product(Request $request)
     {
         $data['menu'] = 'Products Purchased Report';
