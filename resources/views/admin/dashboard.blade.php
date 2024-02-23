@@ -178,8 +178,7 @@ $(function () {
 
     let data = [
         [0, 1, 2, 3, 4, 5, 6, 7],
-        [28, 48, 40, 19, 86, 27, 90, 100],
-        [65, 59, 80, 81, 56, 55, 40, 50]
+        [28, 48, 40, 19, 86, 27, 90, 100]
     ];
 
     const optsLineChart = {
@@ -198,11 +197,6 @@ $(function () {
               fill: 'transparent',
               width: 5,
               stroke: '#343a40',
-            },
-            {
-              stroke: '#c1c7d1',
-              width: 5,
-              fill: 'transparent',
             },
         ],
     };
