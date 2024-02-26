@@ -132,8 +132,27 @@
 @endsection
 @section('jquery')
 <script type="text/javascript">
+// Total Sales Chart
+var labels = [];
+var monthlyOrderAmounts = {!! json_encode($monthlyOrderAmounts) !!};
+function getMonthName(monthAbbreviation) {
+    var parts = monthAbbreviation.split('-');
+    var monthNumber = parseInt(parts[1]) - 1;
+    var date = new Date(parts[0], monthNumber);
+    var monthName = date.toLocaleString('default', { month: 'short' });
+
+    return monthName;
+}
+var labels = monthlyOrderAmounts.map(function(item) {
+    return getMonthName(item.month);
+});
+
+var data = monthlyOrderAmounts.map(function(item) {
+    return item.total_amount;
+});
+
 var areaChartData = {
-    labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels  : labels,
     datasets: [
         {
             label               : 'Total Sales',
@@ -144,11 +163,12 @@ var areaChartData = {
             pointStrokeColor    : 'rgba(60,141,188,1)',
             pointHighlightFill  : '#fff',
             pointHighlightStroke: 'rgba(60,141,188,1)',
-            data                : [20008, 48000, 40000, 19000, 8600, 27000, 10000]
+            data                : data
         }
     ]
 }
 
+// Total Orders Chart
 var barChartCanvas = $('#barChart').get(0).getContext('2d');
 var barChartData = $.extend(true, {}, areaChartData);
 
@@ -176,10 +196,15 @@ $(function () {
         }
     }
 
-    let data = [
-        [0, 1, 2, 3, 4, 5, 6, 7],
-        [28, 48, 40, 19, 86, 27, 90, 100]
-    ];
+    var dates = [];
+    var numOrders = [];
+
+    @foreach($order_date as $day)
+        dates.push("{{ $day['order_date'] }}");
+        numOrders.push("{{ $day['num_orders'] }}");
+    @endforeach
+
+    var data = [dates, numOrders];
 
     const optsLineChart = {
         ... getSize('lineChart'),
