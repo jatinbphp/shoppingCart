@@ -134,8 +134,8 @@ $(function () {
                     return '#' + data; // Prepend '#' to the 'id' data
                 }
             },
-            { data: 'order_id', name: 'order_id'},
-            { data: 'user_name', name: 'user_name'},
+            { data: 'order_id', name: 'id'},
+            { data: 'user_name', name: 'user.name'},
             { data: 'total_amount', name: 'total_amount', orderable: false, class: 'text-right'},
             { data: 'status', "width": "12%", name: 'status', orderable: false},
             { data: 'created_at', "width": "15%", name: 'created_at'},

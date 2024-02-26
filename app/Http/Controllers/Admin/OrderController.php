@@ -26,7 +26,7 @@ class OrderController extends Controller
         $data['menu'] = 'Orders';
 
         if ($request->ajax()) {
-            return DataTables::of(Order::select()->orderBy('id', 'DESC'))
+            return DataTables::of(Order::with('user'))
                 ->addColumn('order_id', function($order) {
                     return env('ORDER_PREFIX').'-'.date("Y", strtotime($order->created_at)).'-'.$order->id; 
                 })
