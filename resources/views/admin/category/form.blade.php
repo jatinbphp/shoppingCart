@@ -36,7 +36,7 @@
                 @if(!empty($block['image']) && file_exists($block['image']))
                     <img src="{{asset($block['image'])}}" alt="Categrory Image" style="border: 1px solid #ccc;margin-top: 5px;" width="150" id="DisplayImage">
                 @else
-                    <img src=" {{url('uploads/no-image.png')}}" alt="Categrory Image" style="border: 1px solid #ccc;margin-top: 5px;padding: 20px;" width="150" id="DisplayImage">
+                    <img src=" {{url('assets/admin/dist/img/no-image.png')}}" alt="Categrory Image" style="border: 1px solid #ccc;margin-top: 5px;padding: 20px;" width="150" id="DisplayImage">
                 @endif
 
                 @if ($errors->has('image'))

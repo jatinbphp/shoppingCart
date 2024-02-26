@@ -29,7 +29,7 @@ class CategoryController extends Controller
                     if (!empty($row['image']) && file_exists($row['image'])) {
                         return url($row['image']);
                     } else {
-                        return url('uploads/categories/default-category-image.jpeg');
+                        return url('assets/admin/dist/img/no-image.png');
                     }
                 })
                 ->editColumn('created_at', function($row){

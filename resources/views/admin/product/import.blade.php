@@ -26,7 +26,7 @@
                             <h3 class="card-title w-100">
                                 Import {{$menu}}
 
-                                <a href="{{ url('uploads/productImport.csv') }}" class="float-right" download><i class="fa fa-download"></i> Download Sample File</a>
+                                <a href="{{ url('assets/admin/dist/productImport.csv') }}" class="float-right" download><i class="fa fa-download"></i> Download Sample File</a>
                             </h3>
                         </div>
                         {!! Form::open(['url' => route('products.import.product.store'), 'id' => 'productsImportForm', 'class' => 'form-horizontal','files'=>true]) !!}
