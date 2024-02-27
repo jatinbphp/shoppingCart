@@ -78,26 +78,24 @@ class ReportController extends Controller
                   $query->select(DB::raw('coalesce(sum(total_amount), 0) as total_amount_sum'));
               }
           ]);
-      
-                
+
             return Datatables::of($usersWithOrdersAndProducts)
                 ->addIndexColumn()
-
-                ->addColumn('total_orders', function($row) {
+                ->editColumn('orders_count', function($row) {
                     return $row->orders_count;
                 })
-                ->addColumn('total_order_items', function($row) {
+                ->editColumn('order_items_count', function($row) {
                     return $row->order_items_count;
                 })
-                ->addColumn('total_amount_sum', function($row) {
+                ->editColumn('total_amount_sum', function($row) {
                     return env('CURRENCY').number_format($row->total_amount_sum, 2);
-                })                
+                })
                 ->make(true);
         }
-         
-         $data['users']=  User::where('role','user')->pluck('name', 'id'); 
-         $data['status'] = Order::$allStatus; 
-        
+
+         $data['users']=  User::where('role','user')->pluck('name', 'id');
+         $data['status'] = Order::$allStatus;
+
         return view('admin.reports.index_user_orders', $data);
     }
 
@@ -111,7 +109,7 @@ class ReportController extends Controller
             'products.*',
             DB::raw('SUM(order_items.product_qty) as total_quantity'),
             DB::raw('SUM(order_items.sub_total) as total_amount')
-        ) 
+        )
         ->when($request->input('status') && $request->input('daterange'), function ($query) use ($request) {
             $query->where('orders.status', $request->input('status'))
                   ->whereBetween('orders.created_at', [
@@ -184,17 +182,17 @@ class ReportController extends Controller
                     });
             }
         ]);
-        
+
         if ($request->ajax()) {
             return Datatables::of($collection)
                 ->addIndexColumn()
                 ->editColumn('price', function($row) {
                     return env('CURRENCY').number_format($row->price, 2);
                 })
-                ->addColumn('product_price_sum', function($row) {
+                ->editColumn('product_price_sum', function($row) {
                     return env('CURRENCY').number_format($row->product_price_sum, 2);
                 })
-                ->addColumn('product_qty_sum', function($row) {
+                ->editColumn('product_qty_sum', function($row) {
                     return $row->product_qty_sum;
                 })
                 ->make(true);
@@ -210,7 +208,6 @@ class ReportController extends Controller
         $data['menu'] = 'Sales Report';
 
         if ($request->ajax()) {
-
             $collection = Order::select([
                 DB::raw('DATE(orders.created_at) as created_date'),
                 DB::raw('COUNT(DISTINCT orders.id) as total_orders'),
@@ -230,14 +227,13 @@ class ReportController extends Controller
                         ->whereDate('order_items.created_at', '<=', $end_date);
                 }
             })
-            ->groupBy(DB::raw('DATE(orders.created_at)'))
-            ->orderBy('created_date', 'DESC');
+            ->groupBy(DB::raw('DATE(orders.created_at)'));
 
             return DataTables::of($collection)
-                ->addColumn('total_order_items', function($row) {
+                ->editColumn('total_order_items', function($row) {
                     return $row->total_order_items;
                 })
-                ->addColumn('total_amount', function($row) {
+                ->editColumn('total_amount', function($row) {
                     return env('CURRENCY') . number_format($row->total_amount, 2);
                 })
                 ->make(true);

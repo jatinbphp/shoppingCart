@@ -20,9 +20,9 @@ $(function () {
                     return '<img src="'+data+'" height="50" alt="Image"/>';
                 }
             },*/
-            {data: 'status', "width": "10%",  name: 'status', orderable: false}, 
-            {data: 'created_at', "width": "15%", name: 'created_at'},   
-            {data: 'action', "width": "12%",  name: 'action', orderable: false},                
+            {data: 'status', "width": "10%",  name: 'status', orderable: false},
+            {data: 'created_at', "width": "15%", name: 'created_at'},
+            {data: 'action', "width": "12%",  name: 'action', orderable: false},
         ],
         "order": [[0, "DESC"]]
     });
@@ -92,7 +92,7 @@ $(function () {
                 }
             },
             {data: 'title', name: 'title'},
-            {data: 'action', "width": "10%",  name: 'action', orderable: false},                
+            {data: 'action', "width": "10%",  name: 'action', orderable: false},
         ],
         "order": [[0, "ASC"]]
     });
@@ -115,12 +115,12 @@ $(function () {
             {data: 'email', name: 'email'},
             {data: 'message', name: 'message'},
             {data: 'created_at', "width": "15%", name: 'created_at'},
-            {data: 'action', "width": "10%",  name: 'action', orderable: false},                
+            {data: 'action', "width": "10%",  name: 'action', orderable: false},
         ],
         "order": [[0, "DESC"]]
     });
 
-    //Order Table 
+    //Order Table
     var orders_table = $('#ordersTable').DataTable({
         processing: true,
         serverSide: true,
@@ -144,7 +144,7 @@ $(function () {
         "order": [[0, "DESC"]]
     });
 
-    //Order Dashboard Table 
+    //Order Dashboard Table
     var orders_table = $('#ordersDasboardTable').DataTable({
         processing: true,
         serverSide: true,
@@ -186,16 +186,16 @@ $(function () {
                     formData[field.name] = field.value;
                 });
                 d = $.extend(d, formData);
-                
+
                 return d;
             },
         },
         columns: [
             {data: 'name', name: 'name'},
             {data: 'email',  name: 'email'},
-            {data: 'total_orders',  name: 'total_orders', orderable: false},
-            {data: 'total_order_items',  name: 'total_order_items', orderable: false},
-            {data: 'total_amount_sum',  name: 'total_amount_sum', orderable: false, class: 'text-right'},
+            {data: 'orders_count',  name: 'orders_count', orderable: true},
+            {data: 'order_items_count',  name: 'order_items_count', orderable: true},
+            {data: 'total_amount_sum',  name: 'total_amount_sum', orderable: true, class: 'text-right'},
         ],
         "order": [[4, "DESC"]]
     });
@@ -216,20 +216,20 @@ $(function () {
                     formData[field.name] = field.value;
                 });
                 d = $.extend(d, formData);
-                
+
                 return d;
             },
         },
-        columns: [            
+        columns: [
             {data: 'product_name', product_name: 'product_name'},
             {data: 'sku',  name: 'sku'},
-            {data: 'product_qty_sum', "width": "10%",  name: 'product_qty_sum', orderable: false},
-            {data: 'product_price_sum', "width": "15%",  name: 'product_price_sum', orderable: false, class: 'text-right'},            
+            {data: 'product_qty_sum', "width": "10%",  name: 'product_qty_sum', orderable: true},
+            {data: 'product_price_sum', "width": "15%",  name: 'product_price_sum', orderable: true, class: 'text-right'},
         ],
         "order": [[0, "DESC"]]
     });
 
-    //Order Table 
+    //Order Table
     var sales_report_table = $('#salesReportTable').DataTable({
         processing: true,
         serverSide: true,
@@ -245,15 +245,15 @@ $(function () {
                     formData[field.name] = field.value;
                 });
                 d = $.extend(d, formData);
-                
+
                 return d;
             },
         },
         columns: [
-            { data: 'created_date', name: 'created_date', orderable: false},
-            { data: 'total_orders', name: 'total_orders', orderable: false},
-            { data: 'total_order_items', name: 'total_order_items', orderable: false},
-            { data: 'total_amount', name: 'total_amount', orderable: false, class: 'text-right'},
+            { data: 'created_date', name: 'created_date', orderable: true},
+            { data: 'total_orders', name: 'total_orders', orderable: true},
+            { data: 'total_order_items', name: 'total_order_items', orderable: true},
+            { data: 'total_amount', name: 'total_amount', orderable: true, class: 'text-right'},
         ],
         "order": [[0, "DESC"]]
     });
@@ -284,19 +284,19 @@ $(function () {
                     headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
                     success: function(data){
                         if(section=='users_table'){
-                            users_table.row('.selected').remove().draw(false);    
+                            users_table.row('.selected').remove().draw(false);
                         } else if(section=='category_table'){
-                            category_table.row('.selected').remove().draw(false);   
+                            category_table.row('.selected').remove().draw(false);
                         } else if(section=='products_table'){
-                            products_table.row('.selected').remove().draw(false);   
+                            products_table.row('.selected').remove().draw(false);
                         } else if(section=='options_table'){
-                            options_table.row('.selected').remove().draw(false);   
+                            options_table.row('.selected').remove().draw(false);
                         } else if(section=='contactus_table'){
-                            contactus_table.row('.selected').remove().draw(false);   
+                            contactus_table.row('.selected').remove().draw(false);
                         } else if (section == 'orders_table') {
                             orders_table.row('.selected').remove().draw(false);
                         }
-                 
+
                         swal("Deleted", "Your data successfully deleted!", "success");
                     }
                 });
@@ -340,12 +340,12 @@ $(function () {
                 if(section=='users_table'){
                     users_table.draw(false);
                 } else if(section=='products_table'){
-                    products_table.draw(false);   
+                    products_table.draw(false);
                 } else if(section=='products_table'){
-                    products_table.draw(false);   
+                    products_table.draw(false);
                 } else if(section=='options_table'){
-                    options_table.draw(false);   
-                } 
+                    options_table.draw(false);
+                }
             }
         });
     });
@@ -438,7 +438,7 @@ $(function () {
             sales_report_table.ajax.reload(null, false);
         }
     });
-    
+
     // clear filter
     $('#clear-filter').click(function() {
         var dataType = $(this).data('type');
@@ -448,11 +448,11 @@ $(function () {
 
         if(dataType=='user-orders'){
             user_orders_report_table.ajax.reload(null, false);
-        } else if(dataType=='purchase-products'){    
+        } else if(dataType=='purchase-products'){
             purchase_product_report_table.ajax.reload(null, false);
-        } else if(dataType=='sales-orders'){    
+        } else if(dataType=='sales-orders'){
             sales_report_table.ajax.reload(null, false);
-        }   
+        }
     });
 });
 
