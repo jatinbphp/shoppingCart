@@ -154,7 +154,7 @@ class OrderController extends Controller
     {
         $data['menu'] = 'Orders';
 
-        $data['users'] = User::where('status', 'active')->where('role', 'user')->pluck('name', 'id')->prepend('Please Select', '');
+        $data['users'] = User::where('status', 'active')->where('role', 'user')->orderBy('name', 'ASC')->get()->pluck('full_name', 'id');
         $data['products'] = Products::where('status', 'active')->get();
         
         return view("admin.order.create",$data);
@@ -244,7 +244,7 @@ class OrderController extends Controller
     {
         $data['menu'] = 'Orders';
 
-        $data['users'] = User::where('status', 'active')->where('role', 'user')->pluck('name', 'id')->prepend('Please Select', '');
+        $data['users'] = User::where('status', 'active')->where('role', 'user')->orderBy('name', 'ASC')->get()->pluck('full_name', 'id');
         $data['products'] = Products::where('status', 'active')->get();
         $data['order'] = Order::where('id',$id)->first();
         
@@ -452,7 +452,7 @@ class OrderController extends Controller
     public function index_order_dashborad(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Order::select()->orderBy('id', 'DESC')->take(5))
+            return DataTables::of(Order::with('user')->orderBy('id', 'DESC')->take(5))
                 ->addColumn('order_id', function($order) {
                     return env('ORDER_PREFIX').'-'.date("Y", strtotime($order->created_at)).'-'.$order->id; 
                 })
@@ -466,13 +466,13 @@ class OrderController extends Controller
                     return $row['created_at']->format('Y-m-d h:i:s');
                 })
                 ->editColumn('status', function($row){
-                   $status = [
+                    $status = [
                         'pending' => '<span class="badge badge-primary">Pending</span>',
                         'reject'  => '<span class="badge badge-warning">Reject</span>',
                         'complete'=> '<span class="badge badge-success">Complete</span>',
                         'cancel'  => '<span class="badge badge-danger">Cancel</span>',
-                   ]; 
-                   return $status[$row->status] ?? null;
+                    ]; 
+                    return $status[$row->status] ?? null;
                 })
                 ->addColumn('action', function($row){
                     $row['order_dashboard'] = 1;

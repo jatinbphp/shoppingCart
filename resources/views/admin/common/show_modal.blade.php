@@ -20,7 +20,7 @@
                                                 <th style="width: 25%;">
                                                     @switch($key)
                                                         @case('created_at')
-                                                            {!! 'Created Date' !!} :
+                                                            {!! 'Date Created' !!} :
                                                             @break
                                                         @case('parent')
                                                             {!! 'Parent Category' !!} :

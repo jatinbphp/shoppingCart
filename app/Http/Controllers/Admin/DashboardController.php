@@ -30,7 +30,7 @@ class DashboardController extends Controller
 
         // Sales Chart
         $currentDate = Carbon::now();
-        $startDate = $currentDate->copy()->subMonths(12)->startOfMonth();
+        $startDate = $currentDate->copy()->subMonths(7)->startOfMonth();
         $endDate = $currentDate->endOfMonth();
 
         // Fetch monthly order amounts for the last 12 months
@@ -46,7 +46,7 @@ class DashboardController extends Controller
         $lastMonths = [];
         $monthFormat = 'Y-m';
         $currentMonth = $currentDate->copy()->startOfMonth();
-        for ($i = 0; $i < 12; $i++) {
+        for ($i = 0; $i < 7; $i++) {
             $month = $currentMonth->format($monthFormat);
             $lastMonths[$month] = 0;
             $currentMonth->subMonth();
@@ -69,9 +69,8 @@ class DashboardController extends Controller
         $data['monthlyOrderAmounts'] = array_reverse($monthlyOrderAmountsFormatted);
 
         //total order
-
         $currentDate = now();
-        $startDate = $currentDate->copy()->subDays(6)->startOfDay();
+        $startDate = $currentDate->copy()->subDays(7)->startOfDay();
         $endDate = $currentDate->endOfDay();
         
         $ordersByDate = Order::selectRaw('DATE(created_at) as order_date, COUNT(*) as num_orders')
@@ -80,13 +79,13 @@ class DashboardController extends Controller
         ->groupBy('order_date')
         ->get()
         ->keyBy(function ($order) {
-            return Carbon::parse($order->order_date)->day;
+            return Carbon::parse($order->order_date)->format('j M');
         });
         
         $result = [];
         $current = $startDate->copy();
         for ($current = $startDate->copy(); $current <= $endDate; $current->addDay()) {
-            $orderDay = $current->day;
+            $orderDay = $current->format('j M'); // Format as "Day Month"
             $numOrders = $ordersByDate[$orderDay]->num_orders ?? 0;
             $result[] = ['order_date' => $orderDay, 'num_orders' => $numOrders];
         }

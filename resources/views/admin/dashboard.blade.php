@@ -71,6 +71,8 @@
                                 <div class="chart">
                                     <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                 </div>
+
+                               
                             </div>
                         </div>
                     </div>
@@ -90,8 +92,8 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="chart">
-                                    <div id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></div>
+                            <div class="chart">
+                                    <canvas id="barCharts" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                 </div>
                             </div>
                             <!-- /.card-body -->
@@ -115,7 +117,7 @@
                                             <th>User</th>
                                             <th>Total</th>
                                             <th>Status</th>
-                                            <th>Created Date</th>
+                                            <th>Date Created</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -133,8 +135,7 @@
 @section('jquery')
 <script type="text/javascript">
 // Total Sales Chart
-var labels = [];
-var monthlyOrderAmounts = {!! json_encode($monthlyOrderAmounts) !!};
+
 function getMonthName(monthAbbreviation) {
     var parts = monthAbbreviation.split('-');
     var monthNumber = parseInt(parts[1]) - 1;
@@ -143,13 +144,17 @@ function getMonthName(monthAbbreviation) {
 
     return monthName;
 }
-var labels = monthlyOrderAmounts.map(function(item) {
-    return getMonthName(item.month);
-});
 
-var data = monthlyOrderAmounts.map(function(item) {
-    return item.total_amount;
-});
+var monthlyOrderAmounts = {!! json_encode($monthlyOrderAmounts) !!};
+
+var chartData = monthlyOrderAmounts.reduce(function(acc, item) {
+    acc.labels.push(getMonthName(item.month));
+    acc.data.push(item.total_amount);
+    return acc;
+}, { labels: [], data: [] });
+
+var labels = chartData.labels;
+var data = chartData.data;
 
 var areaChartData = {
     labels  : labels,
@@ -168,11 +173,8 @@ var areaChartData = {
     ]
 }
 
-// Total Orders Chart
 var barChartCanvas = $('#barChart').get(0).getContext('2d');
 var barChartData = $.extend(true, {}, areaChartData);
-
-// Remove the Electronics dataset
 barChartData.datasets.splice(1, 1);
 
 var barChartOptions = {
@@ -187,49 +189,48 @@ new Chart(barChartCanvas, {
     options: barChartOptions
 });
 
+// ---------------------total orders-----------------------
+var labelsOrders = [];
+var dataOrders = [];
+var order_date = {!! json_encode($order_date) !!};
 
-$(function () {
-    function getSize(elementId) {
-        return {
-            width: document.getElementById(elementId).offsetWidth,
-            height: document.getElementById(elementId).offsetHeight,
+order_date.forEach(function(item) {
+    labelsOrders.push(item.order_date);
+    dataOrders.push(item.num_orders);
+});
+
+var areaChartDataOrders = {
+    labels  : labelsOrders,
+    datasets: [
+        {
+            label               : 'Total Orders',
+            backgroundColor     : '#343a40',
+            borderColor         : '#343a40',
+            pointRadius          : false,
+            pointColor          : '#3b8bba',
+            pointStrokeColor    : 'rgba(60,141,188,1)',
+            pointHighlightFill  : '#fff',
+            pointHighlightStroke: 'rgba(60,141,188,1)',
+            data                : dataOrders
         }
-    }
+    ]
+};
 
-    var dates = [];
-    var numOrders = [];
+var barChartCanvasOrders = $('#barCharts').get(0).getContext('2d');
+var barChartDataOrders = $.extend(true, {}, areaChartDataOrders);
 
-    @foreach($order_date as $day)
-        dates.push("{{ $day['order_date'] }}");
-        numOrders.push("{{ $day['num_orders'] }}");
-    @endforeach
+barChartDataOrders.datasets.splice(1, 1);
 
-    var data = [dates, numOrders];
+var ordersChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    datasetFill: false
+};
 
-    const optsLineChart = {
-        ... getSize('lineChart'),
-        scales: {
-            x: {
-                time: false,
-            },
-            y: {
-                range: [0, 100],
-            },
-        },
-        series: [
-            {},
-            {
-              fill: 'transparent',
-              width: 5,
-              stroke: '#343a40',
-            },
-        ],
-    };
-
-    let lineChart = new uPlot(optsLineChart, data, document.getElementById('lineChart'));
-    window.addEventListener("resize", e => {
-        lineChart.setSize(getSize('lineChart'));
-    });
-})
+new Chart(barChartCanvasOrders, {
+    type: 'line',
+    data: barChartDataOrders,
+    options: ordersChartOptions
+});
 </script>
 @endsection
