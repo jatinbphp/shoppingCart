@@ -9,6 +9,8 @@ class Products extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $appends = ['full_name'];
+
     protected $fillable = ['user_id', 'category_id', 'sku', 'product_name', 'description', 'status', 'price'];
 
     const STATUS_ACTIVE = 'active';
@@ -36,5 +38,10 @@ class Products extends Model
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class, 'product_id', 'id');
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->product_name . ' (' . $this->sku . ')';
     }
 }

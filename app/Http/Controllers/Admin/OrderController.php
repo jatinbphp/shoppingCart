@@ -155,7 +155,7 @@ class OrderController extends Controller
         $data['menu'] = 'Orders';
 
         $data['users'] = User::where('status', 'active')->where('role', 'user')->orderBy('name', 'ASC')->get()->pluck('full_name', 'id');
-        $data['products'] = Products::where('status', 'active')->orderBy('product_name', 'ASC')->pluck('product_name', 'id');
+        $data['products'] = Products::where('status', 'active')->orderBy('product_name', 'ASC')->get()->pluck('full_name', 'id');
         
         return view("admin.order.create",$data);
     }
@@ -245,8 +245,8 @@ class OrderController extends Controller
         $data['menu'] = 'Orders';
 
         $data['users'] = User::where('status', 'active')->where('role', 'user')->orderBy('name', 'ASC')->get()->pluck('full_name', 'id');
-        $data['products'] = Products::where('status', 'active')->orderBy('product_name', 'ASC')->pluck('product_name', 'id');
-        
+        $data['products'] = Products::where('status', 'active')->orderBy('product_name', 'ASC')->get()->pluck('full_name', 'id');
+
         $data['order'] = Order::where('id',$id)->first();
         
         return view('admin.order.edit',$data);
