@@ -52,15 +52,28 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($order->orderItems as $item)
+                                    @if(!empty($order->orderItems))
+                                        @foreach ($order->orderItems as $item)
+                                            <tr>
+                                                <td>
+                                                    {{ $item->product->product_name }}
+                                                    @if(!empty($item->orderOptions))
+                                                        @foreach ($item->orderOptions as $option)
+                                                            </br><small><b>{{$option->name}} :</b> {{$option->value}}</small>
+                                                        @endforeach
+                                                    @endif
+                                                </td>   
+                                                <td>{{ $item->product->sku }}</td>
+                                                <td>{{ $item->product_qty }}</td>
+                                                <td class="text-right">{{ env('CURRENCY') }}{{ number_format($item->product_price, 2) }}</td>
+                                                <td class="text-right">{{ env('CURRENCY') }}{{ number_format($item->sub_total, 2) }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @else
                                         <tr>
-                                            <td>{{ $item->product->product_name }}</td>
-                                            <td>{{ $item->product->sku }}</td>
-                                            <td>{{ $item->product_qty }}</td>
-                                            <td class="text-right">{{ env('CURRENCY') }}{{ number_format($item->product_price, 2) }}</td>
-                                            <td class="text-right">{{ env('CURRENCY') }}{{ number_format($item->sub_total, 2) }}</td>
+                                            <td colspan="5">No records.</td>
                                         </tr>
-                                    @endforeach
+                                    @endif
                                 </tbody>
                                 <tfoot>
                                     <tr>
