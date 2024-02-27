@@ -17,12 +17,22 @@
                                     <tr>
                                         <th>Order ID</th>
                                         <th>Customer Name</th>
-                                        <th>Order Date</th>
+                                        <th>Date Ordered</th>
+                                        <th>Status</th>
                                     </tr>
                                     <tr>
                                         <td>INV-{{ date('Y', strtotime($order->created_at)) }}-{{ $order->id }}</td>
-                                        <td>{{ $order->user->name }}</td>
+                                        <td>{{ $order->user->name }} ({{ $order->user->email }})</td>
                                         <td>{{ $order->created_at }}</td>
+                                        @php
+                                        $status = [
+                                            'pending' => '<span class="badge badge-primary">Pending</span>',
+                                            'reject'  => '<span class="badge badge-warning">Reject</span>',
+                                            'complete'=> '<span class="badge badge-success">Complete</span>',
+                                            'cancel'  => '<span class="badge badge-danger">Cancel</span>',
+                                        ];
+                                        @endphp
+                                        <td>{!! $status[$order->status] !!}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -42,15 +52,28 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($order->orderItems as $item)
+                                    @if(!empty($order->orderItems))
+                                        @foreach ($order->orderItems as $item)
+                                            <tr>
+                                                <td>
+                                                    {{ $item->product->product_name }}
+                                                    @if(!empty($item->orderOptions))
+                                                        @foreach ($item->orderOptions as $option)
+                                                            </br><small><b>{{$option->name}} :</b> {{$option->value}}</small>
+                                                        @endforeach
+                                                    @endif
+                                                </td>   
+                                                <td>{{ $item->product->sku }}</td>
+                                                <td>{{ $item->product_qty }}</td>
+                                                <td class="text-right">{{ env('CURRENCY') }}{{ number_format($item->product_price, 2) }}</td>
+                                                <td class="text-right">{{ env('CURRENCY') }}{{ number_format($item->sub_total, 2) }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @else
                                         <tr>
-                                            <td>{{ $item->product->product_name }}</td>
-                                            <td>{{ $item->product->sku }}</td>
-                                            <td>{{ $item->product_qty }}</td>
-                                            <td class="text-right">{{ env('CURRENCY') }}{{ number_format($item->product_price, 2) }}</td>
-                                            <td class="text-right">{{ env('CURRENCY') }}{{ number_format($item->sub_total, 2) }}</td>
+                                            <td colspan="5">No records.</td>
                                         </tr>
-                                    @endforeach
+                                    @endif
                                 </tbody>
                                 <tfoot>
                                     <tr>

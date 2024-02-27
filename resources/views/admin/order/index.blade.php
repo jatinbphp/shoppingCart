@@ -43,7 +43,7 @@
                                     <th>User</th>
                                     <th>Total</th>
                                     <th>Status</th>
-                                    <th>Created Date</th>
+                                    <th>Date Created</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>

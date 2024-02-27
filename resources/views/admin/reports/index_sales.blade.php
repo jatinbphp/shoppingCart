@@ -43,7 +43,7 @@
                         <table id="salesReportTable" class="table table-bordered table-striped datatable-dynamic">
                             <thead>
                                 <tr>
-                                    <th>Order Date</th>
+                                    <th>Date Ordered</th>
                                     <th>No. Orders</th>
                                     <th>No. Products</th>
                                     <th>Total</th>

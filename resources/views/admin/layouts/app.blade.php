@@ -182,6 +182,7 @@
 </script>
 <script src="{{ URL('assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{ URL('assets/admin/plugins/chart.js/Chart.min.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ URL('assets/admin/plugins/uplot/uPlot.iife.min.js')}}"></script>
 <script src="{{ URL('assets/admin/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{ URL('assets/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>

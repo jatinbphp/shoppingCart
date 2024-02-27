@@ -3,7 +3,7 @@
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
             <label class="control-label" for="user_id">Select User :<span class="text-red">*</span></label>
-            {!! Form::select("user_id", $users, null, ["class" => "form-control select2", "id" => "user_id"]) !!}
+            {!! Form::select("user_id", $users, null, ["class" => "form-control select2", "id" => "user_id", 'placeholder' => 'Please Select']) !!}
             @if ($errors->has('user_id'))
                 <span class="text-danger">
                     <strong>{{ $errors->first('user_id') }}</strong>

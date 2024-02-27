@@ -13,23 +13,18 @@
                 <div class="modal-body">
                     <!-- Form inside modal -->
                     {!! Form::hidden('order_id', $flag_order_id, ['id' => 'flag_order_id']) !!}
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-12">
                         <div class="form-group{{ $errors->has('product_id') ? ' has-error' : '' }}">
                             <label class="control-label" for="product_id">Select Product :<span class="text-red">*</span></label>
-                            <select id="product_id" name="product_id" class="form-control" required>
-                                <option value="">Please Select</option>
-                                @foreach ($products as $key => $product)
-                                    <option value="{{$product->id}}">{{$product->product_name}}</option>
-                                @endforeach
-                            </select>
+                            {!! Form::select("product_id", $products, null, ["class" => "form-control select2", "id" => "product_id", 'placeholder' => 'Please Select', 'style' => 'width:100%']) !!}
                             <span class="text-danger product_id"></span>
                         </div>
                     </div>
 
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group{{ $errors->has('quantity') ? ' has-error' : '' }}" required>
-                            <label class="control-label" for="quantity">Quntity :<span class="text-red">*</span></label>
-                            {!! Form::number('quantity', 1, ['class' => 'form-control', 'placeholder' => 'Enter Quntity', 'id' => 'quantity']) !!}
+                            <label class="control-label" for="quantity">Quantity :<span class="text-red">*</span></label>
+                            {!! Form::number('quantity', 1, ['class' => 'form-control', 'placeholder' => 'Enter Quantity', 'id' => 'quantity']) !!}
                             <span class="text-danger quantity"></span>
                         </div>
                     </div>

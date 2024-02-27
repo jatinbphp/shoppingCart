@@ -31,4 +31,8 @@
             </div>
         </div>
     </div>
+@else
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <span class="text-danger">Please add an option to the product. then after you can this product on the order.</span>
+    </div>
 @endif

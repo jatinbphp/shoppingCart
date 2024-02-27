@@ -134,8 +134,8 @@ $(function () {
                     return '#' + data; // Prepend '#' to the 'id' data
                 }
             },
-            { data: 'order_id', name: 'order_id'},
-            { data: 'user_name', name: 'user_name'},
+            { data: 'order_id', name: 'id'},
+            { data: 'user.full_name', name: 'user.name'},
             { data: 'total_amount', name: 'total_amount', orderable: false, class: 'text-right'},
             { data: 'status', "width": "12%", name: 'status', orderable: false},
             { data: 'created_at', "width": "15%", name: 'created_at'},
@@ -157,17 +157,19 @@ $(function () {
                 data: 'id', width: '10%', name: 'id',
                 render: function(data, type, row) {
                     return '#' + data; // Prepend '#' to the 'id' data
-                },
-                orderable: false // Disable sorting for this column
+                }
             },
-            { data: 'order_id', name: 'order_id', orderable: false},
-            { data: 'user_name', name: 'user_name', orderable: false},
-            { data: 'total_amount', name: 'total_amount', orderable: false, class: 'text-right'},
-            { data: 'status', "width": "12%", name: 'status', orderable: false},
-            { data: 'created_at', "width": "15%", name: 'created_at', orderable: false},
-            { data: 'action', "width": "5%", name: 'action', orderable: false},
+            { data: 'order_id', name: 'order_id'},
+            { data: 'user.full_name', name: 'user.name'},
+            { data: 'total_amount', name: 'total_amount', class: 'text-right'},
+            { data: 'status', "width": "12%", name: 'status'},
+            { data: 'created_at', "width": "15%", name: 'created_at'},
+            { data: 'action', "width": "5%", name: 'action'},
         ],
-        "order": [[0, "DESC"]]
+        "columnDefs": [
+            { "orderable": false, "targets": "_all" } // Disable sorting only for the first column
+        ],
+        "order": []
     });
 
     //User Orders Report Table

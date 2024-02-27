@@ -22,4 +22,9 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Products::class, 'product_id');
     }
+
+    public function orderOptions()
+    {
+        return $this->hasMany(OrderOption::class, 'order_product_id');
+    }
 }
