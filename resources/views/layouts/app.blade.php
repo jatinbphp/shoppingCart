@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="format-detection" content="telephone=no"/>
+        <link rel="shortcut icon" href="{{url('assets/website/images/favicon.ico') }}" type="image/x-icon" />
         <title>{{ config('app.name', 'Blu Leisure') }}</title>
         <link href="{{asset('assets/website/css/styles.css') }}" rel="stylesheet">
     </head>

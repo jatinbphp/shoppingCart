@@ -45,7 +45,6 @@
                             <li><a href="javaScript:;">Women's Shopping</a></li>
                             <li><a href="javaScript:;">Kids's Shopping</a></li>
                             <li><a href="javaScript:;">Accessories</a></li>
-                            <li><a href="javaScript:;">Discounts</a></li>
                         </ul>
                     </div>
                 </div>

@@ -9,7 +9,7 @@
                     @csrf
 
                     <div class="form-group">
-                        <label>Email :<span class="text-red">*</span></label>
+                        <label>{{ __('Email Address') }} :<span class="text-danger">*</span></label>
                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" placeholder="{{ __('Email Address') }}" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                         @error('email')
                             <span class="invalid-feedback" role="alert">
@@ -19,7 +19,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Password :<span class="text-red">*</span></label>
+                        <label>{{ __('Password') }} :<span class="text-danger">*</span></label>
                         <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="{{ __('Password') }}">
                         @error('password')
                             <span class="invalid-feedback" role="alert">
@@ -35,7 +35,7 @@
                                 <label for="dd" class="checkbox-custom-label">{{ __('Remember Me') }}</label>
                             </div>
                             <div class="eltio_k2">
-                                <a href="#">{{ __('Lost Your Password?') }}</a>
+                                <a href="{{ route('password.request') }}">{{ __('Forgot Your Password?') }}</a>
                             </div>
                         </div>
                     </div>

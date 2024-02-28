@@ -13,7 +13,7 @@
                                 <h1 class="mb-1 ft-bold lg-heading">New Summer<br>Collections 2024</h1>
                                 <span class="trending text-light">There's nothing like trend</span>
                             </div>
-                            <a href="shop.html" class="btn stretched-link light-borders ft-bold">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
+                            <a href="{{ route('products') }}" class="btn stretched-link light-borders ft-bold">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                                 <h1 class="mb-1 ft-bold lg-heading">New Summer<br>Collections 2024</h1>
                                 <span class="trending text-light">There's nothing like trend</span>
                             </div>
-                            <a href="shop.html" class="btn stretched-link light-borders ft-bold">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
+                            <a href="{{ route('products') }}" class="btn stretched-link light-borders ft-bold">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
                     </div>
                 </div>
@@ -49,36 +49,13 @@
                                 <h1 class="mb-1 ft-bold lg-heading">New Summer<br>Collections 2024</h1>
                                 <span class="trending text-light">There's nothing like trend</span>
                             </div>
-                            <a href="shop.html" class="btn stretched-link light-borders ft-bold">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
+                            <a href="{{ route('products') }}" class="btn stretched-link light-borders ft-bold">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- <div class="item gray">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="home-slider-container">
-                        <div class="home-slider-desc">
-                            <div class="home-slider-title mb-4">
-                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Summer Collection</h5>
-                                <h1 class="mb-1 ft-bold lg-heading">New Summer<br>Collections 2021</h1>
-                                <span class="trending">There's nothing like trend</span>
-                            </div>
-                            <a href="shop.html" class="btn stretched-link borders">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="home-slider-img">
-                        <img src="images/banner-img1.png" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
 </div>
 
 <section class="middle">
@@ -327,7 +304,7 @@
         <div class="row justify-content-center">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="position-relative text-center">
-                    <a href="shop.html" class="btn stretched-link borders">Explore More<i class="lni lni-arrow-right ml-2"></i></a>
+                    <a href="{{ route('products') }}" class="btn stretched-link borders">Explore More<i class="lni lni-arrow-right ml-2"></i></a>
                 </div>
             </div>
         </div>
@@ -343,7 +320,7 @@
                     <h2 class="ft-bold text-light">Only Summer Collections</h2>
                     <p class="text-light">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.</p>
                     <div class="mt-5">
-                        <a href="#" class="btn btn-white stretched-link">Start Shopping <i class="lni lni-arrow-right"></i></a>
+                        <a href="{{ route('products') }}" class="btn btn-white stretched-link">Start Shopping <i class="lni lni-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
