@@ -32,8 +32,8 @@
                     <div id="ajaxOption"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info" id="add_product">Add</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-sm btn-info" id="add_product"><i class="fa fa-plus  pr-1"></i> Add</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times pr-1"></i> Close</button>
                 </div>
             </form>
         </div>
@@ -59,8 +59,8 @@
                     <div id="ajaxEditOption"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info" id="edit_product">Update</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-sm btn-info" id="edit_product"><i class="fa fa-edit pr-1"></i> Update</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times pr-1"></i> Close</button>
                 </div>
             </form>
         </div>

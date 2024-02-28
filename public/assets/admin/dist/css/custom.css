@@ -10,6 +10,5 @@
 #content3 .col-md-8 {border-left: 1px solid #ccc;}
 .qty{display:flex;align-items:center;justify-content:space-between;width:130px;border:1px solid #ccc;border-radius:5px;padding:5px}
 .qty input{width:50px;text-align:center}
-.qty button{background-color:#138496;color:#fff;border:none;padding:5px 10px;cursor:pointer;border-radius:3px}
-.qty button:hover{background-color:#0056b3}
+.qty button{color:#fff;border:none;cursor:pointer;border-radius:3px}
 .dt-body-right {text-align: right;}

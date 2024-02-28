@@ -177,7 +177,7 @@
                     <div class="row">
                         <div class="col-md-12 mb-2">
                         <p class="h5">Add Options
-                            <button type="button" class="btn btn-info" id="optionBtn" style="float: right;"><i class="fa fa-plus"></i> Add Option</button>
+                            <button type="button" class="btn btn-sm btn-info" id="optionBtn" style="float: right;"><i class="fa fa-plus pr-1"></i> Add Option</button>
                             </p>
                         </div>
                     </div>

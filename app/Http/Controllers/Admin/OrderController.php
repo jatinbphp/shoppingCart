@@ -131,9 +131,9 @@ class OrderController extends Controller
                 })
                 ->addColumn('quantity', function($row){
                     $quantity = '<div class="qty">';
-                    $quantity .= '<button class="btn-sm" type="button" id="minus" data-id="'.$row->id.'"><i class="fa fa-minus" aria-hidden="true"></i></button>';
+                    $quantity .= '<button class="btn-sm btn-danger" type="button" id="minus" data-id="'.$row->id.'"><i class="fa fa-minus" aria-hidden="true"></i></button>';
                     $quantity .= '<input type="text" id="quantity'.$row->id.'" value="'.$row->quantity.'">';
-                    $quantity .= '<button class="btn-sm" type="button" id="plus" data-id="'.$row->id.'"><i class="fa fa-plus" aria-hidden="true"></i></button>';
+                    $quantity .= '<button class="btn-sm btn-info" type="button" id="plus" data-id="'.$row->id.'"><i class="fa fa-plus" aria-hidden="true"></i></button>';
                     $quantity .= '</div>';
                     return $quantity;
                 })

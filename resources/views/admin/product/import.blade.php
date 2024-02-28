@@ -26,7 +26,7 @@
                             <h3 class="card-title w-100">
                                 Import {{$menu}}
 
-                                <a href="{{ url('assets/admin/dist/productImport.csv') }}" class="float-right" download><i class="fa fa-download"></i> Download Sample File</a>
+                                <a class="btn btn-info btn-sm float-right" href="{{ url('assets/admin/dist/productImport.csv') }}" download><i class="fa fa-download"></i> Download Sample File</a>
                             </h3>
                         </div>
                         {!! Form::open(['url' => route('products.import.product.store'), 'id' => 'productsImportForm', 'class' => 'form-horizontal','files'=>true]) !!}
@@ -52,8 +52,8 @@
 
                         </div>
                         <div class="card-footer">
-                            <a href="{{ route('products.index') }}" class="btn btn-default"><i class="fa fa-arrow-left pr-1"></i> Back</a>
-                            <button class="btn btn-info float-right" type="submit">Import</button>
+                            <a href="{{ route('products.index') }}" class="btn btn-sm btn-default"><i class="fa fa-arrow-left pr-1"></i> Back</a>
+                            <button class="btn btn-sm btn-info float-right" type="submit"><i class="fa fa-upload" aria-hidden="true"></i> Import</button>
                         </div>
                         {!! Form::close() !!}
                     </div>
