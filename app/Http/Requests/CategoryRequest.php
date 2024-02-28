@@ -25,14 +25,9 @@ class CategoryRequest extends FormRequest
 
         $rules = [
             'name' => 'required',
-            'image' => 'required|mimes:jpeg,jpg,png,bmp',
+            'image' => 'mimes:jpeg,jpg,png,bmp',
             'status' => 'required',
         ];
-
-        // Check if it's an edit scenario
-        if ($this->isMethod('patch')) {
-            $rules['image'] = 'mimes:jpeg,jpg,png,bmp';
-        }
 
         return $rules;
     }

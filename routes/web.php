@@ -14,6 +14,9 @@ use App\Http\Controllers\Admin\ContentManagementController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ReportController;
+
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController as FrontProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,7 +34,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/shop', [FrontProductController::class, 'index'])->name('products');
+Route::get('/shop/details', [FrontProductController::class, 'details'])->name('products.details');
 
 // ------------------main routes------------------------------------------
 
