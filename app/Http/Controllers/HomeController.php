@@ -1,7 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Category;
+use App\Models\Products;
+use App\Models\ProductImages;
+use App\Models\ProductsOptions;
+use App\Models\ProductsOptionsValues;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $data['products'] = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])->where('status', 'active')->orderBy('id', 'DESC')->take(8)->get();
+        return view('home', $data);
     }
 }

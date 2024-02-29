@@ -45,7 +45,7 @@
                         <div class="border mb-3 mfliud">
                             <div class="row align-items-center py-2 m-0">
                                 <div class="col-xl-3 col-lg-4 col-md-5 col-sm-12 d-none d-md-flex">
-                                    <h6 class="mb-0">315 Items Found</h6>
+                                    <h6 class="mb-0">{{count($products)}} Items Found</h6>
                                 </div>
                                 <div class="col-xl-9 col-lg-8 col-md-7 col-sm-12">
                                     <div class="filter_wraps d-flex align-items-center justify-content-end m-start">
@@ -78,15 +78,12 @@
                                     <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">New</div>
                                     <div class="card-body p-0">
                                         <div class="shop_thumb position-relative">
-                                            <a class="card-img-top d-block overflow-hidden" href="product-detail.html">
+                                            <a class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$value->id])}}">
                                                 @if(!empty($value->product_image->image) && file_exists($value->product_image->image))
                                                     <img class="card-img-top" src="{{url($value->product_image->image)}}" alt="...">
                                                 @endif
                                             </a>
                                             <div class="edlio">
-                                                <!-- <a href="javascript:void(0)" data-toggle="modal" data-target="#quickview" class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center text-white fs-sm ft-medium" data-id="{{$value->id}}">
-                                                    <i class="fas fa-eye mr-1"></i>Quick View
-                                                </a> -->
                                                 <a href="javascript:void(0)" id="quickview" class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center text-white fs-sm ft-medium" data-id="{{$value->id}}" data-url="{{route('products.quickview', [$value->id])}}">
                                                     <i class="fas fa-eye mr-1"></i>Quick View
                                                 </a>

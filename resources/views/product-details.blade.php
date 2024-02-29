@@ -30,9 +30,9 @@
             </div>
             <div class="col-xl-7 col-lg-6 col-md-12 col-sm-12">
                 <div class="prd_details pl-3">
-                    <div class="prt_01 mb-1"><span class="text-light bg-info rounded px-2 py-1">Dresses</span></div>
+                    <div class="prt_01 mb-1"><span class="text-light bg-info rounded px-2 py-1">{{$product['category']['full_name']}}</span></div>
                     <div class="prt_02 mb-3">
-                        <h2 class="ft-bold mb-1">Women Striped Shirt Dress</h2>
+                        <h2 class="ft-bold mb-1">{{$product['product_name']}}</h2>
                         <div class="text-left">
                             <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
                                 <i class="fas fa-star filled"></i>
@@ -42,13 +42,40 @@
                                 <i class="fas fa-star"></i>
                                 <span class="small">(412 Reviews)</span>
                             </div>
-                            <div class="elis_rty"><span class="ft-medium text-muted line-through fs-md mr-2">$199</span><span class="ft-bold theme-cl fs-lg mr-2">$110</span><span class="ft-regular text-danger bg-light-danger py-1 px-2 fs-sm">Out of Stock</span></div>
+                            <div class="elis_rty">
+                                <span class="ft-medium text-muted line-through fs-md mr-2">
+                                    {{ env('CURRENCY') }}{{ number_format(($product['price']+100), 2) }}
+                                </span>
+                                <span class="ft-bold theme-cl fs-lg mr-2">
+                                    {{ env('CURRENCY') }}{{ number_format($product['price'], 2) }}
+                                </span>
+                                <span class="ft-regular text-success bg-light-success py-1 px-2 fs-sm">In Stock</span>
+                            </div>
                         </div>
                     </div>
                     <div class="prt_03 mb-4">
-                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa.</p>
+                        {!! $product['description'] !!}
                     </div>
-                    <div class="prt_04 mb-2">
+
+                    @if(!empty($product['options']))
+                        @foreach($product['options'] as $key => $value)
+                            <div class="prt_04 mb-2">
+                                <p class="d-flex align-items-center mb-0 text-dark ft-medium">{{ucwords($value['option_name'])}}:</p>
+                                <div class="text-left pb-0 pt-2">
+                                    @if(!empty($value['product_option_values']))
+                                        @foreach($value['product_option_values'] as $keyOption => $valueOption)
+                                            <div class="form-check size-option form-option form-check-inline mb-2">
+                                                <input class="form-check-input" type="radio" name="options[{{$value['id']}}]" id="{{strtolower(str_replace(' ', '_', $value['option_name']))}}_{{$valueOption['id']}}" @if($keyOption==0) checked @endif>
+                                                <label class="form-option-label" for="{{strtolower(str_replace(' ', '_', $value['option_name']))}}_{{$valueOption['id']}}">{{ucwords($valueOption['option_value'])}}</label>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+
+                    <!-- <div class="prt_04 mb-2">
                         <p class="d-flex align-items-center mb-0 text-dark ft-medium">Color:</p>
                         <div class="text-left">
                             <div class="form-check form-option form-check-inline mb-1">
@@ -76,60 +103,8 @@
                                 <label class="form-option-label rounded-circle" for="green"><span class="form-option-color rounded-circle blc6"></span></label>
                             </div>
                         </div>
-                    </div>
-                    <div class="prt_04 mb-4">
-                        <p class="d-flex align-items-center mb-0 text-dark ft-medium">Size:</p>
-                        <div class="text-left pb-0 pt-2">
-                            <div class="form-check size-option form-option form-check-inline mb-2">
-                                <input class="form-check-input" type="radio" name="size" id="28" checked="">
-                                <label class="form-option-label" for="28">28</label>
-                            </div>
-                            <div class="form-check form-option size-option  form-check-inline mb-2">
-                                <input class="form-check-input" type="radio" name="size" id="30">
-                                <label class="form-option-label" for="30">30</label>
-                            </div>
-                            <div class="form-check form-option size-option  form-check-inline mb-2">
-                                <input class="form-check-input" type="radio" name="size" id="32">
-                                <label class="form-option-label" for="32">32</label>
-                            </div>
-                            <div class="form-check form-option size-option  form-check-inline mb-2">
-                                <input class="form-check-input" type="radio" name="size" id="34">
-                                <label class="form-option-label" for="34">34</label>
-                            </div>
-                            <div class="form-check form-option size-option  form-check-inline mb-2">
-                                <input class="form-check-input" type="radio" name="size" id="36">
-                                <label class="form-option-label" for="36">36</label>
-                            </div>
-                            <div class="form-check form-option size-option  form-check-inline mb-2">
-                                <input class="form-check-input" type="radio" name="size" id="38">
-                                <label class="form-option-label" for="38">38</label>
-                            </div>
-                            <div class="form-check form-option size-option  form-check-inline mb-2">
-                                <input class="form-check-input" type="radio" name="size" id="40">
-                                <label class="form-option-label" for="40">40</label>
-                            </div>
-                            <div class="form-check form-option size-option  form-check-inline mb-2">
-                                <input class="form-check-input" type="radio" name="size" id="42">
-                                <label class="form-option-label" for="42">42</label>
-                            </div>
-                            <div class="form-check form-option size-option  form-check-inline mb-2">
-                                <input class="form-check-input" type="radio" name="size" id="44">
-                                <label class="form-option-label" for="44">44</label>
-                            </div>
-                            <div class="form-check form-option size-option  form-check-inline mb-2">
-                                <input class="form-check-input" type="radio" name="size" id="46">
-                                <label class="form-option-label" for="46">46</label>
-                            </div>
-                            <div class="form-check form-option size-option  form-check-inline mb-2">
-                                <input class="form-check-input" type="radio" name="size" id="48">
-                                <label class="form-option-label" for="48">48</label>
-                            </div>
-                            <div class="form-check form-option size-option  form-check-inline mb-2">
-                                <input class="form-check-input" type="radio" name="size" id="50">
-                                <label class="form-option-label" for="50">50</label>
-                            </div>
-                        </div>
-                    </div>
+                    </div> -->
+                    
                     <div class="prt_05 mb-4">
                         <div class="form-row mb-7">
                             <div class="col-12 col-lg-auto">

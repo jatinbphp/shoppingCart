@@ -36,7 +36,7 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/shop', [FrontProductController::class, 'index'])->name('products');
-Route::get('/shop/details', [FrontProductController::class, 'details'])->name('products.details');
+Route::get('/shop/{id}/details', [FrontProductController::class, 'details'])->name('products.details');
 Route::get('/shop/quick-view/{product_id}', [FrontProductController::class, 'quickview'])->name('products.quickview');
 
 // ------------------main routes------------------------------------------
