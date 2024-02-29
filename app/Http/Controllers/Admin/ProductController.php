@@ -54,7 +54,8 @@ class ProductController extends Controller
     {
         $data['menu'] = 'Products';
 
-        $data['categories'] = $this->getCategories();
+        $data['categories'] = Category::where('status', 'active')->orderBy('full_name', 'ASC')->pluck('full_name', 'id')->prepend('Please Select', '0');
+
         $data['product_options'] = [];
 
         return view("admin.product.create",$data);
@@ -111,7 +112,7 @@ class ProductController extends Controller
         $data['menu'] = 'Products';
 
         $data['product'] = Products::with('product_images')->where('id',$id)->first();
-        $data['categories'] = $this->getCategories();
+        $data['categories'] = Category::where('status', 'active')->orderBy('full_name', 'ASC')->pluck('full_name', 'id')->prepend('Please Select', '0');
         $data['product_options'] = ProductsOptions::with('product_option_values')->where('product_id',$id)->where('status','active')->get();
         
         return view('admin.product.edit',$data);

@@ -16,22 +16,8 @@ class CategoryController extends Controller
         $data['menu'] = 'Category';
 
         if ($request->ajax()) {
-            return Datatables::of(Category::with('parent'))
+            return Datatables::of(Category::select())
                 ->addIndexColumn()
-                ->addColumn('categoryName', function($row){
-                    if(!empty($row['parent'])){
-                        return $row->parent->name." -> ".$row->name;
-                    } else {
-                        return $row->name;
-                    }
-                })
-                ->editColumn('image', function($row){
-                    if (!empty($row['image']) && file_exists($row['image'])) {
-                        return url($row['image']);
-                    } else {
-                        return url('assets/admin/dist/img/no-image.png');
-                    }
-                })
                 ->editColumn('created_at', function($row){
                     return $row['created_at']->format('Y-m-d h:i:s');
                 })
@@ -54,7 +40,7 @@ class CategoryController extends Controller
     {
         $data['menu'] = 'Category';
 
-        $data['categories'] = Category::where('status', 'active')->where('parent_category_id', 0)->pluck('name', 'id')->prepend('Please Select', '0');
+        $data['categories'] = Category::where('status', 'active')->orderBy('full_name', 'ASC')->where('parent_category_id', 0)->pluck('full_name', 'id')->prepend('Please Select', '0');
 
         return view("admin.category.create",$data);
     }
@@ -66,6 +52,13 @@ class CategoryController extends Controller
 
         if($file = $request->file('image')){
             $input['image'] = $this->fileMove($file,'categories');
+        }
+
+        if(!empty($request->parent_category_id)){
+            $category_parent = Category::findorFail($request->parent_category_id);
+            $input['full_name'] = $category_parent->name.' -> '.$request->name;
+        } else {
+            $input['full_name'] = $request->name;
         }
 
         Category::create($input);
@@ -90,7 +83,7 @@ class CategoryController extends Controller
         $data['menu'] = 'Category';
 
         $data['category'] = Category::where('id',$id)->first();
-        $data['categories'] = Category::where('status', 'active')->where('parent_category_id', 0)->where('id', '!=', $id)->pluck('name', 'id')->prepend('Please Select', '0');
+        $data['categories'] = Category::where('status', 'active')->orderBy('full_name', 'ASC')->where('parent_category_id', 0)->pluck('full_name', 'id')->prepend('Please Select', '0');
         
         return view('admin.category.edit',$data);
     }
@@ -105,6 +98,13 @@ class CategoryController extends Controller
                 unlink($category['image']);
             }
             $input['image'] = $this->fileMove($file,'categories');
+        }
+
+        if(!empty($request->parent_category_id)){
+            $category_parent = Category::findorFail($request->parent_category_id);
+            $input['full_name'] = $category_parent->name.' -> '.$request->name;
+        } else {
+            $input['full_name'] = $request->name;
         }
         
         $category->update($input);

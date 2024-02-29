@@ -27,14 +27,7 @@
                             <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
                                 <label class="control-label" for="category_id">Select Category :<span class="text-red">*</span></label>
 
-                                <select id="category_id" name="category_id" class="form-control">
-                                    <option value="">Please Select</option>
-                                    @foreach ($categories as $key => $val)
-                                        @php $selected = isset($product) && $product->category_id == $val->id?'selected':''; @endphp
-                                        <option value="{{$val->id}}" {{$selected}}>{{$val->categoryName}}</option>
-                                    @endforeach
-                                </select>
-
+                                {!! Form::select("category_id", $categories, null, ["class" => "form-control", "id" => "category_id"]) !!}
                                 @if ($errors->has('category_id'))
                                     <span class="text-danger">
                                         <strong>{{ $errors->first('category_id') }}</strong>

@@ -8,7 +8,7 @@ class Category extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['user_id', 'name', 'image', 'status', 'parent_category_id'];
+    protected $fillable = ['user_id', 'name', 'image', 'status', 'parent_category_id', 'full_name'];
 
     const STATUS_ACTIVE = 'active';
     const STATUS_INACTIVE = 'inactive';

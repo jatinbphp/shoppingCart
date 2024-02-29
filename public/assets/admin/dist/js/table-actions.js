@@ -41,11 +41,7 @@ $(function () {
                     return '#' + data; // Prepend '#' to the 'id' data
                 }
             },
-            {data: 'categoryName', categoryName: 'categoryName'},
-            /*{data: 'image', "width": "10%", name: 'image', orderable: false, searchable: false, render: function (data,type,row){
-                    return '<img src="'+data+'" height="50" alt="Image"/>';
-                }
-            },*/
+            {data: 'full_name', name: 'full_name'},
             {data: 'status', "width": "10%",  name: 'status', orderable: false},
             {data: 'created_at', "width": "15%", name: 'created_at'},
             {data: 'action', "width": "12%",  name: 'action', orderable: false},
