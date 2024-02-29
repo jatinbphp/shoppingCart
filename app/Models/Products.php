@@ -44,4 +44,9 @@ class Products extends Model
     {
         return $this->product_name . ' (' . $this->sku . ')';
     }
+
+    public function product_image()
+    {
+        return $this->hasOne(ProductImages::class, 'product_id')->orderBy('id', 'DESC')->latest();
+    }
 }
