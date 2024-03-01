@@ -32,4 +32,9 @@ class Category extends Model
     {
         return $this->children()->with('children');
     }
+
+    public function products()
+    {
+        return $this->hasMany(Products::class);
+    }
 }

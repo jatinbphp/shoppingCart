@@ -22,10 +22,15 @@
         <div class="row justify-content-between">
             <div class="col-xl-5 col-lg-6 col-md-12 col-sm-12">
                 <div class="quick_view_slide">
-                    <div class="single_view_slide"><a href="{{url('assets/website/images/4.jpg')}}" data-lightbox="roadtrip" class="d-block mb-4"><img src="{{url('assets/website/images/4.jpg')}}" class="img-fluid rounded" alt="" /></a></div>
-                    <div class="single_view_slide"><a href="{{url('assets/website/images/6-a.jpg')}}" data-lightbox="roadtrip" class="d-block mb-4"><img src="{{url('assets/website/images/6-a.jpg')}}" class="img-fluid rounded" alt="" /></a></div>
-                    <div class="single_view_slide"><a href="{{url('assets/website/images/7.jpg')}}" data-lightbox="roadtrip" class="d-block mb-4"><img src="{{url('assets/website/images/7.jpg')}}" class="img-fluid rounded" alt="" /></a></div>
-                    <div class="single_view_slide"><a href="{{url('assets/website/images/7-a.jpg')}}" data-lightbox="roadtrip" class="d-block mb-4"><img src="{{url('assets/website/images/7-a.jpg')}}" class="img-fluid rounded" alt="" /></a></div>
+                    @if(!empty($product['product_images']))
+                        @foreach($product['product_images'] as $keyImages => $valueImages)
+                            @if(!empty($valueImages['image']) && file_exists($valueImages['image']))
+                                <div class="single_view_slide">
+                                    <img src="{{url($valueImages['image'])}}" class="img-fluid" alt="" />
+                                </div>
+                            @endif
+                        @endforeach
+                    @endif
                 </div>
             </div>
             <div class="col-xl-7 col-lg-6 col-md-12 col-sm-12">
@@ -354,6 +359,7 @@
     </div>
 </section>
 
+@if(!empty($category_products))
 <section class="middle pt-0">
     <div class="container">
         <div class="row justify-content-center">
@@ -367,154 +373,46 @@
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="slide_items">
-                    <!-- single Item -->
-                    <div class="single_itesm">
-                        <div class="product_grid card b-0 mb-0">
-                            <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
-                            <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button> 
-                            <div class="card-body p-0">
-                                <div class="shop_thumb position-relative">
-                                    <a class="card-img-top d-block overflow-hidden" href="product-detail.html"><img class="card-img-top" src="{{url('assets/website/images/16.png')}}" alt="..."></a>
-                                    <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white product-hover-overlay bg-dark d-flex align-items-center justify-content-center fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
+                    @foreach($category_products as $keySlider => $valueSlider)
+                        <!-- single Item -->
+                        <div class="single_itesm">
+                            <div class="product_grid card b-0 mb-0">
+                                <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
+                                <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button> 
+                                <div class="card-body p-0">
+                                    <div class="shop_thumb position-relative">
+                                        <a class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$valueSlider->id])}}">
+                                            @if(!empty($valueSlider->product_image->image) && file_exists($valueSlider->product_image->image))
+                                                <img class="card-img-top" src="{{url($valueSlider->product_image->image)}}" alt="...">
+                                            @endif
+                                        </a>
+
+                                        <div class="edlio">
+                                            <a href="javascript:void(0)" id="quickview" class="text-white product-hover-overlay bg-dark d-flex align-items-center justify-content-center fs-sm ft-medium" data-id="{{$valueSlider->id}}" data-url="{{route('products.quickview', [$valueSlider->id])}}">
+                                                <i class="fas fa-eye mr-1"></i>Quick View
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
-                                <div class="text-left">
-                                    <div class="text-center">
-                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="product-detail.html">Half Running Set</a></h5>
-                                        <div class="elis_rty"><span class="ft-bold fs-md text-dark">$119.00</span></div>
+                                <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
+                                    <div class="text-left">
+                                        <div class="text-center">
+                                            <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="product-detail.html">{{$valueSlider->product_name}}</a></h5>
+                                            <div class="elis_rty">
+                                                <span class="ft-bold fs-md text-dark">
+                                                    {{ env('CURRENCY') }}{{ number_format($valueSlider->price, 2) }}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- single Item -->
-                    <div class="single_itesm">
-                        <div class="product_grid card b-0 mb-0">
-                            <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">New</div>
-                            <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button> 
-                            <div class="card-body p-0">
-                                <div class="shop_thumb position-relative">
-                                    <a class="card-img-top d-block overflow-hidden" href="product-detail.html"><img class="card-img-top" src="{{url('assets/website/images/17.png')}}" alt="..."></a>
-                                    <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white product-hover-overlay bg-dark d-flex align-items-center justify-content-center fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
-                                </div>
-                            </div>
-                            <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
-                                <div class="text-left">
-                                    <div class="text-center">
-                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="product-detail.html">Formal Men Lowers</a></h5>
-                                        <div class="elis_rty"><span class="text-muted ft-medium line-through mr-2">$129.00</span><span class="ft-bold theme-cl fs-md">$79.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single Item -->
-                    <div class="single_itesm">
-                        <div class="product_grid card b-0 mb-0">
-                            <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button> 
-                            <div class="card-body p-0">
-                                <div class="shop_thumb position-relative">
-                                    <a class="card-img-top d-block overflow-hidden" href="product-detail.html"><img class="card-img-top" src="{{url('assets/website/images/18.png')}}" alt="..."></a>
-                                    <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white product-hover-overlay bg-dark d-flex align-items-center justify-content-center fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
-                                </div>
-                            </div>
-                            <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
-                                <div class="text-left">
-                                    <div class="text-center">
-                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="product-detail.html">Half Running Suit</a></h5>
-                                        <div class="elis_rty"><span class="ft-bold fs-md text-dark">$80.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single Item -->
-                    <div class="single_itesm">
-                        <div class="product_grid card b-0 mb-0">
-                            <div class="badge bg-warning text-white position-absolute ft-regular ab-left text-upper">Hot</div>
-                            <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button> 
-                            <div class="card-body p-0">
-                                <div class="shop_thumb position-relative">
-                                    <a class="card-img-top d-block overflow-hidden" href="product-detail.html"><img class="card-img-top" src="{{url('assets/website/images/19.png')}}" alt="..."></a>
-                                    <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white product-hover-overlay bg-dark d-flex align-items-center justify-content-center fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
-                                </div>
-                            </div>
-                            <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
-                                <div class="text-left">
-                                    <div class="text-center">
-                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="product-detail.html">Half Fancy Lady Dress</a></h5>
-                                        <div class="elis_rty"><span class="text-muted ft-medium line-through mr-2">$149.00</span><span class="ft-bold theme-cl fs-md">$110.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single Item -->
-                    <div class="single_itesm">
-                        <div class="product_grid card b-0 mb-0">
-                            <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button> 
-                            <div class="card-body p-0">
-                                <div class="shop_thumb position-relative">
-                                    <a class="card-img-top d-block overflow-hidden" href="product-detail.html"><img class="card-img-top" src="{{url('assets/website/images/20.png')}}" alt="..."></a>
-                                    <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white product-hover-overlay bg-dark d-flex align-items-center justify-content-center fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
-                                </div>
-                            </div>
-                            <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
-                                <div class="text-left">
-                                    <div class="text-center">
-                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="product-detail.html">Flix Flox Jeans</a></h5>
-                                        <div class="elis_rty"><span class="text-muted ft-medium line-through mr-2">$90.00</span><span class="ft-bold theme-cl fs-md">$49.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single Item -->
-                    <div class="single_itesm">
-                        <div class="product_grid card b-0 mb-0">
-                            <div class="badge bg-danger text-white position-absolute ft-regular ab-left text-upper">Hot</div>
-                            <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button> 
-                            <div class="card-body p-0">
-                                <div class="shop_thumb position-relative">
-                                    <a class="card-img-top d-block overflow-hidden" href="product-detail.html"><img class="card-img-top" src="{{url('assets/website/images/21.png')}}" alt="..."></a>
-                                    <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white product-hover-overlay bg-dark d-flex align-items-center justify-content-center fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
-                                </div>
-                            </div>
-                            <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
-                                <div class="text-left">
-                                    <div class="text-center">
-                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="product-detail.html">Fancy Salwar Suits</a></h5>
-                                        <div class="elis_rty"><span class="ft-bold fs-md text-dark">$114.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single Item -->
-                    <div class="single_itesm">
-                        <div class="product_grid card b-0 mb-0">
-                            <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
-                            <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button> 
-                            <div class="card-body p-0">
-                                <div class="shop_thumb position-relative">
-                                    <a class="card-img-top d-block overflow-hidden" href="product-detail.html"><img class="card-img-top" src="{{url('assets/website/images/22.png')}}" alt="..."></a>
-                                    <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white product-hover-overlay bg-dark d-flex align-items-center justify-content-center fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
-                                </div>
-                            </div>
-                            <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
-                                <div class="text-left">
-                                    <div class="text-center">
-                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="product-detail.html">Collot Full Dress</a></h5>
-                                        <div class="elis_rty"><span class="ft-bold theme-cl fs-md text-dark">$120.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
 </section>
+@endif
 @endsection

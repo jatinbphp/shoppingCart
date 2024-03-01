@@ -76,6 +76,7 @@
                             <div class="col-xl-4 col-lg-4 col-md-6 col-6">
                                 <div class="product_grid card b-0">
                                     <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">New</div>
+                                    <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button>
                                     <div class="card-body p-0">
                                         <div class="shop_thumb position-relative">
                                             <a class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$value->id])}}">

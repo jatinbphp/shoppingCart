@@ -19,6 +19,10 @@ class ProductController extends Controller
     public function details($productId)
     {   
         $data['product'] = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])->where('status', 'active')->where('id', $productId)->first();
+
+        $category = Category::findOrFail($data['product']['category_id']);
+        $data['category_products'] = $category->products()->take(8)->get();
+
         return view('product-details', $data);
     }
 

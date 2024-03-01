@@ -23,7 +23,7 @@ class Products extends Model
 
     public function product_images()
     {
-        return $this->hasMany(ProductImages::class, 'product_id')->orderBy('id', 'ASC');
+        return $this->hasMany(ProductImages::class, 'product_id')->orderBy('id', 'DESC');
     }
 
     public function category(){
