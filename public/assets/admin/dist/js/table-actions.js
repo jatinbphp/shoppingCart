@@ -256,6 +256,32 @@ $(function () {
         "order": [[0, "DESC"]]
     });
 
+    //Banners Table
+    var banner_table = $('#bannerTable').DataTable({
+        processing: true,
+        serverSide: true,
+        pageLength: 100,
+        lengthMenu: [ 100, 200, 300, 400, 500 ],
+        ajax: $("#route_name").val(),
+        columns: [
+            {
+                data: 'id', width: '10%', name: 'id',
+                render: function(data, type, row) {
+                    return '#' + data; // Prepend '#' to the 'id' data
+                }
+            },
+            {data: 'image', "width": "10%",  name: 'image', orderable: false, searchable: false, render: function (data,type,row){
+                    return '<img src="'+base_path+data+'" height="50" alt="Image"/>';
+                }
+            },
+            {data: 'title', name: 'title'},
+            {data: 'subtitle', name: 'subtitle'},
+            {data: 'created_at', "width": "15%", name: 'created_at'},
+            {data: 'action', "width": "10%",  name: 'action', orderable: false},
+        ],
+        "order": [[0, "DESC"]]
+    });
+
     //Delete Record
     $('.datatable-dynamic tbody').on('click', '.deleteRecord', function (event) {
         event.preventDefault();
@@ -293,6 +319,8 @@ $(function () {
                             contactus_table.row('.selected').remove().draw(false);
                         } else if (section == 'orders_table') {
                             orders_table.row('.selected').remove().draw(false);
+                        } else if (section == 'banner_table') {
+                             banner_table.row('.selected').remove().draw(false);
                         }
 
                         swal("Deleted", "Your data successfully deleted!", "success");

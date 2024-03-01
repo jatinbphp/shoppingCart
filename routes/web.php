@@ -1,21 +1,23 @@
 <?php
 
-use App\Http\Controllers\Admin\ImageController;
-use App\Http\Controllers\Admin\ProfileUpdateController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Admin\AuthorizationController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\CommonController;
-use App\Http\Controllers\Admin\ContentManagementController;
-use App\Http\Controllers\Admin\ContactUsController;
-use App\Http\Controllers\Admin\OrderController;
-use App\Http\Controllers\Admin\ReportController;
-
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\ImageController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\CommonController;
+use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ContactUsController;
+use App\Http\Controllers\Admin\DashboardController;
+
+use App\Http\Controllers\Admin\AuthorizationController;
+use App\Http\Controllers\Admin\ProfileUpdateController;
+use App\Http\Controllers\Admin\ContentManagementController;
 use App\Http\Controllers\ProductController as FrontProductController;
 /*
 |--------------------------------------------------------------------------
@@ -92,4 +94,10 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('reports/user_orders', [ReportController::class, 'index_user_orders'])->name('reports.user_orders');
     Route::get('reports/purchase_product', [ReportController::class, 'index_purchase_product'])->name('reports.purchase_product');
     Route::get('reports/sales', [ReportController::class, 'index_sales'])->name('reports.sales');
+
+    /* settings */
+    Route::resource('settings', SettingController::class);
+
+    /* banners */
+    Route::resource('banner', BannerController::class);
 });

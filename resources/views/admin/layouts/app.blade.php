@@ -154,7 +154,18 @@
                             </li>
                         </ul>
                     </li>
-
+                    <li class="nav-item">
+                        <a href="{{ route('settings.edit', ['setting' => 1]) }}" class="nav-link @if(isset($menu) && $menu=='Settings') active @endif">
+                            <i class="nav-icon fa fa-cog"></i>
+                            <p>Settings</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('banner.index') }}" class="nav-link @if(isset($menu) && $menu=='Banners') active @endif">
+                            <i class="nav-icon fa fa-images"></i>
+                            <p>Banners</p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -175,6 +186,9 @@
         <strong>{{ config('app.name', 'Shopping Cart') }} Admin</strong>
     </footer>
 </div>
+<script>
+    var base_path = '{{ url('/') }}/';
+</script>
 <script src="{{ URL('assets/admin/plugins/jquery/jquery.min.js')}}"></script>
 <script src="{{ URL('assets/admin/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <script>
