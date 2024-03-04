@@ -44,12 +44,44 @@ class ProductController extends Controller
 
         if ($wishlist) {
             $wishlist->delete();
-            return 2;
+            $type = 2;
         } else {
             $input['user_id'] = $user_id;
             $input['product_id'] = $request->id;
             Wishlist::create($input);
-            return 1;
+            $type = 1;
         }
+
+        $responseData = [
+            'total' => count(getWishlistProductIds()),
+            'type' => $type,
+        ];
+
+        // Return the data as JSON response
+        return response()->json($responseData);
+    }
+
+    public function wishlistview(){   
+
+        $wishlist_products = [];
+        // Check if a user is authenticated
+        if (Auth::check()) {
+            // Get the authenticated user's ID
+            $userId = Auth::id();
+            
+            // Fetch wishlist products associated with the user
+            $wishlistProducts = Wishlist::where('user_id', $userId)
+                ->orderBy('created_at', 'desc') // Order by creation date
+                ->take(4)
+                ->pluck('product_id')
+                ->toArray();
+
+            // Fetch full product information for each product ID
+            $wishlist_products = Products::whereIn('id', $wishlistProducts)->get();
+        }
+
+        return view('modals.wishlist-modal-data', [
+            'wishlist_products' => $wishlist_products
+        ]);
     }
 }

@@ -78,8 +78,8 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="javaScript:;" onclick="openWishlist()">
-                        <i class="lni lni-heart"></i><span class="dn-counter">2</span>
+                        <a href="javaScript:void(0);" data-url="{{route('products.wishlistview')}}" id="open-wishlist-sidebar">
+                            <i class="lni lni-heart"></i><span class="dn-counter wishlist-counter">{{count(getWishlistProductIds())}}</span>
                         </a>
                     </li>
                     <li>

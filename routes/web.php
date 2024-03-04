@@ -50,6 +50,9 @@ Route::get('/shop/quick-view/{product_id}', [FrontProductController::class, 'qui
 /*Quick View*/
 Route::post('shop/add-wishlist', [FrontProductController::class,'addProducttoWishlist'])->name('products.add.wishlist');
 
+/*Wishlist View*/
+Route::get('/shop/wishlist-view', [FrontProductController::class, 'wishlistview'])->name('products.wishlistview');
+
 // ------------------main routes------------------------------------------
 
 
