@@ -35,14 +35,12 @@ if (!function_exists('getWishlistProductListWithDetails')) {
             // Fetch wishlist products associated with the user
             $wishlistProducts = Wishlist::where('user_id', $userId)
                 ->orderBy('created_at', 'desc') // Order by creation date
+                ->take(4)
                 ->pluck('product_id')
                 ->toArray();
 
-            // Take the latest 4 products
-            $latestProducts = array_slice($wishlistProducts, 0, 4);
-
             // Fetch full product information for each product ID
-            $products = Products::with(['product_image'])->whereIn('id', $latestProducts)->get();
+            $products = Products::whereIn('id', $wishlistProducts)->get();
 
             return $products;
         }

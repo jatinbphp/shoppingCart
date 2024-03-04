@@ -113,9 +113,9 @@
                                                     <span class="small">(5 Reviews)</span>
                                                 </div>
                                             </div>
-                                            <div class="text-right">
+                                            <!-- <div class="text-right">
                                                 <button class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button> 
-                                            </div>
+                                            </div> -->
                                         </div>
                                         <div class="text-left">
                                             <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
