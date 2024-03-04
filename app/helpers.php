@@ -3,7 +3,14 @@
 use App\Models\Wishlist;
 use App\Models\Products;
 use App\Models\ProductImages;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
+
+if (!function_exists('get_settings')) {
+    function get_settings() {
+        return Setting::findOrFail(1);
+    }
+}
 
 if (!function_exists('getWishlistProductIds')) {
     function getWishlistProductIds()

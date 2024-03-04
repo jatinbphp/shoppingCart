@@ -36,8 +36,8 @@
                         </ul>
                     </li>
                     <li><a href="">Accessories</a></li>
-                    <li><a href="">About Us</a></li>
-                    <li><a href="">Contact Us</a></li>
+                    <li><a href="{{route('about-us')}}">About Us</a></li>
+                    <li><a href="{{route('contact-us')}}">Contact Us</a></li>
                 </ul>
                 <ul class="nav-menu nav-menu-social align-to-right">
                     <li>

@@ -36,7 +36,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
+/*Landing Page*/
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+/*About Us Page*/
+Route::get('/about-us', [HomeController::class, 'about_us'])->name('about-us');
+
+/*Contact Us Page*/
+Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('contact-us');
 
 /*Products*/
 Route::get('/shop', [FrontProductController::class, 'index'])->name('products');

@@ -6,18 +6,18 @@
                     <div class="footer_widget">
                         <img src="{{url('assets/website/images/logo.png')}}" class="img-footer small mb-2" alt="" />
 
-                        @if(!empty($settings->address))
+                        @if(!empty(get_settings()['address']))
                         <div class="address mt-3">
-                            <a href="javaScript:;">{{$settings->address}}</a>
+                            <a href="javaScript:;">{{get_settings()['address']}}</a>
                         </div>
                         @endif
 
                         <div class="address mt-3">
-                            @if(!empty($settings->phone_number))
-                                <a href="tel:{{$settings->phone_number}}">{{$settings->phone_number}}</a><br>
+                            @if(!empty(get_settings()['phone_number']))
+                                <a href="tel:{{get_settings()['phone_number']}}">{{get_settings()['phone_number']}}</a><br>
                             @endif
-                            @if(!empty($settings->email_address))
-                                <a href="mailto:{{$settings->email_address}}">{{$settings->email_address}}</a>
+                            @if(!empty(get_settings()['email_address']))
+                                <a href="mailto:{{get_settings()['email_address']}}">{{get_settings()['email_address']}}</a>
                             @endif
                         </div>
                         <div class="address mt-3">

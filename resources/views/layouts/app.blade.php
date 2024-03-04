@@ -1,6 +1,3 @@
-@php
-$settings = \App\Models\Setting::where('id', '1')->first();
-@endphp
 <!DOCTYPE html>
 <html lang="" dir="ltr">
     <head>

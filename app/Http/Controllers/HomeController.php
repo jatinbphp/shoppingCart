@@ -38,4 +38,18 @@ class HomeController extends Controller
 
         return view('home', $data);
     }
+
+    public function about_us()
+    {
+        $data['title'] = 'About Us';
+
+        return view('about-us', $data);
+    }
+
+    public function contact_us()
+    {
+        $data['title'] = 'Contact Us';
+
+        return view('contact-us', $data);
+    }
 }
