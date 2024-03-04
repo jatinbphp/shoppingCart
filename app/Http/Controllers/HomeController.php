@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Products;
 use App\Models\ProductImages;
@@ -33,6 +34,9 @@ class HomeController extends Controller
             $query->inRandomOrder()->take(8); // Randomly order and limit to 8 products per category
         }])->take(4)->get();
         
+        $data['banner'] = Banner::find(1);
+        $data['banner']['image'] = json_decode($data['banner']['image'], true, JSON_UNESCAPED_SLASHES);
+
         return view('home', $data);
     }
 }

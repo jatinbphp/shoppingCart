@@ -270,10 +270,10 @@ $(function () {
                     return '#' + data; // Prepend '#' to the 'id' data
                 }
             },
-            {data: 'image', "width": "10%",  name: 'image', orderable: false, searchable: false, render: function (data,type,row){
-                    return '<img src="'+base_path+data+'" height="50" alt="Image"/>';
-                }
-            },
+            // {data: 'image', "width": "10%",  name: 'image', orderable: false, searchable: false, render: function (data,type,row){
+            //         return '<img src="'+base_path+data+'" height="50" alt="Image"/>';
+            //     }
+            // },
             {data: 'title', name: 'title'},
             {data: 'subtitle', name: 'subtitle'},
             {data: 'created_at', "width": "15%", name: 'created_at'},

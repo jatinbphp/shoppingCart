@@ -17,12 +17,21 @@ class BannerRequest extends FormRequest
             'title'         => 'required|max:50',
             'subtitle'      => 'required|max:50',
             'description'   => 'required|max:500',
-            'image'         => 'image|mimes:jpeg,jpg,png,gif',
             'status'        => 'required',
+            'image'         => "array",
+            'image.*'       => "image|mimes:jpeg,jpg,png,gif",
         ]; 
         
-        $rules['image'] .= ($this->isMethod('patch') && $this->has('hidden_image')) ? '|nullable' : '|required';
+        $rules['image']   .= ($this->isMethod('patch') && $this->has('hidden_image')) ? '|nullable' : '|required';
+        $rules['image.*'] .= ($this->isMethod('patch') && $this->has('hidden_image')) ? '|nullable' : '|required';
 
         return $rules;
+    }
+
+    public function messages(): array
+    {
+        return [
+            // 'image.required' => 'The banner image field is required',
+        ];
     }
 }

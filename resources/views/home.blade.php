@@ -2,16 +2,16 @@
 
 @section('content')
 <div class="home-slider margin-bottom-0">
-    <div class="item" data-overlay="3" style="background-image: url('{{url("assets/website/images/banner-3.jpg")}}');">
+    <div class="item" data-overlay="3" style="background-image: url('{{ isset($banner->image[0]) ? url($banner->image[0]) : "" }}');">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="home-slider-container">
                         <div class="home-slider-desc text-center">
                             <div class="home-slider-title mb-4">
-                                <h5 class="fs-lg ft-ft-medium mb-0">Summer Collection</h5>
-                                <h1 class="mb-1 ft-bold lg-heading">New Summer<br>Collections 2024</h1>
-                                <span class="trending text-light">There's nothing like trend</span>
+                                <h5 class="fs-lg ft-ft-medium mb-0">{{ $banner->title ?? "" }}</h5>
+                                <h1 class="mb-1 ft-bold lg-heading">{!! $banner->description ?? "" !!}</h1>
+                                <span class="trending text-light">{{ $banner->subtitle ?? "" }}</span>
                             </div>
                             <a href="{{ route('products') }}" class="btn stretched-link light-borders ft-bold">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
@@ -20,16 +20,16 @@
             </div>
         </div>
     </div>
-    <div class="item" data-overlay="3" style="background-image: url('{{url("assets/website/images/banner-2.jpg")}}');">
+    <div class="item" data-overlay="3" style="background-image: url('{{ isset($banner->image[1]) ? url($banner->image[1]) : "" }}');">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="home-slider-container">
                         <div class="home-slider-desc text-center">
                             <div class="home-slider-title mb-4">
-                                <h5 class="fs-lg ft-ft-medium mb-0">Summer Collection</h5>
-                                <h1 class="mb-1 ft-bold lg-heading">New Summer<br>Collections 2024</h1>
-                                <span class="trending text-light">There's nothing like trend</span>
+                                <h5 class="fs-lg ft-ft-medium mb-0">{{ $banner->title ?? "" }}</h5>
+                                <h1 class="mb-1 ft-bold lg-heading">{!! $banner->description ?? "" !!}</h1>
+                                <span class="trending text-light">{{ $banner->subtitle ?? "" }}</span>
                             </div>
                             <a href="{{ route('products') }}" class="btn stretched-link light-borders ft-bold">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
@@ -38,16 +38,16 @@
             </div>
         </div>
     </div>
-    <div class="item" data-overlay="3" style="background-image: url('{{url("assets/website/images/banner-1.jpg")}}');">
+    <div class="item" data-overlay="3" style="background-image: url('{{ isset($banner->image[2]) ? url($banner->image[2]) : "" }}');">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="home-slider-container">
                         <div class="home-slider-desc text-center">
                             <div class="home-slider-title mb-4">
-                                <h5 class="fs-lg ft-ft-medium mb-0">Summer Collection</h5>
-                                <h1 class="mb-1 ft-bold lg-heading">New Summer<br>Collections 2024</h1>
-                                <span class="trending text-light">There's nothing like trend</span>
+                                <h5 class="fs-lg ft-ft-medium mb-0">{{ $banner->title ?? "" }}</h5>
+                                <h1 class="mb-1 ft-bold lg-heading">{!! $banner->description ?? "" !!}</h1>
+                                <span class="trending text-light">{{ $banner->subtitle ?? "" }}</span>
                             </div>
                             <a href="{{ route('products') }}" class="btn stretched-link light-borders ft-bold">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
@@ -78,7 +78,7 @@
                 </div>
                 <div class="single_cats">
                     <a href="javaScript:;" class="cards card-overflow card-scale md_height">
-                        <div class="bg-image" style="background: url('{{url("assets/website/images/b-5.png")}}'); background-repeat:no-repeat;"></div>
+                        <div class="bg-image" style="background: url('{{url("assets/website/images/b-5.pngs")}}'); background-repeat:no-repeat;"></div>
                         <div class="ct_body">
                             <div class="ct_body_caption left">
                                 <h2 class="m-0 ft-bold lh-1 fs-md text-upper">Men's Wear</h2>

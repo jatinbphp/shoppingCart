@@ -37,10 +37,10 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Image</th>
+                                        {{-- <th>Image</th> --}}
                                         <th>Title</th>
                                         <th>Subtitle</th>
-                                        <th>Status</th>
+                                        <th>Created At</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
