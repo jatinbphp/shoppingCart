@@ -109,14 +109,20 @@
                         <div class="col-12 col-lg">
                             <!-- Submit -->
                             <button type="submit" class="btn btn-block custom-height bg-dark mb-2">
-                            <i class="lni lni-shopping-basket mr-2"></i>Add to Cart 
+                                <i class="lni lni-shopping-basket mr-2"></i>Add to Cart 
                             </button>
                         </div>
                         <div class="col-12 col-lg-auto">
                             <!-- Wishlist -->
-                            <button class="btn custom-height btn-default btn-block mb-2 text-dark" data-toggle="button">
-                            <i class="lni lni-heart mr-2"></i>Wishlist
-                            </button>
+                            @guest
+                                <a href="{{route('login')}}" class="btn custom-height btn-default btn-block mb-2 text-dark">
+                                    <i class="lni lni-heart mr-2"></i>Wishlist
+                                </a>
+                            @else
+                                <button class="btn custom-height btn-default btn-block mb-2 text-dark snackbar-wishlist" data-id="{{$info['id']}}" data-url="{{route('products.add.wishlist')}}" data-toggle="button">
+                                    <i class="lni lni-heart mr-2"></i>Wishlist
+                                </button>
+                            @endif
                         </div>
                     </div>
                 </div>

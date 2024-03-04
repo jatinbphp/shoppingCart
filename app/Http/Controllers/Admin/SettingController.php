@@ -17,8 +17,8 @@ class SettingController extends Controller{
     }
 
     public function update(SettingsRequest $request, string $id){
-        $input      = $request->all();
-        $setting    = Setting::find($id);
+        $input = $request->all();
+        $setting = Setting::find($id);
         $setting->updateOrCreate(['id' => $id], $input);
         Session::flash('success','Settings has been updated successfully!');
         return redirect('admin/settings/'.$id."/edit");

@@ -43,7 +43,6 @@ $(function () {
         event.preventDefault();
 
         var $slider = $('.quick_view_slide');
-
         var url = $(this).attr('data-url');
         var id = $(this).attr("data-id");
 
@@ -61,8 +60,40 @@ $(function () {
             }
         });
     });
-});
 
+    // Snackbar for wishlist Product
+    $(document).on('click', '.snackbar-wishlist', function (event) {
+
+        var url = $(this).attr('data-url');
+        var id = $(this).attr("data-id");
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: {
+                'id': id,
+            },
+            headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+            success: function(data){
+
+                var msg = 'Your product was removed from the wishlist successfully!'
+                if(data==1){
+                    var msg = 'Your product was added to wishlist successfully!'
+                }
+                
+                Snackbar.show({
+                    text: msg,
+                    pos: 'top-right',
+                    showAction: false,
+                    actionText: "Dismiss",
+                    duration: 3000,
+                    textColor: '#fff',
+                    backgroundColor: '#151515'
+                });     
+            }
+        });
+    });
+});
 
 function initSlickSlider() {
     $('.quick_view_slide').slick({

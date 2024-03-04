@@ -37,9 +37,18 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+/*Products*/
 Route::get('/shop', [FrontProductController::class, 'index'])->name('products');
+
+/*Product Details*/
 Route::get('/shop/{id}/details', [FrontProductController::class, 'details'])->name('products.details');
+
+/*Quick View*/
 Route::get('/shop/quick-view/{product_id}', [FrontProductController::class, 'quickview'])->name('products.quickview');
+
+/*Quick View*/
+Route::post('shop/add-wishlist', [FrontProductController::class,'addProducttoWishlist'])->name('products.add.wishlist');
 
 // ------------------main routes------------------------------------------
 

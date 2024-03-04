@@ -34,8 +34,7 @@ class HomeController extends Controller
             $query->inRandomOrder()->take(8); // Randomly order and limit to 8 products per category
         }])->take(4)->get();
         
-        $data['banner'] = Banner::find(1);
-        $data['banner']['image'] = json_decode($data['banner']['image'], true, JSON_UNESCAPED_SLASHES);
+        $data['banners'] = Banner::where('status', 'active')->orderBy('id', 'DESC')->get();
 
         return view('home', $data);
     }

@@ -78,21 +78,24 @@
                             </li>
                         </ul>
                     </li>
-
                     <li class="nav-item">
                         <a href="{{ route('admin.dashboard') }}" class="nav-link @if(isset($menu) && $menu=='Dashboard') active @endif">
                             <i class="nav-icon fa fa-tachometer-alt"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
-
+                    <li class="nav-item">
+                        <a href="{{ route('banner.index') }}" class="nav-link @if(isset($menu) && $menu=='Banners') active @endif">
+                            <i class="nav-icon fa fa-images"></i>
+                            <p>Banners</p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('users.index') }}" class="nav-link @if(isset($menu) && $menu=='Users') active @endif">
                             <i class="nav-icon fa fa-users"></i>
                             <p>Users</p>
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a href="{{ route('category.index') }}" class="nav-link @if(isset($menu) && $menu=='Category') active @endif">
                             <i class="nav-icon fa fa-sitemap"></i>
@@ -123,7 +126,6 @@
                             <p>Contact Us</p>
                         </a>
                     </li>
-
                     <li class="nav-item @if(isset($menu) && in_array($menu, ['User Orders Report', 'Products Purchased Report', 'Sales Report'])) menu-open  @endif">
                         <a href="#" class="nav-link @if(isset($menu) && in_array($menu, ['User Orders Report', 'Products Purchased Report', 'Sales Report'])) active @endif">
                             <i class="nav-icon fa fa-flag"></i>
@@ -145,7 +147,6 @@
                                     <p>Product Purchase Report</p>
                                 </a>
                             </li>
-
                             <li class="nav-item">
                                 <a href="{{ route('reports.sales')}}" class="nav-link @if(isset($menu) && $menu=='Sales Report') active @endif">
                                     <i class="fas fa-chart-line nav-icon"></i>
@@ -158,12 +159,6 @@
                         <a href="{{ route('settings.edit', ['setting' => 1]) }}" class="nav-link @if(isset($menu) && $menu=='Settings') active @endif">
                             <i class="nav-icon fa fa-cog"></i>
                             <p>Settings</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('banner.index') }}" class="nav-link @if(isset($menu) && $menu=='Banners') active @endif">
-                            <i class="nav-icon fa fa-images"></i>
-                            <p>Banners</p>
                         </a>
                     </li>
                 </ul>

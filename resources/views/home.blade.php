@@ -1,62 +1,33 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="home-slider margin-bottom-0">
-    <div class="item" data-overlay="3" style="background-image: url('{{ isset($banner->image[0]) ? url($banner->image[0]) : "" }}');">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="home-slider-container">
-                        <div class="home-slider-desc text-center">
-                            <div class="home-slider-title mb-4">
-                                <h5 class="fs-lg ft-ft-medium mb-0">{{ $banner->title ?? "" }}</h5>
-                                <h1 class="mb-1 ft-bold lg-heading">{!! $banner->description ?? "" !!}</h1>
-                                <span class="trending text-light">{{ $banner->subtitle ?? "" }}</span>
+
+@if(!empty($banners))
+    <div class="home-slider margin-bottom-0">
+        @foreach($banners as $keyBanner => $valueBanner)
+            @if(!empty($valueBanner->image) && file_exists($valueBanner->image))
+                <div class="item" data-overlay="3" style="background-image: url({{$valueBanner->image}});">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="home-slider-container">
+                                    <div class="home-slider-desc text-center">
+                                        <div class="home-slider-title mb-4">
+                                            <h5 class="fs-lg ft-ft-medium mb-0">{{$valueBanner->title}}</h5>
+                                            <h1 class="mb-1 ft-bold lg-heading">{{$valueBanner->subtitle}}</h1>
+                                            <span class="trending text-light">{{$valueBanner->description}}</span>
+                                        </div>
+                                        <a href="{{ route('products') }}" class="btn stretched-link light-borders ft-bold">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
+                                    </div>
+                                </div>
                             </div>
-                            <a href="{{ route('products') }}" class="btn stretched-link light-borders ft-bold">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            @endif
+        @endforeach
     </div>
-    <div class="item" data-overlay="3" style="background-image: url('{{ isset($banner->image[1]) ? url($banner->image[1]) : "" }}');">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="home-slider-container">
-                        <div class="home-slider-desc text-center">
-                            <div class="home-slider-title mb-4">
-                                <h5 class="fs-lg ft-ft-medium mb-0">{{ $banner->title ?? "" }}</h5>
-                                <h1 class="mb-1 ft-bold lg-heading">{!! $banner->description ?? "" !!}</h1>
-                                <span class="trending text-light">{{ $banner->subtitle ?? "" }}</span>
-                            </div>
-                            <a href="{{ route('products') }}" class="btn stretched-link light-borders ft-bold">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="item" data-overlay="3" style="background-image: url('{{ isset($banner->image[2]) ? url($banner->image[2]) : "" }}');">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="home-slider-container">
-                        <div class="home-slider-desc text-center">
-                            <div class="home-slider-title mb-4">
-                                <h5 class="fs-lg ft-ft-medium mb-0">{{ $banner->title ?? "" }}</h5>
-                                <h1 class="mb-1 ft-bold lg-heading">{!! $banner->description ?? "" !!}</h1>
-                                <span class="trending text-light">{{ $banner->subtitle ?? "" }}</span>
-                            </div>
-                            <a href="{{ route('products') }}" class="btn stretched-link light-borders ft-bold">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@endif
 
 <section class="middle">
     <div class="container">
@@ -78,7 +49,7 @@
                 </div>
                 <div class="single_cats">
                     <a href="javaScript:;" class="cards card-overflow card-scale md_height">
-                        <div class="bg-image" style="background: url('{{url("assets/website/images/b-5.pngs")}}'); background-repeat:no-repeat;"></div>
+                        <div class="bg-image" style="background: url('{{url("assets/website/images/b-5.png")}}'); background-repeat:no-repeat;"></div>
                         <div class="ct_body">
                             <div class="ct_body_caption left">
                                 <h2 class="m-0 ft-bold lh-1 fs-md text-upper">Men's Wear</h2>
@@ -148,7 +119,16 @@
                     <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
                             <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
-                            <button class="btn btn_love position-absolute ab-right snackbar-wishlist"><i class="far fa-heart"></i></button> 
+                            @guest
+                                <a href="{{route('login')}}" class="btn btn_love position-absolute ab-right snackbar-wishlist">
+                                    <i class="far fa-heart"></i>
+                                </a>
+                            @else
+                                <button class="btn btn_love position-absolute ab-right snackbar-wishlist @if(in_array($value->id, getWishlistProductIds())) active @endif" data-id="{{$value->id}}" data-url="{{route('products.add.wishlist')}}" data-toggle="button">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            @endif
+                            
                             <div class="card-body p-0">
                                 <div class="shop_thumb position-relative">
                                     <a class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$value->id])}}">
@@ -229,7 +209,23 @@
                                             <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                                                 <div class="product_grid card b-0">
                                                     <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
-                                                    <button class="btn btn_love position-absolute ab-right snackbar-wishlist"><i class="far fa-heart"></i></button> 
+
+                                                    @guest
+                                                        <a href="{{route('login')}}" class="btn btn_love position-absolute ab-right">
+                                                            <i class="far fa-heart"></i>
+                                                        </a>
+                                                    @else
+                                                        <button class="btn btn_love position-absolute ab-right snackbar-wishlist @if(in_array($product->id, getWishlistProductIds())) active @endif" 
+                                                                data-product-id="{{ $product->id }}" 
+                                                                data-wishlist-url="{{ route('products.add.wishlist') }}" 
+                                                                data-toggle="button"
+                                                                aria-label="Add to Wishlist"
+                                                        >
+                                                            <i class="far fa-heart"></i>
+                                                        </button>
+
+                                                    @endif
+
                                                     <div class="card-body p-0">
                                                         <div class="shop_thumb position-relative">
                                                             <a class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$product->id])}}">

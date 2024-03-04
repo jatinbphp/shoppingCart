@@ -42,25 +42,28 @@ class BannerController extends Controller{
     public function store(BannerRequest $request){
         $input = $request->all();
 
-        $input['image'] = null;
-        if($request->has('image') && !empty($request->file('image'))){
-            foreach($request->file('image') as $key => $value){
-                $input['image'][$key] = $this->fileMove($request->file('image')[$key],'banner');
-            }
+        if($file = $request->file('image')){
+            $input['image'] = $this->fileMove($file,'banner');
         }
-
-        $input['image'] = json_encode($input['image'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        
         Banner::create($input);
         Session::flash('success', 'Banner has been inserted successfully!');
         return redirect()->route('banner.index');
     }
 
-    
+    public function show($id){
+        $banner = Banner::findOrFail($id);
+        
+        return view('admin.common.show_modal', [
+            'section_info' => $banner->toArray(),
+            'type' => 'Banner',
+            'required_columns' => ['id', 'image', 'title', 'subtitle', 'description', 'status', 'created_at']
+        ]);
+    }
 
     public function edit(string $id){
-        $data['menu']            = 'Banners';
-        $data['banner']          = Banner::where('id',$id)->first();
-        $data['banner']['image'] = json_decode($data['banner']['image'], true, JSON_UNESCAPED_SLASHES);
+        $data['menu'] = 'Banners';
+        $data['banner'] = Banner::where('id',$id)->first();
         return view('admin.banner.edit',$data);
     }
 
@@ -68,20 +71,11 @@ class BannerController extends Controller{
         $input = $request->all();
         $banner = Banner::findorFail($id);
 
-        if(!empty($input["hidden_image"]) && !$request->has('image')){
-            $input['image'] = json_encode($input['hidden_image'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        }
-        
-        if($request->has('image') && !empty($request->file('image'))){
-            foreach($request->file('image') as $key => $value){
-                $banners[$key] = $this->fileMove($request->file('image')[$key],'banner');
+        if($file = $request->file('image')){
+            if (!empty($banner['image']) && file_exists($banner['image'])) {
+                unlink($banner['image']);
             }
-            $input['image'] = json_encode($banners, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        }
-
-        if(!empty($banners) && !empty($input["hidden_image"]) && is_array($banners) && is_array($input["hidden_image"])){
-            $new_banners = array_merge(array_values($banners), array_values($input["hidden_image"]));
-            $input['image'] = json_encode($new_banners, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+            $input['image'] = $this->fileMove($file,'banner');
         }
 
         $banner->update($input);
@@ -89,23 +83,17 @@ class BannerController extends Controller{
         return redirect()->route('banner.index');
     }
 
-    public function destroy(string $id){
+    public function destroy(string $id)
+    {
         $banner = Banner::findOrFail($id);
-
-        if(empty($banner)){
+        if(!empty($banner)){
+            if (!empty($banner['image']) && file_exists($banner['image'])) {
+                unlink($banner['image']);
+            }
+            $banner->delete();
+            return 1;
+        }else{
             return 0;
         }
-
-        if(isset($banner['image']) && !empty($banner['image'])){
-            $images = json_decode($banner['image'], true, JSON_UNESCAPED_SLASHES);
-            foreach($images as $key => $value){
-                if (!empty($value) && file_exists($value)) {
-                    unlink($value);
-                }
-            }
-        }
-
-        $banner->delete();
-        return 1;
     }
 }

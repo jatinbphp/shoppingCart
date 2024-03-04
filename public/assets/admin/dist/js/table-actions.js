@@ -277,7 +277,7 @@ $(function () {
             {data: 'title', name: 'title'},
             {data: 'subtitle', name: 'subtitle'},
             {data: 'created_at', "width": "15%", name: 'created_at'},
-            {data: 'action', "width": "10%",  name: 'action', orderable: false},
+            {data: 'action', "width": "12%",  name: 'action', orderable: false},
         ],
         "order": [[0, "DESC"]]
     });

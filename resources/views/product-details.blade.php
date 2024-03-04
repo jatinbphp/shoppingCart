@@ -130,9 +130,15 @@
                             </div>
                             <div class="col-12 col-lg-auto">
                                 <!-- Wishlist -->
-                                <button class="btn custom-height btn-default btn-block mb-2 text-dark" data-toggle="button">
-                                <i class="lni lni-heart mr-2"></i>Wishlist
-                                </button>
+                                @guest
+                                    <a href="{{route('login')}}" class="btn custom-height btn-default btn-block mb-2 text-dark">
+                                        <i class="lni lni-heart mr-2"></i>Wishlist
+                                    </a>
+                                @else
+                                    <button class="btn custom-height btn-default btn-block mb-2 text-dark snackbar-wishlist @if(in_array($product['id'], getWishlistProductIds())) active @endif" data-id="{{$product['id']}}" data-url="{{route('products.add.wishlist')}}" data-toggle="button">
+                                        <i class="lni lni-heart mr-2"></i>Wishlist
+                                    </button>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -378,7 +384,17 @@
                         <div class="single_itesm">
                             <div class="product_grid card b-0 mb-0">
                                 <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
-                                <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button> 
+
+                                @guest
+                                    <a href="{{route('login')}}" class="btn btn_love position-absolute ab-right">
+                                        <i class="lni lni-heart"></i>
+                                    </a>
+                                @else
+                                    <button class="btn btn_love position-absolute ab-right snackbar-wishlist @if(in_array($valueSlider->id, getWishlistProductIds())) active @endif" data-id="{{$valueSlider->id}}" data-url="{{route('products.add.wishlist')}}" data-toggle="button">
+                                        <i class="lni lni-heart"></i>
+                                    </button>
+                                @endif
+
                                 <div class="card-body p-0">
                                     <div class="shop_thumb position-relative">
                                         <a class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$valueSlider->id])}}">

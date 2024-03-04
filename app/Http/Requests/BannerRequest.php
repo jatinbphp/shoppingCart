@@ -14,16 +14,16 @@ class BannerRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'title'         => 'required|max:50',
-            'subtitle'      => 'required|max:50',
-            'description'   => 'required|max:500',
+            'title'         => 'required',
+            'subtitle'      => 'required',
+            'description'   => 'required',
             'status'        => 'required',
-            'image'         => "array",
-            'image.*'       => "image|mimes:jpeg,jpg,png,gif",
+            'image'         => 'required|mimes:jpeg,jpg,png,bmp',
         ]; 
         
-        $rules['image']   .= ($this->isMethod('patch') && $this->has('hidden_image')) ? '|nullable' : '|required';
-        $rules['image.*'] .= ($this->isMethod('patch') && $this->has('hidden_image')) ? '|nullable' : '|required';
+        if ($this->isMethod('patch')) {
+            $rules['image'] = 'mimes:jpeg,jpg,png,bmp';
+        }
 
         return $rules;
     }

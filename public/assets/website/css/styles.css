@@ -5101,6 +5101,9 @@ img {max-width: 100%;}
 .lb-nav a.lb-prev {
     background-size: 30px !important;
 }
+.abt_caption img {
+    box-shadow: -15px 15px 1px 0px #edeff1;
+}
 @media screen and (min-width: 1200px) {
     .home-slider-img img {max-height: 100%;height: 100%;}
 }
@@ -5140,3 +5143,4 @@ img {max-width: 100%;}
     }
     .rows-products.list .product_grid .card-footer .btn {padding: 10px 20px;font-size: 15px;}
 }
+.prd_details .snackbar-wishlist.active .lni-heart{color: #009ccf;}

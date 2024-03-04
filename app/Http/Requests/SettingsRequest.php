@@ -20,14 +20,14 @@ class SettingsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'address'       => 'required|max:500',
-            'phone_number'  => 'required|min:10|max:10|regex:/[0-9]{9}/',
-            'email_address' => 'required|email',
-            'facebook_url'  => 'required|max:100|url',
-            'twitter_url'   => 'required|max:100|url',
-            'youtube_url'   => 'required|max:100|url',
-            'instagram_url' => 'required|max:100|url',
-            'linkedin_url'  => 'required|max:100|url',            
+            'address'       => 'max:500',
+            'phone_number'  => '',
+            'email_address' => 'email',
+            'facebook_url'  => 'nullable|url',
+            'twitter_url'   => 'nullable|url',
+            'youtube_url'   => 'nullable|url',
+            'instagram_url' => 'nullable|url',
+            'linkedin_url'  => 'nullable|url',            
         ];
     }
 }

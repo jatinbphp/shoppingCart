@@ -23,18 +23,17 @@ return new class extends Migration
             $table->string('instagram_url')->nullable();
             $table->string('linkedin_url')->nullable();
             $table->tinyInteger('status')->nullable()->default(1);
-            $table->softDeletes();
             $table->timestamps();
         });
         \Illuminate\Support\Facades\DB::table('settings')->insert([
-            'address'       => null,
-            'phone_number'  => null,
-            'email_address' => null,
-            'facebook_url'  => null,
-            'twitter_url'   => null,
-            'youtube_url'   => null,
-            'instagram_url' => null,
-            'linkedin_url'  => null,
+            'address'       => '3298 Grant Street Longview, TX United Kingdom 75601',
+            'phone_number'  => '1-202-555-0106',
+            'email_address' => 'help@shopper.com',
+            'facebook_url'  => 'https://www.facebook.com/',
+            'twitter_url'   => 'https://in.linkedin.com/company/twitter',
+            'youtube_url'   => 'https://www.youtube.com/',
+            'instagram_url' => 'https://www.instagram.com/',
+            'linkedin_url'  => 'https://in.linkedin.com/',
             'status'        => 1,
             'created_at'    => Carbon::now(),
         ]);
