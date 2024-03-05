@@ -37,7 +37,7 @@
 @if(count(getWishlistProductIds())>4)
     <div class="cart_action px-3 py-3">
         <div class="form-group">
-            <button type="button" class="btn d-block full-width btn-dark">View All</button>
+            <a href="{{route('my-account.wishlist')}}" class="btn d-block full-width btn-dark">View All</a>
         </div>
     </div>
 @endif

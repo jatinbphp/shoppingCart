@@ -65,51 +65,40 @@
                     @if(!empty($product['options']))
                         @foreach($product['options'] as $key => $value)
                             <div class="prt_04 mb-2">
-                                <p class="d-flex align-items-center mb-0 text-dark ft-medium">{{ucwords($value['option_name'])}}:</p>
-                                <div class="text-left pb-0 pt-2">
-                                    @if(!empty($value['product_option_values']))
-                                        @foreach($value['product_option_values'] as $keyOption => $valueOption)
-                                            <div class="form-check size-option form-option form-check-inline mb-2">
-                                                <input class="form-check-input" type="radio" name="options[{{$value['id']}}]" id="{{strtolower(str_replace(' ', '_', $value['option_name']))}}_{{$valueOption['id']}}" @if($keyOption==0) checked @endif>
-                                                <label class="form-option-label" for="{{strtolower(str_replace(' ', '_', $value['option_name']))}}_{{$valueOption['id']}}">{{ucwords($valueOption['option_value'])}}</label>
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                </div>
+                                <p class="d-flex align-items-center mb-0 text-dark ft-medium">
+                                    {{ucfirst(strtolower($value['option_name']))}}:
+                                </p>
+
+                                @if($value['option_name']!='COLOR')
+                                    <div class="text-left pb-0 pt-2">
+                                        @if(!empty($value['product_option_values']))
+                                            @foreach($value['product_option_values'] as $keyOption => $valueOption)
+                                                <div class="form-check size-option form-option form-check-inline mb-2">
+                                                    <input class="form-check-input" type="radio" name="options[{{$value['id']}}]" id="{{strtolower(str_replace(' ', '_', $value['option_name']))}}_{{$valueOption['id']}}" @if($keyOption==0) checked @endif>
+                                                    <label class="form-option-label" for="{{strtolower(str_replace(' ', '_', $value['option_name']))}}_{{$valueOption['id']}}">{{ucwords($valueOption['option_value'])}}</label>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                @else
+                                    <div class="text-left pb-0 pt-2">
+                                        @if(!empty($value['product_option_values']))
+                                            @foreach($value['product_option_values'] as $keyOption => $valueOption)
+                                                <div class="form-check form-option form-check-inline mb-1">
+                                                    <input class="form-check-input" type="radio" name="options[{{$value['id']}}]" @if($keyOption==0) checked @endif id="{{str_replace('#', '', $valueOption['option_value'])}}">
+
+                                                    <label class="form-option-label rounded-circle" for="{{str_replace('#', '', $valueOption['option_value'])}}">
+                                                        <span class="form-option-color rounded-circle" style="background:{{$valueOption['option_value']}}"></span>
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                @endif
                             </div>
                         @endforeach
                     @endif
 
-                    <!-- <div class="prt_04 mb-2">
-                        <p class="d-flex align-items-center mb-0 text-dark ft-medium">Color:</p>
-                        <div class="text-left">
-                            <div class="form-check form-option form-check-inline mb-1">
-                                <input class="form-check-input" type="radio" name="color8" id="white8">
-                                <label class="form-option-label rounded-circle" for="white8"><span class="form-option-color rounded-circle blc7"></span></label>
-                            </div>
-                            <div class="form-check form-option form-check-inline mb-1">
-                                <input class="form-check-input" type="radio" name="color8" id="blue8">
-                                <label class="form-option-label rounded-circle" for="blue8"><span class="form-option-color rounded-circle blc2"></span></label>
-                            </div>
-                            <div class="form-check form-option form-check-inline mb-1">
-                                <input class="form-check-input" type="radio" name="color8" id="yellow8">
-                                <label class="form-option-label rounded-circle" for="yellow8"><span class="form-option-color rounded-circle blc5"></span></label>
-                            </div>
-                            <div class="form-check form-option form-check-inline mb-1">
-                                <input class="form-check-input" type="radio" name="color8" id="pink8">
-                                <label class="form-option-label rounded-circle" for="pink8"><span class="form-option-color rounded-circle blc3"></span></label>
-                            </div>
-                            <div class="form-check form-option form-check-inline mb-1">
-                                <input class="form-check-input" type="radio" name="color8" id="red">
-                                <label class="form-option-label rounded-circle" for="red"><span class="form-option-color rounded-circle blc4"></span></label>
-                            </div>
-                            <div class="form-check form-option form-check-inline mb-1">
-                                <input class="form-check-input" type="radio" name="color8" id="green">
-                                <label class="form-option-label rounded-circle" for="green"><span class="form-option-color rounded-circle blc6"></span></label>
-                            </div>
-                        </div>
-                    </div> -->
-                    
                     <div class="prt_05 mb-4">
                         <div class="form-row mb-7">
                             <div class="col-12 col-lg-auto">

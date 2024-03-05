@@ -6,10 +6,7 @@ use App\Models\Products;
 use App\Models\ProductImages;
 use App\Models\ProductsOptions;
 use App\Models\ProductsOptionsValues;
-use App\Models\Wishlist;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -32,56 +29,6 @@ class ProductController extends Controller
         
         return view('modals.quick-modal-data', [
             'info' => $product->toArray()
-        ]);
-    }
-
-    public function addProducttoWishlist(Request $request){
-        
-        $input = $request->all();
-        $user_id = Auth::user()->id;
-
-        $wishlist = Wishlist::where('user_id', $user_id)->where('product_id', $request->id)->first();
-
-        if ($wishlist) {
-            $wishlist->delete();
-            $type = 2;
-        } else {
-            $input['user_id'] = $user_id;
-            $input['product_id'] = $request->id;
-            Wishlist::create($input);
-            $type = 1;
-        }
-
-        $responseData = [
-            'total' => count(getWishlistProductIds()),
-            'type' => $type,
-        ];
-
-        // Return the data as JSON response
-        return response()->json($responseData);
-    }
-
-    public function wishlistview(){   
-
-        $wishlist_products = [];
-        // Check if a user is authenticated
-        if (Auth::check()) {
-            // Get the authenticated user's ID
-            $userId = Auth::id();
-            
-            // Fetch wishlist products associated with the user
-            $wishlistProducts = Wishlist::where('user_id', $userId)
-                ->orderBy('created_at', 'desc') // Order by creation date
-                ->take(4)
-                ->pluck('product_id')
-                ->toArray();
-
-            // Fetch full product information for each product ID
-            $wishlist_products = Products::whereIn('id', $wishlistProducts)->get();
-        }
-
-        return view('modals.wishlist-modal-data', [
-            'wishlist_products' => $wishlist_products
         ]);
     }
 }

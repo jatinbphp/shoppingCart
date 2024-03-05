@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\AuthorizationController;
 use App\Http\Controllers\Admin\ProfileUpdateController;
 use App\Http\Controllers\Admin\ContentManagementController;
 use App\Http\Controllers\ProductController as FrontProductController;
+use App\Http\Controllers\MyAccountController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,10 +56,20 @@ Route::get('/shop/{id}/details', [FrontProductController::class, 'details'])->na
 Route::get('/shop/quick-view/{product_id}', [FrontProductController::class, 'quickview'])->name('products.quickview');
 
 /*Quick View*/
-Route::post('shop/add-wishlist', [FrontProductController::class,'addProducttoWishlist'])->name('products.add.wishlist');
+Route::post('shop/add-wishlist', [MyAccountController::class,'addProducttoWishlist'])->name('products.add.wishlist');
 
 /*Wishlist View*/
-Route::get('/shop/wishlist-view', [FrontProductController::class, 'wishlistview'])->name('products.wishlistview');
+Route::get('/shop/wishlist-view', [MyAccountController::class, 'wishlistview'])->name('products.wishlistview');
+
+/*Wishlist View*/
+Route::get('/my-account/shopping-cart', [MyAccountController::class, 'shoppingCart'])->name('my-account.shopping-cart');
+Route::get('/my-account/checkout', [MyAccountController::class, 'checkout'])->name('my-account.checkout');
+Route::get('/my-account/order-completed', [MyAccountController::class, 'orderCompleted'])->name('my-account.order.completed');
+Route::get('/my-account/wishlist', [MyAccountController::class, 'myWishlist'])->name('my-account.wishlist');
+Route::get('/my-account/orders', [MyAccountController::class, 'myOrders'])->name('my-account.orders');
+Route::get('/my-account/profile-info', [MyAccountController::class, 'profileInfo'])->name('my-account.profile-info');
+Route::get('/my-account/addresses', [MyAccountController::class, 'myAddresses'])->name('my-account.addresses');
+Route::get('/my-account/edit-address', [MyAccountController::class, 'editAddresses'])->name('my-account.edit-address');
 
 // ------------------main routes------------------------------------------
 
