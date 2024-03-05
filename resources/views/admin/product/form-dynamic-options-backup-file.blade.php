@@ -169,8 +169,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12 mb-2">
-                            <p class="h5">Add Option Values
-                                <!-- <button type="button" class="btn btn-sm btn-info" id="optionBtn" style="float: right;"><i class="fa fa-plus pr-1"></i> Add Option</button> -->
+                        <p class="h5">Add Options
+                            <button type="button" class="btn btn-sm btn-info" id="optionBtn" style="float: right;"><i class="fa fa-plus pr-1"></i> Add Option</button>
                             </p>
                         </div>
                     </div>
@@ -183,7 +183,7 @@
                                             <div class="col-md-10">
                                                 <div class="form-group{{ $errors->has('options') ? ' has-error' : '' }}">
                                                     <label class="control-label" for="options">Option Name :<span class="text-red">*</span></label>
-                                                    {!! Form::text("options[old][$option->id]", $option->option_name, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Name",'readonly']) !!}
+                                                    {!! Form::text("options[old][$option->id]", $option->option_name, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Name"]) !!}
                                                     @if ($errors->has('options'))
                                                         <span class="text-danger">
                                                             <strong>{{ $errors->first('options') }}</strong>
@@ -193,7 +193,7 @@
                                             </div>
 
                                             <div class="col-md-1">
-                                                <!-- <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{$option->id}}, 0)" style="margin-top: 30px;"><i class="fa fa-trash"></i></button> -->
+                                                <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{$option->id}}, 0)" style="margin-top: 30px;"><i class="fa fa-trash"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -203,45 +203,41 @@
                                             @foreach ($option->product_option_values as $vkey => $option_value)
                                                 @if($vkey==0)
                                                     <div class='row'>
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-5">
                                                             <label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>
                                                         </div>
+                                                        <!-- <div class="col-md-5">
+                                                            <label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>
+                                                        </div> -->
                                                     </div>
                                                 @endif
                                                 <div class="row" id="options_values_{{ $option_value->id }}">
-
-                                                    @if($option->option_name!='COLOR')
-                                                        <div class="col-md-5">
-                                                            <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
-                                                                {!! Form::text("option_values[old][$option->id][$option_value->id]", $option_value->option_value, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Value"]) !!}
-                                                                @if ($errors->has('option_values'))
-                                                                    <span class="text-danger">
-                                                                        <strong>{{ $errors->first('option_values') }}</strong>
-                                                                    </span>
-                                                                @endif
-                                                            </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
+                                                            {!! Form::text("option_values[old][$option->id][$option_value->id]", $option_value->option_value, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Value"]) !!}
+                                                            @if ($errors->has('option_values'))
+                                                                <span class="text-danger">
+                                                                    <strong>{{ $errors->first('option_values') }}</strong>
+                                                                </span>
+                                                            @endif
                                                         </div>
-                                                    @else 
-                                                        <div class="col-md-5">
-                                                            <div class="input-group my-colorpicker2 form-group{{ $errors->has('option_values') ? ' has-error' : '' }}" data-id="{{$option_value->id}}">
-                                                                {!! Form::text("option_values[old][$option->id][$option_value->id]", $option_value->option_value, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Value"]) !!}
+                                                    </div>
 
-                                                                <div class="input-group-append">
-                                                                    <span class="input-group-text"><i class="fas fa-square fa-square_{{$option_value->id}}" style="color: {{$option_value->option_value}};"></i></span>
-                                                                </div>
-
-                                                                @if ($errors->has('option_values'))
-                                                                    <span class="text-danger">
-                                                                        <strong>{{ $errors->first('option_values') }}</strong>
-                                                                    </span>
-                                                                @endif
-                                                            </div>
+                                                    <!-- <div class="col-md-5">
+                                                        <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
+                                                            {!! Form::text("option_price[old][$option->id][$option_value->id]", $option_value->option_price, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Price"]) !!}
+                                                            @if ($errors->has('option_price'))
+                                                                <span class="text-danger">
+                                                                    <strong>{{ $errors->first('option_price') }}</strong>
+                                                                </span>
+                                                            @endif
                                                         </div>
-                                                    @endif
+                                                    </div> -->
+
                                                     <div class="col-md-2">
                                                         <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{ $option_value->id }}, 1)"><i class="fa fa-trash"></i></button>
                                                         @if($vkey==0)
-                                                            <button type="button" class="btn btn-info add-option" onclick="optionValuesBtn({{ $option->id }}, {{ $option->id }}, '{{ $option->option_name }}')"><i class="fa fa-plus"></i> </button>
+                                                            <button type="button" class="btn btn-info add-option" onclick="optionValuesBtn({{ $option->id }}, {{ $option->id }})"><i class="fa fa-plus"></i> </button>
                                                         @endif
                                                     </div>
                                                 </div>
@@ -252,43 +248,39 @@
                                             <!-- <div id="extraValuesOption_{{ $option->id }}_{{ $option->id }}"></div> -->
                                         @else 
                                             <div class="row" id="options_values_1">
-                                                <!-- <div class='row'> -->
-                                                    <div class="col-md-12">
-                                                        <label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>
-                                                    </div>
-                                                <!-- </div> -->
-
-                                                @if($option->option_name!='COLOR')
-                                                    <div class="col-md-5">
-                                                        <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
-                                                            {!! Form::text("option_values[new][$option->id][]", null, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Value"]) !!}
-                                                            @if ($errors->has('option_values'))
-                                                                <span class="text-danger">
-                                                                    <strong>{{ $errors->first('option_values') }}</strong>
-                                                                </span>
-                                                            @endif
+                                                <div class='row'>
+                                                        <div class="col-md-5">
+                                                            <label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>
                                                         </div>
+                                                        <!-- <div class="col-md-5">
+                                                            <label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>
+                                                        </div> -->
                                                     </div>
-                                                @else
-                                                    <div class="col-md-5">
-                                                        <div class="input-group my-colorpicker2 form-group{{ $errors->has('option_values') ? ' has-error' : '' }}" data-id="1">
-                                                            {!! Form::text("option_values[new][$option->id][]", null, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Value", 'data-id' => 1]) !!}
-
-                                                            <div class="input-group-append">
-                                                                <span class="input-group-text"><i class="fas fa-square fa-square_1"></i></span>
-                                                            </div>
-
-                                                            @if ($errors->has('option_values'))
-                                                                <span class="text-danger">
-                                                                    <strong>{{ $errors->first('option_values') }}</strong>
-                                                                </span>
-                                                            @endif
-                                                        </div>
+                                                <div class="col-md-5">
+                                                    <div class="form-group{{ $errors->has('option_values') ? ' has-error' : '' }}">
+                                                        {!! Form::text("option_values[new][$option->id][]", null, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Value"]) !!}
+                                                        @if ($errors->has('option_values'))
+                                                            <span class="text-danger">
+                                                                <strong>{{ $errors->first('option_values') }}</strong>
+                                                            </span>
+                                                        @endif
                                                     </div>
-                                                @endif
+                                                </div>
+
+                                                <!-- <div class="col-md-5">
+                                                    <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
+                                                        {!! Form::text("option_price[new][$option->id][]", null, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Price"]) !!}
+                                                        @if ($errors->has('option_price'))
+                                                            <span class="text-danger">
+                                                                <strong>{{ $errors->first('option_price') }}</strong>
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                </div> -->
+
                                                 <div class="col-md-2">
                                                     <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{ $option->id }}, 1)"><i class="fa fa-trash"></i></button>
-                                                    <button type="button" class="btn btn-info add-option" onclick="optionValuesBtn({{ $option->id }}, {{ $option->id }}, '{{ $option->option_name }}')"><i class="fa fa-plus"></i> </button>
+                                                    <button type="button" class="btn btn-info add-option" onclick="optionValuesBtn({{ $option->id }}, {{ $option->id }})"><i class="fa fa-plus"></i> </button>
                                                 </div>
                                             </div>
                                             <!-- <div id="extraValuesOption_{{ $option->id }}_{{ $option->id }}"></div> -->
@@ -323,6 +315,9 @@
                                         <div class="col-md-5">
                                             <label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>
                                         </div>
+                                        <!-- <div class="col-md-5">
+                                            <label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>
+                                        </div> -->
                                     </div>
                                     <div class="row" id="options_values_1">
                                         <div class="col-md-5">
@@ -335,6 +330,17 @@
                                                 @endif
                                             </div>
                                         </div>
+
+                                        <!-- <div class="col-md-5">
+                                            <div class="form-group{{ $errors->has('option_price') ? ' has-error' : '' }}">
+                                                {!! Form::text("option_price[new][1][]", null, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Price"]) !!}
+                                                @if ($errors->has('option_price'))
+                                                    <span class="text-danger">
+                                                        <strong>{{ $errors->first('option_price') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div> -->
 
                                         <div class="col-md-2">
                                             <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow(1, 1)"><i class="fa fa-trash"></i></button>
@@ -381,6 +387,9 @@ $('#optionBtn').on('click', function(){
                         '<div class="col-md-5">'+
                             '<label class="control-label" for="option_values">Option Values :<span class="text-red">*</span></label>'+
                         '</div>'+
+                        /*'<div class="col-md-5">'+
+                            '<label class="control-label" for="option_price">Option Values Price :<span class="text-red">*</span></label>'+
+                        '</div>'+*/
                     '</div>'+
                     '<div class="row" id="options_values_'+optionName+'">'+
                         '<div class="col-md-5">'+
@@ -388,6 +397,11 @@ $('#optionBtn').on('click', function(){
                                 '<input type="text" name="option_values[new]['+optionName+'][]" class="form-control" required- placeholder="Enter Option Value">'+
                             '</div>'+
                         '</div>'+
+                        /*'<div class="col-md-5">'+
+                            '<div class="form-group">'+
+                                '<input type="text" name="option_price[new]['+optionName+'][]" class="form-control" required- placeholder="Enter Option Price">'+
+                            '</div>'+
+                        '</div>'+*/
                         '<div class="col-md-2">'+
                             '<button type="button" class="btn btn-danger deleteExp mr-1" onClick="removeOptionRow('+optionName+', 1)"><i class="fa fa-trash"></i></button>'+
                             '<button type="button" class="btn btn-info add-option" onclick="optionValuesBtn('+optionName+', '+optionName+')"><i class="fa fa-plus"></i> </button>'+
@@ -399,34 +413,25 @@ $('#optionBtn').on('click', function(){
     $('#extraOption').append(exOptionContent);
 });
 
-function optionValuesBtn(option_value_number, option_number, option_name) {
+function optionValuesBtn(option_value_number, option_number) {
     optionName = optionName + 1;
 
-    var className = '';
-    if(option_name=='COLOR'){
-        var className = 'input-group my-colorpicker2 ';
-    }
-
-    var exOptionContent = `
-    <div class="row" id="options_values_${optionName}">
-        <div class="col-md-5">
-            <div class="${className} form-group" data-id="${optionName}">
-                <input type="text" name="option_values[new][${option_value_number}][]" class="form-control" required placeholder="Enter Option Value" data-id="${optionName}">
-                ${option_name == 'COLOR' ? `
-                <div class="input-group-append">
-                    <span class="input-group-text"><i class="fas fa-square fa-square_${optionName}"></i></span>
-                </div>` : ''}
-            </div>
-        </div>
-        <div class="col-md-2">
-            <button type="button" class="btn btn-danger deleteExp mr-1" onClick="removeOptionRow('${optionName}', 1)"><i class="fa fa-trash"></i></button>
-        </div>                    
-    </div>`;
-
+    var exOptionContent = '<div class="row" id="options_values_'+optionName+'">'+
+                            '<div class="col-md-5">'+
+                                '<div class="form-group">'+
+                                    '<input type="text" name="option_values[new]['+option_value_number+'][]" class="form-control" required- placeholder="Enter Option Value">'+
+                                '</div>'+
+                            '</div>'+
+                            /*'<div class="col-md-5">'+
+                                '<div class="form-group">'+
+                                    '<input type="text" name="option_price[new]['+option_value_number+'][]" class="form-control" required- placeholder="Enter Option Price">'+
+                                '</div>'+
+                            '</div>'+*/
+                            '<div class="col-md-2">'+
+                                '<button type="button" class="btn btn-danger deleteExp mr-1" onClick="removeOptionRow('+optionName+', 1)"><i class="fa fa-trash"></i></button>'+
+                            '</div>'+                    
+                        '</div>';
     $('#extraValuesOption_'+option_value_number+'_'+option_number).append(exOptionContent);
-
-    // Reinitialize color picker for the newly added elements
-    $('.my-colorpicker2').colorpicker(); // Assuming you're using a color picker plugin
 }
 
 function removeOptionRow(divId, type){

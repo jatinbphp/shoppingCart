@@ -70,6 +70,22 @@ class ProductController extends Controller
         $input['user_id'] = Auth::user()->id;
         $product = Products::create($input);
 
+        //add default option
+        $inputOption = ['SIZE', 'COLOR'];
+
+        if(!empty($inputOption)){
+            foreach ($inputOption as $key => $value) {
+
+                if(!empty($value)){
+                    $inputOptionRecord = [
+                        'product_id' => $product->id,
+                        'option_name' => $value
+                    ];
+                    ProductsOptions::create($inputOptionRecord);
+                }
+            }
+        }
+
         /*if ($request->hasFile('file')) {
             foreach ($request->file('file') as $image) {
 

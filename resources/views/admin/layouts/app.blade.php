@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
@@ -205,6 +207,8 @@
 <script src="{{ URL('assets/admin/plugins/moment/moment.min.js')}}"></script>
 <script src="{{ URL('assets/admin/plugins/daterangepicker/daterangepicker.js')}}"></script>
 <script src="{{ URL('assets/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+<!-- bootstrap color picker -->
+<script src="{{ URL('assets/admin/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
 <script src="{{ URL('assets/admin/plugins/summernote/summernote-bs4.min.js')}}"></script>
 <!-- <script src="{{ URL('assets/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script> -->
 <script src="{{ URL('assets/admin/dist/js/adminlte.js')}}"></script>
@@ -230,6 +234,15 @@ $(function () {
         format: 'yyyy-m-d',
         autoclose: true,
     });
+
+    //Colorpicker
+    $('.my-colorpicker2').colorpicker()
+
+    $(document).on('colorpickerChange', '.my-colorpicker2', function(event) {
+        event.preventDefault();
+        var id = $(this).attr("data-id");
+        $('.my-colorpicker2 .fa-square_'+id).css('color', event.color.toString());
+    })
 });
 </script>
 
