@@ -1,6 +1,14 @@
 <footer class="light-footer">
     <div class="footer-middle">
         <div class="container">
+            @if(session('subscribe_message'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert" style="background-color: rgba(0, 128, 0, 0.8); color: white;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>{{ session('subscribe_message') }}</strong>
+                </div>
+            @endif
             <div class="row">
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
                     <div class="footer_widget">
@@ -92,10 +100,20 @@
                         <p>Receive updates, hot deals, discounts sent straignt in your inbox daily</p>
                         <div class="foot-news-last">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Email Address">
-                                <div class="input-group-append">
-                                    <button type="button" class="input-group-text bg-dark b-0 text-light"><i class="lni lni-arrow-right"></i></button>
+                        <form method="post" action="{{ route('subscriber.form.submit') }}" >
+                            @csrf
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control @error('email') is-invalid @enderror" placeholder="Email Address" name="email">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="input-group-text bg-dark b-0 text-light"><i class="lni lni-arrow-right"></i></button>
+                                    </div>
                                 </div>
+                                @error('email')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </form>
                             </div>
                         </div>
                         <div class="address mt-3">

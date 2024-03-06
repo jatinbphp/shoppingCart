@@ -45,6 +45,10 @@ Route::get('/about-us', [HomeController::class, 'about_us'])->name('about-us');
 
 /*Contact Us Page*/
 Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('contact-us');
+Route::post('contact-form-submit',[HomeController::class,'contactFormSubmit'])->name('contact.form.submit');
+
+/*Subscriber*/
+Route::post('subscriber-form',[HomeController::class,'subscriberFormSubmit'])->name('subscriber.form.submit');
 
 /*Products*/
 Route::get('/shop', [FrontProductController::class, 'index'])->name('products');
@@ -97,7 +101,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     /*Products*/
     Route::get('products/import-product', [ProductController::class,'importProduct'])->name('products.import.product');
     Route::post('products/import-product-store', [ProductController::class,'importProductStore'])->name('products.import.product.store');
-    Route::post('products/removeimage', [ProductController::class,'removeImage'])->name('products.removeimage');
+    Route::post('products/removeimage', [ProductController::class,'remcontact_usoveImage'])->name('products.removeimage');
     Route::post('products/getoptions', [ProductController::class,'getOptions'])->name('products.getoptions');
     Route::post('products/editoption', [ProductController::class,'editOption'])->name('products.editoption');
     Route::resource('products', ProductController::class);

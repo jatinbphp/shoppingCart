@@ -32,13 +32,4 @@ class AuthorizationController extends Controller
         Auth::guard('admin')->logout(); 
         return redirect('admin');
     }
-    
-    public function showProfile()
-    {
-       $admin = Auth::guard('admin')->user()->name; // Retrieve authenticated admin data
-        //  return $admin->name;
-         return view('admin.layouts.app', ['admin' => $admin]);
-    }
-
-
 }

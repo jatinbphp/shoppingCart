@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 use App\Models\Banner;
 use App\Models\Category;
+use App\Models\ContactUs;
 use App\Models\Products;
+use App\Models\Subscriber;
 use App\Models\ProductImages;
 use App\Models\ProductsOptions;
 use App\Models\ProductsOptionsValues;
@@ -51,5 +53,35 @@ class HomeController extends Controller
         $data['title'] = 'Contact Us';
 
         return view('contact-us', $data);
+    }
+
+    public function contactFormSubmit(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'subject' => 'required',
+            'message' => 'required',
+        ]);
+        $contact_data = [
+            'name' => ucfirst($request->name),
+            'email' => $request->email,
+            'subject' => $request->subject,
+            'message' => $request->message
+        ];
+        ContactUs::create($contact_data);
+        return redirect()->route('contact-us')->with('message','Form Submitted Successfully');
+    }
+
+    public function subscriberFormSubmit(Request $request)
+    {
+        $request->validate([
+            'email' =>'required|email|unique:subscribers,email'
+        ]);
+        $subscriber_data = [
+            'email' => $request->email,
+        ];
+        Subscriber::create($subscriber_data);
+        return redirect()->back()->with('subscribe_message', 'You have successfully subscribed.');
     }
 }
