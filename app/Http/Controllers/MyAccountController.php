@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Session;
 class MyAccountController extends Controller
 {
 
+    public function __construct(Request $request){
+        $this->middleware('auth');
+    }
+
     public function shoppingCart(){   
         $user_id = Auth::user()->id;
 
@@ -43,7 +47,7 @@ class MyAccountController extends Controller
 
         $data['title'] = 'My Wishlist';
 
-        $data['wishlists'] = Wishlist::where('user_id', $user_id)->get();
+        $data['wishlists'] = Wishlist::with('product', 'product.product_image')->where('user_id', $user_id)->get();
 
         return view('my-account.wishlists', $data);
     }
