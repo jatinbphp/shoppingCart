@@ -56,19 +56,19 @@
                     <li class="nav-item has-treeview @if(isset($menu) && $menu=='Edit Profile') menu-open  @endif" style="border-bottom: 1px solid #4f5962; margin-bottom: 4.5%;">
 
                         <a href="#" class="nav-link @if(isset($menu) && $menu=='Edit Profile') active  @endif">
-                            @if (!empty(Auth::user()->image) && file_exists(Auth::user()->image))
+                            @if (!empty(Auth::guard('admin')->user()->image) && file_exists(Auth::guard('admin')->user()->image))
                                 <img src=" {{asset(Auth::user()->image)}}" class="img-circle elevation-2" alt="User Image" style="width: 2.1rem; margin-right: 1.5%;">
                             @else
                                 <img src=" {{url('assets/admin/dist/img/no-image.png')}}" class="img-circle elevation-2" alt="User Image" style="width: 2.1rem; margin-right: 1.5%;">
                             @endif
                             <p style="padding-right: 6.5%;">
-                                {{ ucfirst(Auth::user()->name) }}
+                            {{ ucfirst(Auth::guard('admin')->user()->name) }}
                                 <i class="fa fa-angle-left right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <?php $eid = \Illuminate\Support\Facades\Auth::user()->id; ?>
+                                <?php $eid = \Illuminate\Support\Facades\Auth::guard('admin')->user()->id; ?>
                                 <a href="{{ route('profile_update.edit',['profile_update'=>$eid]) }}" class="nav-link @if(isset($menu) && $menu=='Edit Profile') active @endif">
                                     <i class="nav-icon fa fa-pencil"></i><p class="text-warning">Edit Profile</p>
                                 </a>
