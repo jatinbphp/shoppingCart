@@ -137,6 +137,42 @@ $(function () {
         document.getElementById("Wishlist").style.display = "none";
     });
 
+    /*// Add product in the Cart
+    $(document).on("click", "#add_product", function(e) {
+        e.preventDefault();
+        var form = $(this).closest("form");
+
+        $('.product_id').html('');
+        $('.quantity').html('');
+        $('.options_error').html('');
+
+        // AJAX request
+        $.ajax({
+            url: form.attr("action"),
+            type: 'POST',
+            data: form.serialize(),
+            success: function(response){
+                $("#ajaxOption").empty();
+                $('#myModal').modal('hide');
+                $('#addProductForm')[0].reset(); // Resetting the form
+                reloadOrderProductsTable();
+                swal("Success", "Your product has been added to the order!", "success");
+            },
+            error: function(xhr, status, error){
+                var errors = JSON.parse(xhr.responseText).errors;
+                $.each(errors, function(key, value) {
+
+                    if(key=='product_id' || key=='quantity'){
+                        $('.'+key).html('<strong>' + value + '</strong>');
+                    } else {
+                        $('.options_error').html('<strong>All options field is required.</strong>');
+                    }
+
+                });
+            }
+        });
+    });*/
+
 });
 
 function initSlickSlider() {

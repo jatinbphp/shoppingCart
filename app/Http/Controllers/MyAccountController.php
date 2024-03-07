@@ -7,6 +7,7 @@ use App\Models\ProductImages;
 use App\Models\ProductsOptions;
 use App\Models\ProductsOptionsValues;
 use App\Models\Wishlist;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -132,5 +133,31 @@ class MyAccountController extends Controller
         return view('modals.wishlist-modal-data', [
             'wishlist_products' => $wishlist_products
         ]);
+    }
+
+    public function addProductToCart(Request $request)
+    {
+        $this->validate($request, [
+            'product_id' => 'required',
+            'quantity' =>'required|numeric',
+            'options' => 'required|array',
+            'options.*' => 'array', // Ensure each option is an array
+            'options.*' => 'numeric' // Ensure each option value is numeric
+        ]);
+
+        $input = $request->all();
+
+        $cart = Cart::where('user_id', Auth::user()->id)->where('product_id', $input['product_id'])->where('options', json_encode($input['options']))->first();
+
+        if(empty($cart)){
+            $input['options'] = json_encode($input['options']);
+            $input['user_id'] = Auth::user()->id;
+            Cart::create($input);
+        } else{
+            $cart['quantity'] = ($cart['quantity']+$input['quantity']);
+            $cart->save();
+        }
+
+        return 1;
     }
 }
