@@ -126,7 +126,7 @@
 
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 text-center pt-4 pb-4">
-                        <button onclick="handleLoadMore({{ 5 }})" id="load-more-btn" class="btn stretched-link borders m-auto"><i class="lni lni-reload mr-2"></i>Load More</button>
+                        <button onclick="handleLoadMore({{ 6 }})" id="load-more-btn" class="btn stretched-link borders m-auto"><i class="lni lni-reload mr-2"></i>Load More</button>
                     </div>
                 </div>
             </div>
@@ -136,7 +136,7 @@
 @endsection
 @section('jquery')
 <script type="text/javascript">
-    var items = 5;
+    var items = 6;
     function handleLoadMore(newItems){
         event.preventDefault()
         items = items + newItems;
