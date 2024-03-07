@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\DashboardController;
-
+use App\Http\Controllers\Admin\SubscriberController;
 use App\Http\Controllers\Admin\AuthorizationController;
 use App\Http\Controllers\Admin\ProfileUpdateController;
 use App\Http\Controllers\Admin\ContentManagementController;
@@ -47,8 +47,11 @@ Route::get('/about-us', [HomeController::class, 'about_us'])->name('about-us');
 Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('contact-us');
 Route::post('contact-form-submit',[HomeController::class,'contactFormSubmit'])->name('contact.form.submit');
 
-/*Subscriber*/
+/*Subscriber|Front Side*/
 Route::post('subscriber-form',[HomeController::class,'subscriberFormSubmit'])->name('subscriber.form.submit');
+
+/*Subscriber|Admin Side*/
+Route::resource('subscribers', SubscriberController::class);
 
 /*Products*/
 Route::get('/shop', [FrontProductController::class, 'index'])->name('products');

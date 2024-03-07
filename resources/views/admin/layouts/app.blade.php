@@ -128,6 +128,12 @@
                             <p>Contact Us</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('subscribers.index') }}" class="nav-link @if(isset($menu) && $menu=='Subscriber') active @endif">
+                            <i class="nav-icon fa fa-envelope"></i>
+                            <p>Subscribers</p>
+                        </a>
+                    </li>
                     <li class="nav-item @if(isset($menu) && in_array($menu, ['User Orders Report', 'Products Purchased Report', 'Sales Report'])) menu-open  @endif">
                         <a href="#" class="nav-link @if(isset($menu) && in_array($menu, ['User Orders Report', 'Products Purchased Report', 'Sales Report'])) active @endif">
                             <i class="nav-icon fa fa-flag"></i>
