@@ -33,7 +33,7 @@
                         <div class="border mb-3 mfliud">
                             <div class="row align-items-center py-2 m-0">
                                 <div class="col-xl-3 col-lg-4 col-md-5 col-sm-12 d-none d-md-flex">
-                                    <h6 class="mb-0">{{count($products)}} Items Found</h6>
+                                    <h6 class="mb-0"><span id="items-found">{{count($products)}}</span> Items Found</h6>
                                 </div>
                                 <div class="col-xl-9 col-lg-8 col-md-7 col-sm-12">
                                     <div class="filter_wraps d-flex align-items-center justify-content-end m-start">
@@ -77,7 +77,7 @@
 
                                     <div class="card-body p-0">
                                         <div class="shop_thumb position-relative">
-                                            <a class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$value->id])}}">
+                                            <a target="_blank" class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$value->id])}}">
                                                 @if(!empty($value->product_image->image) && file_exists($value->product_image->image))
                                                     <img class="card-img-top" src="{{url($value->product_image->image)}}" alt="...">
                                                 @endif
@@ -126,11 +126,94 @@
 
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 text-center pt-4 pb-4">
-                        <a href="#" class="btn stretched-link borders m-auto"><i class="lni lni-reload mr-2"></i>Load More</a>
+                        <button onclick="handleLoadMore({{ 5 }})" id="load-more-btn" class="btn stretched-link borders m-auto"><i class="lni lni-reload mr-2"></i>Load More</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+@endsection
+@section('jquery')
+<script type="text/javascript">
+    var items = 5;
+    function handleLoadMore(newItems){
+        event.preventDefault()
+        items = items + newItems;
+        var url = "{{ route('products') }}?items=" + items;
+        var base_path = '{{ url('/') }}/';
+        
+        $.ajax({
+            url: url,
+            type: "GET",
+            data: {_token: '{{csrf_token()}}',},
+            success: function(response){          
+                var products = JSON.parse(JSON.stringify(response.products.data));
+                if (!products || products.length === 0) return false;
+                if (response.is_last) $("#load-more-btn").addClass('btn-secondary').removeClass('stretched-link').attr('disabled', true);
+                $('.rows-products').empty();
+                $("#items-found").html(products.length);
+                $.each(products, function(key, value) {
+                    $(".rows-products").append(`
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-6" id="`+ (key ?? null) +`">
+                            <div class="product_grid card b-0">
+                                <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">New</div>
+
+                                @guest
+                                    <a href="{{route('login')}}" class="btn btn_love position-absolute ab-right">
+                                        <i class="far fa-heart"></i>
+                                    </a>
+                                @else
+                                    <button class="btn btn_love position-absolute ab-right snackbar-wishlist" id="wishlist-btn-'`+ (value.id ?? null) +`'" data-id="`+ (value.id ?? null) +`" data-url="`+ base_path + "shop/add-wishlist" +`" data-toggle="button">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                @endif
+
+                                <div class="card-body p-0">
+                                    <div class="shop_thumb position-relative">
+                                        <a target="_blank" class="card-img-top d-block overflow-hidden" href="` + base_path + "shop/"+ value.id +"/details" + `">
+                                            <img class="card-img-top" src="`+ (value.product_image.image ?? '') +`" alt="...">
+                                        </a>
+                                        <div class="edlio">
+                                            <a href="javascript:void(0)" id="quickview" class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center text-white fs-sm ft-medium" data-id="`+ (value.id ?? null) +`" data-url="` + base_path + "shop/quick-view/" + value.id + `">
+                                                <i class="fas fa-eye mr-1"></i>Quick View
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer b-0 p-0 pt-2 bg-white">
+                                    <div class="d-flex align-items-start justify-content-between">
+                                        <div class="text-left">
+                                            <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+                                                <i class="fas fa-star filled"></i>
+                                                <i class="fas fa-star filled"></i>
+                                                <i class="fas fa-star filled"></i>
+                                                <i class="fas fa-star filled"></i>
+                                                <i class="fas fa-star"></i>
+                                                <span class="small">(5 Reviews)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-left">
+                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
+                                            <a href="javascript:void(0);">`+ (value.product_name  ?? null) +`</a>
+                                        </h5>
+                                        <div class="elis_rty">
+                                            <span class="ft-bold text-dark fs-sm">`+Number(value.price ?? 0).toFixed(2).toLocaleString()+`</span>
+                                        </div>
+                                        <div class="d-none">
+                                            <p class="mt-3 mb-4">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum are deleniti atque corrupti quos dolores</p>
+                                            <a href="javascript:void(0);" class="btn stretched-link borders  snackbar-addcart">Add To Cart</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
+            }
+        });
+    }
+
+</script>
 @endsection

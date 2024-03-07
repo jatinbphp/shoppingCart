@@ -10,10 +10,26 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index(){
-        $data['products'] = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])->where('status', 'active')->orderBy('id', 'DESC')->get();
+    public function index(Request $request){
+        $items = $request->items ?? 5;
+        $products_collection = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])
+            ->where('status', 'active')
+            ->orderBy('id', 'DESC')
+            ->simplePaginate($items);
+
+        $data['products'] = $products_collection;
+
+        if ($request->ajax()) {
+            return response()->json([
+                'products' => $data['products'] ?? null,
+                'is_last'  => $products_collection->onLastPage(),
+                'status'   => 200, 
+            ]);
+        }
+
         return view('products', $data);
     }
+
 
     public function details($productId){   
         $data['product'] = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])->where('status', 'active')->where('id', $productId)->first();
