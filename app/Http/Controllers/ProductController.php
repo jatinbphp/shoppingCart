@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     public function index(Request $request){
-        $items = $request->items ?? 5;
+        $items = $request->items ?? 6;
         $products_collection = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])
             ->where('status', 'active')
             ->orderBy('id', 'DESC')
@@ -29,7 +29,6 @@ class ProductController extends Controller
 
         return view('products', $data);
     }
-
 
     public function details($productId){   
         $data['product'] = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])->where('status', 'active')->where('id', $productId)->first();
