@@ -137,6 +137,47 @@ $(function () {
         document.getElementById("Wishlist").style.display = "none";
     });
 
+    $(document).on('click', '#submit-subscriber-form', function (event) {
+        event.preventDefault();
+
+        var url = $(this).attr('data-url');
+        var subscriber_email = $('#subscriber_email').val();
+        var error_message = '';
+
+        if (!subscriber_email) {
+            error_message = 'Email field is required.';
+        } else if (!isValidEmail(subscriber_email)) {
+            error_message = 'Please enter a valid email address.';
+        }
+
+        if(error_message!=''){
+            $('#subscribe_message').html('<div class="text-danger">'+error_message+'</div>');
+            setTimeoutFun('#subscribe_message', 2000)
+            return;
+        }   
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                '_token': $('input[name="_token"]').val(),
+                'email': subscriber_email
+            },
+            success: function(response) {
+                $('#subscribe_message').html('<div class="text-success">'+response.success+'</div>');
+                setTimeoutFun('#subscribe_message', 2000)
+                $('#subscriber_email').val(''); 
+            },
+            error: function(xhr) {
+                var errors = xhr.responseJSON;
+                if (errors && errors.error) {
+                    $('#subscribe_message').html('<div class="text-danger">' + errors.error + '</div>');
+                    setTimeoutFun('#subscribe_message', 2000);
+                }
+            }
+        });
+    });
+
     /*// Add product in the Cart
     $(document).on("click", "#add_product", function(e) {
         e.preventDefault();
@@ -202,4 +243,15 @@ function initSlickSlider() {
             }
         ]
     });
+}
+
+function isValidEmail(email) {
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function setTimeoutFun(id, timevar) {
+    setTimeout(function() {
+        $(id).empty();
+    }, timevar);
 }

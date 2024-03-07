@@ -92,13 +92,11 @@
                         <p>Receive updates, hot deals, discounts sent straignt in your inbox daily</p>
                         <div class="foot-news-last">
                         <div class="input-group">              
-                            {!! Form::open(['route' => 'subscriber.form.submit', 'method' => 'post', 'id' => 'subscribeForm']) !!}
-                            {!! csrf_field() !!}
                             <div class="form-group">
                                 <div class="input-group">
-                                    {!! Form::text('email', old('email'), ['id' => 'email', 'class' => 'form-control' . ($errors->has('email') ? ' is-invalid' : ''), 'placeholder' => 'Email Address']) !!}
+                                    {!! Form::text('subscriber_email', old('subscriber_email'), ['id' => 'subscriber_email', 'class' => 'form-control' . ($errors->has('subscriber_email') ? ' is-invalid' : ''), 'placeholder' => 'Email Address']) !!}
                                     <div class="input-group-append">
-                                        <button type="button" id="submitForm" class="input-group-text bg-dark b-0 text-light"><i class="lni lni-arrow-right"></i></button>
+                                        <button type="button" id="submit-subscriber-form" class="input-group-text bg-dark b-0 text-light" data-url="{{ route("subscriber.form.submit") }}"><i class="lni lni-arrow-right"></i></button>
                                     </div>
                                 </div>
                                 @if ($errors->has('email'))
@@ -106,7 +104,6 @@
                                 @endif
                                 <div id="subscribe_message"></div>
                             </div>
-                            {!! Form::close() !!}
                         </div>
                         <div class="address mt-3">
                             <h5 class="fs-sm">Secure Payments</h5>
@@ -129,58 +126,3 @@
         </div>
     </div>
 </footer>
-
-@section('jquery')
-<script type="text/javascript">
-$(document).ready(function() {
-    $('#submitForm').click(function() {
-        var email = $('#email').val();
-        if (!email) {
-            $('#subscribe_message').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Email field is required.</strong><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-            setTimeout(function() {
-                $('#subscribe_message').empty();
-            }, 2000);
-            return;
-        } else if (!isValidEmail(email)) {
-            $('#subscribe_message').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Please enter a valid email address.</strong><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-            setTimeout(function() {
-                $('#subscribe_message').empty();
-            }, 2000);
-            return;
-        }
-        console.log(!email);
-        $.ajax({
-            url: '{{ route("subscriber.form.submit") }}',
-            type: 'POST',
-            data: {
-                '_token': $('input[name="_token"]').val(),
-                'email': email
-            },
-            success: function(response) {
-                $('#subscribe_message').html('<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>' + response.message + '</strong><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-                setTimeout(function() {
-                    $('#subscribe_message').empty();
-                }, 2000);
-                $('#email').val(''); 
-            },
-            error: function(xhr) {
-                var errors = xhr.responseJSON;
-                if ($.isEmptyObject(errors) == false) {
-                    $.each(errors.errors, function(key, value) {
-                        $('#subscribe_message').html('<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>' + value + '</strong><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-                        setTimeout(function() {
-                            $('#subscribe_message').empty();
-                        }, 2000);
-                    });
-                }
-            }
-        });
-    });
-});
-function isValidEmail(email) {
-    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-</script>
-
-@endsection

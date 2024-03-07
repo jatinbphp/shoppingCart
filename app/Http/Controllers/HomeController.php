@@ -12,6 +12,7 @@ use App\Models\ProductsOptionsValues;
 use Illuminate\Http\Request;
 use App\Http\Requests\ContactUsRequest;
 use App\Http\Requests\SubscriberRequest;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -60,11 +61,20 @@ class HomeController extends Controller
 
     public function subscriberFormSubmit(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:subscribers,email',
         ]);
-        $input=$request->all();
-        Subscriber::create($input);
-        return response()->json(['message' => 'You have successfully subscribed.'], 200);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->first()], 422);
+        }
+
+        try {
+            Subscriber::create($request->all());
+            return response()->json(['success' => 'You have successfully subscribed.'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
+
 }
