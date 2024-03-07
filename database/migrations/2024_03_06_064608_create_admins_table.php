@@ -18,6 +18,12 @@ return new class extends Migration
             $table->string('password');
             $table->timestamps();
         });
+
+        \Illuminate\Support\Facades\DB::table('admins')->insert([
+            'name' => 'Super Admin',
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('123456'),
+        ]);
     }
 
     /**

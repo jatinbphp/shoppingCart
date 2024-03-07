@@ -10,24 +10,10 @@ use App\Models\ProductImages;
 use App\Models\ProductsOptions;
 use App\Models\ProductsOptionsValues;
 use Illuminate\Http\Request;
+use App\Http\Requests\ContactUsRequest;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    /*public function __construct()
-    {
-        $this->middleware('auth');
-    }*/
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
         $data['products'] = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])->where('status', 'active')->orderBy('id', 'DESC')->take(8)->get();
@@ -55,22 +41,13 @@ class HomeController extends Controller
         return view('contact-us', $data);
     }
 
-    public function contactFormSubmit(Request $request)
+    public function contactFormSubmit(ContactUsRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'subject' => 'required',
-            'message' => 'required',
-        ]);
-        $contact_data = [
-            'name' => ucfirst($request->name),
-            'email' => $request->email,
-            'subject' => $request->subject,
-            'message' => $request->message
-        ];
-        ContactUs::create($contact_data);
-        return redirect()->route('contact-us')->with('message','Form Submitted Successfully');
+        $input = $request->all();
+        ContactUs::create($input);
+
+        \Session::flash('success', 'Thank you for getting in touch! We will get back in touch with you soon!Have a great day!');
+        return redirect()->back();
     }
 
     public function subscriberFormSubmit(Request $request)

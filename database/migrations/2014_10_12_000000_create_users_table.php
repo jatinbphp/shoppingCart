@@ -25,14 +25,14 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-        \Illuminate\Support\Facades\DB::table('users')->insert([
+        /*\Illuminate\Support\Facades\DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'admin@admin.com',
             'phone' => '0123456789',
             'password' => bcrypt('123456'),
             'status' =>'active',
             'role' => 'admin'
-        ]);
+        ]);*/
     }
 
     /**

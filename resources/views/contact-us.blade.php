@@ -26,14 +26,7 @@
                     <h2 class="off_title">Contact Us</h2>
                     <h3 class="ft-bold pt-3">Get In Touch</h3>
                 </div>
-                @if(session('message'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert" style="background-color: rgba(0, 128, 0, 0.8); color: white;">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <strong>{{ session('message') }}</strong>
-                </div>
-                @endif
+                @include ('common.error')
             </div>
         </div>
         <div class="row align-items-start justify-content-between">
@@ -56,42 +49,50 @@
                 </div>
             </div>
             <div class="col-xl-7 col-lg-8 col-md-12 col-sm-12">
-                <form method="post" action="{{ route('contact.form.submit') }}">
+                {!! Form::open(['url' => route('contact.form.submit'), 'id' => 'ContactForm', 'class' => 'form-horizontal','files'=>true]) !!}
                     @csrf
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="form-group">
                             <label class="small text-dark ft-medium">Your Name *</label>
-                            <input type="text" class="form-control" placeholder="Your Name" name="name">
-                            @error('name')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                            {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Your Name', 'id' => 'name']) !!}
+                            @if ($errors->has('name'))
+                                <span class="text-danger">
+                                    <strong>{{ $errors->first('name') }}</strong>
+                                </span>
+                            @endif
                         </div>
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="form-group">
                             <label class="small text-dark ft-medium">Your Email *</label>
-                            <input type="text" class="form-control" placeholder="Your Email" name="email">
-                            @error('email')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                            {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'Your Email', 'id' => 'email']) !!}
+                            @if ($errors->has('email'))
+                                <span class="text-danger">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                            @endif
                         </div>
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="form-group">
                             <label class="small text-dark ft-medium">Subject *</label>
-                            <input type="text" class="form-control" placeholder="Type Your Subject" name="subject">
-                            @error('subject')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                            {!! Form::text('subject', null, ['class' => 'form-control', 'placeholder' => 'Type Your Subject', 'id' => 'subject']) !!}
+                            @if ($errors->has('subject'))
+                                <span class="text-danger">
+                                    <strong>{{ $errors->first('subject') }}</strong>
+                                </span>
+                            @endif
                         </div>
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="form-group">
                             <label class="small text-dark ft-medium">Message *</label>
-                            <textarea class="form-control ht-80" placeholder="Type Your Message" name="message"></textarea>
-                            @error('message')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                            {!! Form::textarea('message', null, ['class' => 'form-control', 'placeholder' => 'Type Your Message', 'id' => 'message']) !!}
+                            @if ($errors->has('message'))
+                                <span class="text-danger">
+                                    <strong>{{ $errors->first('message') }}</strong>
+                                </span>
+                            @endif
                         </div>
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
