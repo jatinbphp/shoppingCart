@@ -18,21 +18,9 @@
         </div>
     </div>
 </section>
-<section class="py-3 br-bottom br-top">
-    <div class="container">
-        <div class="row align-items-center justify-content-between">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Women's</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-</section>
+
+@include('common.breadcrumb', ['breadcrumbs' => ['Home', 'Shop']])
+
 <section class="middle">
     <div class="container">
         <div class="row">

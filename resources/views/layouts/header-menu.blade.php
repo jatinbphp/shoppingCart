@@ -41,12 +41,12 @@
                 </ul>
                 <ul class="nav-menu nav-menu-social align-to-right">
                     <li>
-                        <a href="javaScript:;" onclick="openSearch()">
-                        <i class="lni lni-search-alt"></i>
+                        <a href="javaScript:;" onclick="openSearch()" title="Search Products">
+                            <i class="lni lni-search-alt"></i>
                         </a>
                     </li>
                     <li class="dropdown js-dropdown">
-                        <a href="javascript:void(0)" class="popup-title" data-toggle="dropdown" title="User" aria-label="user dropdown">
+                        <a href="javascript:void(0)" class="popup-title" data-toggle="dropdown" title="My Account" aria-label="user dropdown">
                             <i class="lni lni-user"></i>
                         </a>
                         <ul class="dropdown-menu popup-content link">
@@ -56,13 +56,16 @@
                                 </li>
                             @else
                                 <li class="current">
-                                    <a href="javascript:void(0);" class="dropdown-item medium text-medium">Cart</a>
+                                    <a href="{{route('my-account.profile-info')}}" class="dropdown-item medium text-medium">My Account</a>
+                                </li>
+                                <li class="current">
+                                    <a href="{{route('my-account.shopping-cart')}}" class="dropdown-item medium text-medium">Shopping Cart</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0);" class="dropdown-item medium text-medium">Checout</a>
+                                    <a href="{{route('my-account.checkout')}}" class="dropdown-item medium text-medium">Checout</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0);" class="dropdown-item medium text-medium">Wishlist</a>
+                                    <a href="{{route('my-account.wishlist')}}" class="dropdown-item medium text-medium">Wishlist</a>
                                 </li>
                                  <li>
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -78,12 +81,12 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="javaScript:void(0);" data-url="{{route('products.wishlistview')}}" id="open-wishlist-sidebar">
+                        <a href="javaScript:void(0);" data-url="{{route('products.wishlistview')}}" id="open-wishlist-sidebar" title="Wishlist">
                             <i class="lni lni-heart"></i><span class="dn-counter wishlist-counter">{{count(getWishlistProductIds())}}</span>
                         </a>
                     </li>
                     <li>
-                        <a href="javaScript:;" onclick="openCart()">
+                        <a href="javaScript:;" onclick="openCart()" title="Shopping Cart">
                         <i class="lni lni-shopping-basket"></i><span class="dn-counter">3</span>
                         </a>
                     </li>

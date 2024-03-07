@@ -43,6 +43,9 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 /*About Us Page*/
 Route::get('/about-us', [HomeController::class, 'about_us'])->name('about-us');
 
+/*404 Page*/
+Route::get('/404', [HomeController::class, 'page_not_found'])->name('errors.404');
+
 /*Contact Us Page*/
 Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('contact-us');
 Route::post('contact-form-submit',[HomeController::class,'contactFormSubmit'])->name('contact.form.submit');

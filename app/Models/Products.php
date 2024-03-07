@@ -32,12 +32,12 @@ class Products extends Model
 
     public function options()
     {
-        return $this->hasMany(ProductsOptions::class, 'product_id');
+        return $this->hasMany(ProductsOptions::class, 'product_id')->orderBy('option_name', 'ASC');
     }
 
     public function orderItems()
     {
-        return $this->hasMany(OrderItem::class, 'product_id', 'id');
+        return $this->hasMany(OrderItem::class, 'product_id', 'id')->orderBy('option_value', 'ASC');
     }
 
     public function getFullNameAttribute()

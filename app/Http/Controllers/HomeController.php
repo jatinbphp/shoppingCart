@@ -41,6 +41,13 @@ class HomeController extends Controller
         return view('contact-us', $data);
     }
 
+    public function page_not_found()
+    {
+        $data['title'] = '404';
+
+        return view('404', $data);
+    }
+
     public function contactFormSubmit(ContactUsRequest $request)
     {
         $input = $request->all();

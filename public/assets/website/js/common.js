@@ -54,7 +54,7 @@ $(function () {
     });
 
     // Snackbar for wishlist Product
-    $(document).on('click', '.snackbar-wishlist, .remove-wishlist', function(event) {
+    $(document).on('click', '.snackbar-wishlist', function(event) {
         event.preventDefault();
         var url = $(this).attr('data-url');
         var id = $(this).attr("data-id");
@@ -70,10 +70,41 @@ $(function () {
 
                 $('.wishlist-counter').text(data.total);
 
-                var msg = data.type == 1 ? 'Your product was added to wishlist successfully!' : 'Your product was removed from the wishlist successfully!';
-                if ($(event.target).hasClass('remove-wishlist')) {
-                    $("#open-wishlist-sidebar").click();
-                }
+                var msg = 'Your product was added to wishlist successfully!';
+                
+                Snackbar.show({
+                    text: msg,
+                    pos: 'top-right',
+                    showAction: false,
+                    actionText: "Dismiss",
+                    duration: 3000,
+                    textColor: '#fff',
+                    backgroundColor: '#151515'
+                });
+            }
+        });
+    });
+
+    $(document).on('click', '.remove-wishlist', function(event) {
+        event.preventDefault();
+        var url = $(this).attr('data-url');
+        var id = $(this).attr("data-id");
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: {
+                'id': id,
+            },
+            headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+            success: function(data) {
+
+                $('.wishlist-counter').text(data.total);
+
+                var msg = 'Your product was removed from the wishlist successfully!';
+
+                $("#open-wishlist-sidebar").click();
+                
                 Snackbar.show({
                     text: msg,
                     pos: 'top-right',

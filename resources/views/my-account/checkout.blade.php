@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@include('common.breadcrumb', ['breadcrumbs' => ['Home', 'Checkout']])
 <div class="gray py-3">
     <div class="container">
         <div class="row">

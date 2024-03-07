@@ -1,21 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="gray py-3">
-    <div class="container">
-        <div class="row">
-            <div class="colxl-12 col-lg-12 col-md-12">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Data</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-</div>
+@include('common.breadcrumb', ['breadcrumbs' => ['Home', 'Shop', $product['category']['full_name'], $product['product_name']]])
 
 <section class="middle">
     <div class="container">
