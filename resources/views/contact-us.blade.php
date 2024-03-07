@@ -53,7 +53,7 @@
                     @csrf
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="form-group">
-                            <label class="small text-dark ft-medium">Your Name *</label>
+                            {!! Form::label('name', 'Your Name *', ['class' => 'small text-dark ft-medium']) !!}
                             {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Your Name', 'id' => 'name']) !!}
                             @if ($errors->has('name'))
                                 <span class="text-danger">
@@ -64,7 +64,7 @@
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="form-group">
-                            <label class="small text-dark ft-medium">Your Email *</label>
+                            {!! Form::label('email', 'Your Email *', ['class' => 'small text-dark ft-medium']) !!}
                             {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'Your Email', 'id' => 'email']) !!}
                             @if ($errors->has('email'))
                                 <span class="text-danger">
@@ -75,7 +75,7 @@
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="form-group">
-                            <label class="small text-dark ft-medium">Subject *</label>
+                            {!! Form::label('subject', 'Subject *', ['class' => 'small text-dark ft-medium']) !!}
                             {!! Form::text('subject', null, ['class' => 'form-control', 'placeholder' => 'Type Your Subject', 'id' => 'subject']) !!}
                             @if ($errors->has('subject'))
                                 <span class="text-danger">
@@ -86,7 +86,7 @@
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="form-group">
-                            <label class="small text-dark ft-medium">Message *</label>
+                            {!! Form::label('message', 'Message *', ['class' => 'small text-dark ft-medium']) !!}
                             {!! Form::textarea('message', null, ['class' => 'form-control', 'placeholder' => 'Type Your Message', 'id' => 'message']) !!}
                             @if ($errors->has('message'))
                                 <span class="text-danger">
@@ -97,7 +97,7 @@
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-dark">Send Message</button>
+                            {!! Form::button('<i class="fa fa-paper-plane mr-1" aria-hidden="true"></i> Send Message', ['class' => 'btn btn-dark', 'type' => 'submit']) !!}
                         </div>
                     </div>
                 </form>
