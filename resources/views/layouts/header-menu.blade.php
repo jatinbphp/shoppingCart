@@ -15,7 +15,9 @@
                             <a href="javaScript:;"><i class="lni lni-user"></i></a>
                         </li>
                         <li>
-                            <a href="javaScript:;" onclick="openWishlist()"><i class="lni lni-heart"></i><span class="dn-counter">2</span></a>
+                            <a href="javaScript:void(0);" data-url="{{route('products.wishlistview')}}" id="open-wishlist-sidebar" title="Wishlist">
+                                <i class="lni lni-heart"></i><span class="dn-counter wishlist-counter">{{count(getWishlistProductIds())}}</span>
+                            </a>
                         </li>
                         <li>
                             <a href="javaScript:;" onclick="openCart()"><i class="lni lni-shopping-basket"></i><span class="dn-counter">0</span></a>
@@ -62,12 +64,12 @@
                                     <a href="{{route('my-account.shopping-cart')}}" class="dropdown-item medium text-medium">Shopping Cart</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('my-account.checkout')}}" class="dropdown-item medium text-medium">Checout</a>
+                                    <a href="{{route('my-account.checkout')}}" class="dropdown-item medium text-medium">Checkout</a>
                                 </li>
                                 <li>
                                     <a href="{{route('my-account.wishlist')}}" class="dropdown-item medium text-medium">Wishlist</a>
                                 </li>
-                                 <li>
+                                <li>
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         {{ __('Log out') }}
                                     </a>
@@ -86,8 +88,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="javaScript:;" onclick="openCart()" title="Shopping Cart">
-                        <i class="lni lni-shopping-basket"></i><span class="dn-counter">3</span>
+                        <a href="javaScript:void(0);" data-url="{{route('products.cartview')}}" id="open-cart-sidebar" title="Shopping Cart">
+                            <i class="lni lni-shopping-basket"></i><span class="dn-counter cart-counter">{{count(getCartProductIds())}}</span>
                         </a>
                     </li>
                 </ul>

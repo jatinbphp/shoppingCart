@@ -43,6 +43,12 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 /*About Us Page*/
 Route::get('/about-us', [HomeController::class, 'about_us'])->name('about-us');
 
+/*Faq Page*/
+Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
+
+/*Privacy Policy Page*/
+Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy-policy');
+
 /*404 Page*/
 Route::get('/404', [HomeController::class, 'page_not_found'])->name('errors.404');
 
@@ -71,10 +77,16 @@ Route::post('shop/add-wishlist', [MyAccountController::class,'addProducttoWishli
 /*Wishlist View*/
 Route::get('/shop/wishlist-view', [MyAccountController::class, 'wishlistview'])->name('products.wishlistview');
 
+/*Shopping Cart View*/
+Route::get('/shop/cart-view', [MyAccountController::class, 'cartview'])->name('products.cartview');
+
+/*Remove View*/
+Route::post('shop/remove-cart', [MyAccountController::class,'removeProducttoCart'])->name('products.remove.cart');
+
 /*User Profile Update*/
 Route::post('/user-profile-update',[MyAccountController::class,'userProfileUpdate'])->name('user.profile.update');
 
-/*Wishlist View*/
+/*My Account*/
 Route::post('/my-account/add-product-to-cart', [MyAccountController::class,'addProductToCart'])->name('my-account.add-product-to-cart');
 Route::get('/my-account/shopping-cart', [MyAccountController::class, 'shoppingCart'])->name('my-account.shopping-cart');
 Route::get('/my-account/checkout', [MyAccountController::class, 'checkout'])->name('my-account.checkout');

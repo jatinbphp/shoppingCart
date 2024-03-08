@@ -37,6 +37,20 @@ class HomeController extends Controller
         return view('about-us', $data);
     }
 
+    public function faq()
+    {
+        $data['title'] = "FAQ's";
+
+        return view('faq', $data);
+    }
+
+    public function privacy_policy()
+    {
+        $data['title'] = "Privacy Policy";
+
+        return view('privacy_policy', $data);
+    }
+
     public function contact_us()
     {
         $data['title'] = 'Contact Us';

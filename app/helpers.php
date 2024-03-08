@@ -1,5 +1,5 @@
 <?php
-
+use App\Models\Cart;
 use App\Models\Wishlist;
 use App\Models\Products;
 use App\Models\ProductImages;
@@ -50,6 +50,25 @@ if (!function_exists('getWishlistProductListWithDetails')) {
             $products = Products::whereIn('id', $wishlistProducts)->get();
 
             return $products;
+        }
+
+        // Return an empty array if the user is not authenticated or no products are found
+        return [];
+    }
+}
+
+if (!function_exists('getCartProductIds')) {
+    function getCartProductIds()
+    {
+        // Check if a user is authenticated
+        if (Auth::check()) {
+            // Get the authenticated user's ID
+            $userId = Auth::id();
+            
+            // Fetch wishlist products associated with the user
+            $cartProducts = Cart::where('user_id', $userId)->pluck('product_id')->toArray();
+
+            return $cartProducts;
         }
 
         // Return an empty array if the user is not authenticated or no products are found

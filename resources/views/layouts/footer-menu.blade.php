@@ -55,12 +55,8 @@
                     <div class="footer_widget">
                         <h4 class="widget_title">Supports</h4>
                         <ul class="footer-menu">
-                            <li><a href="javaScript:;">Contact Us</a></li>
-                            <li><a href="javaScript:;">About Page</a></li>
                             <li><a href="javaScript:;">Size Guide</a></li>
                             <li><a href="javaScript:;">Shipping & Returns</a></li>
-                            <li><a href="javaScript:;">FAQ's Page</a></li>
-                            <li><a href="javaScript:;">Privacy</a></li>
                         </ul>
                     </div>
                 </div>
@@ -79,10 +75,10 @@
                     <div class="footer_widget">
                         <h4 class="widget_title">Company</h4>
                         <ul class="footer-menu">
-                            <li><a href="javaScript:;">Home</a></li>
-                            <li><a href="javaScript:;">About</a></li>
-                            <li><a href="javaScript:;">Contact Us</a></li>
-                            <li><a href="javaScript:;">Login</a></li>
+                            <li><a href="{{route('about-us')}}">About Us</a></li>
+                            <li><a href="{{route('contact-us')}}">Contact Us</a></li>
+                            <li><a href="{{route('faq')}}">FAQ's</a></li>
+                            <li><a href="{{route('privacy-policy')}}">Privacy Policy</a></li>
                         </ul>
                     </div>
                 </div>
@@ -96,7 +92,7 @@
                                 <div class="input-group">
                                     {!! Form::text('subscriber_email', old('subscriber_email'), ['id' => 'subscriber_email', 'class' => 'form-control' . ($errors->has('subscriber_email') ? ' is-invalid' : ''), 'placeholder' => 'Email Address']) !!}
                                     <div class="input-group-append">
-                                        <button type="button" id="submit-subscriber-form" class="input-group-text bg-dark b-0 text-light" data-url="{{ route("subscriber.form.submit") }}"><i class="lni lni-arrow-right"></i></button>
+                                        <button type="button" id="submit-subscriber-form" class="input-group-text bg-dark b-0 text-light" data-url="{{ route('subscriber.form.submit') }}"><i class="lni lni-arrow-right"></i></button>
                                     </div>
                                 </div>
                                 @if ($errors->has('email'))

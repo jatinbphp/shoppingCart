@@ -28,13 +28,13 @@
                 </li>
 
                 <li>
-                    <a href="payment-methode.html">
+                    <a href="javascript:void(0)">
                         <i class="lni lni-mastercard mr-2"></i>Payment Methode
                     </a>
                 </li>
 
                 <li>
-                    <a href="login.html">
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="lni lni-power-switch mr-2"></i>Log Out
                     </a>
                 </li>

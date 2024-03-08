@@ -137,6 +137,58 @@ $(function () {
         document.getElementById("Wishlist").style.display = "none";
     });
 
+    $(document).on('click', '#open-cart-sidebar', function(event) {
+        event.preventDefault();
+        document.getElementById("Cart").style.display = "block";
+        var url = $(this).attr('data-url');
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+            success: function(data) {
+                $('#Cart .right-ch-sideBar').html(data);
+            }
+        });
+    });
+
+    $(document).on('click', '#close-cart-sidebar', function(event) {
+        document.getElementById("Cart").style.display = "none";
+    });
+
+    $(document).on('click', '.remove-cart', function(event) {
+        event.preventDefault();
+        var url = $(this).attr('data-url');
+        var id = $(this).attr("data-id");
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: {
+                'id': id,
+            },
+            headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+            success: function(data) {
+
+                $('.cart-counter').text(data.total);
+
+                var msg = 'Your product was removed from the cart successfully!';
+
+                $("#open-cart-sidebar").click();
+                
+                Snackbar.show({
+                    text: msg,
+                    pos: 'top-right',
+                    showAction: false,
+                    actionText: "Dismiss",
+                    duration: 3000,
+                    textColor: '#fff',
+                    backgroundColor: '#151515'
+                });
+            }
+        });
+    });
+
     $(document).on('click', '#submit-subscriber-form', function (event) {
         event.preventDefault();
 
@@ -178,14 +230,10 @@ $(function () {
         });
     });
 
-    /*// Add product in the Cart
-    $(document).on("click", "#add_product", function(e) {
+    // Add product in the Cart
+    $(document).on("click", "#add_to_cartproduct", function(e) {
         e.preventDefault();
         var form = $(this).closest("form");
-
-        $('.product_id').html('');
-        $('.quantity').html('');
-        $('.options_error').html('');
 
         // AJAX request
         $.ajax({
@@ -193,11 +241,22 @@ $(function () {
             type: 'POST',
             data: form.serialize(),
             success: function(response){
-                $("#ajaxOption").empty();
-                $('#myModal').modal('hide');
-                $('#addProductForm')[0].reset(); // Resetting the form
-                reloadOrderProductsTable();
-                swal("Success", "Your product has been added to the order!", "success");
+
+                $('.cart-counter').text(response)
+                $('#quickviewModal').modal('hide');
+                $('#addProductToCartForm')[0].reset(); // Resetting the form
+                
+                var msg = 'Your product was added to cart successfully!';
+                
+                Snackbar.show({
+                    text: msg,
+                    pos: 'top-right',
+                    showAction: false,
+                    actionText: "Dismiss",
+                    duration: 3000,
+                    textColor: '#fff',
+                    backgroundColor: '#151515'
+                });
             },
             error: function(xhr, status, error){
                 var errors = JSON.parse(xhr.responseText).errors;
@@ -212,7 +271,7 @@ $(function () {
                 });
             }
         });
-    });*/
+    });
 
 });
 

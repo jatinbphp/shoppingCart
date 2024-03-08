@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     public function index(Request $request){
+
+        $data['title'] = 'Shop';
+
         $items = $request->items ?? env('PRODUCT_PAGINATION_LENGHT');
         $products_collection = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])
             ->where('status', 'active')
@@ -33,6 +36,8 @@ class ProductController extends Controller
 
     public function details($productId){   
         $data['product'] = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])->where('status', 'active')->where('id', $productId)->first();
+
+        $data['title'] = $data['product']['product_name'];
 
         $category = Category::findOrFail($data['product']['category_id']);
         $data['category_products'] = $category->products()->where('id', '!=', $productId)->take(8)->get();

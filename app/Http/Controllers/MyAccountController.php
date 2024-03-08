@@ -31,6 +31,7 @@ class MyAccountController extends Controller
     public function checkout(){   
         $user_id = Auth::user()->id;
         $data['title'] = 'Checkout';
+        $data['cart_prducts'] = Cart::with('product', 'product.product_image')->where('user_id', $user_id)->get();
         return view('my-account.checkout', $data);
     }
 
@@ -176,6 +177,38 @@ class MyAccountController extends Controller
             $cart->save();
         }
 
-        return 1;
+        return count(getCartProductIds());
+    }
+
+    public function cartview(){   
+        $cart_products = [];
+        if (Auth::check()) {
+            $userId = Auth::id();            
+            $cartProducts = Cart::where('user_id', $userId)
+                ->orderBy('created_at', 'desc') // Order by creation date
+                ->take(4)
+                ->pluck('product_id')
+                ->toArray();
+            
+            $cart_products = Products::whereIn('id', $cartProducts)->get();
+        }
+
+        return view('modals.cart-modal-data', [
+            'cart_products' => $cart_products
+        ]);
+    }
+
+    public function removeProducttoCart(Request $request){
+        
+        $input = $request->all();
+        $user_id = Auth::user()->id;
+
+        $cart = Cart::where('user_id', $user_id)->where('product_id', $request->id)->first();
+        $cart->delete();
+
+        $responseData = [
+            'total' => count(getCartProductIds()),
+        ];        
+        return response()->json($responseData);
     }
 }
