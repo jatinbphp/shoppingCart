@@ -8,8 +8,11 @@ use App\Models\ProductsOptions;
 use App\Models\ProductsOptionsValues;
 use App\Models\Wishlist;
 use App\Models\Cart;
+use App\Models\User;
+use App\Http\Requests\UserProfileUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class MyAccountController extends Controller
@@ -62,11 +65,43 @@ class MyAccountController extends Controller
     }
 
     public function profileInfo(){   
-        $user_id = Auth::user()->id;
-
+        $user_id = Auth::user();
         $data['title'] = 'Profile Information';
-
+        // $fullName = explode(' ', $user_id->name);
+        $data['user']= $user_id;
+        // $data['user']['first_name'] = $fullName[0]; 
+        // $data['user']['last_name'] = isset($fullName[1]) ? $fullName[1] : '';
+        // return $data;
         return view('my-account.profile-info', $data);
+    }
+
+    public function userProfileUpdate(Request $request)
+    {
+        $user = User::find($request->id);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$user->id.',id',
+            'image' => 'nullable|mimes:jpeg,jpg,png,bmp', // Allow null or valid image files
+            'password' => 'nullable|confirmed',
+        ]);
+        $input = $request->except('password', 'password_confirmation');
+        if ($request->hasFile('image')) {
+            if (!empty($user->image) && file_exists(public_path($user->image))) {
+                unlink(public_path($user->image));
+            }
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->extension(); 
+            $image->move(public_path('uploads/users/'), $imageName); 
+            $input['image'] = 'uploads/users/'.$imageName;
+        }
+        if ($request->filled('password')) {
+            $input['password'] = Hash::make($request->password);
+        } else {
+            unset($input['password']);
+        }
+        $user->update($input);
+        \Session::flash('success', 'Profile has been updated successfully!');
+        return redirect()->back();
     }
 
     public function myAddresses(){   

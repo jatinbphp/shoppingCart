@@ -71,6 +71,9 @@ Route::post('shop/add-wishlist', [MyAccountController::class,'addProducttoWishli
 /*Wishlist View*/
 Route::get('/shop/wishlist-view', [MyAccountController::class, 'wishlistview'])->name('products.wishlistview');
 
+/*User Profile Update*/
+Route::post('/user-profile-update',[MyAccountController::class,'userProfileUpdate'])->name('user.profile.update');
+
 /*Wishlist View*/
 Route::post('/my-account/add-product-to-cart', [MyAccountController::class,'addProductToCart'])->name('my-account.add-product-to-cart');
 Route::get('/my-account/shopping-cart', [MyAccountController::class, 'shoppingCart'])->name('my-account.shopping-cart');

@@ -32,8 +32,8 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Email</th>
-                                        <th>Created At</th>
+                                        <th>Email Id</th>
+                                        <th>Date Created</th>
                                     </tr>
                                 </thead>
                                 <tbody>
