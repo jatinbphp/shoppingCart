@@ -23,8 +23,6 @@
                 <div class="card-wrap-body mb-3">
                     <h4 class="ft-medium mb-3 theme-cl">Make a Call</h4>
                     <h6 class="ft-medium mb-1">Customer Care:</h6>
-                    <p class="mb-2">{{get_settings()['phone_number']}}</p>
-                    <h6 class="ft-medium mb-1">Careers:</h6>
                     <p>{{get_settings()['phone_number']}}</p>
                 </div>
                 <div class="card-wrap-body mb-3">

@@ -65,25 +65,21 @@ class MyAccountController extends Controller
     }
 
     public function profileInfo(){   
-        $user_id = Auth::user();
-        $data['title'] = 'Profile Information';
-        // $fullName = explode(' ', $user_id->name);
-        $data['user']= $user_id;
-        // $data['user']['first_name'] = $fullName[0]; 
-        // $data['user']['last_name'] = isset($fullName[1]) ? $fullName[1] : '';
-        // return $data;
+        $data['title'] = 'Profile Information';        
+        $data['user_info']= $user_id = Auth::user();
         return view('my-account.profile-info', $data);
     }
 
     public function userProfileUpdate(Request $request)
     {
-        $user = User::find($request->id);
+        $user = User::find(Auth::user()->id);
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$user->id.',id',
             'image' => 'nullable|mimes:jpeg,jpg,png,bmp', // Allow null or valid image files
             'password' => 'nullable|confirmed',
         ]);
+
         $input = $request->except('password', 'password_confirmation');
         if ($request->hasFile('image')) {
             if (!empty($user->image) && file_exists(public_path($user->image))) {
@@ -94,12 +90,14 @@ class MyAccountController extends Controller
             $image->move(public_path('uploads/users/'), $imageName); 
             $input['image'] = 'uploads/users/'.$imageName;
         }
+
         if ($request->filled('password')) {
             $input['password'] = Hash::make($request->password);
         } else {
             unset($input['password']);
         }
         $user->update($input);
+        
         \Session::flash('success', 'Profile has been updated successfully!');
         return redirect()->back();
     }
