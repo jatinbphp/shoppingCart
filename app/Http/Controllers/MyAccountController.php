@@ -24,49 +24,38 @@ class MyAccountController extends Controller
 
     public function shoppingCart(){   
         $user_id = Auth::user()->id;
-
         $data['title'] = 'Shopping Cart';
-
         return view('my-account.shopping-cart', $data);
     }
 
     public function checkout(){   
         $user_id = Auth::user()->id;
-
         $data['title'] = 'Checkout';
-
         return view('my-account.checkout', $data);
     }
 
     public function orderCompleted(){   
         $user_id = Auth::user()->id;
-
         $data['title'] = 'Order Completed';
-
         return view('my-account.order-completed', $data);
     }
 
     public function myWishlist(){   
         $user_id = Auth::user()->id;
-
         $data['title'] = 'My Wishlist';
-
         $data['wishlists'] = Wishlist::with('product', 'product.product_image')->where('user_id', $user_id)->get();
-
         return view('my-account.wishlists', $data);
     }
 
     public function myOrders(){   
         $user_id = Auth::user()->id;
-
         $data['title'] = 'My Orders';
-
         return view('my-account.orders', $data);
     }
 
     public function profileInfo(){   
         $data['title'] = 'Profile Information';        
-        $data['user_info']= $user_id = Auth::user();
+        $data['user_info']= Auth::user();
         return view('my-account.profile-info', $data);
     }
 
@@ -97,24 +86,20 @@ class MyAccountController extends Controller
             unset($input['password']);
         }
         $user->update($input);
-        
+
         \Session::flash('success', 'Profile has been updated successfully!');
         return redirect()->back();
     }
 
     public function myAddresses(){   
         $user_id = Auth::user()->id;
-
         $data['title'] = 'My Addresses';
-
         return view('my-account.addresses', $data);
     }
 
     public function editAddresses(){   
         $user_id = Auth::user()->id;
-
         $data['title'] = 'Edit Address';
-
         return view('my-account.edit-address', $data);
     }
 
