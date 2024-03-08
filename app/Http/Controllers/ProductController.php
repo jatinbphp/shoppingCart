@@ -21,6 +21,7 @@ class ProductController extends Controller
 
         if ($request->ajax()) {
             return response()->json([
+                'view'     => view('more-products', $data)->render(),
                 'products' => $data['products'] ?? null,
                 'is_last'  => $products_collection->onLastPage(),
                 'status'   => 200, 
