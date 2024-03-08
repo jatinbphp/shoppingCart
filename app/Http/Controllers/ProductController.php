@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     public function index(Request $request){
-        $items = $request->items ?? 6;
+        $items = $request->items ?? env('PRODUCT_PAGINATION_LENGHT');
         $products_collection = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])
             ->where('status', 'active')
             ->orderBy('id', 'DESC')
