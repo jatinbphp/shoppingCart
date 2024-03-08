@@ -34,6 +34,7 @@ class ProductRequest extends FormRequest
                 'required',
                 Rule::unique('products', 'sku')->ignore($productId),
             ],
+            'type' => 'nullable|in:hot,new,sale',
         ];
 
         return $rules;

@@ -1,19 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Category;
-use App\Models\Products;
-use App\Models\ProductImages;
-use App\Models\ProductsOptions;
-use App\Models\ProductsOptionsValues;
-use App\Models\Wishlist;
 use App\Models\Cart;
 use App\Models\User;
-use App\Http\Requests\UserProfileUpdateRequest;
+use App\Models\Category;
+use App\Models\Products;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
+use App\Models\ProductImages;
+use App\Models\UserAddresses;
+use App\Models\ProductsOptions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\ProductsOptionsValues;
 use Illuminate\Support\Facades\Session;
+use App\Http\Requests\UserAddressesRequest;
+use App\Http\Requests\UserProfileUpdateRequest;
 
 class MyAccountController extends Controller
 {
@@ -95,13 +97,41 @@ class MyAccountController extends Controller
     public function myAddresses(){   
         $user_id = Auth::user()->id;
         $data['title'] = 'My Addresses';
+        $data['user_addresses'] = UserAddresses::where('user_id', $user_id)->get();
         return view('my-account.addresses', $data);
     }
-
-    public function editAddresses(){   
+    public function editAddresses(Request $request){
+        $id = $request->id;   
         $user_id = Auth::user()->id;
         $data['title'] = 'Edit Address';
+        $data['id'] = $request->id;
+        $data['user_addresses'] = UserAddresses::where('id', $id)->where('user_id', $user_id)->first();
         return view('my-account.edit-address', $data);
+    }
+
+    public function addAddresses(){
+        $user_id = Auth::user()->id;
+        $data['title'] = 'Add Address';
+        return view('my-account.edit-address', $data);
+    }
+
+    public function storeAddresses(UserAddressesRequest $request){
+        $input = $request->all();
+        $input['user_id'] = auth()->user()->id;
+        $input['is_default'] = $request->has('is_default') ? 1 : 0; 
+        UserAddresses::updateOrCreate(['id' => isset($input['id']) ? $input['id'] : null], $input);
+        $message = isset($input['id']) ? "updated" : "stored";
+        return redirect()->route('my-account.addresses')->with('success', 'Addreess ' .$message.  ' successfully.');
+    }
+
+     public function destroyAddresses(Request $request){
+        $userAddresses = UserAddresses::where('id', $request->id)
+            ->where('user_id', auth()->user()->id)
+            ->first();
+        
+        if(empty($userAddresses)) return redirect()->back()->with('danger', 'Address not found, Please try again.');
+        $userAddresses->delete();
+        return redirect()->route('my-account.addresses')->with('success', 'Addreess deleted successfully.');
     }
 
     public function addProducttoWishlist(Request $request){

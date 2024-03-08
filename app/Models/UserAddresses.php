@@ -9,5 +9,5 @@ class UserAddresses extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['user_id', 'title', 'first_name', 'last_name', 'company', 'mobile_phone', 'address_line1', 'address_line2', 'pincode', 'city', 'state', 'country', 'additional_information'];
+    protected $fillable = ['user_id', 'title', 'first_name', 'last_name', 'company', 'mobile_phone', 'address_line1', 'address_line2', 'pincode', 'city', 'state', 'country', 'additional_information', 'is_default'];
 }

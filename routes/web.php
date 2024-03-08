@@ -94,8 +94,13 @@ Route::get('/my-account/order-completed', [MyAccountController::class, 'orderCom
 Route::get('/my-account/wishlist', [MyAccountController::class, 'myWishlist'])->name('my-account.wishlist');
 Route::get('/my-account/orders', [MyAccountController::class, 'myOrders'])->name('my-account.orders');
 Route::get('/my-account/profile-info', [MyAccountController::class, 'profileInfo'])->name('my-account.profile-info');
+
+/* Addresses */
 Route::get('/my-account/addresses', [MyAccountController::class, 'myAddresses'])->name('my-account.addresses');
 Route::get('/my-account/edit-address', [MyAccountController::class, 'editAddresses'])->name('my-account.edit-address');
+Route::get('/my-account/add-address', [MyAccountController::class, 'addAddresses'])->name('my-account.add-address');
+Route::post('/my-account/store-address', [MyAccountController::class, 'storeAddresses'])->name('my-account.store-address');
+Route::get('/my-account/delete-address', [MyAccountController::class, 'destroyAddresses'])->name('my-account.delete-address');
 
 // ------------------main routes------------------------------------------
 

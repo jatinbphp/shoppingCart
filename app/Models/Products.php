@@ -11,7 +11,7 @@ class Products extends Model
 
     protected $appends = ['full_name'];
 
-    protected $fillable = ['user_id', 'category_id', 'sku', 'product_name', 'description', 'status', 'price'];
+    protected $fillable = ['user_id', 'category_id', 'sku', 'product_name', 'description', 'status', 'price', 'type'];
 
     const STATUS_ACTIVE = 'active';
     const STATUS_INACTIVE = 'inactive';
@@ -20,6 +20,17 @@ class Products extends Model
         self::STATUS_ACTIVE => 'Active',
         self::STATUS_INACTIVE => 'In Active',
     ];
+
+    /* product type */
+    const TYPE_SALE = 'sale';
+    const TYPE_NEW = 'new';
+    const TYPE_HOT = 'hot';
+    public static $type = [
+        self::TYPE_SALE => 'Sale',
+        self::TYPE_NEW  => 'New',
+        self::TYPE_HOT  => 'Hot',
+    ];
+
 
     public function product_images()
     {

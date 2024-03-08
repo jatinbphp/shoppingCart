@@ -76,7 +76,19 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
+                                <label class="control-label" for="type">Type :<span class="text-red d-none">*</span></label>
+                                {!! Form::select("type",  ['' => 'Please select'] + (\App\Models\Products::$type ?? []), null, ["class" => "form-control", "id" => "type"]) !!}
+                                @if ($errors->has('type'))
+                                    <span class="text-danger">
+                                        <strong>{{ $errors->first('type') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+    
+                        <div class="col-md-4">
                             <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
                                 <label class="control-label" for="price">Price :<span class="text-red">*</span></label>
                                 {!! Form::text('price', null, ['class' => 'form-control', 'placeholder' => 'Enter Price', 'id' => 'price']) !!}
@@ -88,7 +100,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
                                 <label class="control-label" for="status">Status :<span class="text-red">*</span></label>
                                 <div class="">
