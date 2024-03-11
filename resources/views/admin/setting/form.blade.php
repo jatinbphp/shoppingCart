@@ -102,4 +102,32 @@
         </div>
     </div>
 </div>
+                    
+<div class="col-md-12">
+    <div class="form-group{{ $errors->has('header_menu') ? ' has-error' : '' }}">
+        <label class="control-label" for="header_menu">Which Categories menu do you want to display in header menu?:</label>
+
+        {!! Form::select("header_menu[]", $categories, !empty($users['categories_id']) ? explode(",", $users['categories_id']) : null, ["class" => "form-control select2", "id" => "header_menu", "multiple" => "true", 'data-placeholder' => 'Please Select']) !!}
+
+        @if ($errors->has('header_menu'))
+            <span class="text-danger">
+                <strong>{{ $errors->first('header_menu') }}</strong>
+            </span>
+        @endif
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="form-group{{ $errors->has('footer_menu') ? ' has-error' : '' }}">
+        <label class="control-label" for="footer_menu">Which Categories menu do you want to display in footer menu?:</label>
+
+        {!! Form::select("footer_menu[]", $categories,  null, ["class" => "form-control select2", "id" => "footer_menu", "multiple" => "true", 'data-placeholder' => 'Please Select']) !!}
+
+        @if ($errors->has('footer_menu'))
+            <span class="text-danger">
+                <strong>{{ $errors->first('footer_menu') }}</strong>
+            </span>
+        @endif
+    </div>
+</div>
 

@@ -19,6 +19,8 @@ class Setting extends Model
         'instagram_url',
         'linkedin_url',
         'status',
+        'header_menu',
+        'footer_menu'
     ];
 
     protected $dates = ['deleted_at'];

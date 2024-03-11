@@ -91,6 +91,9 @@ Route::post('shop/remove-cart', [MyAccountController::class,'removeProducttoCart
 /*User Profile Update*/
 Route::post('/user-profile-update',[MyAccountController::class,'userProfileUpdate'])->name('user.profile.update');
 
+/*Wishlist Remove*/
+Route::get('/wishlist/remove/{id}',[MyAccountController::class,'remove'])->name('wishlist.remove');
+
 /*My Account*/
 Route::post('/my-account/add-product-to-cart', [MyAccountController::class,'addProductToCart'])->name('my-account.add-product-to-cart');
 Route::get('/my-account/shopping-cart', [MyAccountController::class, 'shoppingCart'])->name('my-account.shopping-cart');

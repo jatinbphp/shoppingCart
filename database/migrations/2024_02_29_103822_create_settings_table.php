@@ -42,8 +42,11 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('settings');
+        Schema::table('settings', function (Blueprint $table) {
+            $table->string('header_menu');
+            $table->string('footer_menu');
+        });
     }
 };

@@ -296,4 +296,11 @@ class MyAccountController extends Controller
         ];        
         return response()->json($responseData);
     }
+    
+    public function remove($id)
+    {
+        Wishlist::findOrFail($id)->delete();
+        return response()->json(['success' => true]);
+        return redirect()->back();
+    }
 }

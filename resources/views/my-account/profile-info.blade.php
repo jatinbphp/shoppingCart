@@ -98,7 +98,7 @@
                                 <div class="form-group">
                                     {!! Form::label('image', 'Image ', ['class' => 'small text-dark ft-medium']) !!}
 
-                                    {!! Form::file('image', ['class' => 'form-control-file']) !!}
+                                    {!! Form::file('image', ['class' => 'form-control-file','onChange'=>'AjaxUploadImage(this)']) !!}
 
                                     @if(!empty($user_info['image']) && file_exists($user_info['image']))
                                         <img src="{{ asset($user_info['image']) }}" alt="User Image" style="border: 1px solid #ccc;margin-top: 5px;" width="150" id="DisplayImage">

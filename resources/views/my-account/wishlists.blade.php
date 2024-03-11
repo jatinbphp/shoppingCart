@@ -5,6 +5,8 @@
 
 <section class="middle">
     <div class="container">
+    @include ('common.error')
+    <div class="success-message" style="display: none;"></div>
         <div class="row justify-content-center justify-content-between">
 
             @include ('my-account.dashboard-menu', ['menu' => 'wishlists'])
@@ -19,8 +21,8 @@
                                     @if(!empty($value->product->type))
                                         {!! customBadge($value->product->type) !!}
                                     @endif
+                                    <button class="btn btn_love position-absolute ab-right theme-cl text-danger remove-item" data-id="{{$value->id}}"><i class="fas fa-times"></i></button>
 
-                                    <button class="btn btn_love position-absolute ab-right theme-cl text-danger"><i class="fas fa-times"></i></button>
                                     <div class="card-body p-0">
                                         <div class="shop_thumb position-relative">
                                             <a class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$value->product->id])}}">
@@ -55,7 +57,9 @@
                     </div>
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 text-center pt-4 pb-4 text-center">
-                            <a href="#" class="btn stretched-link borders m-auto"><i class="lni lni-reload mr-2"></i>Load More</a>
+                            <a href="#" id="load-more-btn" class="btn stretched-link borders "><i class="lni lni-reload mr-2"></i>Load More</a>
+                            <!-- <button id="load-more-btn">Load More</button> -->
+
                         </div>
                     </div>
                 </div>
@@ -69,4 +73,82 @@
         </div>
     </div>
 </section>
+
+
 @endsection
+
+@section('jquery')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert@2"></script>
+
+<script>
+    $(document).ready(function() {
+        // Function to display wishlist items for the current page
+        function displayWishlistItems(page) {
+            var startIndex = (page - 1) * itemsPerPage;
+            var endIndex = page * itemsPerPage;
+
+            $('.product_grid').slice(0, endIndex).show();
+
+            if ($('.product_grid').length > endIndex) {
+                $('#load-more-btn').show();
+            } else {
+                $('#load-more-btn').hide();
+            }
+        }
+
+        var currentPage = {{ $currentPage ?? 1 }};
+        var itemsPerPage = 15;
+
+        // Initial display of wishlist items
+        displayWishlistItems(currentPage);
+
+        $('#load-more-btn').click(function(event) {
+            event.preventDefault();
+            currentPage++;
+            displayWishlistItems(currentPage);
+        });
+
+        $('.remove-item').click(function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var itemId = $this.data('id');
+            swal({
+                title: "Are you sure?",
+                text: "You want to remove from wishlist?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: '{{ route("wishlist.remove", "") }}/' + itemId,
+                        type: 'GET',
+                        success: function(response) {
+                            if (response.success) {
+                                swal("Success!", "Item removed from wishlist successfully.", "success")
+                                    .then(() => {
+                                        // Reload the page without resetting the current page
+                                        location.reload();
+                                    });
+                            } else {
+                                swal("Error", "Failed to remove item from wishlist.", "error");
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Your data safe!", "error");
+                }
+            });
+        });
+    });
+</script>
+@endsection
+
+
+
+
+
+
