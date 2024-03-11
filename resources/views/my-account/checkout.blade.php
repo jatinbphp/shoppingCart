@@ -278,6 +278,8 @@
                                         <a target="_blank" href="{{route('products.details', [$value->id])}}">
                                             @if(!empty($value->product->product_image->image) && file_exists($value->product->product_image->image))
                                                 <img class="img-fluid" src="{{url($value->product->product_image->image)}}" alt="...">
+                                            @else 
+                                                <img class="img-fluid" src="{{url('assets/website/images/default-image.png')}}" alt="...">
                                             @endif
                                         </a>
                                     </div>

@@ -138,6 +138,8 @@
                                     <a class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$value->id])}}">
                                         @if(!empty($value->product_image->image) && file_exists($value->product_image->image))
                                             <img class="card-img-top" src="{{url($value->product_image->image)}}" alt="...">
+                                        @else 
+                                            <img class="card-img-top" src="{{url('assets/website/images/default-image.png')}}" alt="...">
                                         @endif
                                     </a>
                                     <div class="edlio">
@@ -238,6 +240,8 @@
                                                             <a class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$product->id])}}">
                                                                 @if(!empty($product->product_image->image) && file_exists($product->product_image->image))
                                                                     <img class="card-img-top" src="{{url($product->product_image->image)}}" alt="...">
+                                                                @else 
+                                                                    <img class="card-img-top" src="{{url('assets/website/images/default-image.png')}}" alt="...">
                                                                 @endif
                                                             </a>
                                                             

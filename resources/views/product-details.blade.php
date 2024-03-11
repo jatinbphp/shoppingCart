@@ -16,6 +16,10 @@
                                 </div>
                             @endif
                         @endforeach
+                    @else 
+                        <div class="single_view_slide">
+                            <img class="img-fluid" src="{{url('assets/website/images/default-image.png')}}" alt="...">
+                        </div>
                     @endif
                 </div>
             </div>
@@ -304,6 +308,8 @@
                                         <a class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$valueSlider->id])}}">
                                             @if(!empty($valueSlider->product_image->image) && file_exists($valueSlider->product_image->image))
                                                 <img class="card-img-top" src="{{url($valueSlider->product_image->image)}}" alt="...">
+                                            @else 
+                                                <img class="card-img-top" src="{{url('assets/website/images/default-image.png')}}" alt="...">
                                             @endif
                                         </a>
 

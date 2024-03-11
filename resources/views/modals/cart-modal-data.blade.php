@@ -8,6 +8,8 @@
                             <a href="{{route('products.details', [$valueCart->id])}}">
                                 @if(!empty($valueCart->product_image->image) && file_exists($valueCart->product_image->image))
                                     <img src="{{url($valueCart->product_image->image)}}" width="60" class="img-fluid" alt="">
+                                @else 
+                                    <img class="img-fluid" src="{{url('assets/website/images/default-image.png')}}" alt="...">
                                 @endif
                             </a>
                         </div>

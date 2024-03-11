@@ -17,6 +17,10 @@
                                 </div>
                             @endif
                         @endforeach
+                    @else 
+                        <div class="single_view_slide">
+                            <img class="img-fluid" src="{{url('assets/website/images/default-image.png')}}" alt="...">
+                        </div>
                     @endif
                 </div>
             </div>

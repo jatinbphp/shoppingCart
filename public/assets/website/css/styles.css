@@ -5143,3 +5143,15 @@ img {max-width: 100%;}
 .prd_details .snackbar-wishlist.active .lni-heart{color: #009ccf;}
 .select2-selection__rendered{height: 52px !important; padding: 10px 15px !important;  border-radius: 1px; border-color: #e5e5e5;}
 .select2-container--default .select2-selection--multiple .select2-selection__choice{    color: #fff;}
+.select2-container--default .select2-selection--multiple .select2-selection__choice, 
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #009ccf !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: rgba(0,156,207,.1) !important;
+    border-color: rgba(0,156,207,.1) !important;
+}
+.select2-container--default .select2-selection--multiple {
+    border-color: #e5e5e5 !important;
+    border-radius: 1px !important;
+}

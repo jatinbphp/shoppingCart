@@ -8,6 +8,8 @@
                             <a href="{{route('products.details', [$valueWishlist->id])}}">
                                 @if(!empty($valueWishlist->product_image->image) && file_exists($valueWishlist->product_image->image))
                                     <img src="{{url($valueWishlist->product_image->image)}}" width="60" class="img-fluid" alt="">
+                                @else 
+                                    <img class="img-fluid" src="{{url('assets/website/images/default-image.png')}}" alt="...">
                                 @endif
                             </a>
                         </div>
