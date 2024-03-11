@@ -1,11 +1,3 @@
-function openCart() {
-	document.getElementById("Cart").style.display = "block";
-}
-
-function closeCart() {
-	document.getElementById("Cart").style.display = "none";
-}
-
 function openSearch() {
 	document.getElementById("Search").style.display = "block";
 }
@@ -13,6 +5,11 @@ function openSearch() {
 function closeSearch() {
 	document.getElementById("Search").style.display = "none";
 }
+
+$(document).ready(function() {
+    $('#categories_id').select2();
+});
+
 $(function () {
     $('.filter_wraps .single_fitres a').on('click',function(e) {
         if($(this).hasClass('list')) {

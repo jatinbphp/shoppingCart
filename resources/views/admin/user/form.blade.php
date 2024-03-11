@@ -16,6 +16,21 @@
                 <div class="card-body">
                     
                     <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group{{ $errors->has('categories_id') ? ' has-error' : '' }}">
+                                <label class="control-label" for="categories_id">Which categories of products do you want to see? :</label>
+
+                                {!! Form::select("categories_id[]", $categories, !empty($users['categories_id']) ? explode(",", $users['categories_id']) : null, ["class" => "form-control select2", "id" => "categories_id", "multiple" => "true", 'data-placeholder' => 'Please Select']) !!}
+
+                                @if ($errors->has('categories_id'))
+                                    <span class="text-danger">
+                                        <strong>{{ $errors->first('categories_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="col-md-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                 <label class="control-label" for="name">Name :<span class="text-red">*</span></label>
@@ -80,7 +95,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
-                                <label class="control-label" for="image">Image<span class="text-red">*</span></label>
+                                <label class="control-label" for="image">Image :</label>
                                 <div class="">
                                     <div class="fileError">
                                         {!! Form::file('image', ['class' => '', 'id'=> 'image','accept'=>'image/*', 'onChange'=>'AjaxUploadImage(this)']) !!}

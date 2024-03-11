@@ -9,7 +9,8 @@
         <meta name="format-detection" content="telephone=no"/>
         <link rel="shortcut icon" href="{{url('assets/website/images/favicon.ico') }}" type="image/x-icon" />
         <title>@if(isset($title)) {{$title}} | @endif {{ config('app.name', 'Blu Leisure') }}</title>
-        <link href="{{asset('assets/website/css/styles.css') }}" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+        <link href="{{asset('assets/website/css/styles.css') }}" rel="stylesheet" />
     </head>
     <body>
         <div id="main-wrapper">

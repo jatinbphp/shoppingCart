@@ -109,6 +109,7 @@ class MyAccountController extends Controller
     public function profileInfo(){   
         $data['title'] = 'Profile Information';        
         $data['user_info']= Auth::user();
+        $data['categories'] = Category::where('status', 'active')->where('parent_category_id', 0)->orderBy('full_name', 'ASC')->pluck('full_name', 'id');
         return view('my-account.profile-info', $data);
     }
 

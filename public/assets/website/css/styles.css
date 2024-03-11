@@ -5141,3 +5141,4 @@ img {max-width: 100%;}
     .rows-products.list .product_grid .card-footer .btn {padding: 10px 20px;font-size: 15px;}
 }
 .prd_details .snackbar-wishlist.active .lni-heart{color: #009ccf;}
+.select2-selection__rendered{height: 52px !important; padding: 10px 15px !important;  border-radius: 1px; border-color: #e5e5e5;}

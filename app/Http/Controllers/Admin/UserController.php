@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DataTables;
 use App\Models\User;
 use App\Models\UserAddresses;
+use App\Models\Category;
 use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
@@ -47,9 +48,8 @@ class UserController extends Controller
     public function create()
     {
         $data['menu'] = 'Users';
-
         $data['user_addresses'] = [];
-
+        $data['categories'] = Category::where('status', 'active')->where('parent_category_id', 0)->orderBy('full_name', 'ASC')->pluck('full_name', 'id');
         return view("admin.user.create",$data);
     }
 
@@ -59,6 +59,9 @@ class UserController extends Controller
         $input['role'] = 'user';
         if($file = $request->file('image')){
             $input['image'] = $this->fileMove($file,'users');
+        }
+        if (!empty($input['categories_id'])) {
+            $input['categories_id'] = implode(",", $input['categories_id']);
         }
         $user = User::create($input);
 
@@ -74,7 +77,6 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        
         return view('admin.common.show_modal', [
             'section_info' => $user->toArray(),
             'type' => 'User',
@@ -85,10 +87,9 @@ class UserController extends Controller
     public function edit($id)
     {
         $data['menu'] = 'Users';
-
         $data['users'] = User::where('id',$id)->first();
         $data['user_addresses'] = UserAddresses::where('user_id',$id)->get();
-        
+        $data['categories'] = Category::where('status', 'active')->where('parent_category_id', 0)->orderBy('full_name', 'ASC')->pluck('full_name', 'id');
         return view('admin.user.edit',$data);
     }
 
@@ -97,9 +98,10 @@ class UserController extends Controller
         if(empty($request['password'])){
             unset($request['password']);
         }
-
         $input = $request->all();
-
+        if (!empty($input['categories_id'])) {
+            $input['categories_id'] = implode(",", $input['categories_id']);
+        }
         $user = User::findorFail($id);
 
         if($file = $request->file('image')){

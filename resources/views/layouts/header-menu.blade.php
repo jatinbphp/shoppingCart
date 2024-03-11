@@ -20,7 +20,9 @@
                             </a>
                         </li>
                         <li>
-                            <a href="javaScript:;" onclick="openCart()"><i class="lni lni-shopping-basket"></i><span class="dn-counter">0</span></a>
+                            <a href="javaScript:void(0);" data-url="{{route('products.cartview')}}" id="open-cart-sidebar" title="Shopping Cart">
+                                <i class="lni lni-shopping-basket"></i><span class="dn-counter cart-counter">{{count(getCartProductIds())}}</span>
+                            </a>
                         </li>
                     </ul>
                 </div>

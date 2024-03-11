@@ -16,6 +16,20 @@
 
                         {!! Form::model($user_info,['url' => route('user.profile.update'),'method'=>'post','id' => 'profile-form','class' => 'row m-0','files'=>true]) !!}
 
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    {!! Form::label('categories_id', 'Which categories of products do you want to see?', ['class' => 'small text-dark ft-medium']) !!}
+
+                                    {!! Form::select("categories_id[]", $categories, !empty($user_info['categories_id']) ? explode(",", $user_info['categories_id']) : null, ["class" => "form-control select2", "id" => "categories_id", "multiple" => "true", 'data-placeholder' => 'Please Select']) !!}
+
+                                    @if ($errors->has('categories_id'))
+                                        <span class="text-danger">
+                                            <strong>{{ $errors->first('categories_id') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
                             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                 <div class="form-group">
                                     {!! Form::label('name', 'Name *', ['class' => 'small text-dark ft-medium']) !!}
@@ -47,7 +61,7 @@
 
                             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    {!! Form::label('password', 'Password', ['class' => 'control-label']) !!}
+                                    {!! Form::label('password', 'Password', ['class' => 'small text-dark ft-medium']) !!}
 
                                     {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Password']) !!}
 
@@ -61,7 +75,7 @@
 
                             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    {!! Form::label('password_confirmation', 'Confirm Password', ['class' => 'control-label']) !!}
+                                    {!! Form::label('password_confirmation', 'Confirm Password', ['class' => 'small text-dark ft-medium']) !!}
 
                                     {!! Form::password('password_confirmation', ['class' => 'form-control', 'placeholder' => 'Confirm Password']) !!}
 
@@ -74,7 +88,7 @@
                             </div>
 
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                <div class="callout callout-danger">
+                                <div class="alert alert-success">
                                     <h4><i class="fa fa-info"></i> Note:</h4>
                                     <p>Leave Password and Confirm Password empty if you are not going to change the password.</p>
                                 </div>
@@ -82,7 +96,7 @@
 
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    {!! Form::label('image', 'Image *', ['class' => 'small text-dark ft-medium']) !!}
+                                    {!! Form::label('image', 'Image ', ['class' => 'small text-dark ft-medium']) !!}
 
                                     {!! Form::file('image', ['class' => 'form-control-file']) !!}
 
