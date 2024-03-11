@@ -97,7 +97,7 @@
         }
 
         var currentPage = {{ $currentPage ?? 1 }};
-        var itemsPerPage = 15;
+        var itemsPerPage = {{env('PRODUCT_PAGINATION_LENGHT')}};;
 
         // Initial display of wishlist items
         displayWishlistItems(currentPage);
