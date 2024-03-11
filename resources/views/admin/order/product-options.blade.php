@@ -19,7 +19,7 @@
                                     <select id="options" name="options[{{$option->id}}]" class="form-control" required>
                                         <option value="">Please Select</option>
                                         @foreach ($option->product_option_values as $key => $option_value)
-                                            <option value="{{$option_value->id}}">{{$option_value->option_value}} - {{$option_value->option_price}}</option>
+                                            <option value="{{$option_value->id}}">{{$option_value->option_value}}</option>
                                         @endforeach
                                     </select>
                                 </div>

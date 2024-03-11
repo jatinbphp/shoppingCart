@@ -10,9 +10,12 @@ use Illuminate\Http\Request;
 use App\Models\ProductImages;
 use App\Models\UserAddresses;
 use App\Models\ProductsOptions;
+use App\Models\ProductsOptionsValues;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\OrderOption;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\ProductsOptionsValues;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\UserAddressesRequest;
 use App\Http\Requests\UserProfileUpdateRequest;
@@ -97,6 +100,9 @@ class MyAccountController extends Controller
     public function myOrders(){   
         $user_id = Auth::user()->id;
         $data['title'] = 'My Orders';
+
+        $data['orders'] = Order::with(['user', 'orderItems'])->where('user_id', $user_id)->get();
+
         return view('my-account.orders', $data);
     }
 
