@@ -14,14 +14,15 @@ class SettingController extends Controller{
     public function edit(string $id){
         $data['menu'] = 'Settings';
         $data['settings'] = Setting::find($id);
-        $data['categories'] = Category::where('status', 'active')->orderBy('name', 'ASC')->pluck('name','id');   
+        $data['categories'] = Category::where('status', 'active')->where('parent_category_id', 0)->orderBy('name', 'ASC')->pluck('name','id');   
         return view('admin.setting.edit',$data);
     }
 
     public function update(SettingsRequest $request, string $id){
         $input = $request->all();
-        $input['header_menu'] = !empty($request->header_menu) ? implode(',', $request->header_menu) : '';
-        $input['footer_menu'] = !empty($request->footer_menu) ? implode(',', $request->footer_menu) : '';        
+        $input['header_menu_categories'] = !empty($request->header_menu_categories) ? implode(',', $request->header_menu_categories) : '';
+        $input['footer_menu_categories'] = !empty($request->footer_menu_categories) ? implode(',', $request->footer_menu_categories) : '';      
+          
         $setting = Setting::find($id);
         $setting->updateOrCreate(['id' => $id], $input);
         Session::flash('success','Settings has been updated successfully!');

@@ -20,16 +20,16 @@ class SettingsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'address'       => 'max:500',
-            'phone_number'  => '',
+            'address' => 'max:500',
+            'phone_number' => '',
             'email_address' => 'email',
-            'facebook_url'  => 'nullable|url',
-            'twitter_url'   => 'nullable|url',
-            'youtube_url'   => 'nullable|url',
+            'facebook_url' => 'nullable|url',
+            'twitter_url' => 'nullable|url',
+            'youtube_url' => 'nullable|url',
             'instagram_url' => 'nullable|url',
-            'linkedin_url'  => 'nullable|url', 
-            'header_menu'  => 'nullable',
-            'footer_menu'  => 'nullable',             
+            'linkedin_url' => 'nullable|url', 
+            'header_menu_categories' => 'nullable',
+            'footer_menu_categories' => 'nullable',             
         ];
     }
 }
