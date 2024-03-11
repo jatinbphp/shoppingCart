@@ -92,13 +92,13 @@
                         <div class="form-row mb-7">
                             <div class="col-12 col-lg-auto">
                                 @php
-                                    $options = [];
+                                    $quantity = [];
                                     for ($i = 1; $i <= 10; $i++) {
-                                        $options[$i] = $i;
+                                        $quantity[$i] = $i;
                                     }
                                 @endphp
 
-                                {{ Form::select('quantity', $options, null, ['class' => 'mb-2 custom-select']) }}
+                                {{ Form::select('quantity', $quantity, null, ['class' => 'mb-2 custom-select']) }}
                             </div>
                             <div class="col-12 col-lg">
                                 <!-- Submit -->

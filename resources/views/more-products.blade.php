@@ -1,7 +1,9 @@
 @foreach($products as $key => $value)
     <div class="col-xl-4 col-lg-4 col-md-6 col-6">
         <div class="product_grid card b-0">
-            <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">New</div>
+            @if(!empty($value->type))
+                {!! customBadge($value->type) !!}
+            @endif
 
             @guest
                 <a href="{{route('login')}}" class="btn btn_love position-absolute ab-right">

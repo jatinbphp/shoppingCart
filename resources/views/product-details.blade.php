@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div class="prt_03 mb-4">
-                        {!! $product['description'] !!}
+                        {!! substr($product['description'], 0, 300) !!}{{ strlen($product['description']) > 200 ? '...' : '' }}
                     </div>
 
                     @if(!empty($product['options']))
@@ -156,8 +156,7 @@
                     <!-- Description Content -->
                     <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
                         <div class="description_info">
-                            <p class="p-0 mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                            <p class="p-0">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+                            {!! $product['description'] !!}
                         </div>
                     </div>
                     <!-- Additional Content -->
@@ -167,23 +166,11 @@
                                 <tbody>
                                     <tr>
                                         <th class="ft-medium text-dark">ID</th>
-                                        <td>#1253458</td>
+                                        <td>#{!! $product['id'] !!}</td>
                                     </tr>
                                     <tr>
                                         <th class="ft-medium text-dark">SKU</th>
-                                        <td>KUM125896</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="ft-medium text-dark">Color</th>
-                                        <td>Sky Blue</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="ft-medium text-dark">Size</th>
-                                        <td>Xl, 42</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="ft-medium text-dark">Weight</th>
-                                        <td>450 Gr</td>
+                                        <td>{!! $product['sku'] !!}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -198,66 +185,6 @@
                                     <div class="single_capt_left">
                                         <h5 class="mb-0 fs-md ft-medium lh-1">Daniel Rajdesh</h5>
                                         <span class="small">30 jul 2021</span>
-                                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum</p>
-                                    </div>
-                                    <div class="single_capt_right">
-                                        <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Review -->
-                            <div class="single_rev d-flex align-items-start br-bottom py-3">
-                                <div class="single_rev_thumb"><img src="{{url('assets/website/images/team-2.jpg')}}" class="img-fluid circle" width="90" alt="" /></div>
-                                <div class="single_rev_caption d-flex align-items-start pl-3">
-                                    <div class="single_capt_left">
-                                        <h5 class="mb-0 fs-md ft-medium lh-1">Seema Gupta</h5>
-                                        <span class="small">30 Aug 2021</span>
-                                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum</p>
-                                    </div>
-                                    <div class="single_capt_right">
-                                        <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Review -->
-                            <div class="single_rev d-flex align-items-start br-bottom py-3">
-                                <div class="single_rev_thumb"><img src="{{url('assets/website/images/team-3.jpg')}}" class="img-fluid circle" width="90" alt="" /></div>
-                                <div class="single_rev_caption d-flex align-items-start pl-3">
-                                    <div class="single_capt_left">
-                                        <h5 class="mb-0 fs-md ft-medium lh-1">Mark Jugermi</h5>
-                                        <span class="small">10 Oct 2021</span>
-                                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum</p>
-                                    </div>
-                                    <div class="single_capt_right">
-                                        <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Review -->
-                            <div class="single_rev d-flex align-items-start py-3">
-                                <div class="single_rev_thumb"><img src="{{url('assets/website/images/team-4.jpg')}}" class="img-fluid circle" width="90" alt="" /></div>
-                                <div class="single_rev_caption d-flex align-items-start pl-3">
-                                    <div class="single_capt_left">
-                                        <h5 class="mb-0 fs-md ft-medium lh-1">Meena Rajpoot</h5>
-                                        <span class="small">17 Dec 2021</span>
                                         <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum</p>
                                     </div>
                                     <div class="single_capt_right">
@@ -358,7 +285,9 @@
                         <!-- single Item -->
                         <div class="single_itesm">
                             <div class="product_grid card b-0 mb-0">
-                                <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
+                                @if(!empty($valueSlider->type))
+                                    {!! customBadge($valueSlider->type) !!}
+                                @endif
 
                                 @guest
                                     <a href="{{route('login')}}" class="btn btn_love position-absolute ab-right">

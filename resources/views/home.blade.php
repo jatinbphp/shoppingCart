@@ -118,7 +118,11 @@
                 @foreach($products as $key => $value)
                     <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
-                            <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
+
+                            @if(!empty($value->type))
+                                {!! customBadge($value->type) !!}
+                            @endif
+
                             @guest
                                 <a href="{{route('login')}}" class="btn btn_love position-absolute ab-right snackbar-wishlist">
                                     <i class="far fa-heart"></i>
@@ -208,7 +212,10 @@
                                         @foreach($category->products as $product)
                                             <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                                                 <div class="product_grid card b-0">
-                                                    <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
+                                                    
+                                                    @if(!empty($product->type))
+                                                        {!! customBadge($product->type) !!}
+                                                    @endif
 
                                                     @guest
                                                         <a href="{{route('login')}}" class="btn btn_love position-absolute ab-right">

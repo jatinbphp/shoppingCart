@@ -75,3 +75,29 @@ if (!function_exists('getCartProductIds')) {
         return [];
     }
 }
+
+// In helpers.php or any other appropriate file
+
+if (!function_exists('customBadge')) {
+    function customBadge($type) {
+        $textColor = 'white';
+        $bgColor = '';
+
+        switch ($type) {
+            case 'sale':
+                $bgColor = 'success';
+                break;
+            case 'new':
+                $bgColor = 'primary';
+                break;
+            case 'hot':
+                $bgColor = 'danger';
+                break;
+            default:
+                $bgColor = 'secondary';
+                break;
+        }
+
+        return '<div class="badge bg-' . $bgColor . ' text-' . $textColor . ' position-absolute ft-regular ab-left text-upper">' . $type . '</div>';
+    }
+}

@@ -15,7 +15,11 @@
                         @foreach($wishlists as $key => $value)
                             <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <div class="product_grid card b-0">
-                                    <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
+
+                                    @if(!empty($value->product->type))
+                                        {!! customBadge($value->product->type) !!}
+                                    @endif
+
                                     <button class="btn btn_love position-absolute ab-right theme-cl text-danger"><i class="fas fa-times"></i></button>
                                     <div class="card-body p-0">
                                         <div class="shop_thumb position-relative">
