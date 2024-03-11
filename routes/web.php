@@ -67,6 +67,8 @@ Route::resource('subscribers', SubscriberController::class);
 
 /*Products*/
 Route::get('/shop', [FrontProductController::class, 'index'])->name('products');
+Route::get('/shop/{category_id?}/{category_name?}', [FrontProductController::class, 'index'])->name('shop.filter');
+
 
 /*Product Details*/
 Route::get('/shop/{id}/details', [FrontProductController::class, 'details'])->name('products.details');
