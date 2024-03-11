@@ -5,6 +5,7 @@ use App\Models\Products;
 use App\Models\ProductImages;
 use App\Models\Setting;
 use App\Models\Category;
+use App\Models\ContentManagement;
 use Illuminate\Support\Facades\Auth;
 
 if (!function_exists('get_settings')) {
@@ -118,5 +119,11 @@ if (!function_exists('getFooterCategoriesMenu')) {
         $categoriesFooterMenu = Category::select('id', 'name')->whereIn('id', explode(",", get_settings()['footer_menu_categories']))->orderBy('name', 'ASC')->get();
 
         return $categoriesFooterMenu;
+    }
+}
+
+if (!function_exists('get_content_management_settings')) {
+    function get_content_management_settings($id) {
+        return ContentManagement::findOrFail($id);
     }
 }

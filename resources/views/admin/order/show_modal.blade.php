@@ -59,7 +59,11 @@
                                                     {{ $item->product->product_name }}
                                                     @if(!empty($item->orderOptions))
                                                         @foreach ($item->orderOptions as $option)
-                                                            </br><small><b>{{$option->name}} :</b> {{$option->value}}</small>
+                                                            @if($option->name=='COLOR')
+                                                                </br><small><b>{{$option->name}} :</b> <i class="fas fa-square" style="color:  {{$option->value}}"></i></small>
+                                                            @else
+                                                                </br><small><b>{{$option->name}} :</b> {{$option->value}}</small>
+                                                            @endif
                                                         @endforeach
                                                     @endif
                                                 </td>   

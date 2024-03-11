@@ -29,8 +29,7 @@ class SettingsRequest extends FormRequest
             'instagram_url' => 'nullable|url',
             'linkedin_url' => 'nullable|url', 
             'header_menu_categories' => 'required|nullable',
-            'footer_menu_categories' => 'required|nullable',  
-            'filters_categories' => 'required|nullable',           
+            'footer_menu_categories' => 'required|nullable',
         ];
     }
 }

@@ -289,6 +289,10 @@
                                                 {{$value->product->product_name}}
                                             </h4>
 
+                                            <p class="mb-1 lh-1">
+                                                <span class="text-dark">Qty: {{$value->quantity}}</span>
+                                            </p>
+
                                             @if(!empty($value->product_options))
                                                 @foreach($value->product_options as $keyO => $keyV)
                                                     @if($keyO=='COLOR')

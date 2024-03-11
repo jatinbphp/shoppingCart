@@ -113,8 +113,17 @@ class OrderController extends Controller
 
                             $product_option = ProductsOptions::where('id',$keyO)->first();
                             $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
+                            
+                            $product_name .= '</br><small><b>'.$product_option->option_name.' :</b> ';
 
-                            $product_name .= '</br><small><b>'.$product_option->option_name.' :</b> '.$product_option_value->option_value.' <a class="editOption" href="javascript:void(0)" data-option_id="'.$keyO.'" data-option_value_id="'.$valueO.'" data-product_id="'.$order->product->id.'" data-id="'.$order->id.'"/>Edit</a></small>';
+                            if($product_option->option_name == 'COLOR'){
+                                $product_name .= '<i class="fas fa-square" style="color: '.$product_option_value->option_value.'"></i>';
+                            } else {
+                                $product_name .= $product_option_value->option_value;
+                            }
+
+                            $product_name .= ' <a class="editOption" href="javascript:void(0)" data-option_id="'.$keyO.'" data-option_value_id="'.$valueO.'" data-product_id="'.$order->product->id.'" data-id="'.$order->id.'"/>Edit</a></small>';
+
                         }
                     }
 

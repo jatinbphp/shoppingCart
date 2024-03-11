@@ -58,9 +58,8 @@
                     </div>
                 </div>
 
-                <div class="row align-items-center rows-products grid">
-
-                    @if(!empty($products))
+                @if(!empty($products) && isset($products) && count($products)>0)
+                    <div class="row align-items-center rows-products grid">
                         @foreach($products as $key => $value)
                             <div class="col-xl-4 col-lg-4 col-md-6 col-6">
                                 <div class="product_grid card b-0">
@@ -118,23 +117,30 @@
                                             <div class="elis_rty">
                                                 <span class="ft-bold text-dark fs-sm">{{ env('CURRENCY') }}{{ number_format($value->price, 2) }}</span>
                                             </div>
-                                            <div class="d-none">
+                                            <!-- <div class="d-none">
                                                 <p class="mt-3 mb-4">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum are deleniti atque corrupti quos dolores</p>
                                                 <a href="javascript:void(0);" class="btn stretched-link borders  snackbar-addcart">Add To Cart</a>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
-                    @endif
-                </div>
-
-                <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-12 text-center pt-4 pb-4">
-                        <button onclick="handleLoadMore({{env('PRODUCT_PAGINATION_LENGHT')}})" id="load-more-btn" class="btn stretched-link borders m-auto"><i class="lni lni-reload mr-2"></i>Load More</button>
+                    
                     </div>
-                </div>
+
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 text-center pt-4 pb-4">
+                            <button onclick="handleLoadMore({{env('PRODUCT_PAGINATION_LENGHT')}})" id="load-more-btn" class="btn stretched-link borders m-auto"><i class="lni lni-reload mr-2"></i>Load More</button>
+                        </div>
+                    </div>
+                @else 
+                    <div class="row align-items-center rows-products grid">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+                            <p>No records found..</p>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

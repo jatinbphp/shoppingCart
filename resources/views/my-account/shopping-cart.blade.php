@@ -36,7 +36,6 @@
                                     <div class="cart_single_caption pl-2">
                                         <h4 class="product_title fs-md ft-medium mb-1 lh-1">{{$value->product->product_name}}</h4>
 
-
                                         @if(!empty($value->product_options))
                                             @foreach($value->product_options as $keyO => $keyV)
                                                 @if($keyO=='COLOR')

@@ -40,7 +40,9 @@
                                     <ul class="nav-dropdown nav-submenu">
                                         @foreach($valueMenu->children as $keySubMenu => $valueSubMenu)
                                             <li>
-                                                <a href="{{ route('shop.filter', ['category_id' => ($valueSubMenu->id ?? null), 'category_name' => strtolower(str_replace(' ', '-', ($valueSubMenu->name ?? '')))]) }}">{{$valueSubMenu->name}}</a>
+                                                <a href="{{ route('shop.filter', ['category_id' => ($valueSubMenu->id ?? null), 'category_name' => strtolower($valueMenu->name), 'sub_category_name' => strtolower(str_replace(' ', '-', ($valueSubMenu->name ?? '')))]) }}">
+                                                    {{$valueSubMenu->name}}
+                                                </a>
                                             </li>
                                         @endforeach
                                     </ul>
