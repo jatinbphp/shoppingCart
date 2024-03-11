@@ -20,7 +20,7 @@ class Category extends Model
 
     public function children()
     {
-        return $this->hasMany(Category::class, 'parent_category_id', 'id');
+        return $this->hasMany(Category::class, 'parent_category_id', 'id')->orderBy('name', 'ASC');
     }
 
     public function parent()

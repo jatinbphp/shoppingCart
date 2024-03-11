@@ -31,15 +31,23 @@
                 <ul class="nav-menu">
                     <li><a href="{{route('home')}}">Home</a></li>
                     <li><a href="{{route('products')}}">Shop</a></li>
-                    <li>
-                        <a href="javascript:void(0);">Clothing</a>
-                        <ul class="nav-dropdown nav-submenu">
-                            <li><a href="#">Female</a></li>
-                            <li><a href="#">Male</a></li>
-                            <li><a href="#">Kids</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="">Accessories</a></li>
+                    @if(!empty(getHeaderCategoriesMenu()))
+                        @foreach(getHeaderCategoriesMenu() as $keyMenu => $valueMenu)
+                            <li>
+                                <a href="{{ route('shop.filter', ['category_id' => ($valueMenu->id ?? null), 'category_name' => strtolower(str_replace(' ', '-', ($valueMenu->name ?? '')))]) }}">{{$valueMenu->name}}</a>
+
+                                @if(!empty($valueMenu->children))
+                                    <ul class="nav-dropdown nav-submenu">
+                                        @foreach($valueMenu->children as $keySubMenu => $valueSubMenu)
+                                            <li>
+                                                <a href="{{ route('shop.filter', ['category_id' => ($valueSubMenu->id ?? null), 'category_name' => strtolower(str_replace(' ', '-', ($valueSubMenu->name ?? '')))]) }}">{{$valueSubMenu->name}}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                        @endforeach
+                    @endif
                     <li><a href="{{route('about-us')}}">About Us</a></li>
                     <li><a href="{{route('contact-us')}}">Contact Us</a></li>
                 </ul>

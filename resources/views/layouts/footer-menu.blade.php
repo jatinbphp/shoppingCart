@@ -64,10 +64,13 @@
                     <div class="footer_widget">
                         <h4 class="widget_title">Shop</h4>
                         <ul class="footer-menu">
-                            <li><a href="javaScript:;">Men's Shopping</a></li>
-                            <li><a href="javaScript:;">Women's Shopping</a></li>
-                            <li><a href="javaScript:;">Kids's Shopping</a></li>
-                            <li><a href="javaScript:;">Accessories</a></li>
+                            @if(!empty(getFooterCategoriesMenu()))
+                                @foreach(getFooterCategoriesMenu() as $keyMenu => $valueMenu)
+                                    <li>
+                                        <a href="{{ route('shop.filter', ['category_id' => ($valueMenu->id ?? null), 'category_name' => strtolower(str_replace(' ', '-', ($valueMenu->name ?? '')))]) }}">{{$valueMenu->name}}</a>
+                                    </li>
+                                @endforeach
+                            @endif
                         </ul>
                     </div>
                 </div>

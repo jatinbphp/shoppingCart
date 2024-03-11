@@ -12,7 +12,7 @@ class ProductController extends Controller
 {
     public function index(Request $request){         
         $data['title'] = 'Shop';
-        $data['categories'] = Category::with(['children', 'children.products'])->where('parent_category_id', 0)->get();
+        $data['categories'] = Category::with(['children', 'children.products'])->where('parent_category_id', 0)->orderBy('name', 'ASC')->get();
         $items = $request->items ?? env('PRODUCT_PAGINATION_LENGHT');
         $products_collection = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])
             ->where('status', 'active')
