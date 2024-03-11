@@ -6,12 +6,10 @@
         <div class="row align-items-center justify-content-center">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="text-left py-md-5 mt-md-3 mb-md-3">
-                    <h1 class="ft-medium mb-3">Shop</h1>
+                    <h1 class="ft-medium mb-3">Home</h1>
                     <ul class="shop_categories_list m-0 p-0">
-                        <li><a href="#" class="">Men</a></li>
-                        <li><a href="#" class="">Speakers</a></li>
-                        <li><a href="#" class="">Women</a></li>
-                        <li><a href="#" class="">Accessories</a></li>
+                        <li><a href="#" class="">Home</a></li>
+                        <li><a href="#" class="">Shop</a></li>                        
                     </ul>
                 </div>
             </div>
