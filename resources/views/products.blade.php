@@ -48,8 +48,8 @@
                                             </select>
                                         </div>
                                         <div class="single_fitres">
-                                            <a href="JavaScript:;" class="simple-button grid active mr-1"><i class="ti-layout-grid2"></i></a>
-                                            <a href="JavaScript:;" class="simple-button list"><i class="ti-view-list"></i></a>
+                                            <a href="JavaScript:;" class="simple-button grid mr-1 view-btn active" data-id="grid-view"><i class="ti-layout-grid2"></i></a>
+                                            <a href="JavaScript:;" class="simple-button list view-btn" data-id="list-view"><i class="ti-view-list"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -149,7 +149,11 @@
         $.ajax({
             url: "{{ route('products') }}?items=" + items,
             type: "GET",
-            data: {_token: '{{csrf_token()}}',},
+            data: {
+                _token: '{{csrf_token()}}',
+                category_id: {{ request()->route()->hasParameter('category_id') ? request()->route('category_id') : 'null' }},
+                layout: $('.view-btn.active').attr('data-id'),
+            },
             success: function(response){
                 if(response.status !== 200) return false;          
                 var products = JSON.parse(JSON.stringify(response.products.data));
@@ -157,6 +161,8 @@
                 if (response.is_last) $("#load-more-btn").addClass('btn-secondary').removeClass('stretched-link').attr('disabled', true);
                 $("#items-found").html(products.length);
                 $('.rows-products').empty().html(response.view);
+                $('#list-button').addClass('active');
+                $('#grid-button').removeClass('active');
             }
         });
     }

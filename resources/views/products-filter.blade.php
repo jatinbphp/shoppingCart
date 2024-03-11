@@ -13,14 +13,14 @@
                                 @foreach ($categories as $key => $category)
                                     <div class="single_filter_card">
                                         <h5><a href="#{{ strtolower($category->name ?? "") }}" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">{{ $category->name ?? "-" }}<i class="accordion-indicator ti-angle-down"></i></a></h5>
-                                        <div class="collapse {{ request()->is('shop/*/' . strtolower($category->name)) ? 'show' : '' }}" id="{{ strtolower($category->name ?? "-") }}" data-parent="#shop-categories">
+                                        <div class="collapse {{ request()->is('category/*/' . strtolower($category->name) . '/*') ? 'show' : '' }}" id="{{ strtolower($category->name ?? '') }}" data-parent="#shop-categories">
                                             <div class="card-body">
                                                 <div class="inner_widget_link">
                                                     <ul>
                                                         @if (isset($category->children) && !empty($category->children))
                                                             @foreach ($category->children as $subKey => $subCategory)
                                                                 <li>
-                                                                    <a href="{{ route('shop.filter', ['category_id' => ($subCategory->id ?? null), 'category_name' => strtolower(str_replace(" ", "-", ($subCategory->name ?? '')))]) }}">
+                                                                    <a href="{{ route('shop.filter', ['category_id' => ($subCategory->id ?? null), 'category_name' => strtolower($category->name), 'sub_category_name' => strtolower(str_replace(" ", "-", ($subCategory->name ?? '')))]) }}">
                                                                         {{ $subCategory->name ?? "-" }}
                                                                         <span>{{ count($subCategory->products ?? []) }}</span>
                                                                     </a>
