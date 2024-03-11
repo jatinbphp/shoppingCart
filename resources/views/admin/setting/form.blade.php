@@ -107,7 +107,7 @@
     <div class="form-group{{ $errors->has('header_menu_categories') ? ' has-error' : '' }}">
         <label class="control-label" for="header_menu_categories">Which Categories menu do you want to display in header menu?:</label>
 
-        {!! Form::select("header_menu_categories[]", $categories, !empty($settings['header_menu_categories']) ? explode(",", $settings['header_menu_categories']) : null, ["class" => "form-control select2", "id" => "header_menu_categories", "multiple" => "true", 'data-placeholder' => 'Please Select']) !!}
+        {!! Form::select("header_menu_categories[]", $categories, !empty($settings['header_menu_categories']) ? explode(",", $settings['header_menu_categories']) : null, ["class" => "form-control select2", "id" => "header_menu_categories", "multiple" => "true", 'data-placeholder' => 'Please Select', "data-maximum-selection-length" => "2"]) !!}
 
         @if ($errors->has('header_menu_categories'))
             <span class="text-danger">
@@ -121,7 +121,7 @@
     <div class="form-group{{ $errors->has('footer_menu_categories') ? ' has-error' : '' }}">
         <label class="control-label" for="footer_menu_categories">Which Categories menu do you want to display in footer menu?:</label>
 
-        {!! Form::select("footer_menu_categories[]", $categories,  !empty($settings['footer_menu_categories']) ? explode(",", $settings['footer_menu_categories']) : null, ["class" => "form-control select2", "id" => "footer_menu_categories", "multiple" => "true", 'data-placeholder' => 'Please Select']) !!}
+        {!! Form::select("footer_menu_categories[]", $categories,  !empty($settings['footer_menu_categories']) ? explode(",", $settings['footer_menu_categories']) : null, ["class" => "form-control select2", "id" => "footer_menu_categories", "multiple" => "true", 'data-placeholder' => 'Please Select', "data-maximum-selection-length" => "5"]) !!}
 
         @if ($errors->has('footer_menu_categories'))
             <span class="text-danger">
