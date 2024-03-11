@@ -20,7 +20,8 @@ class Setting extends Model
         'linkedin_url',
         'status',
         'header_menu_categories',
-        'footer_menu_categories'
+        'footer_menu_categories',
+        'filters_categories',
     ];
 
     protected $dates = ['deleted_at'];

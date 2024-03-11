@@ -131,3 +131,17 @@
     </div>
 </div>
 
+<div class="col-md-12 d-none">
+    <div class="form-group{{ $errors->has('filters_categories') ? ' has-error' : '' }}">
+        <label class="control-label" for="filters_categories">Which Categories do you want to display in filter?:</label>
+
+        {!! Form::select("filters_categories[]", $categories,  !empty($settings['filters_categories']) ? explode(",", $settings['filters_categories']) : null, ["class" => "form-control select2", "id" => "filters_categories", "multiple" => "true", 'data-placeholder' => 'Please Select']) !!}
+
+        @if ($errors->has('filters_categories'))
+            <span class="text-danger">
+                <strong>{{ $errors->first('filters_categories') }}</strong>
+            </span>
+        @endif
+    </div>
+</div>
+

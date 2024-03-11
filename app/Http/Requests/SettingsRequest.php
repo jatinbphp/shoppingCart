@@ -21,15 +21,16 @@ class SettingsRequest extends FormRequest
     {
         return [
             'address' => 'max:500',
-            'phone_number' => '',
-            'email_address' => 'email',
+            'phone_number' => 'required',
+            'email_address' => 'required|email',
             'facebook_url' => 'nullable|url',
             'twitter_url' => 'nullable|url',
             'youtube_url' => 'nullable|url',
             'instagram_url' => 'nullable|url',
             'linkedin_url' => 'nullable|url', 
-            'header_menu_categories' => 'nullable',
-            'footer_menu_categories' => 'nullable',             
+            'header_menu_categories' => 'required|nullable',
+            'footer_menu_categories' => 'required|nullable',  
+            'filters_categories' => 'required|nullable',           
         ];
     }
 }
