@@ -10,5 +10,5 @@
 <script src="{{asset('assets/website/js/jQuery.style.switcher.js') }}"></script>
 <script src="{{asset('assets/website/js/custom.js') }}"></script>
 <script src="{{asset('assets/website/js/common.js') }}?{{ time()}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script src="{{ URL::asset('assets/admin/plugins/select2/select2.full.min.js')}}"></script>
 @yield('jquery')

@@ -139,6 +139,10 @@ class MyAccountController extends Controller
         } else {
             unset($input['password']);
         }
+
+        if (!empty($input['categories_id'])) {
+            $input['categories_id'] = implode(",", $input['categories_id']);
+        }
         $user->update($input);
 
         \Session::flash('success', 'Profile has been updated successfully!');
