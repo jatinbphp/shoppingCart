@@ -49,6 +49,9 @@ Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 /*Privacy Policy Page*/
 Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy-policy');
 
+/*Terms & Conditions*/
+Route::get('/terms-&-conditions', [HomeController::class, 'terms_and_conditions'])->name('terms-conditions');
+
 /*404 Page*/
 Route::get('/404', [HomeController::class, 'page_not_found'])->name('errors.404');
 

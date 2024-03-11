@@ -51,6 +51,13 @@ class HomeController extends Controller
         return view('privacy_policy', $data);
     }
 
+    public function terms_and_conditions()
+    {
+        $data['title'] = "Terms & Conditions";
+
+        return view('terms_and_conditions', $data);
+    }
+    
     public function contact_us()
     {
         $data['title'] = 'Contact Us';

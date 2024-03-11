@@ -79,6 +79,7 @@
                             <li><a href="{{route('contact-us')}}">Contact Us</a></li>
                             <li><a href="{{route('faq')}}">FAQ's</a></li>
                             <li><a href="{{route('privacy-policy')}}">Privacy Policy</a></li>
+                            <li><a href="{{route('terms-conditions')}}">Terms & Conditions</a></li>
                         </ul>
                     </div>
                 </div>
