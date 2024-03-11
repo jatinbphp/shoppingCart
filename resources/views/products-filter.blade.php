@@ -8,89 +8,33 @@
                 <div class="widget-boxed-body">
                     <div class="side-list no-border">
                         <div class="filter-card" id="shop-categories">
-                            <div class="single_filter_card">
-                                <h5><a href="#shoes" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">Shoes<i class="accordion-indicator ti-angle-down"></i></a></h5>
-                                <div class="collapse" id="shoes" data-parent="#shop-categories">
-                                    <div class="card-body">
-                                        <div class="inner_widget_link">
-                                            <ul>
-                                                <li><a href="#">Pumps & high Heals<span>112</span></a></li>
-                                                <li><a href="#">Sandels<span>82</span></a></li>
-                                                <li><a href="#">Sneakers<span>56</span></a></li>
-                                                <li><a href="#">Boots<span>101</span></a></li>
-                                                <li><a href="#">Casual Shoes<span>212</span></a></li>
-                                                <li><a href="#">Flats Sandel<span>92</span></a></li>
-                                            </ul>
+                            {{-- category section --}}
+                            @if (isset($categories) && !empty($categories))
+                                @foreach ($categories as $key => $category)
+                                    <div class="single_filter_card">
+                                        <h5><a href="#{{ strtolower($category->name ?? "") }}" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">{{ $category->name ?? "-" }}<i class="accordion-indicator ti-angle-down"></i></a></h5>
+                                        <div class="collapse {{ request()->is('shop/*/' . strtolower($category->name)) ? 'show' : '' }}" id="{{ strtolower($category->name ?? "-") }}" data-parent="#shop-categories">
+                                            <div class="card-body">
+                                                <div class="inner_widget_link">
+                                                    <ul>
+                                                        @if (isset($category->children) && !empty($category->children))
+                                                            @foreach ($category->children as $subKey => $subCategory)
+                                                                <li>
+                                                                    <a href="{{ route('shop.filter', ['category_id' => ($subCategory->id ?? null), 'category_name' => strtolower(str_replace(" ", "-", ($subCategory->name ?? '')))]) }}">
+                                                                        {{ $subCategory->name ?? "-" }}
+                                                                        <span>{{ count($subCategory->products ?? []) }}</span>
+                                                                    </a>
+                                                                </li>
+                                                            @endforeach    
+                                                        @endif
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="single_filter_card">
-                                <h5><a href="#clothing" data-toggle="collapse" class="" aria-expanded="false" role="button">Clothing<i class="accordion-indicator ti-angle-down"></i></a></h5>
-                                <div class="collapse show" id="clothing" data-parent="#shop-categories">
-                                    <div class="card-body">
-                                        <div class="inner_widget_link">
-                                            <ul>
-                                                <li><a href="#">Blazers<span>82</span></a></li>
-                                                <li><a href="#">Men Suits<span>110</span></a></li>
-                                                <li><a href="#">Blouses<span>103</span></a></li>
-                                                <li><a href="#">Coat Pant<span>72</span></a></li>
-                                                <li><a href="#">T-Shirts<span>36</span></a></li>
-                                                <li><a href="#">Men Shirts<span>122</span></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single_filter_card">
-                                <h5><a href="#watches" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">Watches<i class="accordion-indicator ti-angle-down"></i></a></h5>
-                                <div class="collapse" id="watches" data-parent="#shop-categories">
-                                    <div class="card-body">
-                                        <div class="inner_widget_link">
-                                            <ul>
-                                                <li><a href="#">Sport Watches<span>112</span></a></li>
-                                                <li><a href="#">Casual Watches<span>112</span></a></li>
-                                                <li><a href="#">Fashion Watches<span>112</span></a></li>
-                                                <li><a href="#">Girls Watches<span>112</span></a></li>
-                                                <li><a href="#">Smart Watches<span>112</span></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single_filter_card">
-                                <h5><a href="#bags" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">Bags<i class="accordion-indicator ti-angle-down"></i></a></h5>
-                                <div class="collapse" id="bags" data-parent="#shop-categories">
-                                    <div class="card-body">
-                                        <div class="inner_widget_link">
-                                            <ul>
-                                                <li><a href="#">Casual Bags<span>212</span></a></li>
-                                                <li><a href="#">Sport Bags<span>212</span></a></li>
-                                                <li><a href="#">Lugges bags<span>82</span></a></li>
-                                                <li><a href="#">Fashion Bags<span>212</span></a></li>
-                                                <li><a href="#">Small bags<span>113</span></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single_filter_card">
-                                <h5><a href="#accessories" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">Accessories<i class="accordion-indicator ti-angle-down"></i></a></h5>
-                                <div class="collapse" id="accessories" data-parent="#shop-categories">
-                                    <div class="card-body">
-                                        <div class="inner_widget_link">
-                                            <ul>
-                                                <li><a href="#">Men Wallet<span>432</span></a></li>
-                                                <li><a href="#">Men Belt<span>82</span></a></li>
-                                                <li><a href="#">Hats<span>541</span></a></li>
-                                                <li><a href="#">Jwelery<span>312</span></a></li>
-                                                <li><a href="#">Beauty<span>65</span></a></li>
-                                                <li><a href="#">Cosmetic<span>242</span></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                @endforeach
+                            @endif
+                            {{-- category section --}}
                         </div>
                     </div>
                 </div>
@@ -102,7 +46,7 @@
                 <div class="widget-boxed-body collapse show" id="pricing" data-parent="#pricing">
                     <div class="side-list no-border mb-4">
                         <div class="rg-slider">
-                            <input type="text" class="js-range-slider" name="my_range" value="" />
+                            <input type="text" class="js-range-slider" name="my_range" category="" />
                         </div>
                     </div>
                 </div>
