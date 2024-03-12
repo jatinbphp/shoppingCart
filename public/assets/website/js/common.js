@@ -127,8 +127,8 @@ $(function () {
             headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
             success: function(data) {
                 if(data.status != 200) return false;
-                window.location.reload();
                 $('.wishlist-counter').text(data.total);
+                window.location.reload();
             }
         });
     });
