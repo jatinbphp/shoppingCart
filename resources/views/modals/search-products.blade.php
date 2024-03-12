@@ -6,12 +6,12 @@
             <button onclick="closeSearch()" class="close_slide"><i class="ti-close"></i></button>
         </div>
         <div class="cart_action px-3 py-4">
-            <form class="form m-0 p-0">
+            <form class="form m-0 p-0" method="GET" action="{{ route('products') }}">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Product Keyword.." />
+                    <input type="text" name="keyword" class="form-control" placeholder="Product Keyword.." />
                 </div>
-                <div class="form-group">
-                    <select class="custom-select">
+                <div class="form-group d-none">
+                    <select class="custom-select" disabled>
                         <option value="1" selected="">Choose Category</option>
                         <option value="2">Men's Store</option>
                         <option value="3">Women's Store</option>
@@ -20,7 +20,7 @@
                     </select>
                 </div>
                 <div class="form-group mb-0">
-                    <button type="button" class="btn d-block full-width btn-dark">Search Product</button>
+                    <button type="submit" class="btn d-block full-width btn-dark">Search Product</button>
                 </div>
             </form>
         </div>
