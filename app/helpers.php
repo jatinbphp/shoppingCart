@@ -1,4 +1,5 @@
 <?php
+use App\Models\Banner;
 use App\Models\Cart;
 use App\Models\Wishlist;
 use App\Models\Products;
@@ -127,3 +128,35 @@ if (!function_exists('get_content_management_settings')) {
         return ContentManagement::findOrFail($id);
     }
 }
+
+/*if (!function_exists('getActiveBanners')) {
+    function getActiveBanners()
+    {
+        return Banner::where('status', 'active')
+            ->orderBy('id', 'DESC')
+            ->get();
+    }
+}
+
+if (!function_exists('getTrendingProducts')) {
+    function getTrendingProducts()
+    {
+        return Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])
+            ->where('status', 'active')
+            ->orderBy('id', 'DESC')
+            ->take(8)
+            ->get();
+    }
+}
+
+if (!function_exists('getCategoryProducts')) {
+    function getCategoryProducts()
+    {
+        return Category::has('products')
+            ->with(['products' => function ($query) {
+                $query->inRandomOrder()->take(8); // Randomly order and limit to 8 products per category
+            }])
+            ->take(4)
+            ->get();
+    }
+}*/

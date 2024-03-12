@@ -32,7 +32,7 @@ use App\Http\Controllers\MyAccountController;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+   return redirect()->route('home');
 });
 
 Auth::routes();
