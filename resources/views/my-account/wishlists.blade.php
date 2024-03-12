@@ -11,8 +11,8 @@
         <div class="row justify-content-center justify-content-between">
 
             @include ('my-account.dashboard-menu', ['menu' => 'wishlists'])
-        
-            @if(!empty($wishlists))
+            
+            @if(!empty($wishlists) && isset($wishlists) && count($wishlists)>0)
                 <div class="col-12 col-md-12 col-lg-8 col-xl-8 text-center">
                     <div class="row align-items-center rows-wishlist">
                         @foreach($wishlists as $key => $value)
