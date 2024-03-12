@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     <div class="fls_last">
-                        <button class="close_slide gray remove-cart" data-id="{{$valueCart->id}}" data-url="{{route('products.remove.cart')}}"><i class="ti-close"></i></button>
+                        <button class="close_slide gray remove-cart" data-id="{{$valueCart->id}}" data-url="{{route('products.remove.cart')}}" data-type="quick-view"><i class="ti-close"></i></button>
                     </div>
                 </div>
             @endforeach

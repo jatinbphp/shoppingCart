@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="prt_03 mb-3">
-                        {!! $info['description'] !!}
+                        {!! substr($info['description'], 0, 300) !!}{{ strlen($info['description']) > 200 ? '...' : '' }}
                     </div>
 
                     @if(!empty($info['options']))

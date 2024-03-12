@@ -32,7 +32,7 @@ class MyAccountController extends Controller
         $data['title'] = 'Shopping Cart';
         $data['cart_products'] = Cart::with('product', 'product.product_image')->where('user_id', $user_id)->get();
 
-        if(empty($data['cart_products'])){
+        if(count($data['cart_products'])==0){
             return redirect()->route('products')->with('danger', 'Thank you for shopping with us! Please add the product to your cart.');
         } else {
             foreach ($data['cart_products'] as $key => $order) {
@@ -60,7 +60,7 @@ class MyAccountController extends Controller
         $data['title'] = 'Checkout';
         $data['cart_products'] = Cart::with('product', 'product.product_image')->where('user_id', $user_id)->get();
 
-        if(empty($data['cart_products'])){
+        if(count($data['cart_products'])==0){
             return redirect()->route('products')->with('danger', 'Thank you for shopping with us! Please add the product to your cart.');
         } else {
             foreach ($data['cart_products'] as $key => $order) {
@@ -294,12 +294,17 @@ class MyAccountController extends Controller
     }
 
     public function removeProducttoCart(Request $request){
+        
         $input = $request->all();
         $user_id = Auth::user()->id;
-        $cart = Cart::where('user_id', $user_id)->where('id', $request->id)->first();
-        if(empty($cart)) return response()->json(['status' => 404, 'message' => 'record not  found']);
+
+        $cart = Cart::where('user_id', $user_id)->where('product_id', $request->id)->first();
         $cart->delete();
-        return response()->json(['total' => count(getCartProductIds()), 'status' => 200]);
+
+        $responseData = [
+            'total' => count(getCartProductIds()),
+        ];        
+        return response()->json($responseData);
     }
     
     public function remove($id)

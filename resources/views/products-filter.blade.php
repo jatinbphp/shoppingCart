@@ -102,43 +102,7 @@
                     </div>
                 </div>
             </div>
-            <div class="single_search_boxed">
-                <div class="widget-boxed-header">
-                    <h4><a href="#brands" data-toggle="collapse" aria-expanded="false" role="button">Brands</a></h4>
-                </div>
-                <div class="widget-boxed-body collapse show" id="brands" data-parent="#brands">
-                    <div class="side-list no-border">
-                        <div class="single_filter_card">
-                            <div class="card-body pt-0">
-                                <div class="inner_widget_link">
-                                    <ul class="no-ul-list">
-                                        <li>
-                                            <input id="b1" class="checkbox-custom" name="b1" type="checkbox">
-                                            <label for="b1" class="checkbox-custom-label">Sumsung<span>142</span></label>
-                                        </li>
-                                        <li>
-                                            <input id="b2" class="checkbox-custom" name="b2" type="checkbox">
-                                            <label for="b2" class="checkbox-custom-label">Apple<span>652</span></label>
-                                        </li>
-                                        <li>
-                                            <input id="b3" class="checkbox-custom" name="b3" type="checkbox">
-                                            <label for="b3" class="checkbox-custom-label">Nike<span>232</span></label>
-                                        </li>
-                                        <li>
-                                            <input id="b4" class="checkbox-custom" name="b4" type="checkbox">
-                                            <label for="b4" class="checkbox-custom-label">Reebok<span>192</span></label>
-                                        </li>
-                                        <li>
-                                            <input id="b5" class="checkbox-custom" name="b5" type="checkbox">
-                                            <label for="b5" class="checkbox-custom-label">Hawai<span>265</span></label>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
             <div class="single_search_boxed">
                 <div class="widget-boxed-header">
                     <h4><a href="#colors" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">Colors</a></h4>

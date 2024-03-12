@@ -115,24 +115,6 @@ $(function () {
         });
     });
 
-    /*remove products from cart*/
-    $(document).on('click', '#remove_product_to_cart', function(event) {
-        event.preventDefault();
-        var url = $(this).attr('data-url');
-        var id = $(this).attr("data-id");
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: {'id': id,},
-            headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
-            success: function(data) {
-                if(data.status != 200) return false;
-                $('.wishlist-counter').text(data.total);
-                window.location.reload();
-            }
-        });
-    });
-
     $(document).on('click', '#open-wishlist-sidebar', function(event) {
         event.preventDefault();
         document.getElementById("Wishlist").style.display = "block";
@@ -175,6 +157,7 @@ $(function () {
         event.preventDefault();
         var url = $(this).attr('data-url');
         var id = $(this).attr("data-id");
+        var action_type = $(this).attr("data-type");
 
         $.ajax({
             url: url,
@@ -185,21 +168,28 @@ $(function () {
             headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
             success: function(data) {
 
-                $('.cart-counter').text(data.total);
+                if(action_type=='page-view'){
 
-                var msg = 'Your product was removed from the cart successfully!';
+                    window.location.reload();
 
-                $("#open-cart-sidebar").click();
-                
-                Snackbar.show({
-                    text: msg,
-                    pos: 'top-right',
-                    showAction: false,
-                    actionText: "Dismiss",
-                    duration: 3000,
-                    textColor: '#fff',
-                    backgroundColor: '#151515'
-                });
+                } else {
+
+                    $('.cart-counter').text(data.total);
+
+                    var msg = 'Your product was removed from the cart successfully!';
+
+                    $("#open-cart-sidebar").click();
+                    
+                    Snackbar.show({
+                        text: msg,
+                        pos: 'top-right',
+                        showAction: false,
+                        actionText: "Dismiss",
+                        duration: 3000,
+                        textColor: '#fff',
+                        backgroundColor: '#151515'
+                    });
+                }
             }
         });
     });
