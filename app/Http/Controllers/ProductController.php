@@ -29,7 +29,7 @@ class ProductController extends Controller
                         });
                 });
             })
-            ->when($request->input('keyword'), function ($query, $keyword) {
+            ->when($request->keyword, function ($query, $keyword) {
                 return $query->where(function ($query) use ($keyword) {
                     $query->where('product_name', 'like', '%' . $keyword . '%')
                         ->orWhere('sku', 'like', '%' . $keyword . '%')

@@ -162,7 +162,7 @@
             data: {
                 _token: '{{csrf_token()}}',
                 category_id: {{ request()->route('category_id') ?? 'null' }},
-                keyword: '{{ request('keyword') ?? 'null' }}',
+                keyword: '{{ request('keyword') ?? null }}',
                 layout: $('.view-btn.active').attr('data-id'),
             },
             success: function(response){
