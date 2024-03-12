@@ -294,17 +294,12 @@ class MyAccountController extends Controller
     }
 
     public function removeProducttoCart(Request $request){
-        
         $input = $request->all();
         $user_id = Auth::user()->id;
-
-        $cart = Cart::where('user_id', $user_id)->where('product_id', $request->id)->first();
+        $cart = Cart::where('user_id', $user_id)->where('id', $request->id)->first();
+        if(empty($cart)) return response()->json(['status' => 404, 'message' => 'record not  found']);
         $cart->delete();
-
-        $responseData = [
-            'total' => count(getCartProductIds()),
-        ];        
-        return response()->json($responseData);
+        return response()->json(['total' => count(getCartProductIds()), 'status' => 200]);
     }
     
     public function remove($id)

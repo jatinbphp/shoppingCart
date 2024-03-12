@@ -115,6 +115,24 @@ $(function () {
         });
     });
 
+    /*remove products from cart*/
+    $(document).on('click', '#remove_product_to_cart', function(event) {
+        event.preventDefault();
+        var url = $(this).attr('data-url');
+        var id = $(this).attr("data-id");
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: {'id': id,},
+            headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+            success: function(data) {
+                if(data.status != 200) return false;
+                $('.wishlist-counter').text(data.total);
+                window.location.reload();
+            }
+        });
+    });
+
     $(document).on('click', '#open-wishlist-sidebar', function(event) {
         event.preventDefault();
         document.getElementById("Wishlist").style.display = "block";
