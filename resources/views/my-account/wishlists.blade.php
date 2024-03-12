@@ -56,11 +56,14 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12 text-center pt-4 pb-4 text-center">
-                        <button onclick="handleLoadMoreWishlist({{env('PRODUCT_PAGINATION_LENGHT')}})" id="load-more-btn" class="btn stretched-link borders m-auto"><i class="lni lni-reload mr-2"></i>Load More</button>
+                    
+                    @if($total_products_in_wishlist>env('PRODUCT_PAGINATION_LENGHT'))
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 text-center pt-4 pb-4 text-center">
+                            <button onclick="handleLoadMoreWishlist({{env('PRODUCT_PAGINATION_LENGHT')}})" id="load-more-btn" class="btn stretched-link borders m-auto"><i class="lni lni-reload mr-2"></i>Load More</button>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             @else 
                 <div class="col-12 col-md-12 col-lg-8 col-xl-8 text-center">
@@ -72,45 +75,48 @@
         </div>
     </div>
 </section>
-
-
 @endsection
 
 @section('jquery')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert@2"></script>
 <script>
-    function handleLoadMoreWishlist(newItems) {
-        event.preventDefault();
-        var items = {{ env('PRODUCT_PAGINATION_LENGHT') }};
-        items = items + newItems;
-        $.ajax({
-            url: "{{ route('my-account.wishlist') }}?items=" + items,
-            type: "GET",
-            data: {_token: '{{ csrf_token() }}'},
-            success: function(response) {
-                if(response.status !== 200) return false;
-                var wishlists = JSON.parse(JSON.stringify(response.wishlists.data));
-                if (!wishlists || wishlists.length === 0) return false;
-                if (response.is_last) $("#load-more-btn").addClass('btn-secondary').removeClass('stretched-link').attr('disabled', true);
-                $("#items-found").html(wishlists.length);
-                $('.rows-wishlist').empty().html(response.view);
-            }
-        });
-    }
+function handleLoadMoreWishlist(newItems) {
+    event.preventDefault();
+    var items = {{ env('PRODUCT_PAGINATION_LENGHT') }};
+    items = items + newItems;
+    $.ajax({
+        url: "{{ route('my-account.wishlist') }}?items=" + items,
+        type: "GET",
+        data: {_token: '{{ csrf_token() }}'},
+        success: function(response) {
+            if(response.status !== 200) return false;
+            var wishlists = JSON.parse(JSON.stringify(response.wishlists.data));
+            if (!wishlists || wishlists.length === 0) return false;
+            if (response.is_last) $("#load-more-btn").addClass('btn-secondary').removeClass('stretched-link').attr('disabled', true);
+            $("#items-found").html(wishlists.length);
+            $('.rows-wishlist').empty().html(response.view);
+        }
+    });
+}
    
-    $(document).ready(function() {
+$(document).ready(function() {
     $(document).on('click', '.remove-item', function(e) {
         e.preventDefault();
         var $this = $(this);
         var itemId = $this.data('id');
+
         swal({
             title: "Are you sure?",
-            text: "You want to remove from wishlist?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
+            text: "You want to remove this item from your wishlist?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes, Remove',
+            cancelButtonText: "No, cancel",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm) {
+            if (isConfirm) {
                 $.ajax({
                     url: '{{ route("wishlist.remove", "") }}/' + itemId,
                     type: 'GET',
@@ -119,6 +125,7 @@
                             $this.closest('.product_grid').remove();
                             swal("Success!", "Item removed from wishlist successfully.", "success");
                             reloadWishlistData();
+                            $('.wishlist-counter').text(response.total);
                         } else {
                             swal("Error", "Failed to remove item from wishlist.", "error");
                         }
@@ -147,6 +154,5 @@ function reloadWishlistData() {
         },
     });
 }
-
 </script>
 @endsection

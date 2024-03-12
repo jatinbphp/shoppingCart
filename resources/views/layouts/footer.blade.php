@@ -11,4 +11,5 @@
 <script src="{{asset('assets/website/js/custom.js') }}"></script>
 <script src="{{asset('assets/website/js/common.js') }}?{{ time()}}"></script>
 <script src="{{ URL::asset('assets/admin/plugins/select2/select2.full.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 @yield('jquery')

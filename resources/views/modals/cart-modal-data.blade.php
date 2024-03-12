@@ -6,22 +6,41 @@
                     <div class="cart_single d-flex align-items-center">
                         <div class="cart_selected_single_thumb">
                             <a href="{{route('products.details', [$valueCart->id])}}">
-                                @if(!empty($valueCart->product_image->image) && file_exists($valueCart->product_image->image))
-                                    <img src="{{url($valueCart->product_image->image)}}" width="60" class="img-fluid" alt="">
+                                @if(!empty($valueCart->product->product_image->image) && file_exists($valueCart->product->product_image->image))
+                                    <img src="{{url($valueCart->product->product_image->image)}}" width="60" class="img-fluid" alt="">
                                 @else 
                                     <img class="img-fluid" src="{{url('assets/website/images/default-image.png')}}" alt="...">
                                 @endif
                             </a>
                         </div>
                         <div class="cart_single_caption pl-2">
-                            <h4 class="product_title fs-sm ft-medium mb-0 lh-1">{{$valueCart->product_name}}</h4>
+                            <h4 class="product_title fs-sm ft-medium mb-1 lh-1">{{$valueCart->product->product_name}}</h4>
+
+                            <p class="mb-1 lh-1">
+                                <span class="text-dark">Qty: {{$valueCart->quantity}} X {{ env('CURRENCY') }}{{ number_format($valueCart->product->price, 2) }}</span>
+                            </p>
+
+                            @if(!empty($valueCart->product_options))
+                                @foreach($valueCart->product_options as $keyO => $keyV)
+                                    @if($keyO=='COLOR')
+                                        <p class="mb-1 lh-1">
+                                            <span class="text-dark">{{$keyO}}: <i class="fas fa-square" style="color: {{$keyV}}  "></i></span>
+                                        </p>
+                                    @else
+                                        <p class="mb-1 lh-1">
+                                            <span class="text-dark">{{$keyO}}: {{$keyV}}</span>
+                                        </p>
+                                    @endif
+                                @endforeach
+                            @endif
+
                             <h4 class="fs-md ft-medium lh-1 mt-2">
-                                {{ env('CURRENCY') }}{{ number_format($valueCart->price, 2) }}
+                                {{ env('CURRENCY') }}{{ number_format(($valueCart->product->price*$valueCart->quantity), 2) }}
                             </h4>
                         </div>
                     </div>
                     <div class="fls_last">
-                        <button class="close_slide gray remove-cart" data-id="{{$valueCart->id}}" data-url="{{route('products.remove.cart')}}" data-type="quick-view"><i class="ti-close"></i></button>
+                        <button class="close_slide gray remove-cart" data-id="{{$valueCart->product->id}}" data-url="{{route('products.remove.cart')}}" data-type="quick-view"><i class="ti-close"></i></button>
                     </div>
                 </div>
             @endforeach

@@ -13,17 +13,31 @@ class ProductController extends Controller
     public function index(Request $request){     
         $data['title'] = 'Shop';
         $data['categories'] = Category::with(['children', 'children.products'])->where('parent_category_id', 0)->orderBy('name', 'ASC')->get();
+
         $items = $request->items ?? env('PRODUCT_PAGINATION_LENGHT');
+
         $category_id = $request->route()->hasParameter('category_id') ? $request->route('category_id') : ($request->input('category_id') ? $request->input('category_id') : null);
-        $products_collection = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])
-            ->where('status', 'active')
+
+        $products_query = Products::where('status', 'active')
             ->when($category_id, function ($query, $category_id) {
-                return $query->where('category_id', $category_id);
-            })
+                return $query->where(function ($query) use ($category_id) {
+                    $query->where('category_id', $category_id)
+                        ->orWhereIn('category_id', function ($query) use ($category_id) {
+                            $query->select('id')
+                                ->from('categories')
+                                ->where('parent_category_id', $category_id);
+                        });
+                });
+            });
+
+        $total_products = $products_query->count();
+
+        $products_collection = $products_query->with(['product_image', 'category', 'product_images', 'options.product_option_values'])
             ->orderBy('id', 'DESC')
             ->simplePaginate($items);
 
         $data['products'] = $products_collection;
+        $data['total_products'] = $total_products;
 
         if ($request->ajax()) {
             $data['layout'] = $request->layout;

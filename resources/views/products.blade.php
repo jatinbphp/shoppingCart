@@ -117,23 +117,27 @@
                                             <div class="elis_rty">
                                                 <span class="ft-bold text-dark fs-sm">{{ env('CURRENCY') }}{{ number_format($value->price, 2) }}</span>
                                             </div>
-                                            <!-- <div class="d-none">
-                                                <p class="mt-3 mb-4">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum are deleniti atque corrupti quos dolores</p>
-                                                <a href="javascript:void(0);" class="btn stretched-link borders  snackbar-addcart">Add To Cart</a>
-                                            </div> -->
+                                            <div class="d-none">
+                                                <div class="mt-3 mb-4">
+                                                    {!! substr(strip_tags($value->description), 0, 300) !!}{{ strlen(strip_tags($value->description)) > 200 ? '...' : '' }}
+                                                </div>
+
+                                                <a href="javascript:void(0)" id="quickview" class="btn stretched-link borders" data-id="{{$value->id}}" data-url="{{route('products.quickview', [$value->id])}}">Add To Cart</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
-                    
                     </div>
 
-                    <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12 text-center pt-4 pb-4">
-                            <button onclick="handleLoadMore({{env('PRODUCT_PAGINATION_LENGHT')}})" id="load-more-btn" class="btn stretched-link borders m-auto"><i class="lni lni-reload mr-2"></i>Load More</button>
+                    @if($total_products>env('PRODUCT_PAGINATION_LENGHT'))
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 text-center pt-4 pb-4">
+                                <button onclick="handleLoadMore({{env('PRODUCT_PAGINATION_LENGHT')}})" id="load-more-btn" class="btn stretched-link borders m-auto"><i class="lni lni-reload mr-2"></i>Load More</button>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 @else 
                     <div class="row align-items-center rows-products grid">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-12">

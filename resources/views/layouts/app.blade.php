@@ -10,6 +10,7 @@
         <link rel="shortcut icon" href="{{url('assets/website/images/favicon.ico') }}" type="image/x-icon" />
         <title>@if(isset($title)) {{$title}} | @endif {{ config('app.name', 'Blu Leisure') }}</title>
         <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/select2/select2.min.css')}}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
         <link href="{{asset('assets/website/css/styles.css') }}" rel="stylesheet" />
     </head>
     <body>

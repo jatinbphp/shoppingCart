@@ -290,32 +290,32 @@
                                             </h4>
 
                                             <p class="mb-1 lh-1">
-                                                <span class="text-dark">Qty: {{$value->quantity}}</span>
+                                                <span class="text-dark"><b>Qty:</b> {{$value->quantity}} X {{ env('CURRENCY') }}{{ number_format($value->product->price, 2) }}</span>
                                             </p>
 
                                             @if(!empty($value->product_options))
                                                 @foreach($value->product_options as $keyO => $keyV)
                                                     @if($keyO=='COLOR')
                                                         <p class="mb-1 lh-1">
-                                                            <span class="text-dark">{{$keyO}}: <i class="fas fa-square" style="color:  {{$keyV}}  "></i></span>
+                                                            <span class="text-dark"><b>{{$keyO}}:</b> <i class="fas fa-square" style="color:  {{$keyV}}  "></i></span>
                                                         </p>
                                                     @else
                                                         <p class="mb-1 lh-1">
-                                                            <span class="text-dark">{{$keyO}}: {{$keyV}}</span>
+                                                            <span class="text-dark"><b>{{$keyO}}:</b> {{$keyV}}</span>
                                                         </p>
                                                     @endif
                                                 @endforeach
                                             @endif
 
                                             <h4 class="fs-md ft-medium mb-3 lh-1">
-                                                {{ env('CURRENCY') }}{{ number_format($value->product->price, 2) }}
+                                                {{ env('CURRENCY') }}{{ number_format(($value->product->price*$value->quantity), 2) }}
                                             </h4>
                                         </div>
                                     </div>
                                 </div>
                             </li>
                             @php
-                            $subTotal = ($subTotal+$value->product->price);
+                            $subTotal = ($subTotal+($value->product->price*$value->quantity));
                             @endphp
                         @endforeach
                     </ul>

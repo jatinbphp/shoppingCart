@@ -30,7 +30,7 @@ class MyAccountController extends Controller
     public function shoppingCart(){   
         $user_id = Auth::user()->id;
         $data['title'] = 'Shopping Cart';
-        $data['cart_products'] = Cart::with('product', 'product.product_image')->where('user_id', $user_id)->get();
+        $data['cart_products'] = Cart::with('product', 'product.product_image')->where('user_id', $user_id)->orderBy('created_at', 'desc')->get();
 
         if(count($data['cart_products'])==0){
             return redirect()->route('products')->with('danger', 'Thank you for shopping with us! Please add the product to your cart.');
@@ -58,7 +58,7 @@ class MyAccountController extends Controller
     public function checkout(){   
         $user_id = Auth::user()->id;
         $data['title'] = 'Checkout';
-        $data['cart_products'] = Cart::with('product', 'product.product_image')->where('user_id', $user_id)->get();
+        $data['cart_products'] = Cart::with('product', 'product.product_image')->where('user_id', $user_id)->orderBy('created_at', 'desc')->get();
 
         if(count($data['cart_products'])==0){
             return redirect()->route('products')->with('danger', 'Thank you for shopping with us! Please add the product to your cart.');
@@ -91,11 +91,20 @@ class MyAccountController extends Controller
     }
 
     public function myWishlist(Request $request){   
-        $user_id = Auth::user()->id;
         $data['title'] = 'My Wishlist';
+        $user_id = Auth::user()->id;
+
         $items = $request->items ?? env('PRODUCT_PAGINATION_LENGHT');
-        $wishlist_data= Wishlist::with('product', 'product.product_image')->where('user_id', $user_id)->simplePaginate($items);
-        $data['wishlists']= $wishlist_data;
+
+        $wishlist_query = Wishlist::where('user_id', $user_id);
+        $total_products_in_wishlist = $wishlist_query->count();
+
+        $wishlist_data = $wishlist_query->with('product', 'product.product_image')
+            ->simplePaginate($items);
+
+        $data['wishlists'] = $wishlist_data;
+        $data['total_products_in_wishlist'] = $total_products_in_wishlist;
+
         if ($request->ajax()) {
             return response()->json([
                 'view'     => view('more-wishlists', $data)->render(),
@@ -279,13 +288,24 @@ class MyAccountController extends Controller
         $cart_products = [];
         if (Auth::check()) {
             $userId = Auth::id();            
-            $cartProducts = Cart::where('user_id', $userId)
-                ->orderBy('created_at', 'desc') // Order by creation date
-                ->take(4)
-                ->pluck('product_id')
-                ->toArray();
             
-            $cart_products = Products::whereIn('id', $cartProducts)->get();
+            $cart_products = Cart::with('product', 'product.product_image')->where('user_id', $userId)->orderBy('created_at', 'desc')->get();
+
+            if(count($cart_products)>0){
+                foreach ($cart_products as $key => $order) {
+                    $optionArray = [];
+                    $options = json_decode($order->options);
+                    if (!empty($options)) {
+                        foreach ($options as $keyO => $valueO) {
+                            $product_option = ProductsOptions::where('id', $keyO)->first();
+                            $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
+
+                            $optionArray[$product_option->option_name] = $product_option_value->option_value;
+                        }
+                    }
+                    $cart_products[$key]['product_options'] = $optionArray;
+                }
+            }
         }
 
         return view('modals.cart-modal-data', [
@@ -307,10 +327,9 @@ class MyAccountController extends Controller
         return response()->json($responseData);
     }
     
-    public function remove($id)
+    public function wishlistRemove($id)
     {
         Wishlist::findOrFail($id)->delete();
-        return response()->json(['success' => true]);
-        return redirect()->back();
+        return response()->json(['success' => true, 'total' => count(getWishlistProductIds())]);
     }
 }

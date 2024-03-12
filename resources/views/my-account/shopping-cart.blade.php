@@ -72,7 +72,7 @@
                             </li>
 
                             @php
-                            $subTotal = ($subTotal+$value->product->price);
+                            $subTotal = ($subTotal+($value->product->price*$value->quantity));
                             @endphp
                         @endforeach
                     </ul>
