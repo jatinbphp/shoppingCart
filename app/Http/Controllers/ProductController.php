@@ -28,6 +28,13 @@ class ProductController extends Controller
                                 ->where('parent_category_id', $category_id);
                         });
                 });
+            })
+            ->when($request->input('keyword'), function ($query, $keyword) {
+                return $query->where(function ($query) use ($keyword) {
+                    $query->where('product_name', 'like', '%' . $keyword . '%')
+                        ->orWhere('sku', 'like', '%' . $keyword . '%')
+                        ->orWhere('description', 'like', '%' . $keyword . '%');
+                });
             });
 
         $total_products = $products_query->count();
