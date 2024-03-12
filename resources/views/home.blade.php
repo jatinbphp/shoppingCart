@@ -225,8 +225,8 @@
                                                         </a>
                                                     @else
                                                         <button class="btn btn_love position-absolute ab-right snackbar-wishlist @if(in_array($product->id, getWishlistProductIds())) active @endif" 
-                                                                data-product-id="{{ $product->id }}" 
-                                                                data-wishlist-url="{{ route('products.add.wishlist') }}" 
+                                                                data-id="{{ $product->id }}" 
+                                                                data-url="{{ route('products.add.wishlist') }}" 
                                                                 data-toggle="button"
                                                                 aria-label="Add to Wishlist"
                                                         >
