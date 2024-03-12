@@ -90,10 +90,20 @@ class MyAccountController extends Controller
         return view('my-account.order-completed', $data);
     }
 
-    public function myWishlist(){   
+    public function myWishlist(Request $request){   
         $user_id = Auth::user()->id;
         $data['title'] = 'My Wishlist';
-        $data['wishlists'] = Wishlist::with('product', 'product.product_image')->where('user_id', $user_id)->get();
+        $items = $request->items ?? env('PRODUCT_PAGINATION_LENGHT');
+        $wishlist_data= Wishlist::with('product', 'product.product_image')->where('user_id', $user_id)->simplePaginate($items);
+        $data['wishlists']= $wishlist_data;
+        if ($request->ajax()) {
+            return response()->json([
+                'view'     => view('more-wishlists', $data)->render(),
+                'wishlists' => $data['wishlists'] ?? null,
+                'is_last'  => $wishlist_data->onLastPage(),
+                'status'   => 200, 
+            ]);
+        }
         return view('my-account.wishlists', $data);
     }
 
