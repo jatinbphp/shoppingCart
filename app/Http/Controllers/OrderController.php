@@ -27,9 +27,4 @@ class OrderController extends Controller
         $data['order'] = Order::with('orderItems', 'address')->find($orderId);
         return view('my-orders.order-details', $data);
     }
-
-    public function orderCompleted(){   
-        $data['title'] = 'Order Completed';
-        return view('my-orders.order-completed', $data);
-    }
 }

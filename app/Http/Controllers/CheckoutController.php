@@ -48,4 +48,9 @@ class CheckoutController extends Controller
 
         return view('checkout.checkout', $data);
     }
+
+    public function orderCompleted(){   
+        $data['title'] = 'Order Completed';
+        return view('checkout.order-completed', $data);
+    }
 }

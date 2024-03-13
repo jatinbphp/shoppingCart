@@ -46,13 +46,13 @@ Route::get('/', function () {
 Auth::routes();
 
 /*Landing Page*/
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('home', [HomeController::class, 'index'])->name('home');
 
 /*Information Page*/
-Route::get('/about-us', [InformationController::class, 'about_us'])->name('about-us');
-Route::get('/faq', [InformationController::class, 'faq'])->name('faq');
-Route::get('/privacy-policy', [InformationController::class, 'privacy_policy'])->name('privacy-policy');
-Route::get('/terms-&-conditions', [InformationController::class, 'terms_and_conditions'])->name('terms-conditions');
+Route::get('about-us', [InformationController::class, 'about_us'])->name('about-us');
+Route::get('faq', [InformationController::class, 'faq'])->name('faq');
+Route::get('privacy-policy', [InformationController::class, 'privacy_policy'])->name('privacy-policy');
+Route::get('terms-&-conditions', [InformationController::class, 'terms_and_conditions'])->name('terms-conditions');
 
 /*404 Page*/
 Route::get('404', [HomeController::class, 'page_not_found'])->name('errors.404');
@@ -67,41 +67,40 @@ Route::post('subscriber-form',[FrontSubscriberController::class,'store'])->name(
 Route::get('shop', [FrontProductController::class, 'index'])->name('products');
 
 /*Caegory Products*/
-Route::get('/category/{category_id?}/{category_name?}/{sub_category_name?}', [FrontProductController::class, 'index'])->name('shop.filter');
+Route::get('category/{category_id?}/{category_name?}/{sub_category_name?}', [FrontProductController::class, 'index'])->name('shop.filter');
 
 /*Product Details*/
-Route::get('/shop/{id}/details', [FrontProductController::class, 'details'])->name('products.details');
+Route::get('shop/{id}/details', [FrontProductController::class, 'details'])->name('products.details');
 
 /*Quick View*/
-Route::get('/shop/quick-view/{product_id}', [FrontProductController::class, 'quickview'])->name('products.quickview');
+Route::get('shop/quick-view/{product_id}', [FrontProductController::class, 'quickview'])->name('products.quickview');
 
 /*Wishlist*/
 Route::post('shop/add-wishlist', [WishlistController::class,'addProducttoWishlist'])->name('products.add.wishlist');
-Route::get('/shop/wishlist-view', [WishlistController::class, 'wishlistview'])->name('products.wishlistview');
-Route::get('/wishlist/remove/{id}',[WishlistController::class,'wishlistRemove'])->name('wishlist.remove');
-Route::get('/my-account/wishlist', [WishlistController::class, 'myWishlist'])->name('my-account.wishlist');
+Route::get('shop/wishlist-view', [WishlistController::class, 'wishlistview'])->name('products.wishlistview');
+Route::get('wishlist/remove/{id}',[WishlistController::class,'wishlistRemove'])->name('wishlist.remove');
+Route::get('my-account/wishlist', [WishlistController::class, 'myWishlist'])->name('my-account.wishlist');
 
 /*Shopping Cart*/
-Route::get('/shop/cart-view', [ShoppingCartController::class, 'cartview'])->name('products.cartview');
+Route::get('shop/cart-view', [ShoppingCartController::class, 'cartview'])->name('products.cartview');
 Route::post('shop/remove-cart', [ShoppingCartController::class,'removeProducttoCart'])->name('products.remove.cart');
-Route::post('/my-account/add-product-to-cart', [ShoppingCartController::class,'addProductToCart'])->name('my-account.add-product-to-cart');
-Route::get('/my-account/shopping-cart', [ShoppingCartController::class, 'shoppingCart'])->name('my-account.shopping-cart');
+Route::post('my-account/add-product-to-cart', [ShoppingCartController::class,'addProductToCart'])->name('my-account.add-product-to-cart');
+Route::get('my-account/shopping-cart', [ShoppingCartController::class, 'shoppingCart'])->name('my-account.shopping-cart');
 
 /*Checkout*/
-Route::get('/my-account/checkout', [CheckoutController::class, 'checkout'])->name('my-account.checkout');
+Route::get('my-account/checkout', [CheckoutController::class, 'checkout'])->name('my-account.checkout');
+Route::get('my-account/checkout/order-completed', [CheckoutController::class, 'orderCompleted'])->name('my-account.checkout.order-completed');
 
 /*My Account*/
-Route::post('/user-profile-update',[MyAccountController::class,'userProfileUpdate'])->name('user.profile.update');
+Route::get('my-account/profile-info', [MyAccountController::class, 'profileInfo'])->name('my-account.profile-info');
+Route::post('user-profile-update',[MyAccountController::class,'userProfileUpdate'])->name('user.profile.update');
 
 /* My Orders */
-Route::get('/my-account/orders', [FrontOrderController::class, 'myOrders'])->name('my-account.orders');
-Route::get('/my-account/{id}/orders-details', [FrontOrderController::class, 'orderDetails'])->name('my-account.order-details');
-Route::get('/my-account/order-completed', [FrontOrderController::class, 'orderCompleted'])->name('my-account.order.completed');
-
-Route::get('/my-account/profile-info', [MyAccountController::class, 'profileInfo'])->name('my-account.profile-info');
+Route::get('my-account/orders', [FrontOrderController::class, 'myOrders'])->name('my-account.orders');
+Route::get('my-account/{id}/orders-details', [FrontOrderController::class, 'orderDetails'])->name('my-account.order-details');
 
 /* My Addresses */
-Route::resource('/my-account/addresses', AddressController::class);
+Route::resource('my-account/addresses', AddressController::class);
 
 // ------------------main routes------------------------------------------
 Route::get('/admin', [AuthorizationController::class, 'adminLoginForm'])->name('admin.login');

@@ -38,9 +38,6 @@ $(function () {
         $.ajax({
             url: url,
             type: "GET",
-            data: {
-                'id': id,
-            },
             headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
             success: function(data){
                 $('#quickviewModal .modal-content').html(data);
