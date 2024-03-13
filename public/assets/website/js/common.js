@@ -322,3 +322,24 @@ function setTimeoutFun(id, timevar) {
         $(id).empty();
     }, timevar);
 }
+
+/*function form updating the cart quantity*/
+function updateQuantity(id, event) {
+    var url = event.currentTarget.getAttribute("data-url");
+    $.ajax({
+        url: url + "/cart/update-quantity",
+        method: 'POST',
+        headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+        data: {
+            'quantity': event.target.value,
+            'id': id,
+        },
+        success: function(response) {
+            console.log('Success:', response);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('AJAX Error:', textStatus, errorThrown);
+        }
+    });
+}
+

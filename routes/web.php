@@ -86,6 +86,7 @@ Route::get('cart/cart-view', [ShoppingCartController::class, 'cartview'])->name(
 Route::post('cart/remove-cart', [ShoppingCartController::class,'removeProducttoCart'])->name('cart.remove');
 Route::post('cart/add-product-to-cart', [ShoppingCartController::class,'addProductToCart'])->name('cart.add-product');
 Route::get('cart', [ShoppingCartController::class, 'shoppingCart'])->name('shopping-cart');
+Route::post('cart/update-quantity', [ShoppingCartController::class, 'updateQuantity'])->name('cart.update-quantity');
 
 /*Checkout*/
 Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout');
