@@ -37,6 +37,15 @@ class ProductController extends Controller
                 });
             });
 
+            if(!empty($request->sort) && isset($request->sort)){
+                if ($request->sort === 'low_to_high') {
+                    $products_query->orderByRaw("CAST(REPLACE(REPLACE(price, ',', ''), '$', '') AS DECIMAL(10, 2)) ASC");
+                } elseif ($request->sort === 'high_to_low') {
+                    $products_query->orderByRaw("CAST(REPLACE(REPLACE(price, ',', ''), '$', '') AS DECIMAL(10, 2)) DESC");
+                } 
+            }
+
+
         $total_products = $products_query->count();
 
         $products_collection = $products_query->with(['product_image', 'category', 'product_images', 'options.product_option_values'])

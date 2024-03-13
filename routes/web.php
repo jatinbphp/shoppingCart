@@ -18,8 +18,16 @@ use App\Http\Controllers\Admin\SubscriberController;
 use App\Http\Controllers\Admin\AuthorizationController;
 use App\Http\Controllers\Admin\ProfileUpdateController;
 use App\Http\Controllers\Admin\ContentManagementController;
+use App\Http\Controllers\InformationController;
+use App\Http\Controllers\SubscriberController as FrontSubscriberController;
+use App\Http\Controllers\ContactUsController as FrontContactUsController;
 use App\Http\Controllers\ProductController as FrontProductController;
 use App\Http\Controllers\MyAccountController;
+use App\Http\Controllers\ShoppingCartController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\OrderController as FrontOrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,33 +48,25 @@ Auth::routes();
 /*Landing Page*/
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-/*About Us Page*/
-Route::get('/about-us', [HomeController::class, 'about_us'])->name('about-us');
-
-/*Faq Page*/
-Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
-
-/*Privacy Policy Page*/
-Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy-policy');
-
-/*Terms & Conditions*/
-Route::get('/terms-&-conditions', [HomeController::class, 'terms_and_conditions'])->name('terms-conditions');
+/*Information Page*/
+Route::get('/about-us', [InformationController::class, 'about_us'])->name('about-us');
+Route::get('/faq', [InformationController::class, 'faq'])->name('faq');
+Route::get('/privacy-policy', [InformationController::class, 'privacy_policy'])->name('privacy-policy');
+Route::get('/terms-&-conditions', [InformationController::class, 'terms_and_conditions'])->name('terms-conditions');
 
 /*404 Page*/
-Route::get('/404', [HomeController::class, 'page_not_found'])->name('errors.404');
+Route::get('404', [HomeController::class, 'page_not_found'])->name('errors.404');
 
 /*Contact Us Page*/
-Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('contact-us');
-Route::post('contact-form-submit',[HomeController::class,'contactFormSubmit'])->name('contact.form.submit');
+Route::resource('contact-us', FrontContactUsController::class);
 
-/*Subscriber|Front Side*/
-Route::post('subscriber-form',[HomeController::class,'subscriberFormSubmit'])->name('subscriber.form.submit');
-
-/*Subscriber|Admin Side*/
-Route::resource('subscribers', SubscriberController::class);
+/*Subscriber*/
+Route::post('subscriber-form',[FrontSubscriberController::class,'store'])->name('subscriber.form.submit');
 
 /*Products*/
-Route::get('/shop', [FrontProductController::class, 'index'])->name('products');
+Route::get('shop', [FrontProductController::class, 'index'])->name('products');
+
+/*Caegory Products*/
 Route::get('/category/{category_id?}/{category_name?}/{sub_category_name?}', [FrontProductController::class, 'index'])->name('shop.filter');
 
 /*Product Details*/
@@ -75,97 +75,92 @@ Route::get('/shop/{id}/details', [FrontProductController::class, 'details'])->na
 /*Quick View*/
 Route::get('/shop/quick-view/{product_id}', [FrontProductController::class, 'quickview'])->name('products.quickview');
 
-/*Quick View*/
-Route::post('shop/add-wishlist', [MyAccountController::class,'addProducttoWishlist'])->name('products.add.wishlist');
+/*Wishlist*/
+Route::post('shop/add-wishlist', [WishlistController::class,'addProducttoWishlist'])->name('products.add.wishlist');
+Route::get('/shop/wishlist-view', [WishlistController::class, 'wishlistview'])->name('products.wishlistview');
+Route::get('/wishlist/remove/{id}',[WishlistController::class,'wishlistRemove'])->name('wishlist.remove');
+Route::get('/my-account/wishlist', [WishlistController::class, 'myWishlist'])->name('my-account.wishlist');
 
-/*Wishlist View*/
-Route::get('/shop/wishlist-view', [MyAccountController::class, 'wishlistview'])->name('products.wishlistview');
+/*Shopping Cart*/
+Route::get('/shop/cart-view', [ShoppingCartController::class, 'cartview'])->name('products.cartview');
+Route::post('shop/remove-cart', [ShoppingCartController::class,'removeProducttoCart'])->name('products.remove.cart');
+Route::post('/my-account/add-product-to-cart', [ShoppingCartController::class,'addProductToCart'])->name('my-account.add-product-to-cart');
+Route::get('/my-account/shopping-cart', [ShoppingCartController::class, 'shoppingCart'])->name('my-account.shopping-cart');
 
-/*Shopping Cart View*/
-Route::get('/shop/cart-view', [MyAccountController::class, 'cartview'])->name('products.cartview');
-
-/*Remove View*/
-Route::post('shop/remove-cart', [MyAccountController::class,'removeProducttoCart'])->name('products.remove.cart');
-
-/*User Profile Update*/
-Route::post('/user-profile-update',[MyAccountController::class,'userProfileUpdate'])->name('user.profile.update');
-
-/*Wishlist Remove*/
-Route::get('/wishlist/remove/{id}',[MyAccountController::class,'wishlistRemove'])->name('wishlist.remove');
+/*Checkout*/
+Route::get('/my-account/checkout', [CheckoutController::class, 'checkout'])->name('my-account.checkout');
 
 /*My Account*/
-Route::post('/my-account/add-product-to-cart', [MyAccountController::class,'addProductToCart'])->name('my-account.add-product-to-cart');
-Route::get('/my-account/shopping-cart', [MyAccountController::class, 'shoppingCart'])->name('my-account.shopping-cart');
-Route::get('/my-account/checkout', [MyAccountController::class, 'checkout'])->name('my-account.checkout');
-Route::get('/my-account/order-completed', [MyAccountController::class, 'orderCompleted'])->name('my-account.order.completed');
-Route::get('/my-account/wishlist', [MyAccountController::class, 'myWishlist'])->name('my-account.wishlist');
-Route::get('/my-account/orders', [MyAccountController::class, 'myOrders'])->name('my-account.orders');
+Route::post('/user-profile-update',[MyAccountController::class,'userProfileUpdate'])->name('user.profile.update');
+
+/* My Orders */
+Route::get('/my-account/orders', [FrontOrderController::class, 'myOrders'])->name('my-account.orders');
+Route::get('/my-account/{id}/orders-details', [FrontOrderController::class, 'orderDetails'])->name('my-account.order-details');
+Route::get('/my-account/order-completed', [FrontOrderController::class, 'orderCompleted'])->name('my-account.order.completed');
+
 Route::get('/my-account/profile-info', [MyAccountController::class, 'profileInfo'])->name('my-account.profile-info');
 
-/* Addresses */
-Route::get('/my-account/addresses', [MyAccountController::class, 'myAddresses'])->name('my-account.addresses');
-Route::get('/my-account/edit-address', [MyAccountController::class, 'editAddresses'])->name('my-account.edit-address');
-Route::get('/my-account/add-address', [MyAccountController::class, 'addAddresses'])->name('my-account.add-address');
-Route::post('/my-account/store-address', [MyAccountController::class, 'storeAddresses'])->name('my-account.store-address');
-Route::get('/my-account/delete-address', [MyAccountController::class, 'destroyAddresses'])->name('my-account.delete-address');
+/* My Addresses */
+Route::resource('/my-account/addresses', AddressController::class);
 
 // ------------------main routes------------------------------------------
-
-
 Route::get('/admin', [AuthorizationController::class, 'adminLoginForm'])->name('admin.login');
 Route::post('/adminLogin', [AuthorizationController::class, 'adminLogin'])->name('admin.signin');
 
 Route::prefix('admin')->middleware(['admin'])->group(function () {
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-    Route::get('logout', [AuthorizationController::class, 'adminLogout'])->name('admin.logout');
+   Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+   Route::get('logout', [AuthorizationController::class, 'adminLogout'])->name('admin.logout');
 
-    /*IMAGE UPLOAD IN SUMMER NOTE*/
-    Route::post('image/upload', [ImageController::class,'upload_image']);
-    Route::resource('profile_update', ProfileUpdateController::class);
+   /*IMAGE UPLOAD IN SUMMER NOTE*/
+   Route::post('image/upload', [ImageController::class,'upload_image']);
+   Route::resource('profile_update', ProfileUpdateController::class);
 
-    /*Common*/
-    Route::post('common/changestatus', [CommonController::class,'changeStatus'])->name('common.changestatus');
+   /*Common*/
+   Route::post('common/changestatus', [CommonController::class,'changeStatus'])->name('common.changestatus');
 
-    /*Users*/
-    Route::resource('users', UserController::class);
+   /*Users*/
+   Route::resource('users', UserController::class);
 
-    /*Categories*/
-    Route::resource('category', CategoryController::class);
+   /*Categories*/
+   Route::resource('category', CategoryController::class);
 
-    /*Products*/
-    Route::get('products/import-product', [ProductController::class,'importProduct'])->name('products.import.product');
-    Route::post('products/import-product-store', [ProductController::class,'importProductStore'])->name('products.import.product.store');
-    Route::post('products/removeimage', [ProductController::class,'remcontact_usoveImage'])->name('products.removeimage');
-    Route::post('products/getoptions', [ProductController::class,'getOptions'])->name('products.getoptions');
-    Route::post('products/editoption', [ProductController::class,'editOption'])->name('products.editoption');
-    Route::resource('products', ProductController::class);
+   /*Products*/
+   Route::get('products/import-product', [ProductController::class,'importProduct'])->name('products.import.product');
+   Route::post('products/import-product-store', [ProductController::class,'importProductStore'])->name('products.import.product.store');
+   Route::post('products/removeimage', [ProductController::class,'remcontact_usoveImage'])->name('products.removeimage');
+   Route::post('products/getoptions', [ProductController::class,'getOptions'])->name('products.getoptions');
+   Route::post('products/editoption', [ProductController::class,'editOption'])->name('products.editoption');
+   Route::resource('products', ProductController::class);
 
-    /*Content Management*/
-    Route::resource('content', ContentManagementController::class);
+   /*Content Management*/
+   Route::resource('content', ContentManagementController::class);
 
-    /*Contact Us*/
-    Route::resource('contactus', ContactUsController::class);
+   /*Contact Us*/
+   Route::resource('contactus', ContactUsController::class);
 
-    /*Orders*/
-    Route::post('orders/update_qty', [OrderController::class, 'updateQty'])->name('orders.update_qty');
-    Route::delete('orders/delete_product/{cart_id}', [OrderController::class, 'deleteCart'])
-    ->name('orders.delete_product');
-    Route::get('/addresses/{userId}', [OrderController::class,'getAddressesByUser'])->name('addresses.by_user');
-    Route::post('orders/update_status', [OrderController::class,'updateOrderStatus'])->name('orders.update_status');
-    Route::post('orders/addproduct', [OrderController::class,'addProductToCart'])->name('orders.addproduct');
-    Route::post('orders/editoption', [OrderController::class,'editProductOptionToCart'])->name('orders.editoption');
-    Route::get('/index_product', [OrderController::class, 'index_product'])->name('orders.index_product');
-    Route::get('/index_order_dashborad', [OrderController::class, 'index_order_dashborad'])->name('orders.index_dashboard');
-    Route::resource('orders',OrderController::class);
+   /*Orders*/
+   Route::post('orders/update_qty', [OrderController::class, 'updateQty'])->name('orders.update_qty');
+   Route::delete('orders/delete_product/{cart_id}', [OrderController::class, 'deleteCart'])
+   ->name('orders.delete_product');
+   Route::get('/addresses/{userId}', [OrderController::class,'getAddressesByUser'])->name('addresses.by_user');
+   Route::post('orders/update_status', [OrderController::class,'updateOrderStatus'])->name('orders.update_status');
+   Route::post('orders/addproduct', [OrderController::class,'addProductToCart'])->name('orders.addproduct');
+   Route::post('orders/editoption', [OrderController::class,'editProductOptionToCart'])->name('orders.editoption');
+   Route::get('/index_product', [OrderController::class, 'index_product'])->name('orders.index_product');
+   Route::get('/index_order_dashborad', [OrderController::class, 'index_order_dashborad'])->name('orders.index_dashboard');
+   Route::resource('orders',OrderController::class);
 
-    /*Reports*/
-    Route::get('reports/user_orders', [ReportController::class, 'index_user_orders'])->name('reports.user_orders');
-    Route::get('reports/purchase_product', [ReportController::class, 'index_purchase_product'])->name('reports.purchase_product');
-    Route::get('reports/sales', [ReportController::class, 'index_sales'])->name('reports.sales');
+   /*Reports*/
+   Route::get('reports/user_orders', [ReportController::class, 'index_user_orders'])->name('reports.user_orders');
+   Route::get('reports/purchase_product', [ReportController::class, 'index_purchase_product'])->name('reports.purchase_product');
+   Route::get('reports/sales', [ReportController::class, 'index_sales'])->name('reports.sales');
 
-    /* settings */
-    Route::resource('settings', SettingController::class);
+   /* settings */
+   Route::resource('settings', SettingController::class);
 
-    /* banners */
-    Route::resource('banner', BannerController::class);
+   /* banners */
+   Route::resource('banner', BannerController::class);
+
+   /*Subscriber*/
+   Route::resource('subscribers', SubscriberController::class);
 });

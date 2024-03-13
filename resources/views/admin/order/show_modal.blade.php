@@ -60,7 +60,7 @@
                                                     @if(!empty($item->orderOptions))
                                                         @foreach ($item->orderOptions as $option)
                                                             @if($option->name=='COLOR')
-                                                                </br><small><b>{{$option->name}} :</b> <i class="fas fa-square" style="color:  {{$option->value}}"></i></small>
+                                                                </br><small><b>{{$option->name}} :</b> <i class="fas fa-square" style="color: {{$option->value}}"></i></small>
                                                             @else
                                                                 </br><small><b>{{$option->name}} :</b> {{$option->value}}</small>
                                                             @endif
@@ -75,7 +75,7 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="5">No records.</td>
+                                            <td colspan="5">No records found.</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -115,7 +115,6 @@
                                                 @if ($order->address->state){{ $order->address->state }}, @endif
                                                 @if ($order->address->country){{ $order->address->country }} @endif
                                             @endif
-
                                         </td>
                                     </tr>
                                 </tbody>

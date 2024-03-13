@@ -141,7 +141,7 @@
                 @else 
                     <div class="row align-items-center rows-products grid">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-12">
-                            <p>No records found..</p>
+                            <p>No records found.</p>
                         </div>
                     </div>
                 @endif

@@ -22,7 +22,7 @@
                 </li>
 
                 <li>
-                    <a href="{{route('my-account.addresses')}}" @if(isset($menu) && $menu=='addresses') class="active" @endif>
+                    <a href="{{route('addresses.index')}}" @if(isset($menu) && $menu=='addresses') class="active" @endif>
                         <i class="lni lni-map-marker mr-2"></i>Addresses
                     </a>
                 </li>

@@ -3,20 +3,12 @@
 namespace App\Http\Controllers;
 use App\Models\Banner;
 use App\Models\Category;
-use App\Models\ContactUs;
 use App\Models\Products;
 use App\Models\Subscriber;
-use App\Models\ProductImages;
-use App\Models\ProductsOptions;
-use App\Models\ProductsOptionsValues;
 use Illuminate\Http\Request;
-use App\Http\Requests\ContactUsRequest;
-use App\Http\Requests\SubscriberRequest;
-use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
-
     public function index()
     {
         $data['products'] = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])->where('status', 'active')->orderBy('id', 'DESC')->take(8)->get();
@@ -30,73 +22,10 @@ class HomeController extends Controller
         return view('home', $data);
     }
 
-    public function about_us()
-    {
-        $data['title'] = 'About Us';
-
-        return view('about-us', $data);
-    }
-
-    public function faq()
-    {
-        $data['title'] = "FAQ's";
-
-        return view('faq', $data);
-    }
-
-    public function privacy_policy()
-    {
-        $data['title'] = "Privacy Policy";
-
-        return view('privacy_policy', $data);
-    }
-
-    public function terms_and_conditions()
-    {
-        $data['title'] = "Terms & Conditions";
-
-        return view('terms_and_conditions', $data);
-    }
-    
-    public function contact_us()
-    {
-        $data['title'] = 'Contact Us';
-
-        return view('contact-us', $data);
-    }
-
     public function page_not_found()
     {
         $data['title'] = '404';
 
-        return view('404', $data);
+        return view('errors.404', $data);
     }
-
-    public function contactFormSubmit(ContactUsRequest $request)
-    {
-        $input = $request->all();
-        ContactUs::create($input);
-
-        \Session::flash('success', 'Thank you for getting in touch! We will get back in touch with you soon!Have a great day!');
-        return redirect()->back();
-    }
-
-    public function subscriberFormSubmit(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:subscribers,email',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()->first()], 422);
-        }
-
-        try {
-            Subscriber::create($request->all());
-            return response()->json(['success' => 'You have successfully subscribed.'], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
-
 }
