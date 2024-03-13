@@ -16,7 +16,6 @@
                 </div>
             </div>
         </section>
-
         <section class="content">
             @include ('admin.common.error')
             <div class="row">
@@ -26,12 +25,15 @@
                             <h3 class="card-title">Edit {{$menu}}</h3>
                         </div>
                         {!! Form::model($order,['url' => route('orders.update',['order'=>$order->id]),'method'=>'patch','id' => 'ordersForm','class' => 'form-horizontal','files'=>true]) !!}
-                        <div class="card-body">
-                            @include ('admin.order.form')
-                        </div>
-                        <div class="card-footer">
-                            @include('admin.common.footer-buttons', ['route' => 'orders.index', 'type' => 'update'])
-                        </div>
+
+                            <div class="card-body">
+                                @include ('admin.order.form')
+                            </div>
+                        
+                            <div class="card-footer">
+                                @include('admin.common.footer-buttons', ['route' => 'orders.index', 'type' => 'update'])
+                            </div>
+
                         {!! Form::close() !!}
                     </div>
                 </div>
@@ -40,4 +42,3 @@
     </div>
     @include('admin.order.modals', ['flag_order_id' => $order->id])
 @endsection
-

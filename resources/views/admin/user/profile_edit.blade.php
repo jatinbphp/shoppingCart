@@ -9,14 +9,13 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{url('admin/advertisement')}}">User</a></li>
-                            <li class="breadcrumb-item active">Edit</li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Edit Profile</li>
                         </ol>
                     </div>
                 </div>
             </div>
         </section>
-
         <section class="content">
             @include ('admin.common.error')
             <div class="row">
@@ -27,17 +26,15 @@
                         </div>
 
                         {!! Form::model($user,['url' => url('admin/profile_update/'.$user->id),'method'=>'patch','id'=>'profileForm','class' => 'form-horizontal','files'=>true]) !!}
+                  
                             <div class="card-body">
-                                <div class="callout callout-danger">
-                                    <h4><i class="fa fa-info"></i> Note:</h4>
-                                    <p>Leave Password and Confirm Password empty if you are not going to change the password.</p>
-                                </div>
-
                                 @include ('admin.user.profile_form')
                             </div>
+
                             <div class="card-footer">
                                 @include('admin.common.footer-buttons', ['route' => 'admin.dashboard', 'type' => 'update'])
                             </div>
+
                         {!! Form::close() !!}
                     </div>
                 </div>

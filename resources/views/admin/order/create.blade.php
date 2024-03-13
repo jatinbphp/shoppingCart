@@ -16,7 +16,6 @@
                 </div>
             </div>
         </section>
-
         <section class="content">
             @include ('admin.common.error')
             <div class="row">
@@ -25,13 +24,17 @@
                         <div class="card-header">
                             <h3 class="card-title">Add {{$menu}}</h3>
                         </div>
+
                         {!! Form::open(['url' => route('orders.store'), 'id' => 'ordersForm', 'class' => 'form-horizontal','files'=>true]) !!}
-                        <div class="card-body">
-                            @include ('admin.order.form')
-                        </div>
-                        <div class="card-footer">
-                            @include('admin.common.footer-buttons', ['route' => 'orders.index', 'type' => 'create'])
-                        </div>
+                            
+                            <div class="card-body">
+                                @include ('admin.order.form')
+                            </div>
+
+                            <div class="card-footer">
+                                @include('admin.common.footer-buttons', ['route' => 'orders.index', 'type' => 'create'])
+                            </div>
+
                         {!! Form::close() !!}
                     </div>
                 </div>

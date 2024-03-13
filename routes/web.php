@@ -105,7 +105,7 @@ Route::get('orders/{id}/details', [FrontOrderController::class, 'orderDetails'])
 Route::resource('addresses', AddressController::class);
 
 /* Product Review */
-Route::post('product-review-form',[ReviewController::class,'productReview'])->name('product.review.form');
+Route::post('submit-review',[ReviewController::class,'productReview'])->name('add-product-review');
 
 // ------------------main routes------------------------------------------
 Route::get('/admin', [AuthorizationController::class, 'adminLoginForm'])->name('admin.login');

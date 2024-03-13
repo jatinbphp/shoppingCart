@@ -312,6 +312,22 @@ $(function () {
             }
         });
     });
+
+    $('#reviewForm').submit(function(e) {
+        e.preventDefault(); 
+        var formData = $(this).serialize();
+
+        $.ajax({
+            url: $(this).attr('action'),
+            method: $(this).attr('method'),
+            data: formData,
+            success: function(response) {
+                $('#success_message').html('<div class="alert alert-success"><button data-dismiss="alert" class="close">&times;</button>'+response.message+'</div>');
+                setTimeoutFun('#success_message', 2000)
+                $('#reviewForm')[0].reset(); // Resetting the form
+            }
+        });
+    });
 });
 
 function initSlickSlider() {

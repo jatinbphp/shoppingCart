@@ -24,7 +24,7 @@
                             <li class="list-group-item">
                                 <div class="row align-items-center">
                                     <div class="col-3">
-                                        <a target="_blank" href="{{route('products.details', [$value->id])}}">
+                                        <a target="_blank" href="{{route('products.details', [$value->product->id])}}">
                                             @if(!empty($value->product->product_image->image) && file_exists($value->product->product_image->image))
                                                 <img class="img-fluid" src="{{url($value->product->product_image->image)}}" alt="...">
                                             @else 

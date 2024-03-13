@@ -16,7 +16,6 @@
                 </div>
             </div>
         </section>
-
         <section class="content">
             @include ('admin.common.error')
             <div class="row">

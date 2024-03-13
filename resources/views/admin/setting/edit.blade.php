@@ -16,7 +16,6 @@
                 </div>
             </div>
         </section>
-
         <section class="content">
             @include ('admin.common.error')
             <div class="row">
@@ -25,14 +24,17 @@
                         <div class="card-header">
                             <h3 class="card-title">Edit {{$menu}}</h3>
                         </div>
+
                         {!! Form::model($settings,['url' => route('settings.update',['setting' => $settings->id]),'method'=>'patch','id' => 'categorysForm','class' => 'form-horizontal','files'=>true]) !!}
-                        <div class="card-body">
-                            @include ('admin.setting.form')
-                        </div>
-                        <div class="card-footer">
-                            <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-default"><i class="fa fa-arrow-left pr-1"></i> Back</a>
-                            <button class="btn btn-sm btn-info float-right" type="submit"><i class="fa fa-edit pr-1"></i> Update</button>
-                        </div>
+                        
+                            <div class="card-body">
+                                @include ('admin.setting.form')
+                            </div>
+                            
+                            <div class="card-footer">
+                                @include('admin.common.footer-buttons', ['route' => 'admin.dashboard', 'type' => 'update'])
+                            </div>
+                        
                         {!! Form::close() !!}
                     </div>
                 </div>
@@ -40,4 +42,3 @@
         </section>
     </div>
 @endsection
-

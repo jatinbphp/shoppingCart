@@ -1,52 +1,50 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-            <label class="control-label" for="name">Name <span class="text-red">*</span></label>
+            @include('admin.common.label', ['field' => 'name', 'labelText' => 'Name', 'isRequired' => true])
+
             {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Name']) !!}
-            @if ($errors->has('name'))
-                <span class="text-danger">
-                        <strong>{{ $errors->first('name')}}</strong>
-                    </span>
-            @endif
+
+            @include('admin.common.errors', ['field' => 'name'])
         </div>
     </div>
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-            <label class="control-label" for="email">Email <span class="text-red">*</span></label>
+            @include('admin.common.label', ['field' => 'email', 'labelText' => 'Email Address', 'isRequired' => true])
+            
             {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'email']) !!}
-            @if ($errors->has('email'))
-                <span class="text-danger">
-                <strong>{{ $errors->first('email') }}</strong>
-            </span>
-            @endif
+
+            @include('admin.common.errors', ['field' => 'email'])
         </div>
     </div>
-
+    <div class="col-md-12">
+        <div class="callout callout-danger">
+            <h4><i class="fa fa-info"></i> Note:</h4>
+            <p>Leave Password and Confirm Password empty if you are not going to change the password.</p>
+        </div>
+    </div>
     <div class="col-md-6">
-        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-            <label class="control-label" for="inputPassword3">Password</label>
-            <input type="password" placeholder="Password" id="password" name="password" class="form-control" >
-            @if ($errors->has('password'))
-                <span class="text-danger">
-                <strong>{{ $errors->first('password') }}</strong>
-            </span>
-            @endif
+        <div class="form-group{{ $errors->has('') ? ' has-error' : '' }}">
+            @include('admin.common.label', ['field' => 'password', 'labelText' => 'Password', 'isRequired' => false])
+
+            {!! Form::password('password', ['placeholder' => 'Password', 'id' => 'password', 'class' => 'form-control']) !!}
+            
+            @include('admin.common.errors', ['field' => 'password'])
         </div>
     </div>
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-            <label class="control-label" for="inputPassword3">Confirm Password</label>
-            <input type="password" placeholder="Confirm password" id="password-confirm" name="password_confirmation" class="form-control" >
-            @if ($errors->has('password_confirmation'))
-                <span class="text-danger">
-             <strong>{{ $errors->first('password_confirmation') }}</strong>
-            </span>
-            @endif
+            @include('admin.common.label', ['field' => 'password_confirmation', 'labelText' => 'Confirm Password', 'isRequired' => false])
+
+            {!! Form::password('password_confirmation', ['placeholder' => 'Confirm password', 'id' => 'password-confirm', 'class' => 'form-control']) !!}
+            
+            @include('admin.common.errors', ['field' => 'password_confirmation'])
         </div>
     </div>
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
-            <label class="col-md-12 control-label" for="image">Image :</label>
+            @include('admin.common.label', ['field' => 'image', 'labelText' => 'Image', 'isRequired' => false])
+
             <div class="col-md-12">
                 <div class="fileError">
                     {!! Form::file('image', ['class' => '', 'id'=> 'image','accept'=>'image/*', 'onChange'=>'AjaxUploadImage(this)']) !!}

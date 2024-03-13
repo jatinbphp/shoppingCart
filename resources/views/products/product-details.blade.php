@@ -221,83 +221,57 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="successMessage" style="display: none; color: green; font-size: 20px;">Review submitted successfully.</div>
+                        
+                        <div id="success_message"></div>
+
                         <div class="reviews_rate">
-                            @include('common.error')
-                            {!! Form::model($user_data, ['url' => route('product.review.form'), 'method' => 'post', 'id' => 'reviewForm', 'class' => 'form-horizontal', 'files' => true]) !!}
+                            {!! Form::model($user_data, ['url' => route('add-product-review'), 'method' => 'post', 'id' => 'reviewForm', 'class' => 'form-horizontal row', 'files' => true]) !!}
+
                             {!! Form::hidden('redirects_to', URL::previous()) !!}
+                            {!! Form::hidden('product_id', $product['id']) !!}
+
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <h4>Submit Rating</h4>
                             </div>
+
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="revie_stars d-flex align-items-center justify-content-between px-2 py-2 gray rounded mb-2 mt-1">
                                     <div class="srt_013">
                                         <div class="submit-rating">
-                                            <input id="star-5" type="radio" name="rating" value="5" />
-                                            <label for="star-5" title="5 stars">
-                                                <i class="active fa fa-star" aria-hidden="true"></i>
-                                            </label>
-                                            <input id="star-4" type="radio" name="rating" value="4" />
-                                            <label for="star-4" title="4 stars">
-                                                <i class="active fa fa-star" aria-hidden="true"></i>
-                                            </label>
-                                            <input id="star-3" type="radio" name="rating" value="3" checked="checked" />
-                                            <label for="star-3" title="3 stars">
-                                                <i class="active fa fa-star" aria-hidden="true"></i>
-                                            </label>
-                                            <input id="star-2" type="radio" name="rating" value="2" />
-                                            <label for="star-2" title="2 stars">
-                                                <i class="active fa fa-star" aria-hidden="true"></i>
-                                            </label>
-                                            <input id="star-1" type="radio" name="rating" value="1" />
-                                            <label for="star-1" title="1 star">
-                                                <i class="active fa fa-star" aria-hidden="true"></i>
-                                            </label>
-                                        </div>
-                                        @if ($errors->has('rating'))
-                                        <span class="text-danger">
-                                            <strong>{{ $errors->first('rating') }}</strong>
-                                        </span>
-                                        @endif
+                                            @for ($i = 5; $i >= 1; $i--)
+                                                <input id="star-{{ $i }}" type="radio" name="rating" value="{{ $i }}" {{ $i == 3 ? 'checked' : '' }}>
+                                                <label for="star-{{ $i }}" title="{{ $i }} stars">
+                                                    <i class="active fa fa-star" aria-hidden="true"></i>
+                                                </label>
+                                            @endfor
+                                        </div>                                        
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <label class="control-label" for="full_name">Full Name :<span class="text-red">*</span></label>
-                                    {!! Form::text('full_name', $user_data->name ?? null, ['class' => 'form-control', 'placeholder' => 'Enter Full Name', 'id' => 'full_name', 'required' => 'required']) !!}
-                                    @if ($errors->has('full_name'))
-                                    <span class="text-danger">
-                                        <strong>{{ $errors->first('full_name') }}</strong>
-                                    </span>
-                                    @endif
+                                    {!! Form::label('full_name', 'Full Name :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
+
+                                    {!! Form::text('full_name', Auth::check() ? Auth::user()->name : null, ['class' => 'form-control', 'placeholder' => 'Enter Full Name', 'id' => 'full_name', 'required' => 'true']) !!}
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <label class="control-label" for="email_address">Email Address :<span class="text-red">*</span></label>
-                                    {!! Form::text('email_address', $user_data->email ?? null, ['class' => 'form-control', 'placeholder' => 'Enter Email Address', 'id' => 'email_address','required' => 'required']) !!}
-                                    @if ($errors->has('email_address'))
-                                    <span class="text-danger">
-                                        <strong>{{ $errors->first('email_address') }}</strong>
-                                    </span>
-                                    @endif
+                                    {!! Form::label('email_address', 'Email Address :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
+
+                                    {!! Form::email('email_address', Auth::check() ? Auth::user()->email : null, ['class' => 'form-control', 'placeholder' => 'Enter Email Address', 'id' => 'email_address','required' => 'true']) !!}
                                 </div>
                             </div>
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    <label class="control-label" for="description">Description :<span class="text-red">*</span></label>
-                                    {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Enter Description', 'id' => 'description','required' => 'required']) !!}
-                                    @if ($errors->has('description'))
-                                    <span class="text-danger">
-                                        <strong>{{ $errors->first('description') }}</strong>
-                                    </span>
-                                    @endif
+                                    {!! Form::label('description', 'Description :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
+
+                                    {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Enter Description', 'id' => 'description','required' => 'true']) !!}
                                 </div>
                             </div>
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="form-group m-0">
-                                    {!! Form::submit('Submit Review', ['class' => 'btn btn-white stretched-link hover-black']) !!}
+                                    {!! Form::button('Submit Review <i class="lni lni-arrow-right"></i>', ['type' => 'submit', 'class' => 'btn btn-white stretched-link hover-black', 'name' => 'submit']) !!}
                                 </div>
                             </div>
                             {!! Form::close() !!}
@@ -379,31 +353,4 @@
     </div>
 </section>
 @endif
-@endsection
-
-@section('jquery')
-<script>
-    $(document).ready(function() {
-        $('#reviewForm').submit(function(e) {
-            e.preventDefault(); 
-            var formData = $(this).serialize();
-            console.log(formData);
-            $.ajax({
-                url: $(this).attr('action'),
-                method: $(this).attr('method'),
-                data: formData,
-                success: function(response) {
-                console.log(response);
-                $('#successMessage').text('Review submitted successfully.').show();
-                setTimeout(function() {
-                    $('#successMessage').fadeOut('fast');
-                }, 2000); 
-            },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        });
-    });
-</script>
 @endsection
