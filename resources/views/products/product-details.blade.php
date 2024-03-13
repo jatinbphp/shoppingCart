@@ -196,6 +196,7 @@
                             </table>
                         </div>
                     </div>
+
                     <!-- Reviews Content -->
                     <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                         <div class="reviews_info">
@@ -207,6 +208,7 @@
                                         <span class="small">30 jul 2021</span>
                                         <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum</p>
                                     </div>
+
                                     <div class="single_capt_right">
                                         <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
                                             <i class="fas fa-star filled"></i>
@@ -219,66 +221,86 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="successMessage" style="display: none; color: green; font-size: 20px;">Review submitted successfully.</div>
                         <div class="reviews_rate">
-                            <form class="row">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                    <h4>Submit Rating</h4>
-                                </div>
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                    <div class="revie_stars d-flex align-items-center justify-content-between px-2 py-2 gray rounded mb-2 mt-1">
-                                        <div class="srt_013">
-                                            <div class="submit-rating">
-                                                <input id="star-5" type="radio" name="rating" value="star-5" />
-                                                <label for="star-5" title="5 stars">
+                            @include('common.error')
+                            {!! Form::model($user_data, ['url' => route('product.review.form'), 'method' => 'post', 'id' => 'reviewForm', 'class' => 'form-horizontal', 'files' => true]) !!}
+                            {!! Form::hidden('redirects_to', URL::previous()) !!}
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <h4>Submit Rating</h4>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <div class="revie_stars d-flex align-items-center justify-content-between px-2 py-2 gray rounded mb-2 mt-1">
+                                    <div class="srt_013">
+                                        <div class="submit-rating">
+                                            <input id="star-5" type="radio" name="rating" value="5" />
+                                            <label for="star-5" title="5 stars">
                                                 <i class="active fa fa-star" aria-hidden="true"></i>
-                                                </label>
-                                                <input id="star-4" type="radio" name="rating" value="star-4" />
-                                                <label for="star-4" title="4 stars">
+                                            </label>
+                                            <input id="star-4" type="radio" name="rating" value="4" />
+                                            <label for="star-4" title="4 stars">
                                                 <i class="active fa fa-star" aria-hidden="true"></i>
-                                                </label>
-                                                <input id="star-3" type="radio" name="rating" value="star-3" />
-                                                <label for="star-3" title="3 stars">
+                                            </label>
+                                            <input id="star-3" type="radio" name="rating" value="3" checked="checked" />
+                                            <label for="star-3" title="3 stars">
                                                 <i class="active fa fa-star" aria-hidden="true"></i>
-                                                </label>
-                                                <input id="star-2" type="radio" name="rating" value="star-2" />
-                                                <label for="star-2" title="2 stars">
+                                            </label>
+                                            <input id="star-2" type="radio" name="rating" value="2" />
+                                            <label for="star-2" title="2 stars">
                                                 <i class="active fa fa-star" aria-hidden="true"></i>
-                                                </label>
-                                                <input id="star-1" type="radio" name="rating" value="star-1" />
-                                                <label for="star-1" title="1 star">
+                                            </label>
+                                            <input id="star-1" type="radio" name="rating" value="1" />
+                                            <label for="star-1" title="1 star">
                                                 <i class="active fa fa-star" aria-hidden="true"></i>
-                                                </label>
-                                            </div>
+                                            </label>
                                         </div>
-                                        <div class="srt_014">
-                                            <h6 class="mb-0">4 Star</h6>
-                                        </div>
+                                        @if ($errors->has('rating'))
+                                        <span class="text-danger">
+                                            <strong>{{ $errors->first('rating') }}</strong>
+                                        </span>
+                                        @endif
                                     </div>
                                 </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="medium text-dark ft-medium">Full Name</label>
-                                        <input type="text" class="form-control" />
-                                    </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label class="control-label" for="full_name">Full Name :<span class="text-red">*</span></label>
+                                    {!! Form::text('full_name', $user_data->name ?? null, ['class' => 'form-control', 'placeholder' => 'Enter Full Name', 'id' => 'full_name', 'required' => 'required']) !!}
+                                    @if ($errors->has('full_name'))
+                                    <span class="text-danger">
+                                        <strong>{{ $errors->first('full_name') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="medium text-dark ft-medium">Email Address</label>
-                                        <input type="email" class="form-control" />
-                                    </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label class="control-label" for="email_address">Email Address :<span class="text-red">*</span></label>
+                                    {!! Form::text('email_address', $user_data->email ?? null, ['class' => 'form-control', 'placeholder' => 'Enter Email Address', 'id' => 'email_address','required' => 'required']) !!}
+                                    @if ($errors->has('email_address'))
+                                    <span class="text-danger">
+                                        <strong>{{ $errors->first('email_address') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="medium text-dark ft-medium">Description</label>
-                                        <textarea class="form-control"></textarea>
-                                    </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <label class="control-label" for="description">Description :<span class="text-red">*</span></label>
+                                    {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Enter Description', 'id' => 'description','required' => 'required']) !!}
+                                    @if ($errors->has('description'))
+                                    <span class="text-danger">
+                                        <strong>{{ $errors->first('description') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                    <div class="form-group m-0">
-                                        <a class="btn btn-white stretched-link hover-black">Submit Review <i class="lni lni-arrow-right"></i></a>
-                                    </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group m-0">
+                                    {!! Form::submit('Submit Review', ['class' => 'btn btn-white stretched-link hover-black']) !!}
                                 </div>
-                            </form>
+                            </div>
+                            {!! Form::close() !!}
                         </div>
                     </div>
                 </div>
@@ -357,4 +379,31 @@
     </div>
 </section>
 @endif
+@endsection
+
+@section('jquery')
+<script>
+    $(document).ready(function() {
+        $('#reviewForm').submit(function(e) {
+            e.preventDefault(); 
+            var formData = $(this).serialize();
+            console.log(formData);
+            $.ajax({
+                url: $(this).attr('action'),
+                method: $(this).attr('method'),
+                data: formData,
+                success: function(response) {
+                console.log(response);
+                $('#successMessage').text('Review submitted successfully.').show();
+                setTimeout(function() {
+                    $('#successMessage').fadeOut('fast');
+                }, 2000); 
+            },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
 @endsection

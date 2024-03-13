@@ -27,6 +27,7 @@ use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\OrderController as FrontOrderController;
 /*
 |--------------------------------------------------------------------------
@@ -102,6 +103,9 @@ Route::get('orders/{id}/details', [FrontOrderController::class, 'orderDetails'])
 
 /* My Addresses */
 Route::resource('addresses', AddressController::class);
+
+/* Product Review */
+Route::post('product-review-form',[ReviewController::class,'productReview'])->name('product.review.form');
 
 // ------------------main routes------------------------------------------
 Route::get('/admin', [AuthorizationController::class, 'adminLoginForm'])->name('admin.login');

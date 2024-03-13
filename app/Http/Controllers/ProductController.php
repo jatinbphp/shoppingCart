@@ -7,6 +7,7 @@ use App\Models\ProductImages;
 use App\Models\ProductsOptions;
 use App\Models\ProductsOptionsValues;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -76,6 +77,14 @@ class ProductController extends Controller
         $category = Category::findOrFail($data['product']['category_id']);
         $data['category_products'] = $category->products()->where('id', '!=', $productId)->take(8)->get();
 
+        $user=Auth::user();
+        if(!empty($user) || isset($user))
+        {
+            $data['user_data']= Auth::user();
+        }
+        else{
+            $data['user_data']= "";
+        }
         return view('products.product-details', $data);
     }
 
