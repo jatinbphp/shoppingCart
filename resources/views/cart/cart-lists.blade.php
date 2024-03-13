@@ -59,7 +59,7 @@
                                                 }
                                             @endphp
 
-                                            {{ Form::select('quantity', $quantity, $value->quantity, ['class' => 'mb-2 custom-select w-auto', 'id' => 'quantity_'.$value->id, 'data-url' => url('/') ,'onchange' => 'updateQuantity('.$value->id.', event)']) }}
+                                            {{ Form::select('quantity', $quantity, $value->quantity, ['class' => 'mb-2 custom-select w-auto', 'id' => 'update-quantity', 'data-id' => $value->id, 'data-url' => route('cart.update-quantity')]) }}
 
                                         </div>
                                         <div class="fls_last">

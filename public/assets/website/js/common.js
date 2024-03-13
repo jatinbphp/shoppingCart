@@ -281,6 +281,37 @@ $(function () {
         });
     });
 
+    $(document).on('change', '#update-quantity', function (event) {
+        event.preventDefault();
+
+        var url = $(this).attr('data-url');
+        var id = $(this).attr('data-id');
+        var quantity = $(this).val();;
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+            data: {
+                'quantity': quantity,
+                'id': id,
+            },
+            success: function(response) {
+                if(response.status==200){
+                    swal("Updated", response.message, "success");
+                } else {
+                    swal("Error", response.message, "error");
+                }
+
+                setTimeout(function() {
+                    location.reload();
+                }, 2000);                
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('AJAX Error:', textStatus, errorThrown);
+            }
+        });
+    });
 });
 
 function initSlickSlider() {
@@ -322,24 +353,3 @@ function setTimeoutFun(id, timevar) {
         $(id).empty();
     }, timevar);
 }
-
-/*function form updating the cart quantity*/
-function updateQuantity(id, event) {
-    var url = event.currentTarget.getAttribute("data-url");
-    $.ajax({
-        url: url + "/cart/update-quantity",
-        method: 'POST',
-        headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
-        data: {
-            'quantity': event.target.value,
-            'id': id,
-        },
-        success: function(response) {
-            console.log('Success:', response);
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.error('AJAX Error:', textStatus, errorThrown);
-        }
-    });
-}
-

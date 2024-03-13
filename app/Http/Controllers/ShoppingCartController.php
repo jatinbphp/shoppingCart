@@ -116,10 +116,22 @@ class ShoppingCartController extends Controller
         return response()->json($responseData);
     }
 
-    public function updateQuantity(Request $request){
-        $cart = Cart::where('user_id', Auth::user()->id)->where('id', $request->id)->first();
-        if(empty($cart)) return response()->json(['status' => 404, 'message' => 'item not found'], 404);
+    public function updateQuantity(Request $request)
+    {
+        // Find the cart item by user_id and id
+        $cart = Cart::where('user_id', Auth::user()->id)
+                    ->where('id', $request->id)
+                    ->first();
+
+        // If the cart item doesn't exist, return a 404 response
+        if (!$cart) {
+            return response()->json(['status' => 404, 'message' => 'Item not found.'], 404);
+        }
+
+        // Update the quantity of the cart item
         $cart->update(['quantity' => $request->quantity]);
-        return response()->json(['status' => 200, 'message' => 'quantity updated sucessfully']);
+
+        // Return a success response
+        return response()->json(['status' => 200, 'message' => 'Your quantity has been updated successfully!']);
     }
 }
