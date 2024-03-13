@@ -64,7 +64,7 @@
                                         </h6>
                                     </div>
                                     <div class="col-xl-1 col-lg-1 col-md-3 col-6">
-                                        <a href="{{route('my-account.order-details', $value->id)}}" class="btn btn-sm btn-primary rounded" title="Order Details"><i class="lni lni-eye"></i></a>
+                                        <a href="{{route('order-details', $value->id)}}" class="btn btn-sm btn-primary rounded" title="Order Details"><i class="lni lni-eye"></i></a>
                                     </div>
                                 </div>
                             @endforeach

@@ -14,7 +14,7 @@
                 <div class="col-12 col-md-12 col-lg-8 col-xl-8">
                     <div class="row align-items-center">
 
-                        {!! Form::model($user_info,['url' => route('user.profile.update'),'method'=>'post','id' => 'profile-form','class' => 'row m-0','files'=>true]) !!}
+                        {!! Form::model($user_info,['url' => route('profile-info-update'),'method'=>'post','id' => 'profile-form','class' => 'row m-0','files'=>true]) !!}
 
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="form-group">

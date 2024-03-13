@@ -57,7 +57,7 @@
 @if(count(getCartProductIds())>1)
     <div class="cart_action px-3 py-3">
         <div class="form-group">
-            <a href="{{route('my-account.checkout')}}" class="btn d-block full-width btn-dark">Checkout Now</a>
+            <a href="{{route('checkout')}}" class="btn d-block full-width btn-dark">Checkout Now</a>
         </div>
     </div>
 @endif

@@ -70,16 +70,16 @@
                                 </li>
                             @else
                                 <li class="current">
-                                    <a href="{{route('my-account.profile-info')}}" class="dropdown-item medium text-medium">My Account</a>
+                                    <a href="{{route('profile-info')}}" class="dropdown-item medium text-medium">My Account</a>
                                 </li>
                                 <li class="current">
-                                    <a href="{{route('my-account.shopping-cart')}}" class="dropdown-item medium text-medium">Shopping Cart</a>
+                                    <a href="{{route('shopping-cart')}}" class="dropdown-item medium text-medium">Shopping Cart</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('my-account.checkout')}}" class="dropdown-item medium text-medium">Checkout</a>
+                                    <a href="{{route('checkout')}}" class="dropdown-item medium text-medium">Checkout</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('my-account.wishlist')}}" class="dropdown-item medium text-medium">Wishlist</a>
+                                    <a href="{{route('wishlist')}}" class="dropdown-item medium text-medium">Wishlist</a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

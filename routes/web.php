@@ -76,31 +76,31 @@ Route::get('shop/{id}/details', [FrontProductController::class, 'details'])->nam
 Route::get('shop/quick-view/{product_id}', [FrontProductController::class, 'quickview'])->name('products.quickview');
 
 /*Wishlist*/
-Route::post('shop/add-wishlist', [WishlistController::class,'addProducttoWishlist'])->name('products.add.wishlist');
-Route::get('shop/wishlist-view', [WishlistController::class, 'wishlistview'])->name('products.wishlistview');
+Route::post('wishlist/add-wishlist', [WishlistController::class,'addProducttoWishlist'])->name('products.add.wishlist');
+Route::get('wishlist/wishlist-view', [WishlistController::class, 'wishlistview'])->name('products.wishlistview');
 Route::get('wishlist/remove/{id}',[WishlistController::class,'wishlistRemove'])->name('wishlist.remove');
-Route::get('my-account/wishlist', [WishlistController::class, 'myWishlist'])->name('my-account.wishlist');
+Route::get('wishlist', [WishlistController::class, 'myWishlist'])->name('wishlist');
 
 /*Shopping Cart*/
-Route::get('shop/cart-view', [ShoppingCartController::class, 'cartview'])->name('products.cartview');
-Route::post('shop/remove-cart', [ShoppingCartController::class,'removeProducttoCart'])->name('products.remove.cart');
-Route::post('my-account/add-product-to-cart', [ShoppingCartController::class,'addProductToCart'])->name('my-account.add-product-to-cart');
-Route::get('my-account/shopping-cart', [ShoppingCartController::class, 'shoppingCart'])->name('my-account.shopping-cart');
+Route::get('cart/cart-view', [ShoppingCartController::class, 'cartview'])->name('products.cartview');
+Route::post('cart/remove-cart', [ShoppingCartController::class,'removeProducttoCart'])->name('products.remove.cart');
+Route::post('cart/add-product-to-cart', [ShoppingCartController::class,'addProductToCart'])->name('my-account.add-product-to-cart');
+Route::get('cart', [ShoppingCartController::class, 'shoppingCart'])->name('shopping-cart');
 
 /*Checkout*/
-Route::get('my-account/checkout', [CheckoutController::class, 'checkout'])->name('my-account.checkout');
-Route::get('my-account/checkout/order-completed', [CheckoutController::class, 'orderCompleted'])->name('my-account.checkout.order-completed');
+Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+Route::get('checkout/order-completed', [CheckoutController::class, 'orderCompleted'])->name('checkout.order-completed');
 
 /*My Account*/
-Route::get('my-account/profile-info', [MyAccountController::class, 'profileInfo'])->name('my-account.profile-info');
-Route::post('user-profile-update',[MyAccountController::class,'userProfileUpdate'])->name('user.profile.update');
+Route::get('profile-info', [MyAccountController::class, 'profileInfo'])->name('profile-info');
+Route::post('profile-info/update',[MyAccountController::class,'userProfileUpdate'])->name('profile-info-update');
 
 /* My Orders */
-Route::get('my-account/orders', [FrontOrderController::class, 'myOrders'])->name('my-account.orders');
-Route::get('my-account/{id}/orders-details', [FrontOrderController::class, 'orderDetails'])->name('my-account.order-details');
+Route::get('orders', [FrontOrderController::class, 'myOrders'])->name('orders-list');
+Route::get('orders/{id}/details', [FrontOrderController::class, 'orderDetails'])->name('order-details');
 
 /* My Addresses */
-Route::resource('my-account/addresses', AddressController::class);
+Route::resource('addresses', AddressController::class);
 
 // ------------------main routes------------------------------------------
 Route::get('/admin', [AuthorizationController::class, 'adminLoginForm'])->name('admin.login');

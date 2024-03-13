@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@include('common.breadcrumb', ['breadcrumbs' => ['Home', 'My Account', 'Shopping Cart']])
+@include('common.breadcrumb', ['breadcrumbs' => ['Home', 'Shopping Cart']])
 
 <section class="middle">
     <div class="container">
@@ -97,7 +97,7 @@
                             </ul>
                         </div>
                     </div>
-                    <a class="btn btn-block btn-dark mb-3" href="{{route('my-account.checkout')}}">Proceed to Checkout</a>
+                    <a class="btn btn-block btn-dark mb-3" href="{{route('checkout')}}">Proceed to Checkout</a>
                     <a class="btn-link text-dark ft-medium" href="{{route('products')}}">
                         <i class="ti-back-left mr-2"></i> Continue Shopping
                     </a>

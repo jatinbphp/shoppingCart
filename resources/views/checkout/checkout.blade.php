@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@include('common.breadcrumb', ['breadcrumbs' => ['Home', 'Checkout']])
+@include('common.breadcrumb', ['breadcrumbs' => ['Home', 'Shopping Cart', 'Checkout']])
 
 <section class="middle">
     <div class="container">

@@ -84,7 +84,7 @@ function handleLoadMoreWishlist(newItems) {
     var items = {{ env('PRODUCT_PAGINATION_LENGHT') }};
     items = items + newItems;
     $.ajax({
-        url: "{{ route('my-account.wishlist') }}?items=" + items,
+        url: "{{ route('wishlist') }}?items=" + items,
         type: "GET",
         data: {_token: '{{ csrf_token() }}'},
         success: function(response) {
@@ -144,7 +144,7 @@ $(document).ready(function() {
 function reloadWishlistData() {
     var items = $('.product_grid').length;
     $.ajax({
-        url: "{{ route('my-account.wishlist') }}?items=" + items,
+        url: "{{ route('wishlist') }}?items=" + items,
         type: "GET",
         data: {_token: '{{ csrf_token() }}'},
         success: function(response) {
