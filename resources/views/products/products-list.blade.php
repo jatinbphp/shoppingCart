@@ -26,7 +26,7 @@
         
         <div class="row">
 
-            @include ('products-filter')
+            @include ('products.products-filter')
 
             <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
                 <div class="row">

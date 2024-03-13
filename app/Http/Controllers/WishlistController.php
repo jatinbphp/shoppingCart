@@ -33,13 +33,13 @@ class WishlistController extends Controller
 
         if ($request->ajax()) {
             return response()->json([
-                'view'     => view('more-wishlists', $data)->render(),
+                'view'     => view('my-wishlist.more-wishlists', $data)->render(),
                 'wishlists' => $data['wishlists'] ?? null,
                 'is_last'  => $wishlist_data->onLastPage(),
                 'status'   => 200, 
             ]);
         }
-        return view('my-account.wishlists', $data);
+        return view('my-wishlist.wishlists', $data);
     }
 
     public function addProducttoWishlist(Request $request){

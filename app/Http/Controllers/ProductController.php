@@ -58,14 +58,14 @@ class ProductController extends Controller
         if ($request->ajax()) {
             $data['layout'] = $request->layout;
             return response()->json([
-                'view'     => view('more-products', $data)->render(),
+                'view'     => view('products.more-products', $data)->render(),
                 'products' => $data['products'] ?? null,
                 'is_last'  => $products_collection->onLastPage(),
                 'status'   => 200, 
             ]);
         }
 
-        return view('products', $data);
+        return view('products.products-list', $data);
     }
 
     public function details($productId){   
@@ -76,7 +76,7 @@ class ProductController extends Controller
         $category = Category::findOrFail($data['product']['category_id']);
         $data['category_products'] = $category->products()->where('id', '!=', $productId)->take(8)->get();
 
-        return view('product-details', $data);
+        return view('products.product-details', $data);
     }
 
     public function quickview($productId){   

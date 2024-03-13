@@ -46,6 +46,6 @@ class CheckoutController extends Controller
             }
         }
 
-        return view('my-account.checkout', $data);
+        return view('checkout.checkout', $data);
     }
 }

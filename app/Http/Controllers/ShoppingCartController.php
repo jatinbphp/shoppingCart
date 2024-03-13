@@ -44,7 +44,7 @@ class ShoppingCartController extends Controller
 
             }
         }
-        return view('my-account.shopping-cart', $data);
+        return view('cart.cart-lists', $data);
     }
 
     public function addProductToCart(Request $request)
