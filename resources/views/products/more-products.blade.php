@@ -1,5 +1,5 @@
 @foreach($products as $key => $value)
-    <div class="{{ (isset($layout) && $layout == "list-view") ? "col-12" : "col-xl-4 col-lg-4 col-md-6 col-6" }}">
+    <div class="{{(isset($layout) && $layout == 'list-view') ? 'col-12' : 'col-xl-4 col-lg-4 col-md-6 col-6'}}">
         <div class="product_grid card b-0">
             @if(!empty($value->type))
                 {!! customBadge($value->type) !!}
@@ -54,9 +54,12 @@
                     <div class="elis_rty">
                         <span class="ft-bold text-dark fs-sm">{{ env('CURRENCY') }}{{ number_format($value->price ?? 0, 2) }}</span>
                     </div>
-                    <div class="{{ (isset($layout) && $layout == "list-view") ? "d-block" : "d-none" }}">
-                        <p class="mt-3 mb-4">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum are deleniti atque corrupti quos dolores</p>
-                        <a href="javascript:void(0);" class="btn stretched-link borders  snackbar-addcart">Add To Cart</a>
+                    <div class="{{ (isset($layout) && $layout == 'list-view') ? 'd-block' : 'd-none' }}">
+                        <div class="mt-3 mb-4">
+                            {!! substr(strip_tags($value->description), 0, 300) !!}{{ strlen(strip_tags($value->description)) > 200 ? '...' : '' }}
+                        </div>
+
+                        <a href="javascript:void(0)" id="quickview" class="btn stretched-link borders" data-id="{{$value->id}}" data-url="{{route('products.quickview', [$value->id])}}">Add To Cart</a>
                     </div>
                 </div>
             </div>

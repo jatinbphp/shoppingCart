@@ -1,5 +1,4 @@
-<form action="{{route('cart.add-product')}}" method="post" id="addProductToCartForm">
-    @csrf
+{!! Form::open(['route' => 'cart.add-product', 'method' => 'post', 'id' => 'addProductToCartForm']) !!}
     <div class="modal-headers">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span class="ti-close"></span>
@@ -105,10 +104,15 @@
                                 {{ Form::select('quantity', $quantity, null, ['class' => 'mb-2 custom-select']) }}
                             </div>
                             <div class="col-12 col-lg">
-                                <!-- Submit -->
-                                <button type="submit" class="btn btn-block custom-height bg-dark mb-2" id="add_to_cartproduct">
-                                    <i class="lni lni-shopping-basket mr-2"></i>Add to Cart 
-                                </button>
+                                @guest
+                                    <a href="{{route('login')}}" class="btn btn-block custom-height bg-dark mb-2">
+                                        <i class="lni lni-heart mr-2"></i>Add to Cart
+                                    </a>
+                                @else
+                                    <button type="submit" class="btn btn-block custom-height bg-dark mb-2" id="add_to_cartproduct">
+                                        <i class="lni lni-shopping-basket mr-2"></i>Add to Cart 
+                                    </button>
+                                @endif
                             </div>
                             <div class="col-12 col-lg-auto">
                                 <!-- Wishlist -->
@@ -142,4 +146,4 @@
             </div>
         </div>
     </div>
-</form>
+{!! Form::close() !!}

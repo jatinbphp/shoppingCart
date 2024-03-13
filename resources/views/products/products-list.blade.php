@@ -39,12 +39,10 @@
                                 <div class="col-xl-9 col-lg-8 col-md-7 col-sm-12">
                                     <div class="filter_wraps d-flex align-items-center justify-content-end m-start">
                                         <div class="single_fitres mr-2 br-right">
-                                            <select class="custom-select simple">
-                                                <option value="1" selected="">Default Sorting</option>
-                                                <option value="2">Sort by price: Low price</option>
-                                                <option value="3">Sort by price: Hight price</option>
-                                                <option value="4">Sort by rating</option>
-                                                <option value="5">Sort by trending</option>
+                                            <select class="custom-select simple" id="sort-select" name="sort">
+                                                <option value="">Default Sorting</option>
+                                                <option value="low_to_high">Sort by price: Low to High</option>
+                                                <option value="high_to_low">Sort by price: High to Low</option>
                                             </select>
                                         </div>
                                         <div class="single_fitres">
@@ -152,30 +150,71 @@
 @endsection
 @section('jquery')
 <script type="text/javascript">
-    var items = {{env('PRODUCT_PAGINATION_LENGHT')}};
-    function handleLoadMore(newItems){
-        event.preventDefault()
-        items = items + newItems;
+var itemsPerPage = {{ env('PRODUCT_PAGINATION_LENGHT') }};
+var currentPage = 1; 
+var currentSortOption = '';
+
+function handleLoadMore() {
+    event.preventDefault();
+    currentPage++;
+    $.ajax({
+        url: "{{ route('products') }}",
+        type: "GET",
+        data: {
+            _token: '{{ csrf_token() }}',
+            sort: currentSortOption,
+            items: itemsPerPage,
+            page: currentPage,
+            category_id: {{ request()->route()->hasParameter('category_id') ? request()->route('category_id') : 'null' }},
+            keyword: '{{ request('keyword') ?? null }}',
+            layout: $('.view-btn.active').attr('data-id'),
+        },
+        success: function(response) {
+            if (response.status !== 200) return false;
+            var products = JSON.parse(JSON.stringify(response.products.data));
+            if (!products || products.length === 0) return false;
+            var totalCount = (currentPage - 1) * itemsPerPage + products.length; 
+            $('#items-found').text(totalCount); 
+            if (response.is_last) {
+                $("#load-more-btn").addClass('btn-secondary').attr('disabled', true);
+            }
+            $('.rows-products').append(response.view);
+        }
+    });
+}
+
+$(document).ready(function() {
+    $('#sort-select').change(function() {
+        var sortOption = $(this).val(); 
+        currentPage = 1; 
+        currentSortOption = sortOption;
         $.ajax({
-            url: "{{ route('products') }}?items=" + items,
+            url: "{{ route('products') }}",
             type: "GET",
             data: {
-                _token: '{{csrf_token()}}',
-                category_id: {{ request()->route('category_id') ?? 'null' }},
+                _token: '{{ csrf_token() }}',
+                sort: sortOption,
+                items: itemsPerPage,
+                page: currentPage,
+                category_id: {{ request()->route()->hasParameter('category_id') ? request()->route('category_id') : 'null' }},
                 keyword: '{{ request('keyword') ?? null }}',
                 layout: $('.view-btn.active').attr('data-id'),
             },
-            success: function(response){
-                if(response.status !== 200) return false;          
+            success: function(response) {
+                if (response.status !== 200) return false;
                 var products = JSON.parse(JSON.stringify(response.products.data));
                 if (!products || products.length === 0) return false;
-                if (response.is_last) $("#load-more-btn").addClass('btn-secondary').removeClass('stretched-link').attr('disabled', true);
-                $("#items-found").html(products.length);
-                $('.rows-products').empty().html(response.view);
-                $('#list-button').addClass('active');
-                $('#grid-button').removeClass('active');
+                var totalCount = (currentPage - 1) * itemsPerPage + products.length; 
+                $('#items-found').text(totalCount); 
+                if (response.is_last) {
+                    $("#load-more-btn").addClass('btn-secondary').attr('disabled', true);
+                } else {
+                    $("#load-more-btn").removeClass('btn-secondary').attr('disabled', false);
+                }
+                $('.rows-products').html(response.view);
             }
         });
-    }
+    });
+});
 </script>
 @endsection

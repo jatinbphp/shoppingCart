@@ -236,6 +236,7 @@ $(function () {
     $(document).on("click", "#add_to_cartproduct", function(e) {
         e.preventDefault();
         var form = $(this).closest("form");
+        var form_type = $(this).attr('data-type');
 
         // AJAX request
         $.ajax({
@@ -246,7 +247,12 @@ $(function () {
 
                 $('.cart-counter').text(response)
                 $('#quickviewModal').modal('hide');
-                $('#addProductToCartForm')[0].reset(); // Resetting the form
+
+                if(form_type=='product-details'){
+                    $('#addProductToCartFormDetails')[0].reset(); // Resetting the form
+                } else {
+                    $('#addProductToCartForm')[0].reset(); // Resetting the form
+                }
                 
                 var msg = 'Your product was added to cart successfully!';
                 
