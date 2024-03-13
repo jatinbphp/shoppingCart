@@ -14,7 +14,7 @@
         </div>
         <div class="row justify-content-between">
             <div class="col-12 col-lg-7 col-md-12">
-                <form>
+                {!! Form::open(['method' => 'post', 'id' => 'checkoutForm']) !!}
 
                     <h5 class="mb-4 ft-medium">Delivery Address</h5>
                     <div class="row mb-4">
@@ -132,7 +132,7 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                {!! Form::close() !!}
             </div>
 
             @php

@@ -24,7 +24,7 @@ class OrderController extends Controller
 
     public function orderDetails($orderId){   
         $data['title'] = 'My Order Details';
-        $data['order'] = Order::with('orderItems', 'address')->find($orderId);
+        $data['order'] = Order::with('orderItems')->find($orderId);
         return view('my-orders.order-details', $data);
     }
 }

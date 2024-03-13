@@ -98,23 +98,48 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            {{ $order->address->first_name }} {{ $order->address->last_name }}
-                                            @if ($order->address->company)
-                                                <br>{{ $order->address->company }}
-                                            @endif
-                                            @if ($order->address->address_line1)
-                                                <br>{{ $order->address->address_line1 }},
-                                            @endif
-                                            @if ($order->address->address_line2)
-                                                <br>{{ $order->address->address_line2 }},
-                                            @endif
-                                            @if ($order->address->city || $order->address->state || $order->address->country || $order->address->pincode)
-                                                <br>
-                                                @if ($order->address->pincode){{ $order->address->pincode }} {{' - '}} @endif
-                                                @if ($order->address->city){{ $order->address->city }}, @endif
-                                                @if ($order->address->state){{ $order->address->state }}, @endif
-                                                @if ($order->address->country){{ $order->address->country }} @endif
-                                            @endif
+                                            @php
+                                            $addressArray = [];
+                                            if(!empty($order->address_info)){
+                                                $addressArray = json_decode($order->address_info);
+                                            }
+                                            @endphp
+
+                                            <h5 class="ft-medium mb-1">
+                                                @if(!empty($addressArray->first_name))
+                                                    {{ $addressArray->first_name }}
+                                                @endif
+
+                                                @if(!empty($addressArray->last_name))
+                                                    {{ $addressArray->last_name }}
+                                                @endif
+                                            </h5>
+
+                                            <p>
+                                                @if (!empty($addressArray->title))
+                                                    <br><b>{{ $addressArray->title }}</b>
+                                                @endif
+
+                                                @if (!empty($addressArray->company))
+                                                    <br>{{ $addressArray->company }}
+                                                @endif
+
+                                                @if (!empty($addressArray->address_line1))
+                                                    <br>{{ $addressArray->address_line1 }},
+                                                @endif
+
+                                                @if (!empty($addressArray->address_line2))
+                                                    <br>{{ $addressArray->address_line2 }},
+                                                @endif
+
+                                                @if (!empty($addressArray->city) || !empty($addressArray->state) || !empty($addressArray->country) || !empty($addressArray->pincode))
+                                                    <br>
+                                                    @if (!empty($addressArray->pincode)) {{ $addressArray->pincode }} - @endif
+                                                    @if (!empty($addressArray->city)) {{ $addressArray->city }}, @endif
+                                                    @if (!empty($addressArray->state)) {{ $addressArray->state }}, @endif
+                                                    @if (!empty($addressArray->country)) {{ $addressArray->country }} @endif
+                                                @endif
+                                            </p>
                                         </td>
                                     </tr>
                                 </tbody>
