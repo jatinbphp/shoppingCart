@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row align-items-start justify-content-between">
             
-            @include ('my-account.dashboard-menu', ['menu' => 'orders'])
+            @include ('common.dashboard-menu', ['menu' => 'orders'])
             
             <div class="col-12 col-md-12 col-lg-8 col-xl-8">
                 <div class="table-responsive mb-4">

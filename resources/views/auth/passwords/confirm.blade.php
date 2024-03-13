@@ -5,8 +5,8 @@
     <div class="container">
         <div class="row align-items-start justify-content-between">
             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mx-auto">
-              
-                <!-- <div class="card-header">{{ __('Confirm Password') }}</div> -->
+                
+                <h2 class="text-center">{{ __('Confirm Password') }}</h2>
 
                 {{ __('Please confirm your password before continuing.') }}
 

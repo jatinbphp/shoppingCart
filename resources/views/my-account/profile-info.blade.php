@@ -9,7 +9,7 @@
             @include ('common.error')
             
             <div class="row align-items-start justify-content-between">
-                @include('my-account.dashboard-menu', ['menu' => 'profile-info'])
+                @include('common.dashboard-menu', ['menu' => 'profile-info'])
 
                 <div class="col-12 col-md-12 col-lg-8 col-xl-8">
                     <div class="row align-items-center">

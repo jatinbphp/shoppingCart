@@ -5,6 +5,9 @@
     <div class="container">
         <div class="row align-items-start justify-content-between">
             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mx-auto">
+                
+                <h2 class="text-center">{{ __('Login') }}</h2>
+
                 <form class="border p-3 rounded" method="POST" action="{{ route('login') }}">
                     @csrf
 

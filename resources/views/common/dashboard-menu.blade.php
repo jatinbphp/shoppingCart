@@ -26,13 +26,7 @@
                         <i class="lni lni-map-marker mr-2"></i>Addresses
                     </a>
                 </li>
-
-                <li>
-                    <a href="javascript:void(0)">
-                        <i class="lni lni-mastercard mr-2"></i>Payment Methode
-                    </a>
-                </li>
-
+                
                 <li>
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="lni lni-power-switch mr-2"></i>Log Out

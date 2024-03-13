@@ -5,7 +5,8 @@
     <div class="container">
         <div class="row align-items-start justify-content-between">
             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mx-auto">
-                <!-- <div class="card-header">{{ __('Reset Password') }}</div> -->
+                
+                <h2 class="text-center">{{ __('Reset Password') }}</h2>
 
                 <form class="border p-3 rounded" method="POST" action="{{ route('password.update') }}">
                     @csrf

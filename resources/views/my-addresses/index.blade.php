@@ -10,7 +10,7 @@
 
         <div class="row justify-content-center justify-content-between">
 
-            @include ('my-account.dashboard-menu', ['menu' => 'addresses'])
+            @include ('common.dashboard-menu', ['menu' => 'addresses'])
 
             <div class="col-12 col-md-12 col-lg-8 col-xl-8">
                 <div class="row align-items-start">

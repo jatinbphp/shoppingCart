@@ -11,7 +11,7 @@
                     </div>
                 @endif
 
-                <!-- <div class="card-header">{{ __('Reset Password') }}</div> -->
+                <h2 class="text-center">{{ __('Forgot Password') }}</h2>
 
                 <form class="border p-3 rounded" method="POST" action="{{ route('password.email') }}">
                     @csrf
