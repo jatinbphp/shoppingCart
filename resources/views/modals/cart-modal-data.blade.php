@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="fls_last">
-                        <button class="close_slide gray remove-cart" data-id="{{$valueCart->product->id}}" data-url="{{route('products.remove.cart')}}" data-type="quick-view"><i class="ti-close"></i></button>
+                        <button class="close_slide gray remove-cart" data-id="{{$valueCart->product->id}}" data-url="{{route('cart.remove')}}" data-type="quick-view"><i class="ti-close"></i></button>
                     </div>
                 </div>
             @endforeach
@@ -54,10 +54,14 @@
     @endif
 </div>
 
-@if(count(getCartProductIds())>1)
+@if(count(getCartProductIds())>0)
     <div class="cart_action px-3 py-3">
         <div class="form-group">
             <a href="{{route('checkout')}}" class="btn d-block full-width btn-dark">Checkout Now</a>
+        </div>
+
+        <div class="form-group">
+            <a href="{{route('shopping-cart')}}" class="btn d-block full-width btn-dark-light">Shopping Cart</a>
         </div>
     </div>
 @endif

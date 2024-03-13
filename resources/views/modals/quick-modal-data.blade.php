@@ -1,4 +1,4 @@
-<form action="{{route('my-account.add-product-to-cart')}}" method="post" id="addProductToCartForm">
+<form action="{{route('cart.add-product')}}" method="post" id="addProductToCartForm">
     @csrf
     <div class="modal-headers">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">

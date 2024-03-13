@@ -78,7 +78,7 @@ class ShoppingCartController extends Controller
         if (Auth::check()) {
             $userId = Auth::id();            
             
-            $cart_products = Cart::with('product', 'product.product_image')->where('user_id', $userId)->orderBy('created_at', 'desc')->get();
+            $cart_products = Cart::with('product', 'product.product_image')->where('user_id', $userId)->orderBy('created_at', 'desc')->take(3)->get();
 
             if(count($cart_products)>0){
                 foreach ($cart_products as $key => $order) {

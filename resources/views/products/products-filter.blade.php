@@ -20,7 +20,7 @@
                                                         @if (isset($category->children) && !empty($category->children))
                                                             @foreach ($category->children as $subKey => $subCategory)
                                                                 <li>
-                                                                    <a href="{{ route('shop.filter', ['category_id' => ($subCategory->id ?? null), 'category_name' => strtolower($category->name), 'sub_category_name' => strtolower(str_replace(" ", "-", ($subCategory->name ?? '')))]) }}">
+                                                                    <a href="{{ route('products.filter', ['category_id' => ($subCategory->id ?? null), 'category_name' => strtolower($category->name), 'sub_category_name' => strtolower(str_replace(" ", "-", ($subCategory->name ?? '')))]) }}">
                                                                         {{ $subCategory->name ?? "-" }}
                                                                         <span>{{ count($subCategory->products ?? []) }}</span>
                                                                     </a>

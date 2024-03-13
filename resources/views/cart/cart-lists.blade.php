@@ -63,7 +63,7 @@
 
                                         </div>
                                         <div class="fls_last">
-                                            <button class="close_slide gray remove-cart" data-id="{{$value->product->id}}" data-url="{{route('products.remove.cart')}}" data-type="page-view">
+                                            <button class="close_slide gray remove-cart" data-id="{{$value->product->id}}" data-url="{{route('cart.remove')}}" data-type="page-view">
                                                 <i class="ti-close"></i>
                                             </button>
                                         </div>

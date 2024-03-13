@@ -67,7 +67,7 @@ Route::post('subscriber-form',[FrontSubscriberController::class,'store'])->name(
 Route::get('shop', [FrontProductController::class, 'index'])->name('products');
 
 /*Caegory Products*/
-Route::get('category/{category_id?}/{category_name?}/{sub_category_name?}', [FrontProductController::class, 'index'])->name('shop.filter');
+Route::get('category/{category_id?}/{category_name?}/{sub_category_name?}', [FrontProductController::class, 'index'])->name('products.filter');
 
 /*Product Details*/
 Route::get('shop/{id}/details', [FrontProductController::class, 'details'])->name('products.details');
@@ -77,14 +77,14 @@ Route::get('shop/quick-view/{product_id}', [FrontProductController::class, 'quic
 
 /*Wishlist*/
 Route::post('wishlist/add-wishlist', [WishlistController::class,'addProducttoWishlist'])->name('products.add.wishlist');
-Route::get('wishlist/wishlist-view', [WishlistController::class, 'wishlistview'])->name('products.wishlistview');
+Route::get('wishlist/wishlist-view', [WishlistController::class, 'wishlistview'])->name('wishlist.view');
 Route::get('wishlist/remove/{id}',[WishlistController::class,'wishlistRemove'])->name('wishlist.remove');
 Route::get('wishlist', [WishlistController::class, 'myWishlist'])->name('wishlist');
 
 /*Shopping Cart*/
-Route::get('cart/cart-view', [ShoppingCartController::class, 'cartview'])->name('products.cartview');
-Route::post('cart/remove-cart', [ShoppingCartController::class,'removeProducttoCart'])->name('products.remove.cart');
-Route::post('cart/add-product-to-cart', [ShoppingCartController::class,'addProductToCart'])->name('my-account.add-product-to-cart');
+Route::get('cart/cart-view', [ShoppingCartController::class, 'cartview'])->name('cart.view');
+Route::post('cart/remove-cart', [ShoppingCartController::class,'removeProducttoCart'])->name('cart.remove');
+Route::post('cart/add-product-to-cart', [ShoppingCartController::class,'addProductToCart'])->name('cart.add-product');
 Route::get('cart', [ShoppingCartController::class, 'shoppingCart'])->name('shopping-cart');
 
 /*Checkout*/

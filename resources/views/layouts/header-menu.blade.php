@@ -15,12 +15,12 @@
                             <a href="javaScript:;"><i class="lni lni-user"></i></a>
                         </li>
                         <li>
-                            <a href="javaScript:void(0);" data-url="{{route('products.wishlistview')}}" id="open-wishlist-sidebar" title="Wishlist">
+                            <a href="javaScript:void(0);" data-url="{{route('wishlist.view')}}" id="open-wishlist-sidebar" title="Wishlist">
                                 <i class="lni lni-heart"></i><span class="dn-counter wishlist-counter">{{count(getWishlistProductIds())}}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="javaScript:void(0);" data-url="{{route('products.cartview')}}" id="open-cart-sidebar" title="Shopping Cart">
+                            <a href="javaScript:void(0);" data-url="{{route('cart.view')}}" id="open-cart-sidebar" title="Shopping Cart">
                                 <i class="lni lni-shopping-basket"></i><span class="dn-counter cart-counter">{{count(getCartProductIds())}}</span>
                             </a>
                         </li>
@@ -34,13 +34,13 @@
                     @if(!empty(getHeaderCategoriesMenu()))
                         @foreach(getHeaderCategoriesMenu() as $keyMenu => $valueMenu)
                             <li>
-                                <a href="{{ route('shop.filter', ['category_id' => ($valueMenu->id ?? null), 'category_name' => strtolower(str_replace(' ', '-', ($valueMenu->name ?? '')))]) }}">{{$valueMenu->name}}</a>
+                                <a href="{{ route('products.filter', ['category_id' => ($valueMenu->id ?? null), 'category_name' => strtolower(str_replace(' ', '-', ($valueMenu->name ?? '')))]) }}">{{$valueMenu->name}}</a>
 
                                 @if(!empty($valueMenu->children))
                                     <ul class="nav-dropdown nav-submenu">
                                         @foreach($valueMenu->children as $keySubMenu => $valueSubMenu)
                                             <li>
-                                                <a href="{{ route('shop.filter', ['category_id' => ($valueSubMenu->id ?? null), 'category_name' => strtolower($valueMenu->name), 'sub_category_name' => strtolower(str_replace(' ', '-', ($valueSubMenu->name ?? '')))]) }}">
+                                                <a href="{{ route('products.filter', ['category_id' => ($valueSubMenu->id ?? null), 'category_name' => strtolower($valueMenu->name), 'sub_category_name' => strtolower(str_replace(' ', '-', ($valueSubMenu->name ?? '')))]) }}">
                                                     {{$valueSubMenu->name}}
                                                 </a>
                                             </li>
@@ -95,12 +95,12 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="javaScript:void(0);" data-url="{{route('products.wishlistview')}}" id="open-wishlist-sidebar" title="Wishlist">
+                        <a href="javaScript:void(0);" data-url="{{route('wishlist.view')}}" id="open-wishlist-sidebar" title="Wishlist">
                             <i class="lni lni-heart"></i><span class="dn-counter wishlist-counter">{{count(getWishlistProductIds())}}</span>
                         </a>
                     </li>
                     <li>
-                        <a href="javaScript:void(0);" data-url="{{route('products.cartview')}}" id="open-cart-sidebar" title="Shopping Cart">
+                        <a href="javaScript:void(0);" data-url="{{route('cart.view')}}" id="open-cart-sidebar" title="Shopping Cart">
                             <i class="lni lni-shopping-basket"></i><span class="dn-counter cart-counter">{{count(getCartProductIds())}}</span>
                         </a>
                     </li>

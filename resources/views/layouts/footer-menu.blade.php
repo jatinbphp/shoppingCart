@@ -67,7 +67,7 @@
                             @if(!empty(getFooterCategoriesMenu()))
                                 @foreach(getFooterCategoriesMenu() as $keyMenu => $valueMenu)
                                     <li>
-                                        <a href="{{ route('shop.filter', ['category_id' => ($valueMenu->id ?? null), 'category_name' => strtolower(str_replace(' ', '-', ($valueMenu->name ?? '')))]) }}">{{$valueMenu->name}}</a>
+                                        <a href="{{ route('products.filter', ['category_id' => ($valueMenu->id ?? null), 'category_name' => strtolower(str_replace(' ', '-', ($valueMenu->name ?? '')))]) }}">{{$valueMenu->name}}</a>
                                     </li>
                                 @endforeach
                             @endif
