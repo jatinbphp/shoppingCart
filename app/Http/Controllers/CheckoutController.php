@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\User;
+use App\Models\UserAddresses;
 use App\Models\Products;
 use App\Models\ProductImages;
 use App\Models\ProductsOptions;
@@ -11,8 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
-use App\Http\Requests\UserAddressesRequest;
-use App\Http\Requests\UserProfileUpdateRequest;
 
 class CheckoutController extends Controller
 {
@@ -20,10 +19,9 @@ class CheckoutController extends Controller
         $this->middleware('auth');
     }
 
-    public function checkout(){   
-        $user_id = Auth::user()->id;
+    public function checkout(){        
         $data['title'] = 'Checkout';
-        $data['cart_products'] = Cart::with('product', 'product.product_image')->where('user_id', $user_id)->orderBy('created_at', 'desc')->get();
+        $data['cart_products'] = Cart::with('product', 'product.product_image')->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
 
         if(count($data['cart_products'])==0){
             return redirect()->route('products')->with('danger', 'Thank you for shopping with us! Please add the product to your cart.');
@@ -45,6 +43,8 @@ class CheckoutController extends Controller
 
             }
         }
+
+        $data['user_addresses'] = UserAddresses::where('user_id',Auth::user()->id)->get();
 
         return view('checkout.checkout', $data);
     }

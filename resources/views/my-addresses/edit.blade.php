@@ -12,20 +12,15 @@
 
                 {!! Form::model($address,['url' => route('addresses.update',['address'=>$address->id]),'method'=>'patch','id' => 'userAddressForm','class' => 'form-horizontal','files'=>true]) !!}
                 
-                <div class="card-body">
-
-                    <div class="row">
-                        <div class="col-12 col-lg-12 col-xl-12 col-md-12 mb-3">
-                            <h4 class="ft-medium fs-lg">Edit Address</h4>
-                        </div>
+                <div class="row">
+                    <div class="col-12 col-lg-12 col-xl-12 col-md-12 mb-3">
+                        <h4 class="ft-medium fs-lg">Edit Address</h4>
                     </div>
+                </div>
 
-                    @include ('my-addresses.form')
-                </div>
+                @include ('my-addresses.form')
                 
-                <div class="card-footer">
-                    {!! Form::submit('Update', ['class' => 'btn btn-dark full-width']) !!}
-                </div>
+                {!! Form::submit('Update', ['class' => 'btn btn-dark full-width']) !!}
 
                 {!! Form::close() !!}
             </div>

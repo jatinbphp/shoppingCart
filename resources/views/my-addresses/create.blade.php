@@ -12,20 +12,15 @@
 
                 {!! Form::open(['url' => route('addresses.store'), 'id' => 'userAddressForm', 'class' => 'form-horizontal','files'=>true]) !!}
 
-                <div class="card-body">
-
-                    <div class="row">
-                        <div class="col-12 col-lg-12 col-xl-12 col-md-12 mb-3">
-                            <h4 class="ft-medium fs-lg">Add New Address</h4>
-                        </div>
+                <div class="row">
+                    <div class="col-12 col-lg-12 col-xl-12 col-md-12 mb-3">
+                        <h4 class="ft-medium fs-lg">Add New Address</h4>
                     </div>
+                </div>
 
-                    @include ('my-addresses.form')
-                </div>
+                @include ('my-addresses.form')
                 
-                <div class="card-footer">
-                    {!! Form::submit('Save', ['class' => 'btn btn-dark full-width']) !!}
-                </div>
+                {!! Form::submit('Save', ['class' => 'btn btn-dark full-width']) !!}
 
                 {!! Form::close() !!}
             </div>

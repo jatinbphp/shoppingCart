@@ -18,7 +18,7 @@
 
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    {!! Form::label('categories_id', 'Which categories of products do you want to see?', ['class' => 'small text-dark ft-medium']) !!}
+                                    {!! Form::label('categories_id', 'Which categories of products do you want to see? :', ['class' => 'text-dark ft-medium']) !!}
 
                                     {!! Form::select("categories_id[]", $categories, !empty($user_info['categories_id']) ? explode(",", $user_info['categories_id']) : null, ["class" => "form-control select2", "id" => "categories_id", "multiple" => "true", 'data-placeholder' => 'Please Select']) !!}
 
@@ -32,9 +32,9 @@
 
                             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    {!! Form::label('name', 'Name *', ['class' => 'small text-dark ft-medium']) !!}
+                                    {!! Form::label('name', 'Name :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
 
-                                    {!! Form::text('name', null, ['class' => 'form-control']) !!}
+                                    {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Name']) !!}
 
                                     @if ($errors->has('name'))
                                         <span class="text-danger">
@@ -46,9 +46,9 @@
 
                             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    {!! Form::label('email', 'Email ID *', ['class' => 'small text-dark ft-medium']) !!}
+                                    {!! Form::label('email', 'Email Address :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
 
-                                    {!! Form::text('email', null, ['class' => 'form-control']) !!}
+                                    {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'Email Address']) !!}
 
                                     @if ($errors->has('email'))
                                         <span class="text-danger">
@@ -61,7 +61,7 @@
 
                             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    {!! Form::label('password', 'Password', ['class' => 'small text-dark ft-medium']) !!}
+                                    {!! Form::label('password', 'Password :', ['class' => 'text-dark ft-medium']) !!}
 
                                     {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Password']) !!}
 
@@ -75,7 +75,7 @@
 
                             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    {!! Form::label('password_confirmation', 'Confirm Password', ['class' => 'small text-dark ft-medium']) !!}
+                                    {!! Form::label('password_confirmation', 'Confirm Password :', ['class' => 'text-dark ft-medium']) !!}
 
                                     {!! Form::password('password_confirmation', ['class' => 'form-control', 'placeholder' => 'Confirm Password']) !!}
 
@@ -96,7 +96,7 @@
 
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    {!! Form::label('image', 'Image ', ['class' => 'small text-dark ft-medium']) !!}
+                                    {!! Form::label('image', 'Image :', ['class' => 'text-dark ft-medium']) !!}
 
                                     {!! Form::file('image', ['class' => 'form-control-file','onChange'=>'AjaxUploadImage(this)']) !!}
 

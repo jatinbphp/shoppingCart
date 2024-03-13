@@ -22,12 +22,7 @@
                                 <div class="card-wrap border rounded mb-4">
                                     <div class="card-wrap-header px-3 py-2 br-bottom d-flex align-items-center justify-content-between">
                                         <div class="card-header-flex">
-                                            <h4 class="fs-md ft-bold mb-1">Shipping Address</h4>
-                                            @if($value->is_default == 1)
-                                                <p class="m-0 p-0">
-                                                    <span class="text-success bg-light-success small ft-medium px-2 py-1">Primary Account</span>
-                                                </p>
-                                            @endif
+                                            <h4 class="fs-md ft-bold mb-1">Delivery Address</h4>
                                         </div>
                                         <div class="card-head-last-flex">
                                             <a class="border p-3 circle text-dark d-inline-flex align-items-center justify-content-center" href="{{ route('addresses.edit', ['address' => $value->id]) }}">
@@ -45,6 +40,10 @@
                                         </h5>
 
                                         <p>
+                                            @if (!empty($value->title))
+                                                <br><b>{{ $value->title }}</b>
+                                            @endif
+
                                             @if (!empty($value->company))
                                                 <br>{{ $value->company }}
                                             @endif
@@ -114,7 +113,7 @@ $('.addresses-page').on('click', '.deleteRecord', function (event) {
     function(isConfirm) {
         if (isConfirm) {
             $.ajax({
-                url: "{{ url('my-account/addresses') }}/" + id,
+                url: "{{ url('addresses') }}/" + id,
                 type: "DELETE",
                 headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
                 success: function(data) {

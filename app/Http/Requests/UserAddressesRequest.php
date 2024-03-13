@@ -15,6 +15,7 @@ class UserAddressesRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'title' => 'required|string|max:50',
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
             'company' => 'nullable|string|max:50',
@@ -25,19 +26,6 @@ class UserAddressesRequest extends FormRequest
             'city' => 'required|string|max:50',
             'state' => 'required|string|max:50',
             'country' => 'required|string|max:50',
-            'is_default' => [
-                'nullable',
-                Rule::unique('user_addresses', 'is_default')
-                    ->where('user_id', auth()->user()->id)
-                    ->ignore($this->input('id')), 
-            ],        
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'is_default.unique' => "The default address has already been set.",
         ];
     }
 }
