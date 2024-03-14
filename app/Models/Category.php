@@ -18,23 +18,19 @@ class Category extends Model
         self::STATUS_INACTIVE => 'In Active',
     ];
 
-    public function children()
-    {
+    public function children(){
         return $this->hasMany(Category::class, 'parent_category_id', 'id')->orderBy('name', 'ASC');
     }
 
-    public function parent()
-    {
+    public function parent(){
         return $this->belongsTo(Category::class, 'parent_category_id', 'id');
     }
 
-    public function subcategories()
-    {
+    public function subcategories(){
         return $this->children()->with('children');
     }
 
-    public function products()
-    {
+    public function products(){
         return $this->hasMany(Products::class);
     }
 }

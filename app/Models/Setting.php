@@ -9,20 +9,7 @@ class Setting extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'address',
-        'phone_number',
-        'email_address',
-        'facebook_url',
-        'twitter_url',
-        'youtube_url',
-        'instagram_url',
-        'linkedin_url',
-        'status',
-        'header_menu_categories',
-        'footer_menu_categories',
-        'filters_categories',
-    ];
+    protected $fillable = ['address', 'phone_number', 'email_address', 'facebook_url', 'twitter_url', 'youtube_url', 'instagram_url', 'linkedin_url', 'status', 'header_menu_categories', 'footer_menu_categories', 'filters_categories'];
 
     protected $dates = ['deleted_at'];
 }

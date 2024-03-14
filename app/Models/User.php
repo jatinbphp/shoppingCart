@@ -15,37 +15,13 @@ class User extends Authenticatable
 
     protected $appends = ['full_name'];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'categories_id',
-        'name',
-        'email',
-        'password',
-        'role',
-        'image',
-        'phone',
-        'status',
-    ];
+    protected $fillable = ['categories_id', 'name', 'email', 'password', 'role', 'image', 'phone', 'status'];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
@@ -59,23 +35,19 @@ class User extends Authenticatable
         self::STATUS_INACTIVE => 'In Active',
     ];
 
-    public function user_addresses()
-    {
+    public function user_addresses(){
         return $this->hasMany(UserAddresses::class, 'user_id')->orderBy('id', 'ASC');
     }
 
-    public function orders()
-    {
+    public function orders(){
         return $this->hasMany(Order::class);
     }
 
-    public function orderItems()
-    {
+    public function orderItems(){
         return $this->hasManyThrough(OrderItem::class, Order::class);
     }
 
-    public function getFullNameAttribute()
-    {
+    public function getFullNameAttribute(){
         return $this->name . ' (' . $this->email . ')';
     }
 }
