@@ -32,8 +32,7 @@ class Products extends Model
     ];
 
 
-    public function product_images()
-    {
+    public function product_images(){
         return $this->hasMany(ProductImages::class, 'product_id')->orderBy('id', 'DESC');
     }
 
@@ -41,40 +40,35 @@ class Products extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
-    public function options()
-    {
+    public function options(){
         return $this->hasMany(ProductsOptions::class, 'product_id')->orderBy('option_name', 'ASC');
     }
 
-    public function orderItems()
-    {
+    public function orderItems(){
         return $this->hasMany(OrderItem::class, 'product_id', 'id')->orderBy('option_value', 'ASC');
     }
 
-    public function getFullNameAttribute()
-    {
+    public function getFullNameAttribute(){
         return $this->product_name . ' (' . $this->sku . ')';
     }
 
-    public function product_image()
-    {
+    public function product_image(){
         return $this->hasOne(ProductImages::class, 'product_id')->orderBy('id', 'DESC')->latest();
     }
 
-    public function reviews()
-    {
+    public function reviews(){
         return $this->hasMany(Review::class, 'product_id');
     }
-
-    // Custom method to get the total number of reviews for the product
-    public function total_reviews()
-    {
+    
+    public function total_reviews(){
         return $this->reviews()->count();
     }
 
-    // Custom method to get the total rating for the product
-    public function total_review_rating()
-    {
+    public function total_review_rating(){
         return $this->reviews()->sum('rating');
+    }
+
+    public function products_options_value(){
+        return $this->hasOne(ProductsOptionsValues::class, 'product_id');
     }
 }

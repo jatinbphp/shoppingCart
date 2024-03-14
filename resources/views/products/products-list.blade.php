@@ -223,5 +223,51 @@ $(document).ready(function() {
         });
     });
 });
+
+/*function for filtering products by size and price*/
+function handleProductFilter(minPrice=null, maxPrice=null){
+    var formData = $('#product-filter-form').serializeArray();
+    var category_id = {{ request()->route('category_id') ?? 'null' }};
+    var keyword = '{{ request('keyword') ?? null }}';
+    var layout = $('.view-btn.active').attr('data-id');
+
+    formData.push({name: 'category_id', value: category_id});
+    formData.push({name: 'items', value: itemsPerPage});
+    formData.push({name: 'keyword', value: keyword});
+    formData.push({name: 'layout', value: layout});
+    /*price range*/
+    formData.push({name: 'minPrice', value: minPrice});
+    formData.push({name: 'maxPrice', value: maxPrice});
+
+    $.ajax({
+        url: $('#product-filter-form').attr('action'),
+        method: 'GET',
+        headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+        data: $.param(formData),
+        success: function(response) {
+            if (response.status !== 200) return false;
+            var products = JSON.parse(JSON.stringify(response.products.data));
+            //if (!products || products.length === 0) return false;
+            var totalCount = (currentPage - 1) * itemsPerPage + products.length; 
+            $('#items-found').text(totalCount); 
+            if (response.is_last) {
+                $("#load-more-btn").addClass('btn-secondary').attr('disabled', true);
+            } else {
+                $("#load-more-btn").removeClass('btn-secondary').attr('disabled', false);
+            }
+            $('.rows-products').html(response.view);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('AJAX Error:', textStatus, errorThrown);
+        }
+    });
+}
+
+$(".js-range-slider").on("change", function() {
+    var slider = $(this).data("ionRangeSlider");    
+    var minValue = slider.result.from;
+    var maxValue = slider.result.to;
+    handleProductFilter(minValue, maxValue)
+});
 </script>
 @endsection
