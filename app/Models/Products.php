@@ -60,4 +60,21 @@ class Products extends Model
     {
         return $this->hasOne(ProductImages::class, 'product_id')->orderBy('id', 'DESC')->latest();
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'product_id');
+    }
+
+    // Custom method to get the total number of reviews for the product
+    public function total_reviews()
+    {
+        return $this->reviews()->count();
+    }
+
+    // Custom method to get the total rating for the product
+    public function total_review_rating()
+    {
+        return $this->reviews()->sum('rating');
+    }
 }

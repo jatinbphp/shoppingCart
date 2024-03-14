@@ -129,7 +129,7 @@ if (!function_exists('get_content_management_settings')) {
     }
 }
 
-/*if (!function_exists('getActiveBanners')) {
+if (!function_exists('getActiveBanners')) {
     function getActiveBanners()
     {
         return Banner::where('status', 'active')
@@ -159,4 +159,4 @@ if (!function_exists('getCategoryProducts')) {
             ->take(4)
             ->get();
     }
-}*/
+}

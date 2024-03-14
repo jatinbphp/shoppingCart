@@ -57,40 +57,18 @@
                                     @endif
                                 </div>
                             </div>
-                            <!-- Add validation for other fields similarly -->
-
-                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                <div class="form-group">
-                                    {!! Form::label('password', 'Password :', ['class' => 'text-dark ft-medium']) !!}
-
-                                    {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Password']) !!}
-
-                                    @if ($errors->has('password'))
-                                        <span class="text-danger">
-                                            <strong>{{ $errors->first('password') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                <div class="form-group">
-                                    {!! Form::label('password_confirmation', 'Confirm Password :', ['class' => 'text-dark ft-medium']) !!}
-
-                                    {!! Form::password('password_confirmation', ['class' => 'form-control', 'placeholder' => 'Confirm Password']) !!}
-
-                                    @if ($errors->has('password_confirmation'))
-                                        <span class="text-danger">
-                                            <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
 
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                <div class="alert alert-success">
-                                    <h4><i class="fa fa-info"></i> Note:</h4>
-                                    <p>Leave Password and Confirm Password empty if you are not going to change the password.</p>
+                                <div class="form-group">
+                                    {!! Form::label('phone', 'Phone Number :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
+
+                                    {!! Form::text('phone', null, ['class' => 'form-control', 'placeholder' => 'Phone Number']) !!}
+
+                                    @if ($errors->has('phone'))
+                                        <span class="text-danger">
+                                            <strong>{{ $errors->first('phone') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
 

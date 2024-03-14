@@ -1,21 +1,8 @@
 @extends('admin.layouts.app')
 @section('content')
-    <div class="content-wrapper" style="min-height: 946px;">
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Import {{$menu}}</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{route('products.index')}}">{{$menu}}</a></li>
-                            <li class="breadcrumb-item active">Add</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div class="content-wrapper">
+        @include('admin.common.header', ['menu' => $menu, 'breadcrumb' => [['route' => route('products.index'), 'title' => $menu]], 'active' => 'Import'])
+
         <section class="content">
             @include ('admin.common.error')
             <div class="row">
@@ -23,7 +10,7 @@
                     <div class="card card-info card-outline">
                         <div class="card-header">
                             <h3 class="card-title w-100">
-                                Import {{$menu}}
+                                Import Products
 
                                 <a class="btn btn-info btn-sm float-right" href="{{ url('assets/admin/dist/productImport.csv') }}" download><i class="fa fa-download"></i> Download Sample File</a>
                             </h3>
@@ -52,7 +39,8 @@
                         </div>
                         <div class="card-footer">
                             <a href="{{ route('products.index') }}" class="btn btn-sm btn-default"><i class="fa fa-arrow-left pr-1"></i> Back</a>
-                            <button class="btn btn-sm btn-info float-right" type="submit"><i class="fa fa-upload" aria-hidden="true"></i> Import</button>
+                            
+                            {!! Form::submit('<i class="fa fa-upload" aria-hidden="true"></i> Import', ['class' => 'btn btn-sm btn-info float-right']) !!}
                         </div>
                         {!! Form::close() !!}
                     </div>

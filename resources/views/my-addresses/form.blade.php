@@ -57,8 +57,8 @@
     </div>
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="form-group">
-            {!! Form::label('address_line1', 'Address 1 :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
-            {!! Form::text('address_line1', null, ['class' => 'form-control', 'placeholder' => 'Address 1']) !!}
+            {!! Form::label('address_line1', 'Address :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
+            {!! Form::text('address_line1', null, ['class' => 'form-control', 'placeholder' => 'Address']) !!}
             @error('address_line1')
                 <span class="text-danger">
                     <strong>{{ $message }}</strong>
@@ -68,8 +68,8 @@
     </div>
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="form-group">
-            {!! Form::label('address_line2', 'Address 2 :', ['class' => 'text-dark ft-medium']) !!}
-            {!! Form::text('address_line2', null, ['class' => 'form-control', 'placeholder' => 'Address 2 (optional)']) !!}
+            {!! Form::label('address_line2', 'Address (Line 2) :', ['class' => 'text-dark ft-medium']) !!}
+            {!! Form::text('address_line2', null, ['class' => 'form-control', 'placeholder' => 'Address (Line 2)']) !!}
             @error('address_line2')
                 <span class="text-danger">
                     <strong>{{ $message }}</strong>

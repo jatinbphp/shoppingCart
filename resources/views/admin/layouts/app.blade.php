@@ -87,7 +87,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('banner.index') }}" class="nav-link @if(isset($menu) && $menu=='Banners') active @endif">
+                        <a href="{{ route('banners.index') }}" class="nav-link @if(isset($menu) && $menu=='Banners') active @endif">
                             <i class="nav-icon fa fa-images"></i>
                             <p>Banners</p>
                         </a>

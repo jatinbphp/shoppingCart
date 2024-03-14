@@ -167,7 +167,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
    Route::resource('settings', SettingController::class);
 
    /* banners */
-   Route::resource('banner', BannerController::class);
+   Route::resource('banners', BannerController::class);
 
    /*Subscriber*/
    Route::resource('subscribers', SubscriberController::class);

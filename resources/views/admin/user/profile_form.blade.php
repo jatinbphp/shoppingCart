@@ -19,7 +19,7 @@
     </div>
     <div class="col-md-12">
         <div class="callout callout-danger">
-            <h4><i class="fa fa-info"></i> Note:</h4>
+            {!! Html::tag('h4', '<i class="fa fa-info"></i> Note:', []) !!}
             <p>Leave Password and Confirm Password empty if you are not going to change the password.</p>
         </div>
     </div>

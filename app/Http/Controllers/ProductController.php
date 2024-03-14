@@ -46,12 +46,18 @@ class ProductController extends Controller
                 } 
             }
 
-
         $total_products = $products_query->count();
 
-        $products_collection = $products_query->with(['product_image', 'category', 'product_images', 'options.product_option_values'])
+        $products_collection = $products_query->with(['product_image', 'category', 'product_images', 'options.product_option_values', 'reviews'])
             ->orderBy('id', 'DESC')
             ->simplePaginate($items);
+
+        // Calculate total_reviews and total_review_rating for each product
+        $products_collection->getCollection()->transform(function ($product) {
+            $product->total_reviews = $product->total_reviews();
+            $product->total_review_rating = $product->total_review_rating();
+            return $product;
+        });
 
         $data['products'] = $products_collection;
         $data['total_products'] = $total_products;
@@ -70,7 +76,11 @@ class ProductController extends Controller
     }
 
     public function details($productId){   
-        $data['product'] = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])->where('status', 'active')->where('id', $productId)->first();
+        $data['product'] = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values', 'reviews'])->where('status', 'active')->where('id', $productId)->first();
+
+        // Calculate total_reviews and total_review_rating for the fetched product
+        $data['product']->total_reviews = $data['product']->reviews->count();
+        $data['product']->total_review_rating = $data['product']->reviews->sum('rating');
 
         $data['title'] = $data['product']['product_name'];
 
@@ -89,7 +99,11 @@ class ProductController extends Controller
     }
 
     public function quickview($productId){   
-        $product = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])->where('status', 'active')->where('id', $productId)->first();
+        $product = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values', 'reviews'])->where('status', 'active')->where('id', $productId)->first();
+
+        // Calculate total_reviews and total_review_rating for the fetched product
+        $product->total_reviews = $product->reviews->count();
+        $product->total_review_rating = $product->reviews->sum('rating');
         
         return view('modals.quick-modal-data', [
             'info' => $product->toArray()

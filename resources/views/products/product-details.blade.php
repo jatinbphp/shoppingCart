@@ -33,13 +33,19 @@
                     <div class="prt_02 mb-3">
                         <h2 class="ft-bold mb-1">{{$product['product_name']}}</h2>
                         <div class="text-left">
+                            @php
+                                $average_rating = ($product['total_reviews'] > 0) ? $product['total_review_rating'] / $product['total_reviews'] : 0;
+                                $filled_stars = round($average_rating);
+                            @endphp
                             <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star"></i>
-                                <span class="small">(412 Reviews)</span>
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @if ($i <= $filled_stars)
+                                        <i class="fas fa-star filled"></i>
+                                    @else
+                                        <i class="fas fa-star"></i>
+                                    @endif
+                                @endfor
+                                <span class="small">({{$product['total_reviews']}} Reviews)</span>
                             </div>
                             <div class="elis_rty">
                                 <span class="ft-medium text-muted line-through fs-md mr-2">

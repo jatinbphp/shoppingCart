@@ -2,31 +2,25 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
-            <label class="control-label" for="user_id">Select User :<span class="text-red">*</span></label>
+            @include('admin.common.label', ['field' => 'user_id', 'labelText' => 'Select User', 'isRequired' => true])
+
             {!! Form::select("user_id", $users, null, ["class" => "form-control select2", "id" => "user_id", 'placeholder' => 'Please Select']) !!}
-            @if ($errors->has('user_id'))
-                <span class="text-danger">
-                    <strong>{{ $errors->first('user_id') }}</strong>
-                </span>
-            @endif
+
+            @include('admin.common.errors', ['field' => 'user_id'])
         </div>
     </div>
-
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('address_id') ? ' has-error' : '' }}">
-            <label class="control-label" for="address_id">Select User Address:<span class="text-red">*</span></label>
+            @include('admin.common.label', ['field' => 'address_id', 'labelText' => 'Select User Address', 'isRequired' => true])
+            
             {!! Form::select("address_id", ['' => 'Please Select'], null, ["class" => "form-control select2", "id" => "address_id"]) !!}
-            @if ($errors->has('address_id'))
-                <span class="text-danger">
-                    <strong>{{ $errors->first('address_id') }}</strong>
-                </span>
-            @endif
+            
+            @include('admin.common.errors', ['field' => 'address_id'])
         </div>
     </div>
-
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <input type="hidden" id="route_name" value="{{ route('orders.index_product') }}">
-        <input type="hidden" id="order_id" name="order_id" value="{{ isset($order) ? $order->id : 0}}">
+        {!! Form::hidden('route_name', route('orders.index_product'), ['id' => 'route_name']) !!}
+        {!! Form::hidden('order_id', isset($order) ? $order->id : 0, ['id' => 'order_id']) !!}
         <table id="orderProductTable" class="table table-bordered table-striped datatable-dynamic">
             <thead>
                 <tr>
@@ -36,7 +30,7 @@
                     <th style="width: 15%;">Unit Price</th>
                     <th style="width: 15%;">Total</th>
                     <th style="width: 5%;">
-                        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#myModal" style="float: right;"><i class="fa fa-plus"></i></button>
+                        {!! Form::button('<i class="fa fa-plus"></i>', ['type' => 'button', 'class' => 'btn btn-sm btn-info', 'data-toggle' => 'modal', 'data-target' => '#myModal', 'style' => 'float: right;']) !!}
                     </th>
                 </tr>
             </thead>
@@ -55,64 +49,43 @@
                 </tr>
             </tfoot>
         </table> 
-         
     </div>
-
     <div class="col-md-12">
-        <div class="form-group{{ $errors->has('address_id') ? ' has-error' : '' }}">
+        <div class="form-group{{ $errors->has('products') ? ' has-error' : '' }}">
             {!! Form::hidden('products', null, ['class' => 'form-control', 'id' => 'products']) !!}
-            @if ($errors->has('products'))
-                <span class="text-danger">
-                    <strong>{{ $errors->first('products') }}</strong>
-                </span>
-            @endif
+
+            @include('admin.common.errors', ['field' => 'products'])
         </div>
     </div>
-
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
-            <label class="control-label" for="status">Select Status :<span class="text-red">*</span></label>
+            @include('admin.common.label', ['field' => 'status', 'labelText' => 'Select Status', 'isRequired' => true])
+
             <select name="status" class="form-control" id="status">
                 @foreach (\App\Models\Order::$allStatus as $key => $value)
                     @php $selected = isset($order) && $key == $order->status?'selected':''; @endphp
                     <option value="{{ $key }}" class="flat-red" {{$selected}}>{{ucfirst($value)}}</option>
                 @endforeach
             </select>
-            @if ($errors->has('status'))
-                <span class="text-danger">
-                    <strong>{{ $errors->first('status') }}</strong>
-                </span>
-            @endif
         </div>
     </div>
-
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('delivey_method') ? ' has-error' : '' }}">
-            <label class="control-label" for="delivey_method">Select Delivey Method :<span class="text-red">*</span></label>
+            @include('admin.common.label', ['field' => 'delivey_method', 'labelText' => 'Select Delivey Method', 'isRequired' => true])
+
             <select name="delivey_method" class="form-control" id="delivey_method">
                 @foreach (\App\Models\Order::$allDeliveryMethod as $key => $value)
                     @php $selected = isset($order) && $key == $order->delivey_method?'selected':''; @endphp
                     <option value="{{ $key }}" class="flat-red" {{$selected}}>{{ $value }}</option>
                 @endforeach
-            </select>
-            @if ($errors->has('delivey_method'))
-                <span class="text-danger">
-                    <strong>{{ $errors->first('delivey_method') }}</strong>
-                </span>
-            @endif
+            </select>            
         </div>
     </div>
-
     <div class="col-md-12">
         <div class="form-group{{ $errors->has('notes') ? ' has-error' : '' }}">
-            <label class="control-label w-100" for="notes">Leave a message :</label>
+            @include('admin.common.label', ['field' => 'notes', 'labelText' => 'Leave a message', 'isRequired' => true])
             <small>If you would like to add a comment about your order, please write it in the field below.</small>
             {!! Form::textarea('notes', null, ['class' => 'form-control', 'placeholder' => 'Enter Notes', 'id' => 'notes', 'rows' => '2']) !!}
-            @if ($errors->has('notes'))
-                <span class="text-danger">
-                    <strong>{{ $errors->first('notes') }}</strong>
-                </span>
-            @endif
         </div>
     </div>
 </div>

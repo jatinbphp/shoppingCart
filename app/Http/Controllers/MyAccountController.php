@@ -29,25 +29,8 @@ class MyAccountController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$user->id.',id',
             'image' => 'nullable|mimes:jpeg,jpg,png,bmp', // Allow null or valid image files
-            'password' => 'nullable|confirmed',
+            'phone' => 'required',
         ]);
-
-        $input = $request->except('password', 'password_confirmation');
-        if ($request->hasFile('image')) {
-            if (!empty($user->image) && file_exists(public_path($user->image))) {
-                unlink(public_path($user->image));
-            }
-            $image = $request->file('image');
-            $imageName = time().'.'.$image->extension(); 
-            $image->move(public_path('uploads/users/'), $imageName); 
-            $input['image'] = 'uploads/users/'.$imageName;
-        }
-
-        if ($request->filled('password')) {
-            $input['password'] = Hash::make($request->password);
-        } else {
-            unset($input['password']);
-        }
 
         if (!empty($input['categories_id'])) {
             $input['categories_id'] = implode(",", $input['categories_id']);
@@ -86,5 +69,4 @@ class MyAccountController extends Controller
     
         return redirect()->route('change.password');
     }
-    
 }

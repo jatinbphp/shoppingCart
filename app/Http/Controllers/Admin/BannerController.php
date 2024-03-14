@@ -20,11 +20,11 @@ class BannerController extends Controller{
                     return $row['created_at']->format('Y-m-d h:i:s');
                 })
                 ->editColumn('status', function($row){
-                    $row['table_name'] = 'categories';
+                    $row['table_name'] = 'banners';
                     return view('admin.common.status-buttons', $row);
                 })
                 ->addColumn('action', function($row){
-                    $row['section_name'] = 'banner';
+                    $row['section_name'] = 'banners';
                     $row['section_title'] = 'Banner';
                     return view('admin.common.action-buttons', $row);
                 })

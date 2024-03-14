@@ -2,9 +2,9 @@
 
 @section('content')
 
-@if(!empty($banners))
+@if(!empty(getActiveBanners()))
     <div class="home-slider margin-bottom-0">
-        @foreach($banners as $keyBanner => $valueBanner)
+        @foreach(getActiveBanners() as $keyBanner => $valueBanner)
             @if(!empty($valueBanner->image) && file_exists($valueBanner->image))
                 <div class="item" data-overlay="3" style="background-image: url({{$valueBanner->image}});">
                     <div class="container">
@@ -114,8 +114,8 @@
         </div>
         
         <div class="row align-items-center rows-products">
-            @if(!empty($products))
-                @foreach($products as $key => $value)
+            @if(!empty(getTrendingProducts()))
+                @foreach(getTrendingProducts() as $key => $value)
                     <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
 
@@ -193,13 +193,13 @@
     </div>
 </section>
 
-@if(!empty($category_products))
+@if(!empty(getCategoryProducts()))
     <section>
         <div class="container">
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <ul class="nav nav-tabs b-0 d-flex align-items-center justify-content-center simple_tab_links mb-4" id="myTab" role="tablist">
-                        @foreach($category_products as $index => $category)
+                        @foreach(getCategoryProducts() as $index => $category)
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link @if($index === 0) active @endif" href="#category{{$index}}" data-toggle="tab" role="tab" aria-controls="category{{$index}}" aria-selected="@if($index === 0) true @else false @endif">{{$category->name}}</a>
                             </li>
@@ -207,7 +207,7 @@
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         
-                        @foreach($category_products as $index => $category)
+                        @foreach(getCategoryProducts() as $index => $category)
                             <div class="tab-pane fade @if($index === 0) show active @endif" id="category{{$index}}" role="tabpanel" aria-labelledby="category{{$index}}-tab">
                                 <div class="tab_product">
                                     <div class="row rows-products">
