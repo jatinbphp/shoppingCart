@@ -19,6 +19,9 @@
                                                     <ul>
                                                         @if (isset($category->children) && !empty($category->children))
                                                             @foreach ($category->children as $subKey => $subCategory)
+                                                                @if (count($subCategory->products ?? []) == 0)
+                                                                    @continue
+                                                                @endif
                                                                 <li>
                                                                     <a href="{{ route('products.filter', ['category_id' => ($subCategory->id ?? null), 'category_name' => strtolower($category->name), 'sub_category_name' => strtolower(str_replace(" ", "-", ($subCategory->name ?? '')))]) }}">
                                                                         {{ $subCategory->name ?? "-" }}
