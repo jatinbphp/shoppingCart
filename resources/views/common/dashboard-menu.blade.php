@@ -22,6 +22,12 @@
                 </li>
 
                 <li>
+                    <a href="{{route('change.password')}}" @if(isset($menu) && $menu=='change-password') class="active" @endif>
+                    <i class="fas fa-lock mr-2"></i>Change Password
+                    </a>
+                </li>
+
+                <li>
                     <a href="{{route('addresses.index')}}" @if(isset($menu) && $menu=='addresses') class="active" @endif>
                         <i class="lni lni-map-marker mr-2"></i>Addresses
                     </a>

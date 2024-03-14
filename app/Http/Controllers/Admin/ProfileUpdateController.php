@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileUpdateController extends Controller
 {
@@ -36,7 +37,7 @@ class ProfileUpdateController extends Controller
     public function edit($id)
     {
         $data['menu']="Edit Profile";
-        $data['user'] = User::findorFail($id);
+        $data['user'] = Admin::findorFail($id);
         return view('admin.user.profile_edit',$data);
     }
 
@@ -54,14 +55,15 @@ class ProfileUpdateController extends Controller
         }
 
         $input = $request->all();
-        $user = User::findorFail($id);
+        $input['password']= Hash::make($request->password);
+        $admin = Admin::findorFail($id);
         if($file = $request->file('image')){
-            if (!empty($user['image'])) {
-                unlink($user['image']);
+            if (!empty($admin['image'])) {
+                unlink($admin['image']);
             }
-            $input['image'] = $this->fileMove($file,'users');
+            $input['image'] = $this->fileMove($file,'admin');
         }
-        $user->update($input);
+        $admin->update($input);
         \Session::flash('success','Profile has been updated successfully!');
         return redirect('admin/profile_update/'.$id."/edit");
     }

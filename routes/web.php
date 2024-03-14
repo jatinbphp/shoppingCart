@@ -97,6 +97,10 @@ Route::get('checkout/order-completed', [CheckoutController::class, 'orderComplet
 Route::get('profile-info', [MyAccountController::class, 'profileInfo'])->name('profile-info');
 Route::post('profile-info/update',[MyAccountController::class,'userProfileUpdate'])->name('profile-info-update');
 
+/*Change Password*/
+Route::get('change-password', [MyAccountController::class, 'changePassword'])->name('change.password');
+Route::post('change-password-update',[MyAccountController::class,'passwordUpdate'])->name('change.password.update');
+
 /* My Orders */
 Route::get('orders', [FrontOrderController::class, 'myOrders'])->name('orders-list');
 Route::get('orders/{id}/details', [FrontOrderController::class, 'orderDetails'])->name('order-details');
