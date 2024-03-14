@@ -10,10 +10,6 @@ use Illuminate\Support\Facades\Hash;
 
 class ProfileUpdateController extends Controller
 {
-    public function __construct(){
-        $this->middleware('auth');
-    }
-
     public function index()
     {
         //
@@ -45,7 +41,7 @@ class ProfileUpdateController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id.',id',
+            'email' => 'required|email|unique:admins,email,'.$id.',id',
             'image' => 'mimes:jpeg,jpg,png,bmp',
             'password' => 'confirmed',
         ]);
