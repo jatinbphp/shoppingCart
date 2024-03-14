@@ -1,3 +1,8 @@
+<style>
+    [type="checkbox"]:checked, [type="checkbox"]:not(:checked) {
+        position: absolute;    left: -9999px;
+    }
+</style>
 <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0">
     <div class="search-sidebar sm-sidebar border">
         <div class="search-sidebar-body">
@@ -63,42 +68,16 @@
                         <div class="single_filter_card">
                             <div class="card-body pt-0">
                                 <div class="text-left pb-0 pt-2">
-                                    <div class="form-check form-option form-check-inline mb-2">
-                                        <input class="form-check-input" type="radio" name="sizes" id="26s">
-                                        <label class="form-option-label" for="26s">26</label>
-                                    </div>
-                                    <div class="form-check form-option form-check-inline mb-2">
-                                        <input class="form-check-input" type="radio" name="sizes" id="28s">
-                                        <label class="form-option-label" for="28s">28</label>
-                                    </div>
-                                    <div class="form-check form-option form-check-inline mb-2">
-                                        <input class="form-check-input" type="radio" name="sizes" id="30s" checked>
-                                        <label class="form-option-label" for="30s">30</label>
-                                    </div>
-                                    <div class="form-check form-option form-check-inline mb-2">
-                                        <input class="form-check-input" type="radio" name="sizes" id="32s">
-                                        <label class="form-option-label" for="32s">32</label>
-                                    </div>
-                                    <div class="form-check form-option form-check-inline mb-2">
-                                        <input class="form-check-input" type="radio" name="sizes" id="34s">
-                                        <label class="form-option-label" for="34s">34</label>
-                                    </div>
-                                    <div class="form-check form-option form-check-inline mb-2">
-                                        <input class="form-check-input" type="radio" name="sizes" id="36s">
-                                        <label class="form-option-label" for="36s">36</label>
-                                    </div>
-                                    <div class="form-check form-option form-check-inline mb-2">
-                                        <input class="form-check-input" type="radio" name="sizes" id="38s">
-                                        <label class="form-option-label" for="38s">38</label>
-                                    </div>
-                                    <div class="form-check form-option form-check-inline mb-2">
-                                        <input class="form-check-input" type="radio" name="sizes" id="40s">
-                                        <label class="form-option-label" for="40s">40</label>
-                                    </div>
-                                    <div class="form-check form-option form-check-inline mb-2">
-                                        <input class="form-check-input" type="radio" name="sizes" id="42s">
-                                        <label class="form-option-label" for="42s">42</label>
-                                    </div>
+                                    @if(isset($sizes) && !empty($sizes))
+                                        {!! Form::open(['url' => route('products'), 'id' => 'product-filter-form', 'class' => 'form-horizontal']) !!}
+                                            @foreach($sizes as $key => $value)
+                                                <div class="form-check form-option form-check-inline mb-2">
+                                                    {!! Form::checkbox('sizes[]', $value ?? null, false, ['class' => 'form-check-input', 'id' => 'size-' . $value, 'onchange' => 'handleProductFilter()']) !!}
+                                                    <label class="form-option-label" for="{{ 'size-' . $value }}">{{ $value }}</label>
+                                                </div>
+                                            @endforeach
+                                        {!! Form::close() !!}
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -106,7 +85,7 @@
                 </div>
             </div>
             
-            <div class="single_search_boxed">
+            {{-- <div class="single_search_boxed">
                 <div class="widget-boxed-header">
                     <h4><a href="#colors" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">Colors</a></h4>
                 </div>
@@ -115,36 +94,20 @@
                         <div class="single_filter_card">
                             <div class="card-body pt-0">
                                 <div class="text-left">
-                                    <div class="form-check form-option form-check-inline mb-1">
-                                        <input class="form-check-input" type="radio" name="colora8" id="whitea8">
-                                        <label class="form-option-label rounded-circle" for="whitea8"><span class="form-option-color rounded-circle blc7"></span></label>
-                                    </div>
-                                    <div class="form-check form-option form-check-inline mb-1">
-                                        <input class="form-check-input" type="radio" name="colora8" id="bluea8">
-                                        <label class="form-option-label rounded-circle" for="bluea8"><span class="form-option-color rounded-circle blc2"></span></label>
-                                    </div>
-                                    <div class="form-check form-option form-check-inline mb-1">
-                                        <input class="form-check-input" type="radio" name="colora8" id="yellowa8">
-                                        <label class="form-option-label rounded-circle" for="yellowa8"><span class="form-option-color rounded-circle blc5"></span></label>
-                                    </div>
-                                    <div class="form-check form-option form-check-inline mb-1">
-                                        <input class="form-check-input" type="radio" name="colora8" id="pinka8">
-                                        <label class="form-option-label rounded-circle" for="pinka8"><span class="form-option-color rounded-circle blc3"></span></label>
-                                    </div>
-                                    <div class="form-check form-option form-check-inline mb-1">
-                                        <input class="form-check-input" type="radio" name="colora8" id="reda">
-                                        <label class="form-option-label rounded-circle" for="reda"><span class="form-option-color rounded-circle blc4"></span></label>
-                                    </div>
-                                    <div class="form-check form-option form-check-inline mb-1">
-                                        <input class="form-check-input" type="radio" name="colora8" id="greena">
-                                        <label class="form-option-label rounded-circle" for="greena"><span class="form-option-color rounded-circle blc6"></span></label>
-                                    </div>
+                                    @if(isset($colors) && !empty($colors))
+                                        @foreach($colors as $key => $value)
+                                            <div class="form-check form-option form-check-inline mb-1">
+                                                {!! Form::checkbox('colors', $value ?? null, false, ['class' => 'form-check-input', 'id' => $value]) !!}
+                                                <label class="form-option-label rounded-circle" for="{{ $value }}"><span class="form-option-color rounded-circle" style="background: {{ $value }};"></span></label>
+                                            </div>
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

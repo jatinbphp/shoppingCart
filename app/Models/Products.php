@@ -60,4 +60,8 @@ class Products extends Model
     {
         return $this->hasOne(ProductImages::class, 'product_id')->orderBy('id', 'DESC')->latest();
     }
+
+    public function products_options_value(){
+        return $this->hasOne(ProductsOptionsValues::class, 'product_id');
+    }
 }
