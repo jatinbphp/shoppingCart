@@ -1,8 +1,6 @@
 @extends('layouts.app')
-
 @section('content')
 @include('common.breadcrumb', ['breadcrumbs' => ['Home', 'My Account', 'Add Address']])
-
 <section class="middle">
     <div class="container">
         <div class="row align-items-start justify-content-between">

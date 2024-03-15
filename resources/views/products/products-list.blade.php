@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <section class="bg-cover bckPos-topCenter" data-overlay="1" style="background: url('{{url("assets/website/images/banner-1.jpg")}}'); background-repeat:no-repeat;">
     <div class="container">
@@ -16,18 +15,12 @@
         </div>
     </div>
 </section>
-
 @include('common.breadcrumb', ['breadcrumbs' => ['Home', 'Shop']])
-
 <section class="middle">
     <div class="container">
-
         @include ('common.error')
-        
         <div class="row">
-
             @include ('products.products-filter')
-
             <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12">

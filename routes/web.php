@@ -92,6 +92,7 @@ Route::post('cart/update-quantity', [ShoppingCartController::class, 'updateQuant
 
 /*Checkout*/
 Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+Route::post('checkout-order-placed', [CheckoutController::class, 'placed'])->name('checkout-order-placed');
 Route::get('checkout/order-completed', [CheckoutController::class, 'orderCompleted'])->name('checkout.order-completed');
 
 /*My Account*/

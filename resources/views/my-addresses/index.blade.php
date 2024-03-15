@@ -1,8 +1,6 @@
 @extends('layouts.app')
-
 @section('content')
 @include('common.breadcrumb', ['breadcrumbs' => ['Home', 'My Account', 'Addresses']])
-
 <section class="middle addresses-page">
     <div class="container">
 

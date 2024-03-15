@@ -1,8 +1,6 @@
 @extends('layouts.app')
-
 @section('content')
 @include('common.breadcrumb', ['breadcrumbs' => ['Home', 'Pages', "FAQ's"]])
-
 <section class="middle">
     <div class="container">
         <div class="row justify-content-center">

@@ -1,13 +1,8 @@
 @extends('layouts.app')
-
 @section('content')
 @include('common.breadcrumb', ['breadcrumbs' => ['Home', 'My Account', 'Wishlist']])
-
 <section class="middle">
-    <div class="container">
-    @include ('common.error')
-    <div class="success-message" style="display: none;"></div>
-   
+    <div class="container">   
         <div class="row justify-content-center justify-content-between">
 
             @include ('common.dashboard-menu', ['menu' => 'wishlists'])

@@ -2,17 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
-use App\Models\User;
 use App\Models\UserAddresses;
-use App\Models\Products;
-use App\Models\ProductImages;
-use App\Models\ProductsOptions;
-use App\Models\ProductsOptionsValues;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
+use App\Http\Requests\OrderPlacedRequest;
 
 class CheckoutController extends Controller
 {
@@ -32,6 +25,11 @@ class CheckoutController extends Controller
         $data['user_addresses'] = UserAddresses::where('user_id',Auth::user()->id)->get();
 
         return view('checkout.checkout', $data);
+    }
+
+    public function placed(OrderPlacedRequest $request)
+    {
+        // code...
     }
 
     public function orderCompleted(){   

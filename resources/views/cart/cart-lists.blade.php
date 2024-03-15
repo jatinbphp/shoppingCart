@@ -1,8 +1,6 @@
 @extends('layouts.app')
-
 @section('content')
 @include('common.breadcrumb', ['breadcrumbs' => ['Home', 'Shopping Cart']])
-
 <section class="middle">
     <div class="container">
         <div class="row">
@@ -12,7 +10,6 @@
                 </div>
             </div>
         </div>
-
         @php
         $subTotal = 0;
         @endphp
