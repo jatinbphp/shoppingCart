@@ -1,24 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
-@include('common.breadcrumb', ['breadcrumbs' => ['Home', 'My Account', 'My Orders']])
-
-<section class="middle">
-    <div class="container ">
-        <div class="row align-items-start justify-content-between">
-            
-            @include ('common.dashboard-menu', ['menu' => 'orders'])
-
-            <div class="col-12 col-md-12 col-lg-8 col-xl-8 text-center ord_list_wraps">
-                <div class="ord_list_wrap border mb-4 mfliud">
-                    <div class="ord_list_head gray d-flex align-items-center justify-content-between px-3 py-3">
-                        <div class="olh_flex">
-                            <p class="m-0 p-0"><span class="text-muted">My Orders</span></p>
-                        </div>
-                    </div>
-                    <div class="ord_list_body text-left" id="orderList">>
-
-                        @if(!empty($orders))
+@if(!empty($orders))
                             @foreach($orders as $key => $value)
                                 <div class="row align-items-center justify-content-start m-0 py-4 br-bottom">
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-12">
@@ -79,41 +59,3 @@
                                 </div>
                             </div>
                         @endif
-                    </div>                       
-                    <div class="container">
-                        <div class="pagination-container d-flex justify-content-center" id="paginationLinks">
-                        </div>
-                    </div>
-            </div>
-        </div>
-    </div>
-</section>
-@endsection
-
-
-@section('jquery')
-<script>
-    $(document).ready(function () {
-        function loadOrders(page) {
-            $.ajax({
-                url: "{{ route('orders-list') }}",
-                method: "GET",
-                data: { page: page },
-                success: function (data) {
-                    $('#orderList').html(data.orders);
-                    $('#paginationLinks').html(data.pagination);
-                    var containerTop = $('.ord_list_wrap').offset().top;
-                    $(window).scrollTop(containerTop - 60);
-                }
-            });
-        }
-        loadOrders(1);
-        $(document).on('click', '.pagination a', function (event) {
-            event.preventDefault();
-            var page = $(this).attr('href').split('page=')[1];
-            loadOrders(page);
-            
-        });
-    });
-</script>
-@endsection
