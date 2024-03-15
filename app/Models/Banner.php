@@ -18,12 +18,5 @@ class Banner extends Model
         self::STATUS_INACTIVE => 'In Active',
     ];
 
-
-    protected $fillable = [
-        'title',
-        'subtitle',
-        'description',
-        'image',
-        'status',
-    ];
+    protected $fillable = ['title', 'subtitle', 'description', 'image', 'status'];
 }

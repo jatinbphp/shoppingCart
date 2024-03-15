@@ -8,31 +8,26 @@
                         <i class="lni lni-shopping-basket mr-2"></i>My Order
                     </a>
                 </li>
-
                 <li>
                     <a href="{{route('wishlist')}}" @if(isset($menu) && $menu=='wishlists') class="active" @endif>
                         <i class="lni lni-heart mr-2"></i>Wishlist
                     </a>
                 </li>
-
-                <li>
-                    <a href="{{route('profile-info')}}" @if(isset($menu) && $menu=='profile-info') class="active" @endif>
-                        <i class="lni lni-user mr-2"></i>Profile Info
-                    </a>
-                </li>
-
-                <li>
-                    <a href="{{route('change.password')}}" @if(isset($menu) && $menu=='change-password') class="active" @endif>
-                    <i class="fas fa-lock mr-2"></i>Change Password
-                    </a>
-                </li>
-
                 <li>
                     <a href="{{route('addresses.index')}}" @if(isset($menu) && $menu=='addresses') class="active" @endif>
                         <i class="lni lni-map-marker mr-2"></i>Addresses
                     </a>
                 </li>
-                
+                <li>
+                    <a href="{{route('profile-info')}}" @if(isset($menu) && $menu=='profile-info') class="active" @endif>
+                        <i class="lni lni-user mr-2"></i>Profile Info
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('change.password')}}" @if(isset($menu) && $menu=='change-password') class="active" @endif>
+                    <i class="fas fa-lock mr-2"></i>Change Password
+                    </a>
+                </li>
                 <li>
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="lni lni-power-switch mr-2"></i>Log Out

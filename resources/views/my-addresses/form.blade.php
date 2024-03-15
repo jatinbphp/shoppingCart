@@ -1,124 +1,100 @@
 <div class="row mb-2">
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="form-group">
-            {!! Form::label('title', 'Title :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
+            @include('common.label', ['field' => 'title', 'labelText' => 'Title', 'isRequired' => true])
+            
             {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Title']) !!}
-            @error('title')
-                <span class="text-danger">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+
+            @include('common.errors', ['field' => 'title'])
         </div>
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="form-group">
-            {!! Form::label('first_name', 'First Name :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
+            @include('common.label', ['field' => 'first_name', 'labelText' => 'First Name', 'isRequired' => true])
+
             {!! Form::text('first_name', null, ['class' => 'form-control', 'placeholder' => 'First Name']) !!}
-            @error('first_name')
-                <span class="text-danger">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+
+            @include('common.errors', ['field' => 'first_name'])
         </div>
     </div>
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="form-group">
-            {!! Form::label('last_name', 'Last Name :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
+            @include('common.label', ['field' => 'last_name', 'labelText' => 'Last Name', 'isRequired' => true])
+
             {!! Form::text('last_name', null, ['class' => 'form-control', 'placeholder' => 'Last Name']) !!}
-            @error('first_name')
-                <span class="text-danger">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+
+            @include('common.errors', ['field' => 'last_name'])
         </div>
     </div>
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="form-group">
-            {!! Form::label('company', 'Company :', ['class' => 'text-dark ft-medium']) !!}
+            @include('common.label', ['field' => 'company', 'labelText' => 'Company', 'isRequired' => false])
+
             {!! Form::text('company', null, ['class' => 'form-control', 'placeholder' => 'Company Name (optional)']) !!}
-            @error('company')
-                <span class="text-danger">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+
+            @include('common.errors', ['field' => 'company'])
         </div>
     </div>
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="form-group">
-            {!! Form::label('mobile_phone', 'Mobile Number :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
+            @include('common.label', ['field' => 'mobile_phone', 'labelText' => 'Mobile Number', 'isRequired' => true])
+
             {!! Form::text('mobile_phone', null, ['class' => 'form-control', 'placeholder' => 'Mobile Number']) !!}
-            @error('mobile_phone')
-                <span class="text-danger">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+
+            @include('common.errors', ['field' => 'mobile_phone'])
         </div>
     </div>
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="form-group">
-            {!! Form::label('address_line1', 'Address 1 :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
-            {!! Form::text('address_line1', null, ['class' => 'form-control', 'placeholder' => 'Address 1']) !!}
-            @error('address_line1')
-                <span class="text-danger">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+            @include('common.label', ['field' => 'address_line1', 'labelText' => 'Address', 'isRequired' => true])
+
+            {!! Form::text('address_line1', null, ['class' => 'form-control', 'placeholder' => 'Address']) !!}
+
+            @include('common.errors', ['field' => 'address_line1'])
         </div>
     </div>
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="form-group">
-            {!! Form::label('address_line2', 'Address 2 :', ['class' => 'text-dark ft-medium']) !!}
-            {!! Form::text('address_line2', null, ['class' => 'form-control', 'placeholder' => 'Address 2 (optional)']) !!}
-            @error('address_line2')
-                <span class="text-danger">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+            @include('common.label', ['field' => 'address_line2', 'labelText' => 'Address (Line 2)', 'isRequired' => false])
+
+            {!! Form::text('address_line2', null, ['class' => 'form-control', 'placeholder' => 'Address (Line 2)']) !!}
         </div>
     </div>
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="form-group">
-            {!! Form::label('country', 'Country :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
+            @include('common.label', ['field' => 'country', 'labelText' => 'Country', 'isRequired' => true])
+
             {!! Form::text('country', 'United Kingdom', ['class' => 'form-control', 'readonly' => 'true']) !!}
-            @error('country')
-                <span class="text-danger">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+
+            @include('common.errors', ['field' => 'country'])
         </div>
     </div>
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="form-group">
-            {!! Form::label('state', 'State :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
+            @include('common.label', ['field' => 'state', 'labelText' => 'State', 'isRequired' => true])
+            
             {!! Form::text('state', null, ['class' => 'form-control', 'placeholder' => 'State']) !!}
-            @error('state')
-                <span class="text-danger">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+
+            @include('common.errors', ['field' => 'state'])
         </div>
     </div>
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
         <div class="form-group">
-            {!! Form::label('city', 'City / Town :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
+            @include('common.label', ['field' => 'city', 'labelText' => 'City', 'isRequired' => true])
+
             {!! Form::text('city', null, ['class' => 'form-control', 'placeholder' => 'City / Town']) !!}
-            @error('city')
-                <span class="text-danger">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+
+            @include('common.errors', ['field' => 'city'])
         </div>
     </div>
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
         <div class="form-group">
-            {!! Form::label('pincode', 'ZIP / Pincode :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
+            @include('common.label', ['field' => 'pincode', 'labelText' => 'ZIP / Pincode', 'isRequired' => true])
+
             {!! Form::text('pincode', null, ['class' => 'form-control', 'placeholder' => 'Zip / Pincode']) !!}
-            @error('pincode')
-                <span class="text-danger">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+
+            @include('common.errors', ['field' => 'pincode'])
         </div>
     </div>
 

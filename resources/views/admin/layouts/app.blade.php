@@ -57,7 +57,7 @@
 
                         <a href="#" class="nav-link @if(isset($menu) && $menu=='Edit Profile') active  @endif">
                             @if (!empty(Auth::guard('admin')->user()->image) && file_exists(Auth::guard('admin')->user()->image))
-                                <img src=" {{asset(Auth::user()->image)}}" class="img-circle elevation-2" alt="User Image" style="width: 2.1rem; margin-right: 1.5%;">
+                                <img src=" {{asset(Auth::guard('admin')->user()->image)}}" class="img-circle elevation-2" alt="User Image" style="width: 2.1rem; margin-right: 1.5%;">
                             @else
                                 <img src=" {{url('assets/admin/dist/img/no-image.png')}}" class="img-circle elevation-2" alt="User Image" style="width: 2.1rem; margin-right: 1.5%;">
                             @endif
@@ -87,7 +87,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('banner.index') }}" class="nav-link @if(isset($menu) && $menu=='Banners') active @endif">
+                        <a href="{{ route('banners.index') }}" class="nav-link @if(isset($menu) && $menu=='Banners') active @endif">
                             <i class="nav-icon fa fa-images"></i>
                             <p>Banners</p>
                         </a>

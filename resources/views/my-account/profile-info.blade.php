@@ -18,99 +18,55 @@
 
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    {!! Form::label('categories_id', 'Which categories of products do you want to see? :', ['class' => 'text-dark ft-medium']) !!}
+                                    @include('common.label', ['field' => 'categories_id', 'labelText' => 'Which categories of products do you want to see?', 'isRequired' => false])
 
                                     {!! Form::select("categories_id[]", $categories, !empty($user_info['categories_id']) ? explode(",", $user_info['categories_id']) : null, ["class" => "form-control select2", "id" => "categories_id", "multiple" => "true", 'data-placeholder' => 'Please Select']) !!}
-
-                                    @if ($errors->has('categories_id'))
-                                        <span class="text-danger">
-                                            <strong>{{ $errors->first('categories_id') }}</strong>
-                                        </span>
-                                    @endif
                                 </div>
                             </div>
 
                             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    {!! Form::label('name', 'Name :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
+                                    @include('common.label', ['field' => 'name', 'labelText' => 'Name', 'isRequired' => true])
 
                                     {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Name']) !!}
 
-                                    @if ($errors->has('name'))
-                                        <span class="text-danger">
-                                            <strong>{{ $errors->first('name') }}</strong>
-                                        </span>
-                                    @endif
+                                    @include('common.errors', ['field' => 'name'])
                                 </div>
                             </div>
 
                             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    {!! Form::label('email', 'Email Address :', ['class' => 'text-dark ft-medium']) !!}<span class="text-red">*</span>
+                                    @include('common.label', ['field' => 'email', 'labelText' => 'Email Address', 'isRequired' => true])
 
                                     {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'Email Address']) !!}
 
-                                    @if ($errors->has('email'))
-                                        <span class="text-danger">
-                                            <strong>{{ $errors->first('email') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                            <!-- Add validation for other fields similarly -->
-
-                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                <div class="form-group">
-                                    {!! Form::label('password', 'Password :', ['class' => 'text-dark ft-medium']) !!}
-
-                                    {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Password']) !!}
-
-                                    @if ($errors->has('password'))
-                                        <span class="text-danger">
-                                            <strong>{{ $errors->first('password') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                <div class="form-group">
-                                    {!! Form::label('password_confirmation', 'Confirm Password :', ['class' => 'text-dark ft-medium']) !!}
-
-                                    {!! Form::password('password_confirmation', ['class' => 'form-control', 'placeholder' => 'Confirm Password']) !!}
-
-                                    @if ($errors->has('password_confirmation'))
-                                        <span class="text-danger">
-                                            <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                <div class="alert alert-success">
-                                    <h4><i class="fa fa-info"></i> Note:</h4>
-                                    <p>Leave Password and Confirm Password empty if you are not going to change the password.</p>
+                                    @include('common.errors', ['field' => 'email'])
                                 </div>
                             </div>
 
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    {!! Form::label('image', 'Image :', ['class' => 'text-dark ft-medium']) !!}
+                                    @include('common.label', ['field' => 'phone', 'labelText' => 'Phone Number', 'isRequired' => true])
+
+                                    {!! Form::text('phone', null, ['class' => 'form-control', 'placeholder' => 'Phone Number']) !!}
+
+                                    @include('common.errors', ['field' => 'phone'])
+                                </div>
+                            </div>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    @include('common.label', ['field' => 'image', 'labelText' => 'Image', 'isRequired' => false])
 
                                     {!! Form::file('image', ['class' => 'form-control-file','onChange'=>'AjaxUploadImage(this)']) !!}
 
                                     @if(!empty($user_info['image']) && file_exists($user_info['image']))
                                         <img src="{{ asset($user_info['image']) }}" alt="User Image" style="border: 1px solid #ccc;margin-top: 5px;" width="150" id="DisplayImage">
                                     @else
-                                        <img src="{{ url('assets/admin/dist/img/no-image.png') }}" alt="User Image" style="border: 1px solid #ccc;margin-top: 5px;padding: 20px;" width="150" id="DisplayImage">
+                                        <img src="{{ url('assets/website/images/no-image.png') }}" alt="User Image" style="border: 1px solid #ccc;margin-top: 5px;padding: 20px;" width="150" id="DisplayImage">
                                     @endif
 
-                                    @if ($errors->has('image'))
-                                        <span class="text-danger">
-                                            <strong>{{ $errors->first('image') }}</strong>
-                                        </span>
-                                    @endif
+                                    @include('common.errors', ['field' => 'image'])
                                 </div>
                             </div>
 

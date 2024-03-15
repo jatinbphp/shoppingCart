@@ -22,7 +22,8 @@ use App\Http\Controllers\InformationController;
 use App\Http\Controllers\SubscriberController as FrontSubscriberController;
 use App\Http\Controllers\ContactUsController as FrontContactUsController;
 use App\Http\Controllers\ProductController as FrontProductController;
-use App\Http\Controllers\MyAccountController;
+use App\Http\Controllers\MyProfileController;
+use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CheckoutController;
@@ -94,12 +95,12 @@ Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout'
 Route::get('checkout/order-completed', [CheckoutController::class, 'orderCompleted'])->name('checkout.order-completed');
 
 /*My Account*/
-Route::get('profile-info', [MyAccountController::class, 'profileInfo'])->name('profile-info');
-Route::post('profile-info/update',[MyAccountController::class,'userProfileUpdate'])->name('profile-info-update');
+Route::get('profile-info', [MyProfileController::class, 'index'])->name('profile-info');
+Route::post('profile-info/update',[MyProfileController::class,'update'])->name('profile-info-update');
 
 /*Change Password*/
-Route::get('change-password', [MyAccountController::class, 'changePassword'])->name('change.password');
-Route::post('change-password-update',[MyAccountController::class,'passwordUpdate'])->name('change.password.update');
+Route::get('change-password', [ChangePasswordController::class, 'index'])->name('change.password');
+Route::post('change-password-update',[ChangePasswordController::class,'update'])->name('change.password.update');
 
 /* My Orders */
 Route::get('orders', [FrontOrderController::class, 'myOrders'])->name('orders-list');
@@ -167,7 +168,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
    Route::resource('settings', SettingController::class);
 
    /* banners */
-   Route::resource('banner', BannerController::class);
+   Route::resource('banners', BannerController::class);
 
    /*Subscriber*/
    Route::resource('subscribers', SubscriberController::class);

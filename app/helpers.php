@@ -4,83 +4,63 @@ use App\Models\Cart;
 use App\Models\Wishlist;
 use App\Models\Products;
 use App\Models\ProductImages;
+use App\Models\ProductsOptions;
 use App\Models\Setting;
 use App\Models\Category;
 use App\Models\ContentManagement;
+use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 
+/* below function for settings */
 if (!function_exists('get_settings')) {
     function get_settings() {
         return Setting::findOrFail(1);
     }
 }
 
+/* below function for wishlist products ids */
 if (!function_exists('getWishlistProductIds')) {
     function getWishlistProductIds()
     {
-        // Check if a user is authenticated
         if (Auth::check()) {
-            // Get the authenticated user's ID
-            $userId = Auth::id();
-            
-            // Fetch wishlist products associated with the user
-            $wishlistProducts = Wishlist::where('user_id', $userId)->pluck('product_id')->toArray();
-
+            $wishlistProducts = Wishlist::where('user_id', Auth::id())->pluck('product_id')->toArray();
             return $wishlistProducts;
         }
-
-        // Return an empty array if the user is not authenticated or no products are found
         return [];
     }
 }
 
+/* below function for siderbar wishlist products*/
 if (!function_exists('getWishlistProductListWithDetails')) {
     function getWishlistProductListWithDetails()
-    {
-        // Check if a user is authenticated
-        if (Auth::check()) {
-            // Get the authenticated user's ID
-            $userId = Auth::id();
-            
-            // Fetch wishlist products associated with the user
-            $wishlistProducts = Wishlist::where('user_id', $userId)
-                ->orderBy('created_at', 'desc') // Order by creation date
+    {        
+        if (Auth::check()) {            
+            $wishlistProducts = Wishlist::where('user_id', Auth::id())
+                ->orderBy('created_at', 'desc')
                 ->take(4)
                 ->pluck('product_id')
                 ->toArray();
 
-            // Fetch full product information for each product ID
             $products = Products::whereIn('id', $wishlistProducts)->get();
-
             return $products;
         }
-
-        // Return an empty array if the user is not authenticated or no products are found
         return [];
     }
 }
 
+/* below function for siderbar cart products*/
 if (!function_exists('getCartProductIds')) {
     function getCartProductIds()
     {
-        // Check if a user is authenticated
         if (Auth::check()) {
-            // Get the authenticated user's ID
-            $userId = Auth::id();
-            
-            // Fetch wishlist products associated with the user
-            $cartProducts = Cart::where('user_id', $userId)->pluck('product_id')->toArray();
-
+            $cartProducts = Cart::where('user_id', Auth::id())->pluck('product_id')->toArray();
             return $cartProducts;
         }
-
-        // Return an empty array if the user is not authenticated or no products are found
         return [];
     }
 }
 
-// In helpers.php or any other appropriate file
-
+/* below function for product badge sale, new, hot */
 if (!function_exists('customBadge')) {
     function customBadge($type) {
         $textColor = 'white';
@@ -105,6 +85,7 @@ if (!function_exists('customBadge')) {
     }
 }
 
+/* below function for category header menu */
 if (!function_exists('getHeaderCategoriesMenu')) {
     function getHeaderCategoriesMenu()
     {
@@ -114,6 +95,7 @@ if (!function_exists('getHeaderCategoriesMenu')) {
     }
 }
 
+/* below function for category footer menu */
 if (!function_exists('getFooterCategoriesMenu')) {
     function getFooterCategoriesMenu()
     {
@@ -123,13 +105,15 @@ if (!function_exists('getFooterCategoriesMenu')) {
     }
 }
 
+/* below function for privacy policy & terms & condition page content */
 if (!function_exists('get_content_management_settings')) {
     function get_content_management_settings($id) {
         return ContentManagement::findOrFail($id);
     }
 }
 
-/*if (!function_exists('getActiveBanners')) {
+/* below function for home page banner sliders */
+if (!function_exists('getActiveBanners')) {
     function getActiveBanners()
     {
         return Banner::where('status', 'active')
@@ -138,6 +122,7 @@ if (!function_exists('get_content_management_settings')) {
     }
 }
 
+/* below function for home page trending products */
 if (!function_exists('getTrendingProducts')) {
     function getTrendingProducts()
     {
@@ -149,6 +134,7 @@ if (!function_exists('getTrendingProducts')) {
     }
 }
 
+/* below function for home page category tab */
 if (!function_exists('getCategoryProducts')) {
     function getCategoryProducts()
     {
@@ -159,4 +145,39 @@ if (!function_exists('getCategoryProducts')) {
             ->take(4)
             ->get();
     }
-}*/
+}
+
+/* below function for category filter listing */
+if (!function_exists('getCategoriesWithProductsForFilter')) {
+    function getCategoriesWithProductsForFilter()
+    {
+        return Category::with(['children' => function ($query) {
+                                    $query->whereHas('products');
+                                }, 'children.products'])
+                                ->where('parent_category_id', 0)
+                                ->whereHas('children.products')
+                                ->orderBy('name', 'ASC')
+                                ->get();
+    }
+}
+
+/* below function for size filter listing */
+if (!function_exists('getProductSizes')) {
+    function getProductSizesForFilter()
+    {
+        return ProductsOptions::join('products_options_values', 'products_options.id', '=', 'products_options_values.option_id')
+            ->select('products_options_values.option_value')
+            ->where('products_options.option_name', 'SIZE')
+            ->groupBy('products_options_values.option_value')
+            ->orderBy('products_options_values.option_value')
+            ->pluck('option_value')
+            ->toArray();
+    }
+}
+
+if (!function_exists('get_latest_product_reviews')) {
+    function get_latest_product_reviews($productId, $limit = 3) {
+        $reviews = Review::with('user')->where('product_id', $productId)->latest()->take($limit)->get();
+        return $reviews;
+    }
+}

@@ -11,8 +11,7 @@ class ProductsOptions extends Model
 
     protected $fillable = ['product_id', 'option_name', 'required'];
 
-    public function product_option_values()
-    {
+    public function product_option_values(){
         return $this->hasMany(ProductsOptionsValues::class, 'option_id')->orderBy('id', 'ASC');
     }
 }

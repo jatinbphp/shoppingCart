@@ -43,7 +43,7 @@
                             <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
                                 @include('admin.common.label', ['field' => 'phone', 'labelText' => 'Phone Number', 'isRequired' => true])
 
-                                {!! Form::text('phone', null, ['class' => 'form-control', 'placeholder' => 'Enter Phone', 'id' => 'phone']) !!}
+                                {!! Form::text('phone', null, ['class' => 'form-control', 'placeholder' => 'Enter Phone Number', 'id' => 'phone']) !!}
 
                                 @include('admin.common.errors', ['field' => 'phone'])
                             </div>
@@ -224,10 +224,10 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
-                                            @include('admin.common.label', ['field' => 'city', 'labelText' => 'City', 'isRequired' => true])
+                                            @include('admin.common.label', ['field' => 'city', 'labelText' => 'City / Town', 'isRequired' => true])
 
 
-                                            {!! Form::text("addresses[old][$address->id][city]", $address->city, ['class' => 'form-control', 'placeholder' => 'Enter City', 'id' => 'city']) !!}
+                                            {!! Form::text("addresses[old][$address->id][city]", $address->city, ['class' => 'form-control', 'placeholder' => 'Enter City / Town', 'id' => 'city']) !!}
                                             
                                             @include('admin.common.errors', ['field' => 'city'])
                                         </div>
@@ -236,7 +236,7 @@
                                         <div class="form-group{{ $errors->has('additional_information') ? ' has-error' : '' }}">
                                             @include('admin.common.label', ['field' => 'additional_information', 'labelText' => 'Additional Information', 'isRequired' => false])
 
-                                            {!! Form::textarea("addresses[old][$address->id][additional_information]", $address->additional_information, ['class' => 'form-control', 'placeholder' => 'Enter Additional information', 'id' => 'additional_information', 'rows' => '2']) !!}
+                                            {!! Form::textarea("addresses[old][$address->id][additional_information]", $address->additional_information, ['class' => 'form-control', 'placeholder' => 'Enter Additional Information', 'id' => 'additional_information', 'rows' => '2']) !!}
                                         </div>
                                     </div>
                                 </div>
@@ -337,9 +337,9 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
-                                        @include('admin.common.label', ['field' => 'city', 'labelText' => 'City', 'isRequired' => true])
+                                        @include('admin.common.label', ['field' => 'city', 'labelText' => 'City / Town', 'isRequired' => true])
 
-                                        {!! Form::text('addresses[new][1][city]', null, ['class' => 'form-control', 'placeholder' => 'Enter City', 'id' => 'city']) !!}
+                                        {!! Form::text('addresses[new][1][city]', null, ['class' => 'form-control', 'placeholder' => 'Enter City / Town', 'id' => 'city']) !!}
 
                                         @include('admin.common.errors', ['field' => 'city'])
                                     </div>
@@ -348,7 +348,7 @@
                                     <div class="form-group{{ $errors->has('additional_information') ? ' has-error' : '' }}">
                                         @include('admin.common.label', ['field' => 'additional_information', 'labelText' => 'Additional Information', 'isRequired' => false])
 
-                                        {!! Form::textarea('addresses[new][1][additional_information]', null, ['class' => 'form-control', 'placeholder' => 'Enter Additional information', 'id' => 'additional_information', 'rows' => '2']) !!}
+                                        {!! Form::textarea('addresses[new][1][additional_information]', null, ['class' => 'form-control', 'placeholder' => 'Enter Additional Information', 'id' => 'additional_information', 'rows' => '2']) !!}
                                     </div>
                                 </div>
                             </div>
@@ -449,15 +449,15 @@ $('#addressBtn').on('click', function(){
 
                 '<div class="col-md-3">'+
                     '<div class="form-group">'+
-                        '<label class="control-label" for="city">City :<span class="text-red">*</span></label>'+
-                        '<input type="text" name="addresses[new]['+addressCounter+'][city]" class="form-control" required- placeholder="Enter City">'+
+                        '<label class="control-label" for="city">City / Town :<span class="text-red">*</span></label>'+
+                        '<input type="text" name="addresses[new]['+addressCounter+'][city]" class="form-control" required- placeholder="Enter City / Town">'+
                     '</div>'+
                 '</div>'+
 
                 '<div class="col-md-12">'+
                     '<div class="form-group">'+
                         '<label class="control-label" for="additional_information">Additional Information :</label>'+
-                        '<textarea name="addresses[new]['+addressCounter+'][additional_information]" class="form-control" required- placeholder="Enter Additional information" rows="2"></textarea>'+
+                        '<textarea name="addresses[new]['+addressCounter+'][additional_information]" class="form-control" required- placeholder="Enter Additional Information" rows="2"></textarea>'+
                     '</div>'+
                 '</div>'+
             '</div>'+

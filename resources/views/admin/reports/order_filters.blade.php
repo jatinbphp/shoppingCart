@@ -1,5 +1,4 @@
 <div class="row">
-
     @if(isset($products))
         <div class="col-md-3">
             <div class="form-group">
