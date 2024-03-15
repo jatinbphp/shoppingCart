@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('common.breadcrumb', ['breadcrumbs' => ['Home', 'My Account', 'Profile Info']])
+    @include('common.breadcrumb', ['breadcrumbs' => ['Home', 'My Account', 'Change Password']])
 
     <section class="middle">
         <div class="container">
@@ -44,7 +44,7 @@
                             </div>
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    {!! Form::submit('Save Changes', ['class' => 'btn btn-dark']) !!}
+                                    {!! Form::submit('Update', ['class' => 'btn btn-dark']) !!}
                                 </div>
                             </div>
                         {!! Form::close() !!}

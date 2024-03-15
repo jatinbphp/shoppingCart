@@ -9,20 +9,20 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\UserProfileUpdateRequest;
 
-class MyAccountController extends Controller
+class MyProfileController extends Controller
 {
     public function __construct(Request $request){
         $this->middleware('auth');
     }
 
-    public function profileInfo(){   
+    public function index(){   
         $data['title'] = 'Profile Information';        
         $data['user_info']= Auth::user();
         $data['categories'] = Category::where('status', 'active')->where('parent_category_id', 0)->orderBy('full_name', 'ASC')->pluck('full_name', 'id');
         return view('my-account.profile-info', $data);
     }
 
-    public function userProfileUpdate(Request $request)
+    public function update(Request $request)
     {
         $user = User::find(Auth::user()->id);
         $request->validate([
@@ -39,34 +39,5 @@ class MyAccountController extends Controller
 
         \Session::flash('success', 'Profile has been updated successfully!');
         return redirect()->back();
-    }
-
-    public function changePassword()
-    {
-        $data['title'] = 'Change Password';
-        return view('my-account.change-password', $data);
-    }
-
-    public function passwordUpdate(Request $request)
-    {
-        $request->validate([
-            'current_password' => 'required',
-            'password' => 'required|confirmed',
-        ]);
-    
-        $user_data = Auth::user();
-        $current_password = $user_data->password;
-    
-        if ($request->current_password == $request->password) {
-            \Session::flash('danger', 'Current password and new password cannot be the same.');
-        } elseif (Hash::check($request->current_password, $current_password)) {
-            $user_data->password = Hash::make($request->password);
-            $user_data->save();
-            \Session::flash('success', 'Password changed successfully.');
-        } else {
-            \Session::flash('danger', 'Current password is incorrect.');
-        }
-    
-        return redirect()->route('change.password');
     }
 }

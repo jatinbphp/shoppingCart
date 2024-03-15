@@ -63,7 +63,7 @@
                                     @if(!empty($user_info['image']) && file_exists($user_info['image']))
                                         <img src="{{ asset($user_info['image']) }}" alt="User Image" style="border: 1px solid #ccc;margin-top: 5px;" width="150" id="DisplayImage">
                                     @else
-                                        <img src="{{ url('assets/admin/dist/img/no-image.png') }}" alt="User Image" style="border: 1px solid #ccc;margin-top: 5px;padding: 20px;" width="150" id="DisplayImage">
+                                        <img src="{{ url('assets/website/images/no-image.png') }}" alt="User Image" style="border: 1px solid #ccc;margin-top: 5px;padding: 20px;" width="150" id="DisplayImage">
                                     @endif
 
                                     @include('common.errors', ['field' => 'image'])
