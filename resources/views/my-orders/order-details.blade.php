@@ -45,8 +45,7 @@
                     <table class="table m-0">
                         <thead>
                             <tr>
-                                <th>Product Images</th>
-                                <th>Product</th>
+                                <th>Product Information</th>
                                 <th>SKU</th>
                                 <th>Quantity</th>
                                 <th class="text-right">Unit Price</th>
@@ -56,26 +55,33 @@
                         <tbody>
                             @if(!empty($order->orderItems))
                                 @foreach ($order->orderItems as $item)
-                                    <tr>
-
+                                    <tr> 
                                         <td>
-                                        <img src="{{ asset($item->product->product_image->image) }}" alt="{{ $item->product->product_image->image }}" height="130px">
-                                        </td> 
-                                        <td>
-                                            <h4 class="product_title fs-sm ft-medium mb-1 lh-1">
-                                                {{ $item->product->product_name }}
-                                            </h4>
-                                            <p class="m-0">
-                                                @if(!empty($item->orderOptions))
-                                                    @foreach ($item->orderOptions as $option)
-                                                        @if($option->name=='COLOR')
-                                                            <span class="text-dark medium">{{$option->name}} : <i class="fas fa-square" style="color: {{$option->value}}"></i></span></br>
-                                                        @else
-                                                            <span class="text-dark medium">{{$option->name}} : {{$option->value}}</span></br>
+                                            <div class="single_rev_caption d-flex align-items-start">
+                                                <div class="single_capt_left pr-2">
+                                                    @if(!empty($item->product->product_image->image) && file_exists($item->product->product_image->image))
+                                                        <img src="{{url($item->product->product_image->image)}}" alt="..." width="50px">
+                                                    @else 
+                                                        <img src="{{url('assets/website/images/default-image.png')}}" alt="..." width="50px">
+                                                    @endif
+                                                </div>
+                                                <div class="single_capt_right">
+                                                    <h4 class="product_title fs-sm ft-medium mb-1 lh-1">
+                                                        {{ $item->product->product_name }}
+                                                    </h4>
+                                                    <p class="m-0">
+                                                        @if(!empty($item->orderOptions))
+                                                            @foreach ($item->orderOptions as $option)
+                                                                @if($option->name=='COLOR')
+                                                                    <span class="text-dark medium">{{$option->name}} : <i class="fas fa-square" style="color: {{$option->value}}"></i></span></br>
+                                                                @else
+                                                                    <span class="text-dark medium">{{$option->name}} : {{$option->value}}</span></br>
+                                                                @endif
+                                                            @endforeach
                                                         @endif
-                                                    @endforeach
-                                                @endif
-                                            </p>
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </td>
                                         <td>{{ $item->product->sku }}</td>
                                         <td>{{ $item->product_qty }}</td>
