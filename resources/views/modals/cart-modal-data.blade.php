@@ -1,5 +1,5 @@
 <div class="cart_select_items py-2">
-    @if(count(getCartProductIds())>0)
+    @if(count(getTotalCartProducts())>0)
         @if(!empty($cart_products))
             @foreach($cart_products as $keyCart => $valueCart)
                 <div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
@@ -54,7 +54,7 @@
     @endif
 </div>
 
-@if(count(getCartProductIds())>0)
+@if(count(getTotalCartProducts())>0)
     <div class="cart_action px-3 py-3">
         <div class="form-group">
             <a href="{{route('checkout')}}" class="btn d-block full-width btn-dark">Checkout Now</a>

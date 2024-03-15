@@ -107,7 +107,7 @@
                                     </div>
                                     <div id="FEDEX" class="panel-collapse collapse show" aria-labelledby="pay" data-parent="#payaccordion">
                                         <div class="panel-body">
-                                            <label class="text-dark">5 WORKING DAYS - {{env('CURRENCY').number_format(7.14, 2);}} (tax incl.)</label>
+                                            <label class="text-dark">5 WORKING DAYS</label>
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +123,7 @@
                                         <div class="panel-body">
                                             <div class="row">
                                                 <div class="col-lg-12 col-md-12 col-sm-12">
-                                                    <label class="text-dark">5 WORKING DAYS - {{env('CURRENCY').number_format(7.14, 2);}} (tax incl.)</label>
+                                                    <label class="text-dark">5 WORKING DAYS</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -138,7 +138,7 @@
             @php
             $subTotal = 0;
             @endphp
-            @if(!empty($cart_products))
+            @if(count($cart_products)>0)
             <div class="col-12 col-lg-4 col-md-12">
                 <div class="d-block mb-3">
                     <h5 class="mb-4">Order Items ({{count($cart_products)}})</h5>

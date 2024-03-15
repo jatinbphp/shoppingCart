@@ -16,7 +16,7 @@
         @php
         $subTotal = 0;
         @endphp
-        @if(!empty($cart_products) && count($cart_products) > 0)
+        @if(count($cart_products)>0)
             <div class="row justify-content-between">
                 <div class="col-12 col-lg-7 col-md-12">
                     <ul class="list-group list-group-sm list-group-flush-y list-group-flush-x mb-4">

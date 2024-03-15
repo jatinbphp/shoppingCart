@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Products;
@@ -20,30 +21,14 @@ class ShoppingCartController extends Controller
     }
 
     public function shoppingCart(){   
-        $user_id = Auth::user()->id;
         $data['title'] = 'Shopping Cart';
-        $data['cart_products'] = Cart::with('product', 'product.product_image')->where('user_id', $user_id)->orderBy('created_at', 'desc')->get();
+
+        $data['cart_products'] = getTotalCartProducts();
 
         if(count($data['cart_products'])==0){
             return redirect()->route('products')->with('danger', 'Thank you for shopping with us! Please add the product to your cart.');
-        } else {
-            foreach ($data['cart_products'] as $key => $order) {
-
-                $optionArray = [];
-                $options = json_decode($order->options);
-                if (!empty($options)) {
-                    foreach ($options as $keyO => $valueO) {
-                        $product_option = ProductsOptions::where('id', $keyO)->first();
-                        $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
-
-                        $optionArray[$product_option->option_name] = $product_option_value->option_value;
-                    }
-                }
-
-                $data['cart_products'][$key]['product_options'] = $optionArray;
-
-            }
         }
+
         return view('cart.cart-lists', $data);
     }
 
@@ -70,7 +55,7 @@ class ShoppingCartController extends Controller
             $cart->save();
         }
 
-        return count(getCartProductIds());
+        return count(getTotalCartProducts());
     }
 
     public function cartview(){   
@@ -111,7 +96,7 @@ class ShoppingCartController extends Controller
         $cart->delete();
 
         $responseData = [
-            'total' => count(getCartProductIds()),
+            'total' => count(getTotalCartProducts()),
         ];        
         return response()->json($responseData);
     }

@@ -5,6 +5,7 @@ use App\Models\Wishlist;
 use App\Models\Products;
 use App\Models\ProductImages;
 use App\Models\ProductsOptions;
+use App\Models\ProductsOptionsValues;
 use App\Models\Setting;
 use App\Models\Category;
 use App\Models\ContentManagement;
@@ -49,11 +50,32 @@ if (!function_exists('getWishlistProductListWithDetails')) {
 }
 
 /* below function for siderbar cart products*/
-if (!function_exists('getCartProductIds')) {
-    function getCartProductIds()
+if (!function_exists('getTotalCartProducts')) {
+    function getTotalCartProducts()
     {
         if (Auth::check()) {
-            $cartProducts = Cart::where('user_id', Auth::id())->pluck('product_id')->toArray();
+            $cartProducts = Cart::with('product', 'product.product_image')
+                            ->where('user_id', Auth::user()->id)
+                            ->orderBy('created_at', 'desc')
+                            ->get();
+
+            if (count($cartProducts)>0){
+                foreach ($cartProducts as $key => $order) {
+                    $optionArray = [];
+                    $options = json_decode($order->options);
+                    if (!empty($options)) {
+                        foreach ($options as $keyO => $valueO) {
+                            $product_option = ProductsOptions::where('id', $keyO)->first();
+                            $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
+
+                            if ($product_option && $product_option_value) {
+                                $optionArray[$product_option->option_name] = $product_option_value->option_value;
+                            }
+                        }
+                    }
+                    $cartProducts[$key]['product_options'] = $optionArray;
+                }
+            }
             return $cartProducts;
         }
         return [];
@@ -175,6 +197,7 @@ if (!function_exists('getProductSizes')) {
     }
 }
 
+/* below function for product details page reviews */
 if (!function_exists('get_latest_product_reviews')) {
     function get_latest_product_reviews($productId, $limit = 3) {
         $reviews = Review::with('user')->where('product_id', $productId)->latest()->take($limit)->get();

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\UserAddresses;
@@ -21,27 +22,11 @@ class CheckoutController extends Controller
 
     public function checkout(){        
         $data['title'] = 'Checkout';
-        $data['cart_products'] = Cart::with('product', 'product.product_image')->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+
+        $data['cart_products'] = getTotalCartProducts();
 
         if(count($data['cart_products'])==0){
             return redirect()->route('products')->with('danger', 'Thank you for shopping with us! Please add the product to your cart.');
-        } else {
-            foreach ($data['cart_products'] as $key => $order) {
-
-                $optionArray = [];
-                $options = json_decode($order->options);
-                if (!empty($options)) {
-                    foreach ($options as $keyO => $valueO) {
-                        $product_option = ProductsOptions::where('id', $keyO)->first();
-                        $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
-
-                        $optionArray[$product_option->option_name] = $product_option_value->option_value;
-                    }
-                }
-
-                $data['cart_products'][$key]['product_options'] = $optionArray;
-
-            }
         }
 
         $data['user_addresses'] = UserAddresses::where('user_id',Auth::user()->id)->get();

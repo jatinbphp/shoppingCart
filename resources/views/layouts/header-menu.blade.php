@@ -21,7 +21,7 @@
                         </li>
                         <li>
                             <a href="javaScript:void(0);" data-url="{{route('cart.view')}}" id="open-cart-sidebar" title="Shopping Cart">
-                                <i class="lni lni-shopping-basket"></i><span class="dn-counter cart-counter">{{count(getCartProductIds())}}</span>
+                                <i class="lni lni-shopping-basket"></i><span class="dn-counter cart-counter">{{count(getTotalCartProducts())}}</span>
                             </a>
                         </li>
                     </ul>
@@ -101,7 +101,7 @@
                     </li>
                     <li>
                         <a href="javaScript:void(0);" data-url="{{route('cart.view')}}" id="open-cart-sidebar" title="Shopping Cart">
-                            <i class="lni lni-shopping-basket"></i><span class="dn-counter cart-counter">{{count(getCartProductIds())}}</span>
+                            <i class="lni lni-shopping-basket"></i><span class="dn-counter cart-counter">{{count(getTotalCartProducts())}}</span>
                         </a>
                     </li>
                 </ul>
