@@ -11,15 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    public function index(Request $request){
-                 
+    public function index(Request $request){                 
         $data['title'] = 'Shop';
-
-        $data['categories'] = Category::with(['children', 'children.products'])->where('parent_category_id', 0)->orderBy('name', 'ASC')->get();
-
-        $data['sizes'] = $this->getProductSizes();
-
-        //$data['colors'] = $this->getProductColors();
 
         $items = $request->items ?? env('PRODUCT_PAGINATION_LENGHT');
 
@@ -27,7 +20,6 @@ class ProductController extends Controller
 
         $products_query = $this->buildProductsQuery($request, $category_id);
 
-      
         if(!empty($request->sort) && isset($request->sort)){
             if ($request->sort === 'low_to_high') {
                 $products_query->orderByRaw("CAST(REPLACE(REPLACE(price, ',', ''), '$', '') AS DECIMAL(10, 2)) ASC");
@@ -94,27 +86,6 @@ class ProductController extends Controller
             ->when($request->input('minPrice') && $request->input('maxPrice'), function ($query) use ($request) {
                 return $query->whereBetween('price', [$request->minPrice, $request->maxPrice]);
             });
-    }
-
-    protected function getProductSizes(){
-        return ProductsOptions::join('products_options_values', 'products_options.id', '=', 'products_options_values.option_id')
-            ->select('products_options_values.option_value')
-            ->where('products_options.option_name', 'SIZE')
-            ->groupBy('products_options_values.option_value')
-            ->orderBy('products_options_values.option_value')
-            ->get()
-            ->pluck('option_value')
-            ->toArray();
-    }
-
-    protected function getProductColors(){
-        return ProductsOptions::join('products_options_values', 'products_options.id', '=', 'products_options_values.option_id')
-            ->select('products_options_values.option_value')
-            ->where('products_options.option_name', 'COLOR')
-            ->groupBy('products_options_values.option_value')
-            ->get()
-            ->pluck('option_value')
-            ->toArray();
     }
 
     public function details($productId){   

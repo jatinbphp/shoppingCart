@@ -31,7 +31,7 @@ class MyAccountController extends Controller
             'image' => 'nullable|mimes:jpeg,jpg,png,bmp', // Allow null or valid image files
             'phone' => 'required',
         ]);
-
+        $input = $request->all();
         if (!empty($input['categories_id'])) {
             $input['categories_id'] = implode(",", $input['categories_id']);
         }
