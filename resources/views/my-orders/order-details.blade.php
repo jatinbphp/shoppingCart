@@ -45,6 +45,7 @@
                     <table class="table m-0">
                         <thead>
                             <tr>
+                                <th>Product Images</th>
                                 <th>Product</th>
                                 <th>SKU</th>
                                 <th>Quantity</th>
@@ -56,6 +57,10 @@
                             @if(!empty($order->orderItems))
                                 @foreach ($order->orderItems as $item)
                                     <tr>
+
+                                        <td>
+                                        <img src="{{ asset($item->product->product_image->image) }}" alt="{{ $item->product->product_image->image }}" height="130px">
+                                        </td> 
                                         <td>
                                             <h4 class="product_title fs-sm ft-medium mb-1 lh-1">
                                                 {{ $item->product->product_name }}
