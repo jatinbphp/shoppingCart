@@ -43,7 +43,7 @@ class MyAccountController extends Controller
 
     public function changePassword()
     {
-        $data['title'] = 'change-password';
+        $data['title'] = 'Change Password';
         return view('my-account.change-password', $data);
     }
 

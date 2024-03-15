@@ -8,6 +8,7 @@ use App\Models\ProductsOptions;
 use App\Models\Setting;
 use App\Models\Category;
 use App\Models\ContentManagement;
+use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 
 /* below function for settings */
@@ -171,5 +172,12 @@ if (!function_exists('getProductSizes')) {
             ->orderBy('products_options_values.option_value')
             ->pluck('option_value')
             ->toArray();
+    }
+}
+
+if (!function_exists('get_latest_product_reviews')) {
+    function get_latest_product_reviews($productId, $limit = 3) {
+        $reviews = Review::with('user')->where('product_id', $productId)->latest()->take($limit)->get();
+        return $reviews;
     }
 }

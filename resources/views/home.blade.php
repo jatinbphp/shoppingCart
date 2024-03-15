@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 
 @if(!empty(getActiveBanners()))
@@ -102,19 +101,18 @@
     </div>
 </section>
 
-<section>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="sec_title position-relative text-center">
-                    <h2 class="off_title">Trendy Products</h2>
-                    <h3 class="ft-bold pt-3">Our Trending Products</h3>
+@if(!empty(getTrendingProducts()))
+    <section>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="sec_title position-relative text-center">
+                        <h2 class="off_title">Trendy Products</h2>
+                        <h3 class="ft-bold pt-3">Our Trending Products</h3>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="row align-items-center rows-products">
-            @if(!empty(getTrendingProducts()))
+            <div class="row align-items-center rows-products">
                 @foreach(getTrendingProducts() as $key => $value)
                     <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                         <div class="product_grid card b-0">
@@ -164,17 +162,17 @@
                         </div>
                     </div>
                 @endforeach
-            @endif
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="position-relative text-center">
-                    <a href="{{ route('products') }}" class="btn stretched-link borders">Explore More<i class="lni lni-arrow-right ml-2"></i></a>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="position-relative text-center">
+                        <a href="{{ route('products') }}" class="btn stretched-link borders">Explore More<i class="lni lni-arrow-right ml-2"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+@endif
 
 <section class="bg-cover" data-overlay="5" style="background: url('{{url("assets/website/images/banner-3.jpg")}}'); background-repeat:no-repeat fixed;">
     <div class="container">

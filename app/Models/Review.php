@@ -10,4 +10,8 @@ class Review extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = ['user_id', 'product_id', 'full_name', 'email_address', 'rating', 'description'];
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
