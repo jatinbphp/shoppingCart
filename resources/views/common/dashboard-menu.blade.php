@@ -5,7 +5,7 @@
             <ul class="dahs_navbar">
                 <li>
                     <a href="{{route('orders-list')}}" @if(isset($menu) && $menu=='orders') class="active" @endif>
-                        <i class="lni lni-shopping-basket mr-2"></i>My Order
+                        <i class="lni lni-shopping-basket mr-2"></i>My Orders
                     </a>
                 </li>
                 <li>
