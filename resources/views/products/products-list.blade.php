@@ -101,7 +101,7 @@
                                                             <i class="fas fa-star"></i>
                                                         @endif
                                                     @endfor
-                                                    <span class="small">({{$value->total_reviews}} Reviews)</span>
+                                                    <a href="{{ route('review-detail', ['productId' => $value->id]) }}"><span class="small">({{$value->total_reviews}} Reviews)</span></a>
                                                 </div>
                                             </div>
                                             <!-- <div class="text-right">
