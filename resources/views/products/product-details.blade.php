@@ -43,7 +43,7 @@
                                         <i class="fas fa-star"></i>
                                     @endif
                                 @endfor
-                                <span class="small">({{$product['total_reviews']}} Reviews)</span>
+                                <a href="{{ route('review-detail', ['productId' => $product->id]) }}"><span class="small">({{$product['total_reviews']}} Reviews)</span></a>
                             </div>
                             <div class="elis_rty">
                                 <span class="ft-medium text-muted line-through fs-md mr-2">
