@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Review;
+use App\Models\Products;
 use App\Models\User;
 use DataTables;
 use Illuminate\Http\Request;
@@ -31,40 +32,29 @@ class ReviewController extends Controller
         return response()->json(['success' => true, 'message' => 'Review hase been inserted successfully!']);
     }
 
-    public function reviewDetail(Request $request, $productId)
-    {
-        $data= Review::where('product_id',$productId)->get();
-        foreach ($data as $review) {
-            $userImage = User::where('id', $review->user_id)->value('image');
-            $review->user_image = $userImage ?? 'default.jpg'; 
-
-            $description = $review->description;
-            $shortDescription = substr($description, 0, 200); 
-            $remainingDescription = substr($description, 200); 
-            $review->short_description = $shortDescription;
-            $review->remaining_description = $remainingDescription;
-        }
-        // return $data;
+    public function reviewsList(Request $request, $id)
+    {       
+        $data['title'] = 'Reviews';
+        $data['productId'] = $id;
+        $data['product_info'] = Products::findorFail($id);
+        
         if ($request->ajax()) {
-            return Datatables::of($data)
+            return Datatables::of(Review::with('user')->where('product_id',$id))
                 ->addIndexColumn()
-                ->editColumn('user_image', function ($row) {
-                    if (!empty($row->user_image) && file_exists($row->user_image)) {
-                        return url($row->user_image);
-                    } else {
-                        return url('assets/admin/dist/img/no-image.png');
-                    }
+                ->addColumn('review_information', function($row){
+                    return view('products.reviews.review-info', $row);
                 })
-                ->editColumn('created_at', function($row){
-                    return $row['created_at']->format('Y-m-d h:i:s');
-                })
+                ->rawColumns(['review_information'])
                 ->make(true);
         }
-        // return $data;
-        return view('review.review-detail', [
-            'data' => $data,
-            'productId' => $productId
-        ]);
+
+        return view('products.reviews.reviews-list', $data);
+    }
+
+    public function reviewsInfo(Request $request, $id)
+    {       
+        $data['review_info'] = Review::findorFail($id);
         
+        return response()->json($data);
     }
 }

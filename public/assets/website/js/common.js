@@ -1,3 +1,42 @@
+$( function() {
+    /SUMMER NOTE CODE/
+    $("textarea[id=description]").summernote({
+        height: 250,
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize', 'height']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['table','picture','link','map','minidiag']],
+            ['misc', ['fullscreen', 'codeview']],
+        ],
+        callbacks: {
+            onImageUpload: function(files) {
+                for (var i = 0; i < files.length; i++)
+                    upload_image(files[i], this);
+            }
+        },
+    });
+});
+
+$(document).on('click', '#show-more', function (event) {
+    event.preventDefault();
+    $('#commonModal').modal('toggle');
+    $("#commonModal .modal-body").html("");
+    var url = $(this).attr('data-url');
+
+    $.ajax({
+        url: url,
+        type: "GET",
+        headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+        success: function(data){
+            $('#commonModal .modal-body').html(data.review_info.description);
+            $('#commonModal').modal('show');
+        }
+    });
+});
+
 function openSearch() {
 	document.getElementById("Search").style.display = "block";
 }
@@ -369,3 +408,38 @@ function setTimeoutFun(id, timevar) {
         $(id).empty();
     }, timevar);
 }
+
+function AjaxUploadImage(obj,id){
+    var file = obj.files[0];
+    var imagefile = file.type;
+    var match = ["image/jpeg", "image/png", "image/jpg"];
+    if (!((imagefile == match[0]) || (imagefile == match[1]) || (imagefile == match[2]))){
+        $('#previewing'+URL).attr('src', 'noimage.png');
+        alert("<p id='error'>Please Select A valid Image File</p>" + "<h4>Note</h4>" + "<span id='error_message'>Only jpeg, jpg and png Images type allowed</span>");
+        return false;
+    } else{
+        var reader = new FileReader();
+        reader.onload = imageIsLoaded;
+        reader.readAsDataURL(obj.files[0]);
+    }
+}
+
+function imageIsLoaded(e){
+    $('#DisplayImage').css("display", "block");
+    $('#DisplayImage').css("margin-top", "1.5%");
+    $('#DisplayImage').attr('src', e.target.result);
+    $('#DisplayImage').attr('width', '150');
+}
+
+$(function () {
+    $('#reviewTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: $("#route_name").val(),
+        columns: [
+            { data: 'id', name: 'id', orderable: true, visible: false },
+            { data: 'review_information', name: 'description', orderable: true },
+        ],
+        "order": [[0, "DESC"]]
+    });
+});

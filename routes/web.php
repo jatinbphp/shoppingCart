@@ -112,7 +112,8 @@ Route::resource('addresses', AddressController::class);
 
 /* Product Review */
 Route::post('submit-review',[ReviewController::class,'productReview'])->name('add-product-review');
-Route::get('product/{productId}/review',[ReviewController::class,'reviewDetail'])->name('review-detail');
+Route::get('product/{productId}/reviews-list',[ReviewController::class,'reviewsList'])->name('reviews-list');
+Route::get('reviews/{reviewId}/review-info',[ReviewController::class,'reviewsInfo'])->name('reviews-info');
 
 // ------------------main routes------------------------------------------
 Route::get('/admin', [AuthorizationController::class, 'adminLoginForm'])->name('admin.login');

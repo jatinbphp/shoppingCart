@@ -5183,3 +5183,4 @@ img {max-width: 100%;}
 }
 table.table.m-0{    border: 1px solid #eaeff5;}
 .text-red{color: red;}
+#reviewTable_length, #reviewTable_filter{display: none;}

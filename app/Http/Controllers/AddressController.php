@@ -61,7 +61,7 @@ class AddressController extends Controller
     public function edit($id)
     {
         $data['title'] = 'Edit Address';
-        $data['address'] = UserAddresses::where('id', $id)->where('user_id', Auth::user()->id)->first();
+        $data['address'] = UserAddresses::where('id', $id)->where('user_id', Auth::user()->id)->firstOrFail();
         return view('my-addresses.edit', $data);
     }
 

@@ -32,8 +32,21 @@ class MyProfileController extends Controller
             'phone' => 'required',
         ]);
         $input = $request->all();
+
+        //category
         if (!empty($input['categories_id'])) {
             $input['categories_id'] = implode(",", $input['categories_id']);
+        }
+
+        //image
+        if ($request->hasFile('image')) {
+            if (!empty($user->image) && file_exists(public_path($user->image))) {
+                unlink(public_path($user->image));
+            }
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->extension(); 
+            $image->move(public_path('uploads/users/'), $imageName); 
+            $input['image'] = 'uploads/users/'.$imageName;
         }
         $user->update($input);
 

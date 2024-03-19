@@ -101,7 +101,7 @@
                                                             <i class="fas fa-star"></i>
                                                         @endif
                                                     @endfor
-                                                    <a href="{{ route('review-detail', ['productId' => $value->id]) }}"><span class="small">({{$value->total_reviews}} Reviews)</span></a>
+                                                    <a href="{{ route('reviews-list', ['productId' => $value->id]) }}"><span class="small">({{$value->total_reviews}} Reviews)</span></a>
                                                 </div>
                                             </div>
                                             <!-- <div class="text-right">
@@ -110,7 +110,9 @@
                                         </div>
                                         <div class="text-left">
                                             <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
-                                                <a href="product-detail.html">{{$value->product_name}}</a>
+                                                <a target="_blank" href="{{route('products.details', [$value->id])}}">
+                                                    {{$value->product_name}}
+                                                </a>
                                             </h5>
                                             <div class="elis_rty">
                                                 <span class="ft-bold text-dark fs-sm">{{ env('CURRENCY') }}{{ number_format($value->price, 2) }}</span>

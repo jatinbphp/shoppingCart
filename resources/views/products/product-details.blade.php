@@ -43,7 +43,7 @@
                                         <i class="fas fa-star"></i>
                                     @endif
                                 @endfor
-                                <a href="{{ route('review-detail', ['productId' => $product->id]) }}"><span class="small">({{$product['total_reviews']}} Reviews)</span></a>
+                                <a href="{{ route('reviews-list', ['productId' => $product->id]) }}"><span class="small">({{$product['total_reviews']}} Reviews)</span></a>
                             </div>
                             <div class="elis_rty">
                                 <span class="ft-medium text-muted line-through fs-md mr-2">
@@ -167,7 +167,7 @@
             <div class="col-xl-11 col-lg-12 col-md-12 col-sm-12">
                 <ul class="nav nav-tabs b-0 d-flex align-items-center justify-content-center simple_tab_links mb-4" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="description-tab" href="#description" data-toggle="tab" role="tab" aria-controls="description" aria-selected="true">Description</a>
+                        <a class="nav-link active" id="description-tab" href="#description-tab" data-toggle="tab" role="tab" aria-controls="description-tab" aria-selected="true">Description</a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" href="#information" id="information-tab" data-toggle="tab" role="tab" aria-controls="information" aria-selected="false">Additional information</a>
@@ -178,7 +178,7 @@
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <!-- Description Content -->
-                    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                    <div class="tab-pane fade show active" id="description-tab" role="tabpanel" aria-labelledby="description-tab">
                         @include('products.details.description-info')
                     </div>
 
