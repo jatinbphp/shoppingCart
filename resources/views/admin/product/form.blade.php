@@ -109,7 +109,11 @@
                                     <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
                                         <div class="imagePreviewPlus">
                                             <div class="text-right">
-                                                <button type="button" class="btn btn-danger removeImage" onclick="removeAdditionalProductImg('<?php echo $value['image']; ?>','<?php echo $value['id']; ?>','<?php echo $product->id; ?>');"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                {!! Form::button('<i class="fa fa-trash" aria-hidden="true"></i>', [
+                                                    'type' => 'button',
+                                                    'class' => 'btn btn-danger removeImage',
+                                                    'onclick' => "removeAdditionalProductImg('".$value['image']."','".$value['id']."','".$product->id."');"
+                                                ]) !!}
                                             </div>
                                             <img style="width: inherit; height: inherit;" @if(!empty($value['image'])) src="{{ url($value['image'])}}" @endif alt="">
                                         </div>
@@ -149,9 +153,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12 mb-2">
-                            <p class="h5">Add Option Values
-                                <!-- <button type="button" class="btn btn-sm btn-info" id="optionBtn" style="float: right;"><i class="fa fa-plus pr-1"></i> Add Option</button> -->
-                            </p>
+                            <p class="h5">Add Option Values</p>
                         </div>
                     </div>
                     @if(count($product_options)>0)
@@ -168,10 +170,6 @@
 
                                                     @include('admin.common.errors', ['field' => 'options'])
                                                 </div>
-                                            </div>
-
-                                            <div class="col-md-1">
-                                                <!-- <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{$option->id}}, 0)" style="margin-top: 30px;"><i class="fa fa-trash"></i></button> -->
                                             </div>
                                         </div>
                                     </div>
@@ -210,9 +208,18 @@
                                                         </div>
                                                     @endif
                                                     <div class="col-md-2">
-                                                        <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{ $option_value->id }}, 1)"><i class="fa fa-trash"></i></button>
+                                                        {!! Form::button('<i class="fa fa-trash"></i>', [
+                                                            'type' => 'button',
+                                                            'class' => 'btn btn-danger',
+                                                            'onclick' => "removeOptionRow({$option_value->id}, 1)"
+                                                        ]) !!}
+
                                                         @if($vkey==0)
-                                                            <button type="button" class="btn btn-info add-option" onclick="optionValuesBtn({{ $option->id }}, {{ $option->id }}, '{{ $option->option_name }}')"><i class="fa fa-plus"></i> </button>
+                                                            {!! Form::button('<i class="fa fa-plus"></i>', [
+                                                                'type' => 'button',
+                                                                'class' => 'btn btn-info add-option',
+                                                                'onclick' => "optionValuesBtn({$option->id}, {$option->id}, '{$option->option_name}')"
+                                                            ]) !!}
                                                         @endif
                                                     </div>
                                                 </div>
@@ -249,8 +256,17 @@
                                                     </div>
                                                 @endif
                                                 <div class="col-md-2">
-                                                    <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow({{ $option->id }}, 1)"><i class="fa fa-trash"></i></button>
-                                                    <button type="button" class="btn btn-info add-option" onclick="optionValuesBtn({{ $option->id }}, {{ $option->id }}, '{{ $option->option_name }}')"><i class="fa fa-plus"></i> </button>
+                                                    {!! Form::button('<i class="fa fa-trash"></i>', [
+                                                        'type' => 'button',
+                                                        'class' => 'btn btn-danger',
+                                                        'onclick' => "removeOptionRow({{ $option->id }}, 1)"
+                                                    ]) !!}
+
+                                                    {!! Form::button('<i class="fa fa-plus"></i>', [
+                                                        'type' => 'button',
+                                                        'class' => 'btn btn-info add-option',
+                                                        'onclick' => "optionValuesBtn({$option->id}, {$option->id}, '{$option->option_name}')"
+                                                    ]) !!}
                                                 </div>
                                             </div>                                            
                                             @php
@@ -293,11 +309,19 @@
                                         </div>
 
                                         <div class="col-md-2">
-                                            <button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow(1, 1)"><i class="fa fa-trash"></i></button>
-                                            <button type="button" class="btn btn-info add-option" onclick="optionValuesBtn(1, 1)"><i class="fa fa-plus"></i> </button>
+                                            {!! Form::button('<i class="fa fa-trash"></i>', [
+                                                'type' => 'button',
+                                                'class' => 'btn btn-danger',
+                                                'onclick' => 'removeOptionRow(1, 1)'
+                                            ]) !!}
+
+                                            {!! Form::button('<i class="fa fa-plus"></i>', [
+                                                'type' => 'button',
+                                                'class' => 'btn btn-info add-option',
+                                                'onclick' => 'optionValuesBtn(1, 1)'
+                                            ]) !!}
                                         </div>
                                     </div>
-                                    <!-- <div id="extraValuesOption_1_1"></div> -->
                                 </div>
                             </div>
                         </div>
@@ -327,7 +351,7 @@ $('#optionBtn').on('click', function(){
                             '</div>'+
                         '</div>'+
                         '<div class="col-md-1">'+
-                            '<button type="button" class="btn btn-danger deleteExp" onClick="removeOptionRow('+optionName+', 0)" style="margin-top: 30px;"><i class="fa fa-trash"></i></button>'+
+                            '<button type="button" class="btn btn-danger" onClick="removeOptionRow('+optionName+', 0)" style="margin-top: 30px;"><i class="fa fa-trash"></i></button>'+
                         '</div>'+
                     '</div>'+
                 '</div>'+
@@ -345,7 +369,7 @@ $('#optionBtn').on('click', function(){
                             '</div>'+
                         '</div>'+
                         '<div class="col-md-2">'+
-                            '<button type="button" class="btn btn-danger deleteExp mr-1" onClick="removeOptionRow('+optionName+', 1)"><i class="fa fa-trash"></i></button>'+
+                            '<button type="button" class="btn btn-danger mr-1" onClick="removeOptionRow('+optionName+', 1)"><i class="fa fa-trash"></i></button>'+
                             '<button type="button" class="btn btn-info add-option" onclick="optionValuesBtn('+optionName+', '+optionName+')"><i class="fa fa-plus"></i> </button>'+
                         '</div>'+                    
                     '</div>'+
@@ -375,7 +399,7 @@ function optionValuesBtn(option_value_number, option_number, option_name) {
             </div>
         </div>
         <div class="col-md-2">
-            <button type="button" class="btn btn-danger deleteExp mr-1" onClick="removeOptionRow('${optionName}', 1)"><i class="fa fa-trash"></i></button>
+            <button type="button" class="btn btn-danger mr-1" onClick="removeOptionRow('${optionName}', 1)"><i class="fa fa-trash"></i></button>
         </div>                    
     </div>`;
 

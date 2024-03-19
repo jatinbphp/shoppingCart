@@ -1,4 +1,4 @@
-@if(!empty($category_products))
+@if(count($category_products)>0)
 	<section class="middle pt-0">
 	    <div class="container">
 	        <div class="row justify-content-center">
@@ -25,9 +25,12 @@
 	                                        <i class="lni lni-heart"></i>
 	                                    </a>
 	                                @else
-	                                    <button class="btn btn_love position-absolute ab-right snackbar-wishlist @if(in_array($valueSlider->id, getWishlistProductIds())) active @endif" data-id="{{$valueSlider->id}}" data-url="{{route('products.add.wishlist')}}" data-toggle="button">
-	                                        <i class="lni lni-heart"></i>
-	                                    </button>
+	                                    {!! Form::button('<i class="lni lni-heart"></i>', [
+										    'class' => 'btn btn_love position-absolute ab-right snackbar-wishlist' . (in_array($valueSlider->id, getWishlistProductIds()) ? ' active' : ''),
+										    'data-id' => $valueSlider->id,
+										    'data-url' => route('products.add.wishlist'),
+										    'data-toggle' => 'button'
+										]) !!}
 	                                @endif
 
 	                                <div class="card-body p-0">

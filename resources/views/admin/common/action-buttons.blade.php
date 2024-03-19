@@ -8,9 +8,13 @@
 
 @if (!in_array($section_name, ['content', 'cart_products', 'order_products']) && !isset($order_dashboard))
     <span data-toggle="tooltip" title="Delete {{$section_title}}" data-trigger="hover">
-        <button class="btn btn-sm btn-danger deleteRecord" data-id="{{$id}}" type="button" data-url="{{ url('admin/'.$section_name.'/'.$id) }}" data-section="{{$section_name}}_table">
-            <i class="fa fa-trash"></i>
-        </button>
+        {!! Form::button('<i class="fa fa-trash"></i>', [
+            'class' => 'btn btn-sm btn-danger deleteRecord',
+            'data-id' => $id,
+            'type' => 'button',
+            'data-url' => url('admin/'.$section_name.'/'.$id),
+            'data-section' => $section_name.'_table'
+        ]) !!}
     </span>
 @endif
 
@@ -30,8 +34,10 @@
 
 @if (in_array($section_name, ['cart_products', 'order_products']))
     <span data-toggle="tooltip" title="Delete {{$section_title}}" data-trigger="hover">
-        <button class="btn btn-sm btn-danger deleteCartRecord" data-id="{{$id}}" type="button">
-            <i class="fa fa-trash"></i>
-        </button>
+        {!! Form::button('<i class="fa fa-trash"></i>', [
+            'class' => 'btn btn-sm btn-danger deleteCartRecord',
+            'data-id' => $id,
+            'type' => 'button',
+        ]) !!}
     </span>
 @endif

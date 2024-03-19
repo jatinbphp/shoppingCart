@@ -43,13 +43,15 @@ $(document).on('click', '#show-more', function (event) {
     });
 });
 
-function openSearch() {
+$(document).on('click', '#search-open', function (event) {
+    event.preventDefault();
 	document.getElementById("Search").style.display = "block";
-}
+});
 
-function closeSearch() {
+$(document).on('click', '#search-close', function (event) {
+    event.preventDefault();
 	document.getElementById("Search").style.display = "none";
-}
+});
 
 $(document).ready(function() {
     $('#categories_id').select2();

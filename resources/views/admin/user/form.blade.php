@@ -118,9 +118,14 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12 mb-2">
-                            <p class="h5">Add Addresses
-                                <button type="button" class="btn btn-info" id="addressBtn" style="float: right;"><i class="fa fa-plus"></i> Add New</button>
-                            </p>
+                            <h5>Add Addresses
+                                {!! Form::button('<i class="fa fa-plus"></i> Add New', [
+                                    'type' => 'button',
+                                    'class' => 'btn btn-info btn-sm',
+                                    'id' => 'addressBtn',
+                                    'style' => 'float: right;'
+                                ]) !!}
+                            </h5>
                         </div>
                     </div>
                     @if(count($user_addresses)>0)
@@ -139,7 +144,12 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-1">
-                                                <button type="button" class="btn btn-danger deleteExp" onClick="removeAddressRow({{$address->id}}, 0)" style="margin-top: 30px;"><i class="fa fa-trash"></i></button>
+                                                {!! Form::button('<i class="fa fa-trash"></i>', [
+                                                    'type' => 'button',
+                                                    'class' => 'btn btn-danger',
+                                                    'onclick' => 'removeAddressRow(' . $address->id . ', 0)',
+                                                    'style' => 'margin-top: 30px;'
+                                                ]) !!}
                                             </div>
                                         </div>
                                     </div>
@@ -379,7 +389,7 @@ $('#addressBtn').on('click', function(){
                             '</div>'+
                         '</div>'+
                         '<div class="col-md-1">'+
-                            '<button type="button" class="btn btn-danger deleteExp" onClick="removeAddressRow('+addressCounter+', 0)" style="margin-top: 30px;"><i class="fa fa-trash"></i></button>'+
+                            '<button type="button" class="btn btn-danger" onClick="removeAddressRow('+addressCounter+', 0)" style="margin-top: 30px;"><i class="fa fa-trash"></i></button>'+
                         '</div>'+
                     '</div>'+
                 '</div>'+

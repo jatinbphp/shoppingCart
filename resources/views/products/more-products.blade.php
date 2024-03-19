@@ -10,9 +10,12 @@
                     <i class="far fa-heart"></i>
                 </a>
             @else
-                <button class="btn btn_love position-absolute ab-right snackbar-wishlist @if(in_array($value->id, getWishlistProductIds())) active @endif" data-id="{{$value->id}}" data-url="{{route('products.add.wishlist')}}" data-toggle="button">
-                    <i class="far fa-heart"></i>
-                </button>
+                {!! Form::button('<i class="far fa-heart"></i>', [
+                    'class' => 'btn btn_love position-absolute ab-right snackbar-wishlist' . (in_array($value->id, getWishlistProductIds()) ? ' active' : ''),
+                    'data-id' => $value->id,
+                    'data-url' => route('products.add.wishlist'),
+                    'data-toggle' => 'button'
+                ]) !!}
             @endif
 
             <div class="card-body p-0">
@@ -50,9 +53,6 @@
                             <span class="small">({{$value->total_reviews}} Reviews)</span>
                         </div>
                     </div>
-                    <!-- <div class="text-right">
-                        <button class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button> 
-                    </div> -->
                 </div>
                 <div class="text-left">
                     <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">

@@ -139,7 +139,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
    /*Products*/
    Route::get('products/import-product', [ProductController::class,'importProduct'])->name('products.import.product');
    Route::post('products/import-product-store', [ProductController::class,'importProductStore'])->name('products.import.product.store');
-   Route::post('products/removeimage', [ProductController::class,'remcontact_usoveImage'])->name('products.removeimage');
+   Route::post('products/removeimage', [ProductController::class,'removeImage'])->name('products.removeimage');
    Route::post('products/getoptions', [ProductController::class,'getOptions'])->name('products.getoptions');
    Route::post('products/editoption', [ProductController::class,'editOption'])->name('products.editoption');
    Route::resource('products', ProductController::class);

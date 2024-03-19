@@ -1,9 +1,12 @@
 <!-- Modal content -->
 <div class="modal-header">
     <h5 class="modal-title" id="commonModalLabel">{{ ucwords(str_replace('_', ' ', $type)) }} Details</h5>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
+    {!! Form::button('<span aria-hidden="true">&times;</span>', [
+        'type' => 'button',
+        'class' => 'close',
+        'data-dismiss' => 'modal',
+        'aria-label' => 'Close'
+    ]) !!}
 </div>
 <div class="modal-body">
     <div class="row">
@@ -107,7 +110,11 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times pr-1"></i> Close</button>
+    {!! Form::button('<i class="fa fa-times pr-1"></i> Close', [
+        'type' => 'button',
+        'class' => 'btn btn-sm btn-secondary',
+        'data-dismiss' => 'modal'
+    ]) !!}
 </div>
 
 @php

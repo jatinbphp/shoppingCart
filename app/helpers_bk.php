@@ -148,49 +148,43 @@ if (!function_exists('getActiveBanners')) {
 if (!function_exists('getTrendingProducts')) {
     function getTrendingProducts()
     {
-        $desiredCategoryIds = getUserCategoryIds();
+        /*$userCategoriesId = Auth::check() ? Auth::user()->categories_id : null;
 
+        // Query to fetch products
         $query = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])
-            ->where('status', 'active');
+            ->where('status', 'active')
+            ->orderBy('id', 'DESC');
 
-        if (!empty($desiredCategoryIds)) {
-            $query->where(function ($query) use ($desiredCategoryIds) {
-                $query->whereHas('category', function ($query) use ($desiredCategoryIds) {
-                    $query->whereIn('id', $desiredCategoryIds);
-                })->orWhereHas('category.parent', function ($query) use ($desiredCategoryIds) {
-                    $query->whereIn('id', $desiredCategoryIds);
-                });
-            });
+        // If the user is authenticated and has categories_id, add a where clause
+        if ($userCategoriesId) {
+            $categoriesIdsArray = explode(',', $userCategoriesId);
+            $query->whereIn('category_id', $categoriesIdsArray);
         }
 
-        return $query->orderBy('id', 'DESC')->take(8)->get();
+        // Limit the number of products to 8
+        $products = $query->take(8)->get();
+
+        // Return the filtered products
+        return $products;*/
+        
+        return Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])
+            ->where('status', 'active')
+            ->orderBy('id', 'DESC')
+            ->take(8)
+            ->get();
     }
 }
 
 /* below function for home page category tab */
 if (!function_exists('getCategoryProducts')) {
     function getCategoryProducts()
-    {   
-        $desiredCategoryIds = getUserCategoryIds();
-
-        $categoriesWithRandomProducts = Category::has('products')
+    {
+        return Category::has('products')
             ->with(['products' => function ($query) {
                 $query->inRandomOrder()->take(8); // Randomly order and limit to 8 products per category
             }])
-            ->whereHas('products', function ($query) use ($desiredCategoryIds) {
-                if (!empty($desiredCategoryIds)) {
-                    $query->where(function ($query) use ($desiredCategoryIds) {
-                        $query->whereIn('category_id', $desiredCategoryIds)
-                              ->orWhereHas('category.parent', function ($query) use ($desiredCategoryIds) {
-                                  $query->whereIn('id', $desiredCategoryIds);
-                              });
-                    });
-                }
-            })
             ->take(4)
             ->get();
-
-        return $categoriesWithRandomProducts;
     }
 }
 
@@ -227,12 +221,5 @@ if (!function_exists('get_latest_product_reviews')) {
     function get_latest_product_reviews($productId, $limit = 3) {
         $reviews = Review::with('user')->where('product_id', $productId)->latest()->take($limit)->get();
         return $reviews;
-    }
-}
-
-if (!function_exists('getUserCategoryIds')) {
-    function getUserCategoryIds()
-    {
-        return Auth::check() && !empty(Auth::user()->categories_id) ? explode(',', Auth::user()->categories_id) : [];
     }
 }

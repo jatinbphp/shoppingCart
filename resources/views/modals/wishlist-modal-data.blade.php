@@ -22,7 +22,11 @@
                         </div>
                     </div>
                     <div class="fls_last">
-                        <button class="close_slide gray remove-wishlist" data-id="{{$valueWishlist->id}}" data-url="{{route('products.add.wishlist')}}"><i class="ti-close"></i></button>
+                        {!! Form::button('<i class="ti-close"></i>', [
+                            'class' => 'close_slide gray remove-wishlist',
+                            'data-id' => $valueWishlist->id,
+                            'data-url' => route('products.add.wishlist')
+                        ]) !!}
                     </div>
                 </div>
             @endforeach

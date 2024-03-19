@@ -19,9 +19,13 @@
                         <div class="card">
                             <div class="card-header" id="h1">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link" data-toggle="collapse" data-target="#ord1" aria-expanded="true" aria-controls="ord1">
-                                    Can I track my order item?
-                                    </button>
+                                    {!! Html::tag('button', 'Can I track my order item?', [
+                                        'class' => 'btn btn-link',
+                                        'data-toggle' => 'collapse',
+                                        'data-target' => '#ord1',
+                                        'aria-expanded' => 'true',
+                                        'aria-controls' => 'ord1'
+                                    ]) !!}
                                 </h5>
                             </div>
                             <div id="ord1" class="collapse show" aria-labelledby="h1" data-parent="#accordion">
@@ -33,9 +37,13 @@
                         <div class="card">
                             <div class="card-header" id="h2">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#ord2" aria-expanded="false" aria-controls="ord2">
-                                    Who pays for return postage?
-                                    </button>
+                                    {!! Html::tag('button', 'Who pays for return postage?', [
+                                        'class' => 'btn btn-link collapsed',
+                                        'data-toggle' => 'collapse',
+                                        'data-target' => '#ord2',
+                                        'aria-expanded' => 'false',
+                                        'aria-controls' => 'ord2'
+                                    ]) !!}
                                 </h5>
                             </div>
                             <div id="ord2" class="collapse" aria-labelledby="h2" data-parent="#accordion">
@@ -47,9 +55,13 @@
                         <div class="card">
                             <div class="card-header" id="h3">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#ord3" aria-expanded="false" aria-controls="ord3">
-                                    How do I apply a promotional code?
-                                    </button>
+                                    {!! Html::tag('button', 'How do I apply a promotional code?', [
+                                        'class' => 'btn btn-link collapsed',
+                                        'data-toggle' => 'collapse',
+                                        'data-target' => '#ord3',
+                                        'aria-expanded' => 'false',
+                                        'aria-controls' => 'ord3'
+                                    ]) !!}
                                 </h5>
                             </div>
                             <div id="ord3" class="collapse" aria-labelledby="h3" data-parent="#accordion">
@@ -66,9 +78,13 @@
                         <div class="card">
                             <div class="card-header" id="h4">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link" data-toggle="collapse" data-target="#ord4" aria-expanded="true" aria-controls="ord4">
-                                    How long does it take for home delivery?
-                                    </button>
+                                    {!! Html::tag('button', 'How long does it take for home delivery?', [
+                                        'class' => 'btn btn-link',
+                                        'data-toggle' => 'collapse',
+                                        'data-target' => '#ord4',
+                                        'aria-expanded' => 'true',
+                                        'aria-controls' => 'ord4'
+                                    ]) !!}
                                 </h5>
                             </div>
                             <div id="ord4" class="collapse show" aria-labelledby="h4" data-parent="#accordion1">
@@ -80,9 +96,13 @@
                         <div class="card">
                             <div class="card-header" id="h5">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#ord5" aria-expanded="false" aria-controls="ord5">
-                                    What courier do you use for deliveries?
-                                    </button>
+                                    {!! Html::tag('button', 'What courier do you use for deliveries?', [
+                                        'class' => 'btn btn-link collapsed',
+                                        'data-toggle' => 'collapse',
+                                        'data-target' => '#ord5',
+                                        'aria-expanded' => 'false',
+                                        'aria-controls' => 'ord5'
+                                    ]) !!}
                                 </h5>
                             </div>
                             <div id="ord5" class="collapse" aria-labelledby="h5" data-parent="#accordion1">
@@ -94,9 +114,13 @@
                         <div class="card">
                             <div class="card-header" id="h6">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#ord6" aria-expanded="false" aria-controls="ord6">
-                                    Can I collect from a local store?
-                                    </button>
+                                    {!! Html::tag('button', 'Can I collect from a local store?', [
+                                        'class' => 'btn btn-link collapsed',
+                                        'data-toggle' => 'collapse',
+                                        'data-target' => '#ord6',
+                                        'aria-expanded' => 'false',
+                                        'aria-controls' => 'ord6'
+                                    ]) !!}
                                 </h5>
                             </div>
                             <div id="ord6" class="collapse" aria-labelledby="h6" data-parent="#accordion1">
@@ -113,9 +137,14 @@
                         <div class="card">
                             <div class="card-header" id="h7">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link" data-toggle="collapse" data-target="#ord7" aria-expanded="true" aria-controls="ord7">
-                                    Do you offer a VAT discount to non EU customers?
-                                    </button>
+                                    {!! Html::tag('button', 'Do you offer a VAT discount to non EU customers?', [
+                                        'class' => 'btn btn-link',
+                                        'data-toggle' => 'collapse',
+                                        'data-target' => '#ord7',
+                                        'aria-expanded' => 'true',
+                                        'aria-controls' => 'ord7'
+                                    ]) !!}
+
                                 </h5>
                             </div>
                             <div id="ord7" class="collapse show" aria-labelledby="h7" data-parent="#accordion2">
@@ -127,9 +156,14 @@
                         <div class="card">
                             <div class="card-header" id="h8">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#ord8" aria-expanded="false" aria-controls="ord8">
-                                    Why have you not refunded the original delivery charge?
-                                    </button>
+                                    {!! Html::tag('button', 'Why have you not refunded the original delivery charge?', [
+                                        'class' => 'btn btn-link collapsed',
+                                        'data-toggle' => 'collapse',
+                                        'data-target' => '#ord8',
+                                        'aria-expanded' => 'false',
+                                        'aria-controls' => 'ord8'
+                                    ]) !!}
+
                                 </h5>
                             </div>
                             <div id="ord8" class="collapse" aria-labelledby="h8" data-parent="#accordion2">
@@ -141,9 +175,13 @@
                         <div class="card">
                             <div class="card-header" id="h9">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#ord9" aria-expanded="false" aria-controls="ord9">
-                                    Do you offer a VAT discount to non EU customers?
-                                    </button>
+                                    {!! Html::tag('button', 'Do you offer a VAT discount to non EU customers?', [
+                                        'class' => 'btn btn-link collapsed',
+                                        'data-toggle' => 'collapse',
+                                        'data-target' => '#ord9',
+                                        'aria-expanded' => 'false',
+                                        'aria-controls' => 'ord9'
+                                    ]) !!}
                                 </h5>
                             </div>
                             <div id="ord9" class="collapse" aria-labelledby="h9" data-parent="#accordion2">

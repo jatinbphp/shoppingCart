@@ -6,10 +6,11 @@
             {!! customBadge($value->product->type) !!}
         @endif
 
-        <button class="btn btn_love position-absolute ab-right theme-cl text-danger remove-item" data-id="{{$value->id}}">
-            <i class="fas fa-times"></i>
-        </button>
-
+        {!! Form::button('<i class="fas fa-times"></i>', [
+            'class' => 'btn btn_love position-absolute ab-right theme-cl text-danger remove-item',
+            'data-id' => $value->id,
+        ]) !!}
+        
         <div class="card-body p-0">
             <div class="shop_thumb position-relative">
                 <a class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$value->product->id])}}">

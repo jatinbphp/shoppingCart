@@ -1,8 +1,11 @@
 {!! Form::open(['route' => 'cart.add-product', 'method' => 'post', 'id' => 'addProductToCartForm']) !!}
     <div class="modal-headers">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span class="ti-close"></span>
-        </button>
+        {!! Html::tag('button', '<span class="ti-close"></span>', [
+            'type' => 'button',
+            'class' => 'close',
+            'data-dismiss' => 'modal',
+            'aria-label' => 'Close'
+        ]) !!}
     </div>
     <div class="modal-body">
         <div class="quick_view_wrap">
@@ -115,9 +118,11 @@
                                         <i class="lni lni-heart mr-2"></i>Add to Cart
                                     </a>
                                 @else
-                                    <button type="submit" class="btn btn-block custom-height bg-dark mb-2" id="add_to_cartproduct">
-                                        <i class="lni lni-shopping-basket mr-2"></i>Add to Cart 
-                                    </button>
+                                    {!! Form::button('<i class="lni lni-shopping-basket mr-2"></i>Add to Cart', [
+                                        'type' => 'submit',
+                                        'class' => 'btn btn-block custom-height bg-dark mb-2',
+                                        'id' => 'add_to_cartproduct'
+                                    ]) !!}
                                 @endif
                             </div>
                             <div class="col-12 col-lg-auto">
@@ -127,9 +132,12 @@
                                         <i class="lni lni-heart mr-2"></i>Wishlist
                                     </a>
                                 @else
-                                    <button class="btn custom-height btn-default btn-block mb-2 text-dark snackbar-wishlist" data-id="{{$info['id']}}" data-url="{{route('products.add.wishlist')}}" data-toggle="button">
-                                        <i class="lni lni-heart mr-2"></i>Wishlist
-                                    </button>
+                                    {!! Form::button('<i class="lni lni-heart mr-2"></i>Wishlist', [
+                                        'class' => 'btn custom-height btn-default btn-block mb-2 text-dark snackbar-wishlist',
+                                        'data-id' => $info['id'],
+                                        'data-url' => route('products.add.wishlist'),
+                                        'data-toggle' => 'button'
+                                    ]) !!}
                                 @endif
                             </div>
                         </div>

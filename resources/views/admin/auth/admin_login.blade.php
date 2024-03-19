@@ -24,25 +24,16 @@
         <div class="card-body login-card-body">
             @include ('admin.common.error')
             <p class="login-box-msg">Sign in to start your session</p>
-            <form method="POST" action="{{ route('admin.signin') }}">
-                {{ csrf_field() }}
+            {!! Form::open(['route' => 'admin.signin', 'method' => 'POST']) !!}
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} has-feedback">
-                    <input type="text" id="email" name="email" class="form-control" placeholder="Email" value="{{ old('email') }}">
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                    @if ($errors->has('email'))
-                        <span class="text-danger">
-                            <strong>{{ $errors->first('email') }}</strong>
-                        </span>
-                    @endif
+                    {!! Form::text('email', old('email'), ['id' => 'email', 'class' => 'form-control', 'placeholder' => 'Email Address']) !!}
+
+                    @include('admin.common.errors', ['field' => 'email'])
                 </div>
                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} has-feedback">
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Password">
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                    @if ($errors->has('password'))
-                        <span class="text-danger">
-                            <strong>{{ $errors->first('password') }}</strong>
-                        </span>
-                    @endif
+                    {!! Form::password('password', ['id' => 'password', 'class' => 'form-control', 'placeholder' => 'Password']) !!}
+
+                    @include('admin.common.errors', ['field' => 'password'])
                 </div>
                 <div class="row">
                     <div class="col-sm-8">
@@ -53,10 +44,14 @@
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <button type="submit" class="btn btn-info btn-block btn-flat"><i class="fa fa-sign-in-alt pr-1"></i> Sign In</button>
+                        {!! Form::button('Sign In <i class="fa fa-sign-in-alt pr-1"></i>', [
+                            'class' => 'btn btn-info btn-block btn-flat',
+                            'type' => 'submit',
+                            'escape' => false,
+                        ]) !!}
                     </div>
                 </div>
-            </form>
+            {!! Form::close() !!}
         </div>
         <!-- /.login-card-body -->
     </div>

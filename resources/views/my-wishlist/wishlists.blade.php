@@ -17,8 +17,13 @@
                                     @if(!empty($value->product->type))
                                         {!! customBadge($value->product->type) !!}
                                     @endif
-                                    <button class="btn btn_love position-absolute ab-right theme-cl text-danger remove-item" data-id="{{$value->id}}"><i class="fas fa-times"></i></button>
 
+                                    {!! Form::button('<i class="fas fa-times"></i>', [
+                                        'class' => 'btn btn_love position-absolute ab-right theme-cl text-danger remove-item',
+                                        'data-id' => $value->id,
+                                        'type' => 'button'
+                                    ]) !!}
+                                    
                                     <div class="card-body p-0">
                                         <div class="shop_thumb position-relative">
                                             <a class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$value->product->id])}}">
@@ -55,7 +60,11 @@
                     @if($total_products_in_wishlist>env('PRODUCT_PAGINATION_LENGHT'))
                         <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-12 text-center pt-4 pb-4 text-center">
-                            <button onclick="handleLoadMoreWishlist({{env('PRODUCT_PAGINATION_LENGHT')}})" id="load-more-btn" class="btn stretched-link borders m-auto"><i class="lni lni-reload mr-2"></i>Load More</button>
+                                {!! Form::button('<i class="lni lni-reload mr-2"></i>Load More', [
+                                    'onclick' => 'handleLoadMoreWishlist(' . env('PRODUCT_PAGINATION_LENGHT') . ')',
+                                    'id' => 'load-more-btn',
+                                    'class' => 'btn stretched-link borders m-auto',
+                                ]) !!}
                             </div>
                         </div>
                     @endif

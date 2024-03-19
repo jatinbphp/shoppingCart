@@ -96,12 +96,14 @@
                                 <div class="input-group">
                                     {!! Form::text('subscriber_email', old('subscriber_email'), ['id' => 'subscriber_email', 'class' => 'form-control' . ($errors->has('subscriber_email') ? ' is-invalid' : ''), 'placeholder' => 'Email Address']) !!}
                                     <div class="input-group-append">
-                                        <button type="button" id="submit-subscriber-form" class="input-group-text bg-dark b-0 text-light" data-url="{{ route('subscriber.form.submit') }}"><i class="lni lni-arrow-right"></i></button>
+                                        {!! Form::button('<i class="lni lni-arrow-right"></i>', [
+                                            'type' => 'button',
+                                            'id' => 'submit-subscriber-form',
+                                            'class' => 'input-group-text bg-dark b-0 text-light',
+                                            'data-url' => route('subscriber.form.submit')
+                                        ]) !!}
                                     </div>
                                 </div>
-                                @if ($errors->has('email'))
-                                <span class="invalid-feedback">{{ $errors->first('email') }}</span>
-                                @endif
                                 <div id="subscribe_message"></div>
                             </div>
                         </div>

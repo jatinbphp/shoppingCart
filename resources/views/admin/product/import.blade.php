@@ -15,33 +15,30 @@
                                 <a class="btn btn-info btn-sm float-right" href="{{ url('assets/admin/dist/productImport.csv') }}" download><i class="fa fa-download"></i> Download Sample File</a>
                             </h3>
                         </div>
-                        {!! Form::open(['url' => route('products.import.product.store'), 'id' => 'productsImportForm', 'class' => 'form-horizontal','files'=>true]) !!}
-                        <div class="card-body">
-                            <div class="row">
 
-                                <div class="col-md-6">
-                                    <div class="form-group{{ $errors->has('file') ? ' has-error' : '' }}">
-                                        <label class="col-md-12 control-label" for="file">Upload CSV File<span class="text-red">*</span></label>
-                                        <div class="col-md-12">
-                                            <div class="fileError">
-                                                {!! Form::file('file', ['class' => '', 'id'=> 'file', 'accept' => 'text/csv']) !!}
+                        {!! Form::open(['url' => route('products.import.product.store'), 'id' => 'productsImportForm', 'class' => 'form-horizontal','files'=>true]) !!}
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group{{ $errors->has('file') ? ' has-error' : '' }}">
+                                            @include('admin.common.label', ['field' => 'file', 'labelText' => 'Upload CSV File', 'isRequired' => true])
+
+                                            <div class="col-md-12">
+                                                <div class="fileError">
+                                                    {!! Form::file('file', ['class' => '', 'id'=> 'file', 'accept' => 'text/csv']) !!}
+                                                </div>
+
+                                                @include('admin.common.errors', ['field' => 'file'])
                                             </div>
-                                            @if ($errors->has('file'))
-                                                <span class="text-danger">
-                                                    <strong>{{ $errors->first('file') }}</strong>
-                                                </span>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="card-footer">
-                            <a href="{{ route('products.index') }}" class="btn btn-sm btn-default"><i class="fa fa-arrow-left pr-1"></i> Back</a>
-                            
-                            {!! Form::submit('<i class="fa fa-upload" aria-hidden="true"></i> Import', ['class' => 'btn btn-sm btn-info float-right']) !!}
-                        </div>
+                            <div class="card-footer">
+                                <a href="{{ route('products.index') }}" class="btn btn-sm btn-default"><i class="fa fa-arrow-left pr-1"></i> Back</a>
+                                
+                                {!! Form::submit('<i class="fa fa-upload" aria-hidden="true"></i> Import', ['class' => 'btn btn-sm btn-info float-right']) !!}
+                            </div>
                         {!! Form::close() !!}
                     </div>
                 </div>

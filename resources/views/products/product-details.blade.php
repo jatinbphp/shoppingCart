@@ -120,9 +120,12 @@
                                             <i class="lni lni-heart mr-2"></i>Add to Cart
                                         </a>
                                     @else
-                                        <button type="submit" class="btn btn-block custom-height bg-dark mb-2" id="add_to_cartproduct" data-type="product-details">
-                                            <i class="lni lni-shopping-basket mr-2"></i>Add to Cart 
-                                        </button>
+                                        {!! Form::button('<i class="lni lni-shopping-basket mr-2"></i>Add to Cart', [
+                                            'type' => 'submit',
+                                            'class' => 'btn btn-block custom-height bg-dark mb-2',
+                                            'id' => 'add_to_cartproduct',
+                                            'data-type' => 'product-details'
+                                        ]) !!}
                                     @endif
                                 </div>
                                 <div class="col-12 col-lg-auto">
@@ -132,9 +135,12 @@
                                             <i class="lni lni-heart mr-2"></i>Wishlist
                                         </a>
                                     @else
-                                        <button class="btn custom-height btn-default btn-block mb-2 text-dark snackbar-wishlist @if(in_array($product['id'], getWishlistProductIds())) active @endif" data-id="{{$product['id']}}" data-url="{{route('products.add.wishlist')}}" data-toggle="button">
-                                            <i class="lni lni-heart mr-2"></i>Wishlist
-                                        </button>
+                                        {!! Form::button('<i class="lni lni-heart mr-2"></i>Wishlist', [
+                                            'class' => 'btn custom-height btn-default btn-block mb-2 text-dark snackbar-wishlist' . (in_array($product['id'], getWishlistProductIds()) ? ' active' : ''),
+                                            'data-id' => $product['id'],
+                                            'data-url' => route('products.add.wishlist'),
+                                            'data-toggle' => 'button'
+                                        ]) !!}
                                     @endif
                                 </div>
                             </div>

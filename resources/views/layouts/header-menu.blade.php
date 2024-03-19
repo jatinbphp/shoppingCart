@@ -9,7 +9,7 @@
                 <div class="mobile_nav">
                     <ul>
                         <li>
-                            <a href="javaScript:;" onclick="openSearch()"><i class="lni lni-search-alt"></i></a>
+                            <a href="javaScript:;" id="search-open"><i class="lni lni-search-alt"></i></a>
                         </li>
                         <li>
                             <a href="javaScript:;"><i class="lni lni-user"></i></a>
@@ -55,7 +55,7 @@
                 </ul>
                 <ul class="nav-menu nav-menu-social align-to-right">
                     <li>
-                        <a href="javaScript:;" onclick="openSearch()" title="Search Products">
+                        <a href="javaScript:;" id="search-open" title="Search Products">
                             <i class="lni lni-search-alt"></i>
                         </a>
                     </li>
@@ -87,9 +87,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                    </form>
+                                    {!! Form::open(['route' => 'logout', 'method' => 'POST', 'id' => 'logout-form', 'class' => 'd-none']) !!}
+                                    {!! Form::close() !!}
                                 </li>
                             @endguest
                         </ul>

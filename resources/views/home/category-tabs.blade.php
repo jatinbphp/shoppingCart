@@ -29,15 +29,13 @@
                                                             <i class="far fa-heart"></i>
                                                         </a>
                                                     @else
-                                                        <button class="btn btn_love position-absolute ab-right snackbar-wishlist @if(in_array($product->id, getWishlistProductIds())) active @endif" 
-                                                                data-id="{{ $product->id }}" 
-                                                                data-url="{{ route('products.add.wishlist') }}" 
-                                                                data-toggle="button"
-                                                                aria-label="Add to Wishlist"
-                                                        >
-                                                            <i class="far fa-heart"></i>
-                                                        </button>
-
+                                                        {!! Form::button('<i class="far fa-heart"></i>', [
+                                                            'class' => 'btn btn_love position-absolute ab-right snackbar-wishlist ' . (in_array($product->id, getWishlistProductIds()) ? 'active' : ''),
+                                                            'data-id' => $product->id,
+                                                            'data-url' => route('products.add.wishlist'),
+                                                            'data-toggle' => 'button',
+                                                            'aria-label' => 'Add to Wishlist'
+                                                        ]) !!}
                                                     @endif
 
                                                     <div class="card-body p-0">

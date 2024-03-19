@@ -59,20 +59,17 @@
                             <div class="card-header">
                                 <h3 class="card-title">Total Sales</h3>
                                 <div class="card-tools d-none">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                    <i class="fas fa-times"></i>
-                                    </button>
+                                    {!! Form::button('<i class="fas fa-minus"></i>', [
+                                        'type' => 'button',
+                                        'class' => 'btn btn-tool',
+                                        'data-card-widget' => 'collapse'
+                                    ]) !!}
                                 </div>
                             </div>
                             <div class="card-body">
                                 <div class="chart">
                                     <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                 </div>
-
-                               
                             </div>
                         </div>
                     </div>
@@ -83,12 +80,11 @@
                             <div class="card-header">
                                 <h3 class="card-title">Total Orders</h3>
                                 <div class="card-tools d-none">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
+                                    {!! Form::button('<i class="fas fa-minus"></i>', [
+                                        'type' => 'button',
+                                        'class' => 'btn btn-tool',
+                                        'data-card-widget' => 'collapse'
+                                    ]) !!}
                                 </div>
                             </div>
                             <div class="card-body">
@@ -108,7 +104,8 @@
                                 <h3 class="card-title">Latest Orders</h3>
                             </div>
                             <div class="card-body">
-                                <input type="hidden" id="route_name" value="{{ route('orders.index_dashboard')}}">
+                                {!! Form::hidden('route_name', route('orders.index_dashboard'), ['id' => 'route_name']) !!}
+
                                 <table id="ordersDasboardTable" class="table table-bordered table-striped datatable-dynamic">
                                     <thead>
                                         <tr>

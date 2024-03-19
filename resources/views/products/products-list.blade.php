@@ -64,9 +64,12 @@
                                             <i class="far fa-heart"></i>
                                         </a>
                                     @else
-                                        <button class="btn btn_love position-absolute ab-right snackbar-wishlist @if(in_array($value->id, getWishlistProductIds())) active @endif" data-id="{{$value->id}}" data-url="{{route('products.add.wishlist')}}" data-toggle="button">
-                                            <i class="far fa-heart"></i>
-                                        </button>
+                                        {!! Form::button('<i class="far fa-heart"></i>', [
+                                            'class' => 'btn btn_love position-absolute ab-right snackbar-wishlist' . (in_array($value->id, getWishlistProductIds()) ? ' active' : ''),
+                                            'data-id' => $value->id,
+                                            'data-url' => route('products.add.wishlist'),
+                                            'data-toggle' => 'button'
+                                        ]) !!}
                                     @endif
 
                                     <div class="card-body p-0">
@@ -104,9 +107,6 @@
                                                     <a href="{{ route('reviews-list', ['productId' => $value->id]) }}"><span class="small">({{$value->total_reviews}} Reviews)</span></a>
                                                 </div>
                                             </div>
-                                            <!-- <div class="text-right">
-                                                <button class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button> 
-                                            </div> -->
                                         </div>
                                         <div class="text-left">
                                             <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
@@ -134,7 +134,11 @@
                     @if($total_products>env('PRODUCT_PAGINATION_LENGHT'))
                         <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-12 text-center pt-4 pb-4">
-                                <button onclick="handleLoadMore({{env('PRODUCT_PAGINATION_LENGHT')}})" id="load-more-btn" class="btn stretched-link borders m-auto"><i class="lni lni-reload mr-2"></i>Load More</button>
+                                {!! Form::button('<i class="lni lni-reload mr-2"></i>Load More', [
+                                    'onclick' => 'handleLoadMore('.env('PRODUCT_PAGINATION_LENGHT').')',
+                                    'id' => 'load-more-btn',
+                                    'class' => 'btn stretched-link borders m-auto'
+                                ]) !!}
                             </div>
                         </div>
                     @endif
