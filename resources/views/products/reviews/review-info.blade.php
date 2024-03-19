@@ -1,5 +1,5 @@
 <div class="reviews_info">
-    <div class="single_rev d-flex align-items-start br-bottom py-3">
+    <div class="single_rev d-flex align-items-start py-3">
         <div class="single_rev_thumb" style=" width: 100px;">
             @if(!empty($user['image']) && file_exists($user['image']))
                 <img src="{{url($user['image'])}}" class="img-fluid circle" style="width: 90px;" alt="" />

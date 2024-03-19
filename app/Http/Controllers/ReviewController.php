@@ -54,7 +54,6 @@ class ReviewController extends Controller
     public function reviewsInfo(Request $request, $id)
     {       
         $data['review_info'] = Review::findorFail($id);
-        
         return response()->json($data);
     }
 }

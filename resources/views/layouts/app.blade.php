@@ -23,15 +23,7 @@
 
             @include ('layouts.footer-menu')
 
-            @include ('modals.product-quick-view')
-
-            @include ('modals.search-products')
-            
-            @include ('modals.wishlist-products')
-
-            @include ('modals.cart-products')
-
-            @include ('modals.common')
+            @include ('modals.common-modals')
 
             <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
         </div>
