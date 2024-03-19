@@ -29,7 +29,7 @@ class ReviewController extends Controller
         $input['user_id'] = optional(Auth::user())->id ?? 0;
         Review::create($input);
       
-        return response()->json(['success' => true, 'message' => 'Review hase been inserted successfully!']);
+        return response()->json(['success' => true, 'message' => 'Your review has been successfully inserted.']);
     }
 
     public function reviewsList(Request $request, $id)
@@ -41,10 +41,10 @@ class ReviewController extends Controller
         if ($request->ajax()) {
             return Datatables::of(Review::with('user')->where('product_id',$id))
                 ->addIndexColumn()
-                ->addColumn('review_information', function($row){
+                ->addColumn('review_informations', function($row){
                     return view('products.reviews.review-info', $row);
                 })
-                ->rawColumns(['review_information'])
+                ->rawColumns(['review_informations'])
                 ->make(true);
         }
 

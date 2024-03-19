@@ -432,13 +432,24 @@ function imageIsLoaded(e){
 }
 
 $(function () {
-    $('#reviewTable').DataTable({
+    $('#reviewsTable').DataTable({
         processing: true,
         serverSide: true,
         ajax: $("#route_name").val(),
         columns: [
             { data: 'id', name: 'id', orderable: true, visible: false },
-            { data: 'review_information', name: 'description', orderable: false },
+            { data: 'review_informations', orderable: false },
+        ],
+        "order": [[0, "DESC"]]
+    });
+
+    $('#ordersTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: $("#route_name").val(),
+        columns: [
+            { data: 'id', name: 'id', orderable: true, visible: false },
+            { data: 'order_informations', orderable: false },
         ],
         "order": [[0, "DESC"]]
     });

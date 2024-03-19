@@ -28,13 +28,13 @@ class ChangePasswordController extends Controller
         $current_password = $user_data->password;
     
         if ($request->current_password == $request->password) {
-            \Session::flash('danger', 'Current password and new password cannot be the same.');
+            \Session::flash('danger', 'There cannot be a similarity between your current password and your new password.');
         } elseif (Hash::check($request->current_password, $current_password)) {
             $user_data->password = Hash::make($request->password);
             $user_data->save();
-            \Session::flash('success', 'Password changed successfully.');
+            \Session::flash('success', 'You have successfully changed your password.');
         } else {
-            \Session::flash('danger', 'Current password is incorrect.');
+            \Session::flash('danger', 'The password you are currently using is incorrect.');
         }
     
         return redirect()->route('change.password');

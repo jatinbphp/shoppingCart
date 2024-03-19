@@ -43,7 +43,7 @@ class AddressController extends Controller
         $input['user_id'] = Auth::user()->id;
         UserAddresses::create($input);
 
-        \Session::flash('success', 'Address has been inserted successfully!');
+        \Session::flash('success', 'Your address has been successfully inserted.');
         return redirect()->route('addresses.index');
     }
 
@@ -74,7 +74,7 @@ class AddressController extends Controller
         $address = UserAddresses::findorFail($id);
         $address->update($input);
 
-        \Session::flash('success','Address has been updated successfully!');
+        \Session::flash('success','Your address has been successfully updated.');
         return redirect()->route('addresses.index');
     }
 

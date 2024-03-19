@@ -19,7 +19,7 @@ class SubscriberController extends Controller
 
         try {
             Subscriber::create($request->all());
-            return response()->json(['success' => 'You have successfully subscribed.'], 200);
+            return response()->json(['success' => 'Thank you for subscribing!'], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

@@ -104,10 +104,10 @@ class CheckoutController extends Controller
 
     public function orderCompleted(){   
         $data['title'] = 'Order Completed';
-        $order = Order::select('id', 'created_at')->where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->first();
+        $order = Order::select('id', 'created_at')->where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->firstOrFail();
 
         if(empty($order)){
-            return redirect()->route('products')->with('danger', 'Please add the orders in your account.');
+            return redirect()->route('products')->with('danger', 'Your account needs to be updated with the orders.');
         }
 
         $data['order_id'] = env('ORDER_PREFIX').'-'.date("Y", strtotime($order->created_at)).'-'.$order->id; 

@@ -31,7 +31,6 @@ class OrderPlacedRequest extends FormRequest
                 'title' => 'required',
                 'first_name' => 'required',
                 'last_name' => 'required',
-                'company' => 'required',
                 'mobile_phone' => 'required',
                 'address_line1' => 'required',
                 'country' => 'required',
@@ -43,7 +42,7 @@ class OrderPlacedRequest extends FormRequest
             // Merge additional rules with the existing rules
             $rules = array_merge($rules, $additionalRules);
         }
-        
+
         return $rules;
     }
 }

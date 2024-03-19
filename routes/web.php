@@ -104,7 +104,7 @@ Route::get('change-password', [ChangePasswordController::class, 'index'])->name(
 Route::post('change-password-update',[ChangePasswordController::class,'update'])->name('change.password.update');
 
 /* My Orders */
-Route::get('orders', [FrontOrderController::class, 'myOrders'])->name('orders-list');
+Route::get('orders', [FrontOrderController::class, 'index'])->name('orders-list');
 Route::get('orders/{id}/details', [FrontOrderController::class, 'orderDetails'])->name('order-details');
 
 /* My Addresses */

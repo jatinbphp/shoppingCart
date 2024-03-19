@@ -117,6 +117,6 @@ class ShoppingCartController extends Controller
         $cart->update(['quantity' => $request->quantity]);
 
         // Return a success response
-        return response()->json(['status' => 200, 'message' => 'Your quantity has been updated successfully!']);
+        return response()->json(['status' => 200, 'message' => 'Your quantity has been successfully updated.']);
     }
 }

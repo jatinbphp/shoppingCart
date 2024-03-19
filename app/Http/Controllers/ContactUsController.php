@@ -33,7 +33,7 @@ class ContactUsController extends Controller
         $input = $request->all();
         ContactUs::create($input);
 
-        \Session::flash('success', 'Thank you for getting in touch! We will get back in touch with you soon!Have a great day!');
+        \Session::flash('success', 'Thank you for getting in touch! We will get back in touch with you soon! Have a great day!');
         return redirect()->back();
     }
 

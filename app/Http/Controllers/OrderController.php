@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderOption;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,9 +17,19 @@ class OrderController extends Controller
         $this->middleware('auth');
     }
 
-    public function myOrders(Request $request){   
-        $data['title'] = 'My Orders';
-        $data['orders'] = Order::with(['user', 'orderItems'])->where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->get();
+    public function index(Request $request){   
+        $data['title'] = 'My Orders';    
+
+        if ($request->ajax()) {
+            return Datatables::of(Order::with('user', 'orderItems')->where('user_id',Auth::user()->id))
+                ->addIndexColumn()
+                ->addColumn('order_informations', function($row){
+                    return view('my-orders.order-info', $row);
+                })
+                ->rawColumns(['order_informations'])
+                ->make(true);
+        }
+
         return view('my-orders.orders', $data);
     }
 

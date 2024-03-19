@@ -13,11 +13,11 @@
         <div class="row justify-content-between">
             <div class="col-12 col-lg-12 col-md-12">
                 <input type="hidden" id="route_name" value="{{ route('reviews-list', ['productId' => $productId]) }}">
-                <table id="reviewTable" class="table table-bordered table-striped datatable-dynamic">
+                <table id="reviewsTable" class="table table-bordered table-striped datatable-dynamic">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Review Information</th>
+                            <th>Review Informations</th>
                         </tr>
                     </thead>
                     <tbody>

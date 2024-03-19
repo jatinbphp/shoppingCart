@@ -50,7 +50,7 @@ class MyProfileController extends Controller
         }
         $user->update($input);
 
-        \Session::flash('success', 'Profile has been updated successfully!');
+        \Session::flash('success', 'Your profile has been successfully updated.');
         return redirect()->back();
     }
 }
