@@ -149,7 +149,7 @@
                                     <p>User Orders Report</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item d-none">
                                 <a href="{{ route('reports.purchase_product')}}" class="nav-link @if(isset($menu) && $menu=='Products Purchased Report') active @endif">
                                     <i class="fas fa-chart-bar nav-icon"></i>
                                     <p>Product Purchase Report</p>

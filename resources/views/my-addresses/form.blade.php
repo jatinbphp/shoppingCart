@@ -100,7 +100,8 @@
 
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="form-group">
-            {!! Form::label('additional_information', 'Additional Information :', ['class' => 'text-dark ft-medium']) !!}
+            @include('common.label', ['field' => 'additional_information', 'labelText' => 'Additional Information', 'isRequired' => false])
+            
             {!! Form::textarea('additional_information', null, ['class' => 'form-control']) !!}
         </div>
     </div>

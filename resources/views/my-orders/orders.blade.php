@@ -3,6 +3,9 @@
 @include('common.breadcrumb', ['breadcrumbs' => ['Home', 'My Account', 'My Orders']])
 <section class="middle">
     <div class="container ">
+
+        @include ('common.error')
+        
         <div class="row align-items-start justify-content-between">
             
             @include ('common.dashboard-menu', ['menu' => 'orders'])

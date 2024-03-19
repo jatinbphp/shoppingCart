@@ -96,11 +96,11 @@
                         <tfoot>
                             <tr>
                                 <td colspan="4" class="text-right"><strong>Sub-Total</strong></td>
-                                <td>{{ env('CURRENCY') }}{{ number_format($order->total_amount, 2) }}</td>
+                                <td class="text-right">{{ env('CURRENCY') }}{{ number_format($order->total_amount, 2) }}</td>
                             </tr>
                             <tr>
                                 <td colspan="4" class="text-right"><strong>Total</strong></td>
-                                <td>{{ env('CURRENCY') }}{{ number_format($order->total_amount, 2) }}</td>
+                                <td class="text-right">{{ env('CURRENCY') }}{{ number_format($order->total_amount, 2) }}</td>
                             </tr>
                         </tfoot>
                     </table>

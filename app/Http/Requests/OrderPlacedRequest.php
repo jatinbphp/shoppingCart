@@ -25,6 +25,6 @@ class OrderPlacedRequest extends FormRequest
             'name' => 'required',
         ];
 
-        return $rules;
+        return [];
     }
 }

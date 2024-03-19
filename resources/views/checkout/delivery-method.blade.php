@@ -1,39 +1,40 @@
-<h5 class="mb-4 ft-medium">Delivery Method</h5>
+<h5 class="mb-2 ft-medium">Delivery Method</h5>
 <div class="row mb-4">
     <div class="col-12 col-lg-12 col-xl-12 col-md-12">
-        <div class="panel-group pay_opy980" id="payaccordion">
-            <div class="panel panel-default border">
-                <div class="panel-heading" id="pay">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" role="button" data-parent="#payaccordion" href="#FEDEX" aria-expanded="true"  aria-controls="FEDEX" >
-                            Fedex
-                        </a>
-                    </h4>
-                </div>
-                <div id="FEDEX" class="panel-collapse collapse show" aria-labelledby="pay" data-parent="#payaccordion">
-                    <div class="panel-body">
-                        <label class="text-dark">5 WORKING DAYS</label>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default border">
-                <div class="panel-heading" id="c_o_d">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#payaccordion" data-target="#COD" aria-expanded="false" aria-controls="COD" >
-                            Cash On Delivery
-                        </a>
-                    </h4>
-                </div>
-                <div id="COD" class="panel-collapse collapse" aria-labelledby="c_o_d" data-parent="#payaccordion">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                <label class="text-dark">5 WORKING DAYS</label>
-                            </div>
+        <div class="panel-group" id="payaccordion">
+            <div class="accordion">
+                <article class="panel panel-default border">
+                    <input id="delivey_method_f" type="radio" name="delivey_method" value="FEDEX" checked>
+                    <label class="article-lable" for="delivey_method_f">
+                        <h5>Fedex</h5>
+                    </label>
+                    <div id="delivey_method_f" class="panel-collapse collapse show" aria-labelledby="pay" data-parent="#payaccordion">
+                        <div class="panel-body">
+                            5 WORKING DAYS
                         </div>
                     </div>
-                </div>
+                </article>
+                <article class="panel panel-default border">
+                    <input id="delivey_method_c" type="radio" name="delivey_method" value="COD">
+                    <label class="article-lable" for="delivey_method_c">
+                        <h5>Cash On Delivery</h5>
+                    </label>
+                    <div id="delivey_method_c" class="panel-collapse collapse show" aria-labelledby="pay" data-parent="#payaccordion">
+                        <div class="panel-body">
+                            5 WORKING DAYS
+                        </div>
+                    </div>
+                </article>
             </div>
+        </div>
+    </div>
+</div>
+<h5 class="mb-2 ft-medium">Leave a message</h5>
+<div class="row mb-4">
+    <div class="col-12 col-lg-12 col-xl-12 col-md-12">
+        <div class="form-group">
+            <small>If you would like to add a comment about your order, please write it in the field below.</small>
+            {!! Form::textarea('notes', null, ['class' => 'form-control']) !!}
         </div>
     </div>
 </div>
