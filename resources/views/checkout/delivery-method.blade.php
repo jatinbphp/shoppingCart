@@ -4,7 +4,7 @@
         <div class="panel-group" id="payaccordion">
             <div class="accordion">
                 <article class="panel panel-default border">
-                    <input id="delivey_method_f" type="radio" name="delivey_method" value="FEDEX" checked>
+                    <input id="delivey_method_f" type="radio" name="delivery_method" value="FEDEX" checked>
                     <label class="article-lable" for="delivey_method_f">
                         <h5>Fedex</h5>
                     </label>
@@ -15,7 +15,7 @@
                     </div>
                 </article>
                 <article class="panel panel-default border">
-                    <input id="delivey_method_c" type="radio" name="delivey_method" value="COD">
+                    <input id="delivey_method_c" type="radio" name="delivery_method" value="COD">
                     <label class="article-lable" for="delivey_method_c">
                         <h5>Cash On Delivery</h5>
                     </label>

@@ -1,25 +1,12 @@
 <h5 class="mb-2 ft-medium">Delivery Address</h5>
 <div class="row mb-4">
     <div class="col-12 col-lg-12 col-xl-12 col-md-12">
-
-        <style>
-        #payaccordion article{border:1px solid #eaeff5;padding:1em}
-        #payaccordion input[type="radio"]{appearance:none;position:fixed;top:-100vh;left:-100vh}
-        #payaccordion input[type="radio"] ~ div{max-height:0;overflow:hidden;transition:max-height .5s}
-        #payaccordion input[type="radio"]:checked ~ div{max-height:inherit}
-        input[type="radio"]{position:absolute;opacity:0}
-        #payaccordion .article-lable{display:block;cursor:pointer;padding-left:30px;position:relative}
-        #payaccordion .article-lable::before{content:"";position:absolute;width:18px;height:18px;background:#edeef3;border-radius:50%;border:none;left:0;top:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;transition:all ease .4s}
-        #payaccordion input[type="radio"]:checked + .article-lable::before{content:"\e64c";font-family:'themify';background:#009acd}
-        #payaccordion [type="radio"]:checked + label:after,#payaccordion [type="radio"]:not(:checked) + label:after{background:none!important}
-        </style>
-
         <div class="panel-group" id="payaccordion">
             <div class="accordion">
                 @if(!empty($user_addresses))
                     @foreach($user_addresses as $keyA => $address)
                         <article class="panel panel-default border">
-                            <input id="address_{{ $address->id }}" type="radio" name="address_id" {{ $keyA == 0 ? 'checked' : '' }} value="{{ $address->id }}">
+                            <input id="address_{{ $address->id }}" type="radio" name="address_id" {{ old('address_id') !== null && old('address_id') == $address->id ? 'checked' : ($keyA == 0 && old('address_id') === null ? 'checked' : '') }} value="{{ $address->id }}">
                             <label class="article-lable" for="address_{{ $address->id }}">
                                 <h5>{{ $address->title }}</h5>
                             </label>
@@ -67,7 +54,7 @@
                 @endif
 
                 <article class="panel panel-default border">
-                    <input id="address_new" type="radio" name="address_id" {{ empty($user_addresses) ? 'checked' : '' }} value="0">
+                    <input id="address_new" type="radio" name="address_id" {{ old('address_id') !== null && old('address_id') == 0 ? 'checked' : (old('address_id') === null && empty($user_addresses) ? 'checked' : '') }} value="0">
                     <label class="article-lable" for="address_new">
                         <h5>Add a New Address</h5>
                     </label>

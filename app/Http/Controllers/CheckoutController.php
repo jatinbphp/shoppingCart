@@ -36,7 +36,7 @@ class CheckoutController extends Controller
 
     public function placed(OrderPlacedRequest $request)
     {
-        return $input = $request->all();
+        $input = $request->all();
         $order_products = Cart::with('product')->where('user_id',Auth::user()->id)->where('order_id',0)->get();
         if(!empty($order_products)){
 

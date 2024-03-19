@@ -10,7 +10,7 @@
                 </div>
             </div>
         </div>
-        {!! Form::open(['url' => route('checkout-order-placed'), 'id' => 'BannerForm', 'class' => 'form-horizontal','files'=>true]) !!}
+        {!! Form::open(['url' => route('checkout-order-placed'), 'id' => 'CheckoutForm', 'class' => 'form-horizontal','files'=>true]) !!}
             <div class="row justify-content-between">
                 <div class="col-12 col-lg-7 col-md-12">
                     @include('checkout.delivery-address')

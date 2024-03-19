@@ -22,11 +22,11 @@ class OrderPlacedRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'address_id' => 'required|integer',
+            'address_id' => 'required',
             'delivery_method' => 'required',
         ];
 
-        if ($this->input('address_id') > 0) {
+        if ($this->input('address_id')==0) {
             $additionalRules = [
                 'title' => 'required',
                 'first_name' => 'required',
@@ -34,18 +34,16 @@ class OrderPlacedRequest extends FormRequest
                 'company' => 'required',
                 'mobile_phone' => 'required',
                 'address_line1' => 'required',
-                'address_line2' => 'required',
                 'country' => 'required',
                 'state' => 'required',
                 'city' => 'required',
                 'pincode' => 'required',
-                'additional_information' => 'required',
             ];
 
             // Merge additional rules with the existing rules
             $rules = array_merge($rules, $additionalRules);
         }
-
+        
         return $rules;
     }
 }

@@ -24,7 +24,7 @@ class OrderController extends Controller
 
     public function orderDetails($orderId){   
         $data['title'] = 'My Order Details';
-        $data['order'] = Order::with('orderItems.product.product_image')->find($orderId);
+        $data['order'] = Order::with('orderItems.product.product_image')->findOrFail($orderId);
 
         if(empty($data['order'])){
             \Session::flash('danger', 'Something went wrong. Please try again!');

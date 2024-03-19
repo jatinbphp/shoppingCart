@@ -89,7 +89,7 @@ class ProductController extends Controller
     }
 
     public function details($productId){   
-        $data['product'] = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values', 'reviews'])->where('status', 'active')->where('id', $productId)->first();
+        $data['product'] = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values', 'reviews'])->where('status', 'active')->where('id', $productId)->firstOrFail();
 
         // Calculate total_reviews and total_review_rating for the fetched product
         $data['product']->total_reviews = $data['product']->reviews->count();

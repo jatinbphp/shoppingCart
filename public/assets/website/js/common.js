@@ -438,7 +438,7 @@ $(function () {
         ajax: $("#route_name").val(),
         columns: [
             { data: 'id', name: 'id', orderable: true, visible: false },
-            { data: 'review_information', name: 'description', orderable: true },
+            { data: 'review_information', name: 'description', orderable: false },
         ],
         "order": [[0, "DESC"]]
     });
