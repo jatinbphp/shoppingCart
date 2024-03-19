@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
-    public function productReview(Request $request)
-    {
+    public function productReview(Request $request){
         $validator = Validator::make($request->all(), [
             'product_id' => 'required',
             'full_name' => 'required',
@@ -32,10 +31,8 @@ class ReviewController extends Controller
         return response()->json(['success' => true, 'message' => 'Your review has been successfully inserted.']);
     }
 
-    public function reviewsList(Request $request, $id)
-    {       
+    public function reviewsList(Request $request, $id){       
         $data['title'] = 'Reviews';
-        $data['productId'] = $id;
         $data['product_info'] = Products::findorFail($id);
         
         if ($request->ajax()) {
@@ -51,8 +48,7 @@ class ReviewController extends Controller
         return view('products.reviews.reviews-list', $data);
     }
 
-    public function reviewsInfo(Request $request, $id)
-    {       
+    public function reviewsInfo(Request $request, $id){       
         $data['review_info'] = Review::findorFail($id);
         return response()->json($data);
     }

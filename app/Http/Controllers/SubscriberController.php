@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Validator;
 
 class SubscriberController extends Controller
 {
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:subscribers,email',
         ]);

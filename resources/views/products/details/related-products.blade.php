@@ -50,7 +50,7 @@
 	                                <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
 	                                    <div class="text-left">
 	                                        <div class="text-center">
-	                                            <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="product-detail.html">{{$valueSlider->product_name}}</a></h5>
+	                                            <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="{{route('products.details', [$valueSlider->id])}}">{{$valueSlider->product_name}}</a></h5>
 	                                            <div class="elis_rty">
 	                                                <span class="ft-bold fs-md text-dark">
 	                                                    {{ env('CURRENCY') }}{{ number_format($valueSlider->price, 2) }}

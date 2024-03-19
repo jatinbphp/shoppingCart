@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <section class="">
     <div class="container">
@@ -8,27 +7,22 @@
                 
                 <h2 class="text-center">{{ __('Login') }}</h2>
 
-                <form class="border p-3 rounded" method="POST" action="{{ route('login') }}">
-                    @csrf
+                {!! Form::open(['route' => 'login', 'class' => 'border p-3 rounded']) !!}
 
                     <div class="form-group">
-                        <label>{{ __('Email Address') }} :<span class="text-danger">*</span></label>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" placeholder="{{ __('Email Address') }}" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                        @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        @include('common.label', ['field' => 'email', 'labelText' => 'Email Address', 'isRequired' => true])
+
+                        {{ Form::email('email', old('email'), ['class' => 'form-control', 'placeholder' => __('Email Address'), 'required', 'autocomplete' => 'email', 'autofocus']) }}
+
+                        @include('common.errors', ['field' => 'email'])
                     </div>
 
                     <div class="form-group">
-                        <label>{{ __('Password') }} :<span class="text-danger">*</span></label>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="{{ __('Password') }}">
-                        @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        @include('common.label', ['field' => 'password', 'labelText' => 'Password', 'isRequired' => true])
+
+                        {{ Form::password('password', ['class' => 'form-control', 'placeholder' => __('Password'), 'required', 'autocomplete' => 'current-password']) }}
+
+                        @include('common.errors', ['field' => 'password'])
                     </div>
 
                     <div class="form-group">
@@ -43,9 +37,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium">
-                            {{ __('Login') }}
-                        </button>
+                        {{ Form::submit(__('Login'), ['class' => 'btn btn-md full-width bg-dark text-light fs-md ft-medium']) }}
                     </div>
 
                     <!-- @if (Route::has('register'))
@@ -57,7 +49,7 @@
                             </div>
                         </div>
                     @endif -->
-                </form>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>

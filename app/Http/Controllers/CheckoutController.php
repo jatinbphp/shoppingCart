@@ -22,20 +22,17 @@ class CheckoutController extends Controller
 
     public function checkout(){        
         $data['title'] = 'Checkout';
-
+        $data['user_addresses'] = UserAddresses::where('user_id',Auth::user()->id)->get();
         $data['cart_products'] = getTotalCartProducts();
 
         if(count($data['cart_products'])==0){
             return redirect()->route('products')->with('danger', 'Thank you for shopping with us! Please add the product to your cart.');
         }
 
-        $data['user_addresses'] = UserAddresses::where('user_id',Auth::user()->id)->get();
-
         return view('checkout.checkout', $data);
     }
 
-    public function placed(OrderPlacedRequest $request)
-    {
+    public function placed(OrderPlacedRequest $request){
         $input = $request->all();
         $order_products = Cart::with('product')->where('user_id',Auth::user()->id)->where('order_id',0)->get();
         if(!empty($order_products)){

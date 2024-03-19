@@ -18,8 +18,7 @@ class AddressController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index(){
         $data['title'] = 'My Addresses';
         $data['addresses'] = UserAddresses::where('user_id', Auth::user()->id)->get();
         return view('my-addresses.index', $data);
@@ -28,8 +27,7 @@ class AddressController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
+    public function create(){
         $data['title'] = 'Add Address';
         return view('my-addresses.create', $data);
     }
@@ -37,8 +35,7 @@ class AddressController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserAddressesRequest $request)
-    {
+    public function store(UserAddressesRequest $request){
         $input = $request->all();
         $input['user_id'] = Auth::user()->id;
         UserAddresses::create($input);
@@ -50,16 +47,14 @@ class AddressController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
+    public function show(string $id){
         //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
-    {
+    public function edit($id){
         $data['title'] = 'Edit Address';
         $data['address'] = UserAddresses::where('id', $id)->where('user_id', Auth::user()->id)->firstOrFail();
         return view('my-addresses.edit', $data);
@@ -68,8 +63,7 @@ class AddressController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserAddressesRequest $request, string $id)
-    {
+    public function update(UserAddressesRequest $request, string $id){
         $input = $request->all();
         $address = UserAddresses::findorFail($id);
         $address->update($input);
@@ -81,8 +75,7 @@ class AddressController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
+    public function destroy(string $id){
         $address = UserAddresses::findOrFail($id);
         if(!empty($address)){
             $address->delete();

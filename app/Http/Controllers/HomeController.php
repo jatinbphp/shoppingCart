@@ -9,17 +9,13 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
-    {   
+    public function index(){   
         $data['title'] = 'Home';
-
         return view('home', $data);
     }
 
-    public function page_not_found()
-    {
+    public function page_not_found(){
         $data['title'] = '404';
-
         return view('errors.404', $data);
     }
 }

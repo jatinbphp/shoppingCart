@@ -21,8 +21,9 @@ class WishlistController extends Controller
         $user_id = Auth::user()->id;
 
         $items = $request->items ?? env('PRODUCT_PAGINATION_LENGHT');
-
+        
         $wishlist_query = Wishlist::where('user_id', $user_id);
+        
         $total_products_in_wishlist = $wishlist_query->count();
 
         $wishlist_data = $wishlist_query->with('product', 'product.product_image')
@@ -43,10 +44,8 @@ class WishlistController extends Controller
     }
 
     public function addProducttoWishlist(Request $request){
-        
         $input = $request->all();
         $user_id = Auth::user()->id;
-
         $wishlist = Wishlist::where('user_id', $user_id)->where('product_id', $request->id)->first();
 
         if ($wishlist) {
@@ -69,7 +68,6 @@ class WishlistController extends Controller
     }
 
     public function wishlistview(){   
-
         $wishlist_products = [];
         // Check if a user is authenticated
         if (Auth::check()) {
@@ -92,8 +90,7 @@ class WishlistController extends Controller
         ]);
     }
 
-    public function wishlistRemove($id)
-    {
+    public function wishlistRemove($id){
         Wishlist::findOrFail($id)->delete();
         return response()->json(['success' => true, 'total' => count(getWishlistProductIds())]);
     }

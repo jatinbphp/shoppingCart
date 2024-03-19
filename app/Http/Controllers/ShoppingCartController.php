@@ -22,7 +22,6 @@ class ShoppingCartController extends Controller
 
     public function shoppingCart(){   
         $data['title'] = 'Shopping Cart';
-
         $data['cart_products'] = getTotalCartProducts();
 
         if(count($data['cart_products'])==0){
@@ -32,8 +31,7 @@ class ShoppingCartController extends Controller
         return view('cart.cart-lists', $data);
     }
 
-    public function addProductToCart(Request $request)
-    {
+    public function addProductToCart(Request $request){
         $this->validate($request, [
             'product_id' => 'required',
             'quantity' =>'required|numeric',
@@ -101,8 +99,7 @@ class ShoppingCartController extends Controller
         return response()->json($responseData);
     }
 
-    public function updateQuantity(Request $request)
-    {
+    public function updateQuantity(Request $request){
         // Find the cart item by user_id and id
         $cart = Cart::where('user_id', Auth::user()->id)
                     ->where('id', $request->id)

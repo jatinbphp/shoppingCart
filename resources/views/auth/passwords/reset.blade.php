@@ -8,44 +8,36 @@
                 
                 <h2 class="text-center">{{ __('Reset Password') }}</h2>
 
-                <form class="border p-3 rounded" method="POST" action="{{ route('password.update') }}">
-                    @csrf
+                {!! Form::open(['route' => 'password.update', 'class' => 'border p-3 rounded']) !!}
 
-                    <input type="hidden" name="token" value="{{ $token }}">
+                    {{ Form::hidden('token', $token) }}
 
                     <div class="form-group">
-                        <label>{{ __('Email Address') }} :<span class="text-danger">*</span></label>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
+                        @include('common.label', ['field' => 'email', 'labelText' => 'Email Address', 'isRequired' => true])
 
-                        @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        {{ Form::email('email', isset($email) ? $email : old('email'), ['id' => 'email', 'class' => 'form-control' . ($errors->has('email') ? ' is-invalid' : ''), 'required' => true, 'autocomplete' => 'email', 'autofocus' => true]) }}
+
+                        @include('common.errors', ['field' => 'email'])
                     </div>
 
                     <div class="form-group">
-                        <label>{{ __('Password') }} :<span class="text-danger">*</span></label>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                        @include('common.label', ['field' => 'password', 'labelText' => 'Password', 'isRequired' => true])
 
-                        @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        {{ Form::password('password', ['id' => 'password', 'class' => 'form-control' . ($errors->has('password') ? ' is-invalid' : ''), 'required' => true, 'autocomplete' => 'new-password']) }}
+
+                        @include('common.errors', ['field' => 'password'])
                     </div>
 
                     <div class="form-group">
-                        <label>{{ __('Confirm Password') }} :<span class="text-danger">*</span></label>
-                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                        @include('common.label', ['field' => 'password_confirmation', 'labelText' => 'Confirm Password', 'isRequired' => true])
+
+                        {{ Form::password('password_confirmation', ['id' => 'password-confirm', 'class' => 'form-control', 'required' => true, 'autocomplete' => 'new-password']) }}
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium">
-                            {{ __('Reset Password') }}
-                        </button>
+                        {{ Form::submit(__('Reset Password'), ['class' => 'btn btn-md full-width bg-dark text-light fs-md ft-medium']) }}
                     </div>
-                </form>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>

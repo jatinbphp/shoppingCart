@@ -13,25 +13,18 @@
 
                 <h2 class="text-center">{{ __('Forgot Password') }}</h2>
 
-                <form class="border p-3 rounded" method="POST" action="{{ route('password.email') }}">
-                    @csrf
+                {!! Form::open(['route' => 'password.email', 'class' => 'border p-3 rounded']) !!}
 
                     <div class="form-group">
-                        <label>{{ __('Email Address') }} :<span class="text-danger">*</span></label>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        @include('common.label', ['field' => 'email', 'labelText' => 'Email Address', 'isRequired' => true])
 
-                        @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        {{ Form::email('email', old('email'), ['id' => 'email', 'class' => 'form-control' . ($errors->has('email') ? ' is-invalid' : ''), 'required' => true, 'autocomplete' => 'email', 'autofocus' => true ]) }}
 
+                        @include('common.errors', ['field' => 'email'])
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium">
-                            {{ __('Send Password Reset Link') }}
-                        </button>
+                        {{ Form::submit(__('Send Password Reset Link'), ['class' => 'btn btn-md full-width bg-dark text-light fs-md ft-medium']) }}
                     </div>
 
                     @if (Route::has('login'))
@@ -43,7 +36,7 @@
                             </div>
                         </div>
                     @endif
-                </form>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>

@@ -22,8 +22,7 @@ class MyProfileController extends Controller
         return view('my-account.profile-info', $data);
     }
 
-    public function update(Request $request)
-    {
+    public function update(Request $request){
         $user = User::find(Auth::user()->id);
         $request->validate([
             'name' => 'required',

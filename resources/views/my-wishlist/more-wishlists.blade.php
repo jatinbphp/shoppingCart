@@ -32,7 +32,7 @@
             <div class="text-left">
                 <div class="text-center">
                     <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
-                        <a href="product-detail.html">{{$value->product->product_name}}</a>
+                        <a href="{{route('products.details', [$value->product->id])}}">{{$value->product->product_name}}</a>
                     </h5>
                     <div class="elis_rty">
                         <span class="ft-bold fs-md text-dark">{{ env('CURRENCY') }}{{ number_format($value->product->price, 2) }}</span>

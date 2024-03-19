@@ -56,7 +56,7 @@
                 </div>
                 <div class="text-left">
                     <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
-                        <a href="product-detail.html">{{ $value->product_name ?? "-"}}</a>
+                        <a href="{{route('products.details', [$value->id])}}">{{ $value->product_name ?? "-"}}</a>
                     </h5>
                     <div class="elis_rty">
                         <span class="ft-bold text-dark fs-sm">{{ env('CURRENCY') }}{{ number_format($value->price ?? 0, 2) }}</span>

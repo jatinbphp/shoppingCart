@@ -148,6 +148,25 @@ if (!function_exists('getActiveBanners')) {
 if (!function_exists('getTrendingProducts')) {
     function getTrendingProducts()
     {
+        /*$userCategoriesId = Auth::check() ? Auth::user()->categories_id : null;
+
+        // Query to fetch products
+        $query = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])
+            ->where('status', 'active')
+            ->orderBy('id', 'DESC');
+
+        // If the user is authenticated and has categories_id, add a where clause
+        if ($userCategoriesId) {
+            $categoriesIdsArray = explode(',', $userCategoriesId);
+            $query->whereIn('category_id', $categoriesIdsArray);
+        }
+
+        // Limit the number of products to 8
+        $products = $query->take(8)->get();
+
+        // Return the filtered products
+        return $products;*/
+        
         return Products::with(['product_image', 'category', 'product_images', 'options.product_option_values'])
             ->where('status', 'active')
             ->orderBy('id', 'DESC')
