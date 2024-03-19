@@ -1,5 +1,6 @@
 $( function() {
-    /SUMMER NOTE CODE/
+    $('#description').removeAttr('required');
+
     $("textarea[id=description]").summernote({
         height: 250,
         toolbar: [
@@ -17,6 +18,11 @@ $( function() {
                     upload_image(files[i], this);
             }
         },
+    });
+
+    // Re-enable the required attribute after initialization
+    $('#description').on('summernote.init', function() {
+        $(this).attr('required', 'true');
     });
 });
 
@@ -355,6 +361,35 @@ $(function () {
     $('#reviewForm').submit(function(e) {
         e.preventDefault(); 
         var formData = $(this).serialize();
+        var full_name = $('#reviewForm #full_name').val();
+        var email_address = $('#reviewForm #email_address').val();
+        var description = $('#reviewForm #description').val();
+
+        $('.full_name-text').text('');
+        $('.email_address-text').text('');
+        $('.description-text').text('');
+
+        if (!full_name) {
+            $('.full_name-text').text('Full name field is required.');
+            $('#full_name').focus();
+            return false;
+        }
+
+        if (!email_address) {
+            $('.email_address-text').text('Email address field is required.');
+            $('#email_address').focus();
+            return false;
+        } else if (!isValidEmail(email_address)) {
+            $('.email_address-text').text('Please enter a valid email address.');
+            $('#email_address').focus();
+            return false;
+        }
+
+        if (!description) {
+            $('.description-text').text('Description field is required.');
+            $('#description').focus();
+            return false;
+        }
 
         $.ajax({
             url: $(this).attr('action'),
@@ -364,6 +399,7 @@ $(function () {
                 $('#success_message').html('<div class="alert alert-success"><button data-dismiss="alert" class="close">&times;</button>'+response.message+'</div>');
                 setTimeoutFun('#success_message', 2000)
                 $('#reviewForm')[0].reset(); // Resetting the form
+                $('#description').summernote('code', '');
             }
         });
     });

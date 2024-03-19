@@ -30,7 +30,7 @@
                         </span>
 
                         <p>
-                            {!! substr($valueR['description'], 0, 300) !!}{{ strlen($valueR['description']) > 200 ? '...' : '' }}
+                            {!! substr(strip_tags($valueR['description']), 0, 300) !!}{{ strlen(strip_tags($valueR['description'])) > 200 ? '...' : '' }}
                         </p>
                     </div>
                 </div>
@@ -66,21 +66,27 @@
             <div class="form-group">
                 @include('common.label', ['field' => 'full_name', 'labelText' => 'Full Name', 'isRequired' => true])
 
-                {!! Form::text('full_name', Auth::check() ? Auth::user()->name : null, ['class' => 'form-control', 'placeholder' => 'Enter Full Name', 'id' => 'full_name', 'required' => 'true']) !!}
+                {!! Form::text('full_name', Auth::check() ? Auth::user()->name : null, ['class' => 'form-control', 'placeholder' => 'Enter Full Name', 'id' => 'full_name']) !!}
+
+                <div class="text-danger full_name-text"></div>
             </div>
         </div>
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
             <div class="form-group">
                 @include('common.label', ['field' => 'email_address', 'labelText' => 'Email Address', 'isRequired' => true])
 
-                {!! Form::email('email_address', Auth::check() ? Auth::user()->email : null, ['class' => 'form-control', 'placeholder' => 'Enter Email Address', 'id' => 'email_address','required' => 'true']) !!}
+                {!! Form::text('email_address', Auth::check() ? Auth::user()->email : null, ['class' => 'form-control', 'placeholder' => 'Enter Email Address', 'id' => 'email_address']) !!}
+
+                <div class="text-danger email_address-text"></div>
             </div>
         </div>
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <div class="form-group">
                 @include('common.label', ['field' => 'description', 'labelText' => 'Description', 'isRequired' => true])
 
-                {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Enter Description', 'id' => 'description','required' => 'true']) !!}
+                {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Enter Description', 'id' => 'description', 'data-required' => 'true']) !!}
+
+                <div class="text-danger description-text"></div>
             </div>
         </div>
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">

@@ -26,7 +26,7 @@
                 </span>
                 <p>
                     <div>
-                        {!! substr($description, 0, 300) !!}
+                        {!! substr(strip_tags($description), 0, 300) !!}{{ strlen(strip_tags($description)) > 300 ? '...' : '' }}
                         @if(strlen($description) > 200)
                             <a href="javascript:void(0)" id="show-more" data-id="{{$id}}" data-url="{{route('reviews-info', ['reviewId' => $id])}}">...Show more</a>
                         @endif
