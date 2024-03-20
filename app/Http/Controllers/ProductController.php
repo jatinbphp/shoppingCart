@@ -110,9 +110,6 @@ class ProductController extends Controller
             })
             ->when($request->input('minPrice') && $request->input('maxPrice'), function ($query) use ($request) {
                 return $query->whereRaw('CAST(price AS DECIMAL) BETWEEN ? AND ?', [(double) $request->minPrice, (double) $request->maxPrice]);
-            })
-            ->when($request->input('category_id'), function ($query, $category_id) {
-                return $query->whereIn('category_id', $category_id);
             });
     }
 
