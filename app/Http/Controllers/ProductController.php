@@ -56,18 +56,43 @@ class ProductController extends Controller
 
         $data['keyword'] = $request->input('keyword', '');
 
+        // filter categories
+        $query = Category::with(['children' => function ($query) {
+                            $query->whereHas('products');
+                        }, 'children.products'])
+                    ->where('parent_category_id', 0)
+                    ->whereHas('children.products')
+                    ->orderBy('name', 'ASC');
+
+                // Apply the condition only if $category_id is provided
+                if ($category_id !== null) {
+                    $query->where('id', $category_id);
+                }
+
+        $data['filter_categories'] = $query->get();
+
         return view('products.products-list', $data);
     }
 
-    protected function buildProductsQuery($request){
+    protected function buildProductsQuery($request, $category_id){
         return Products::where('status', 'active')
-            ->when($request->input('sub_category_id'), function ($query, $category_id) {
+            ->when($category_id, function ($query, $category_id) {            
                 return $query->where(function ($query) use ($category_id) {
                     $query->where('category_id', $category_id)
                         ->orWhereIn('category_id', function ($query) use ($category_id) {
                             $query->select('id')
                                 ->from('categories')
                                 ->where('parent_category_id', $category_id);
+                        });
+                });
+            })
+            ->when($request->input('sub_category_id'), function ($query, $sub_category_id) {
+                return $query->where(function ($query) use ($sub_category_id) {
+                    $query->where('category_id', $sub_category_id)
+                        ->orWhereIn('category_id', function ($query) use ($sub_category_id) {
+                            $query->select('id')
+                                ->from('categories')
+                                ->where('parent_category_id', $sub_category_id);
                         });
                 });
             })
@@ -78,17 +103,14 @@ class ProductController extends Controller
                         ->orWhere('description', 'like', '%' . $keyword . '%');
                 });
             })
-
             ->when($request->input('sizes'), function ($query, $sizes) {
                 return $query->whereHas('products_options_value', function ($query) use ($sizes) {
                     $query->whereIn('option_value', $sizes);
                 });
             })
-
             ->when($request->input('minPrice') && $request->input('maxPrice'), function ($query) use ($request) {
                 return $query->whereRaw('CAST(price AS DECIMAL) BETWEEN ? AND ?', [(double) $request->minPrice, (double) $request->maxPrice]);
             })
-
             ->when($request->input('category_id'), function ($query, $category_id) {
                 return $query->whereIn('category_id', $category_id);
             });
@@ -96,8 +118,21 @@ class ProductController extends Controller
 
 
     public function details($productId){   
-        $data['product'] = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values', 'reviews'])->where('status', 'active')->where('id', $productId)->firstOrFail();
+        $desiredCategoryIds = getUserCategoryIds();
 
+        $data['product'] = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values', 'reviews'])
+            ->where('status', 'active')
+            ->where('id', $productId)
+            ->whereHas('category', function ($query) use ($desiredCategoryIds) {
+                if (!empty($desiredCategoryIds)) {
+                    $query->whereIn('id', $desiredCategoryIds)
+                        ->orWhereHas('parent', function ($query) use ($desiredCategoryIds) {
+                            $query->whereIn('id', $desiredCategoryIds);
+                        });
+                }
+            })
+            ->firstOrFail();
+        
         // Calculate total_reviews and total_review_rating for the fetched product
         $data['product']->total_reviews = $data['product']->reviews->count();
         $data['product']->total_review_rating = $data['product']->reviews->sum('rating');
@@ -105,7 +140,7 @@ class ProductController extends Controller
         $data['title'] = $data['product']['product_name'];
 
         $category = Category::findOrFail($data['product']['category_id']);
-        $data['category_products'] = $category->products()->where('id', '!=', $productId)->take(8)->get();
+        $data['category_products'] = $category->products()->where('id', '!=', $productId)->where('status', 'active')->take(8)->get();
 
         return view('products.product-details', $data);
     }
@@ -120,8 +155,5 @@ class ProductController extends Controller
         return view('modals.quick-modal-data', [
             'info' => $product->toArray()
         ]);
-    }
-    public function productsFilter(Request $request){
-        //return $request->all();
     }
 }

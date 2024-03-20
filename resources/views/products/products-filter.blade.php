@@ -6,7 +6,7 @@
 <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 p-xl-0">
     <div class="search-sidebar sm-sidebar border">
         <div class="search-sidebar-body">
-            @if (!empty(getCategoriesWithProductsForFilter()))
+            @if (!empty($filter_categories))
                 <div class="single_search_boxed d-none d-lg-block">
                     <div class="widget-boxed-header px-3">
                         <h4 class="mt-3">Categories</h4>
@@ -14,7 +14,7 @@
                     <div class="widget-boxed-body">
                         <div class="side-list no-border">
                             <div class="filter-card" id="shop-categories">
-                                @foreach (getCategoriesWithProductsForFilter() as $key => $category)
+                                @foreach ($filter_categories as $key => $category)
                                     <div class="single_filter_card">
                                         <h5><a onclick="setCategory(event)" href="#{{ strtolower($category->name ?? "") }}" data-id="{{ $category->id }}" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">{{ $category->name ?? "-" }}<i class="accordion-indicator ti-angle-down"></i></a></h5>
                                         <div class="collapse {{ request()->is('category/*/' . strtolower($category->name) . '/*') ? 'show' : '' }}" id="{{ strtolower($category->name ?? '') }}" data-parent="#shop-categories">
