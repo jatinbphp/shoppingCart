@@ -49,17 +49,17 @@ $(function () {
         "order": [[1, "ASC"]]
     });
 
-    // Admin Rating Table
-        $('#adminRatingTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: $("#route_name").val(),
-            columns: [
-                { data: 'id', name: 'id', orderable: true, visible: false },
-                { data: 'review_information', name: 'description', orderable: false },
-            ],
-            "order": [[0, "DESC"]]
-        });
+    // Product Reviews Table
+    $('#reviewTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: $("#route_name").val(),
+        columns: [
+            { data: 'id', name: 'id', orderable: true, visible: false },
+            { data: 'review_information', name: 'description', orderable: false },
+        ],
+        "order": [[0, "DESC"]]
+    });
 
     //Product Table
     var products_table = $('#productsTable').DataTable({
@@ -80,7 +80,7 @@ $(function () {
             {data: 'price', "width": "10%",  name: 'price', orderable: false, class: 'text-right'},
             {data: 'status', "width": "10%",  name: 'status', orderable: false},
             {data: 'created_at', "width": "15%", name: 'created_at'},
-            {data: 'action', "width": "18%",  name: 'action', orderable: false},
+            {data: 'action', "width": "15%",  name: 'action', orderable: false},
         ],
         "order": [[0, "DESC"]]
     });

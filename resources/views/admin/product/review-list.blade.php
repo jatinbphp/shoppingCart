@@ -14,7 +14,7 @@
                     </div>
                     <div class="card-body table-responsive">
                         <input type="hidden" id="route_name" value="{{ route('product.reviews.list', ['id' => $product_info->id]) }}">
-                        <table id="adminRatingTable" class="table table-bordered table-striped datatable-dynamic">
+                        <table id="reviewTable" class="table table-bordered table-striped datatable-dynamic">
                             <thead>
                                 <tr>
                                     <th>ID</th>
