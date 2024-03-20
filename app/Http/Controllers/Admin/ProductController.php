@@ -8,6 +8,7 @@ use App\Models\Products;
 use App\Models\ProductImages;
 use App\Models\ProductsOptions;
 use App\Models\ProductsOptionsValues;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
@@ -379,4 +380,31 @@ class ProductController extends Controller
         }
         return view('admin.order.product-edit-options', $data);
     }
+
+    public function productReviews(Request $request,$id)
+    {
+        $data['menu'] = 'Products';
+        $data['id']= $id;
+        $data['product_info'] = Products::findorFail($id);
+        // return $data;
+        $rating_data= Review::with('user')->where('product_id',$id)->get();
+        if ($request->ajax()) {
+            return Datatables::of($rating_data)
+            ->addIndexColumn()
+            ->addColumn('review_information', function($row){
+                return view('admin.product.review-info', $row);
+            })
+            ->rawColumns(['review_information'])
+            ->make(true);
+        }
+        return view('admin.product.review-list', $data);
+    }
+
+    public function adminreviewsInfo(Request $request, $id)
+    {      
+        $data['review_data'] = Review::findorFail($id);
+        return response()->json($data);
+    }
+
+   
 }

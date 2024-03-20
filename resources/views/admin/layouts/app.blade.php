@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/ladda/ladda-themeless.min.css')}}">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    
 </head>
 <body class="hold-transition sidebar-mini sidebar-collapse" id="bodyid">
 <div class="wrapper">
@@ -178,12 +179,22 @@
 
     <!-- Modal -->
     <div class="modal fade" id="commonModal" tabindex="-1" role="dialog" aria-labelledby="commonModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
+    <div class="modal-dialog modal-lg justify-content-center" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="commonModalLabels">Review Description</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="fa fa-times"></span>
+                </button>
+            </div>
+            <div class="modal-body">
                 <!-- Modal content -->
             </div>
         </div>
     </div>
+</div>
+
+    
 
     <footer class="main-footer">
         <strong>{{ config('app.name', 'Shopping Cart') }} Admin</strong>

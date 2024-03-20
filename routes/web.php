@@ -115,6 +115,7 @@ Route::post('submit-review',[ReviewController::class,'productReview'])->name('ad
 Route::get('product/{productId}/reviews-list',[ReviewController::class,'reviewsList'])->name('reviews-list');
 Route::get('reviews/{reviewId}/review-info',[ReviewController::class,'reviewsInfo'])->name('reviews-info');
 
+
 // ------------------main routes------------------------------------------
 Route::get('/admin', [AuthorizationController::class, 'adminLoginForm'])->name('admin.login');
 Route::post('/adminLogin', [AuthorizationController::class, 'adminLogin'])->name('admin.signin');
@@ -143,6 +144,9 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
    Route::post('products/getoptions', [ProductController::class,'getOptions'])->name('products.getoptions');
    Route::post('products/editoption', [ProductController::class,'editOption'])->name('products.editoption');
    Route::resource('products', ProductController::class);
+   Route::get('products/{id}/review', [ProductController::class, 'productReviews'])->name('products.review.list');
+   Route::get('products/{reviewId}/review-infos',[ProductController::class,'adminreviewsInfo'])->name('admin.reviews-info');
+
 
    /*Content Management*/
    Route::resource('content', ContentManagementController::class);
