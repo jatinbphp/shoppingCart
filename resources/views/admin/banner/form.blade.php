@@ -30,7 +30,7 @@
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
             @include('admin.common.label', ['field' => 'image', 'labelText' => 'Image', 'isRequired' => true])
-
+            <small></small>
             <div class="">
                 <div class="fileError">
                     {!! Form::file('image', ['class' => '', 'id'=> 'image','accept'=>'image/*', 'onChange'=>'AjaxUploadImage(this)']) !!}
