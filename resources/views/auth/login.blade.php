@@ -1,14 +1,17 @@
 @extends('layouts.app')
 @section('content')
-<section class="">
+<section class="middle">
     <div class="container">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="text-center d-block mb-5">
+                    <h2>Login</h2>
+                </div>
+            </div>
+        </div>
         <div class="row align-items-start justify-content-between">
             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mx-auto">
-                
-                <h2 class="text-center">{{ __('Login') }}</h2>
-
                 {!! Form::open(['route' => 'login', 'class' => 'border p-3 rounded']) !!}
-
                     <div class="form-group">
                         @include('common.label', ['field' => 'email', 'labelText' => 'Email Address', 'isRequired' => true])
 
