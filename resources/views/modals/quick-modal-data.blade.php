@@ -133,7 +133,7 @@
                                     </a>
                                 @else
                                     {!! Form::button('<i class="lni lni-heart mr-2"></i>Wishlist', [
-                                        'class' => 'btn custom-height btn-default btn-block mb-2 text-dark snackbar-wishlist',
+                                        'class' => 'btn custom-height btn-default btn-block mb-2 text-dark snackbar-wishlist ' . (in_array($info['id'], getWishlistProductIds()) ? 'active' : ''),
                                         'data-id' => $info['id'],
                                         'data-url' => route('products.add.wishlist'),
                                         'data-toggle' => 'button'

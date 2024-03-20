@@ -92,8 +92,6 @@
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <div class="form-group m-0">
                 {!! Form::button('Submit Review <i class="lni lni-arrow-right"></i>', ['type' => 'submit', 'class' => 'btn btn-white stretched-link hover-black', 'name' => 'submit']) !!}
-
-                <div id="success_message" class="mt-1"></div>
             </div>
         </div>
     {!! Form::close() !!}

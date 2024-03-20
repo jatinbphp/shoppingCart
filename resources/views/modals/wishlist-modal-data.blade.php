@@ -40,7 +40,7 @@
     @endif
 </div>
 
-@if(count(getWishlistProductIds())>4)
+@if(count(getWishlistProductIds())>=4)
     <div class="cart_action px-3 py-3">
         <div class="form-group">
             <a href="{{route('wishlist')}}" class="btn d-block full-width btn-dark">View All</a>

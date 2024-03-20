@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Session;
 
 class WishlistController extends Controller
 {   
-    public function __construct(Request $request){
+    /*public function __construct(Request $request){
         $this->middleware('auth');
-    }
+    }*/
 
     public function myWishlist(Request $request){   
         $data['title'] = 'My Wishlist';

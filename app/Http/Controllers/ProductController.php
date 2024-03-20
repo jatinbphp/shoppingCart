@@ -54,6 +54,8 @@ class ProductController extends Controller
             ]);
         }
 
+        $data['keyword'] = $request->input('keyword', '');
+
         return view('products.products-list', $data);
     }
 

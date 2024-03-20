@@ -28,6 +28,13 @@
             ]) !!}
         </div>
         <div class="right-ch-sideBar">
+            <div class="cart_select_items py-2">
+                <div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
+                    <div class="cart_single d-flex align-items-center">
+                        <p>Your Cart is empty.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -51,6 +58,13 @@
             ]) !!}
         </div>
         <div class="right-ch-sideBar">  
+            <div class="cart_select_items py-2">
+                <div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
+                    <div class="cart_single d-flex align-items-center">
+                        <p>Your wishlist is empty.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -68,7 +82,7 @@
         <div class="cart_action px-3 py-4">
             {!! Form::open(['route' => 'products', 'method' => 'GET', 'id' => 'searchProductForm', 'class' => 'form m-0 p-0']) !!}
                 <div class="form-group">
-                    {!! Form::text('keyword', null, ['class' => 'form-control', 'placeholder' => 'Product Keyword..']) !!}
+                    {!! Form::text('keyword', (isset($keyword) && !empty($keyword)) ? $keyword : null, ['class' => 'form-control', 'placeholder' => 'Product Keyword..']) !!}
                 </div>
                 <div class="form-group mb-0">
                     {!! Form::submit('Search Product', ['class' => 'btn d-block full-width btn-dark']) !!}

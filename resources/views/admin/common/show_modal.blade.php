@@ -81,13 +81,22 @@
                                                             @if(!empty($section_info[$key]))
                                                                 @foreach ($section_info[$key] as $option)
                                                                     <strong>{{ $option['option_name'] }}:</strong>
-                                                                    @if(!empty($option['product_option_values']))
-                                                                        @foreach ($option['product_option_values'] as $index => $value)
-                                                                            {{ $value['option_value'] }}
-                                                                            @if (!$loop->last)
-                                                                                ,
-                                                                            @endif
-                                                                        @endforeach
+
+                                                                    @if($option['option_name']=='COLOR')
+                                                                        @if(!empty($option['product_option_values']))
+                                                                            @foreach ($option['product_option_values'] as $index => $value)
+                                                                                <i class="fas fa-square mr-2" style="color: {{ $value['option_value'] }}"></i>
+                                                                            @endforeach
+                                                                        @endif
+                                                                    @else
+                                                                        @if(!empty($option['product_option_values']))
+                                                                            @foreach ($option['product_option_values'] as $index => $value)
+                                                                                {{ $value['option_value'] }}
+                                                                                @if (!$loop->last)
+                                                                                    ,
+                                                                                @endif
+                                                                            @endforeach
+                                                                        @endif
                                                                     @endif
                                                                     <br>
                                                                 @endforeach

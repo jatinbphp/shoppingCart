@@ -8,7 +8,10 @@
                     <h1 class="ft-medium mb-3">Home</h1>
                     <ul class="shop_categories_list m-0 p-0">
                         <li><a href="#" class="">Home</a></li>
-                        <li><a href="#" class="">Shop</a></li>                        
+                        <li><a href="#" class="">Shop</a></li>    
+                        @if(isset($keyword) && !empty($keyword))
+                            <li><a href="#" class="">{{$keyword}}</a></li>    
+                        @endif                    
                     </ul>
                 </div>
             </div>
@@ -18,6 +21,16 @@
 @include('common.breadcrumb', ['breadcrumbs' => ['Home', 'Shop']])
 <section class="middle">
     <div class="container">
+        @if(isset($keyword) && !empty($keyword))
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="text-center d-block mb-5">
+                        <h2>Results for "{{$keyword}}"</h2>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         @include ('common.error')
         <div class="row">
             @include ('products.products-filter')

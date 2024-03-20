@@ -108,20 +108,9 @@ $(function () {
             },
             headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
             success: function(data) {
-
                 $('.wishlist-counter').text(data.total);
-
                 var msg = 'Your product was added to wishlist successfully!';
-                
-                Snackbar.show({
-                    text: msg,
-                    pos: 'top-right',
-                    showAction: false,
-                    actionText: "Dismiss",
-                    duration: 3000,
-                    textColor: '#fff',
-                    backgroundColor: '#151515'
-                });
+                SnackbarAlert(msg);
             }
         });
     });
@@ -139,22 +128,10 @@ $(function () {
             },
             headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
             success: function(data) {
-
                 $('.wishlist-counter').text(data.total);
-
                 var msg = 'Your product was removed from the wishlist successfully!';
-
                 $("#open-wishlist-sidebar").click();
-                
-                Snackbar.show({
-                    text: msg,
-                    pos: 'top-right',
-                    showAction: false,
-                    actionText: "Dismiss",
-                    duration: 3000,
-                    textColor: '#fff',
-                    backgroundColor: '#151515'
-                });
+                SnackbarAlert(msg);
             }
         });
     });
@@ -211,28 +188,16 @@ $(function () {
             },
             headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
             success: function(data) {
+                $('.cart-counter').text(data.total);
+                var msg = 'Your product was removed from the cart successfully!';
+                SnackbarAlert(msg);
 
                 if(action_type=='page-view'){
-
-                    window.location.reload();
-
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);    
                 } else {
-
-                    $('.cart-counter').text(data.total);
-
-                    var msg = 'Your product was removed from the cart successfully!';
-
                     $("#open-cart-sidebar").click();
-                    
-                    Snackbar.show({
-                        text: msg,
-                        pos: 'top-right',
-                        showAction: false,
-                        actionText: "Dismiss",
-                        duration: 3000,
-                        textColor: '#fff',
-                        backgroundColor: '#151515'
-                    });
                 }
             }
         });
@@ -291,7 +256,6 @@ $(function () {
             type: 'POST',
             data: form.serialize(),
             success: function(response){
-
                 $('.cart-counter').text(response)
                 $('#quickviewModal').modal('hide');
 
@@ -302,16 +266,7 @@ $(function () {
                 }
                 
                 var msg = 'Your product was added to cart successfully!';
-                
-                Snackbar.show({
-                    text: msg,
-                    pos: 'top-right',
-                    showAction: false,
-                    actionText: "Dismiss",
-                    duration: 3000,
-                    textColor: '#fff',
-                    backgroundColor: '#151515'
-                });
+                SnackbarAlert(msg);
             },
             error: function(xhr, status, error){
                 var errors = JSON.parse(xhr.responseText).errors;
@@ -344,11 +299,7 @@ $(function () {
                 'id': id,
             },
             success: function(response) {
-                if(response.status==200){
-                    swal("Updated", response.message, "success");
-                } else {
-                    swal("Error", response.message, "error");
-                }
+                SnackbarAlert(response.message);
 
                 setTimeout(function() {
                     location.reload();
@@ -398,8 +349,7 @@ $(function () {
             method: $(this).attr('method'),
             data: formData,
             success: function(response) {
-                $('#success_message').html('<div class="alert alert-success"><button data-dismiss="alert" class="close">&times;</button>'+response.message+'</div>');
-                setTimeoutFun('#success_message', 2000)
+                SnackbarAlert(response.message);
                 $('#reviewForm')[0].reset(); // Resetting the form
                 $('#description').summernote('code', '');
             }
@@ -492,3 +442,15 @@ $(function () {
         "order": [[0, "DESC"]]
     });
 });
+
+function SnackbarAlert(msg) {
+    Snackbar.show({
+        text: msg,
+        pos: 'top-right',
+        showAction: false,
+        actionText: "Dismiss",
+        duration: 3000,
+        textColor: '#fff',
+        backgroundColor: '#151515'
+    });
+}
