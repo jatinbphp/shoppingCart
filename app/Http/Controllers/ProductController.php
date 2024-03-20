@@ -16,7 +16,7 @@ class ProductController extends Controller
 
         $items = $request->items ?? env('PRODUCT_PAGINATION_LENGHT');
 
-        $category_id = $request->route()->hasParameter('category_id') ? $request->route('category_id') : ($request->input('category_id') ? $request->input('category_id') : null);
+        $category_id = $request->route()->hasParameter('category_id') ? $request->route('category_id') : ($request->input('sub_category_id') ? $request->input('sub_category_id') : null);
 
         $products_query = $this->buildProductsQuery($request, $category_id);
 
@@ -86,15 +86,8 @@ class ProductController extends Controller
                         });
                 });
             })
-            ->when($request->input('sub_category_id'), function ($query, $sub_category_id) {
-                return $query->where(function ($query) use ($sub_category_id) {
-                    $query->where('category_id', $sub_category_id)
-                        ->orWhereIn('category_id', function ($query) use ($sub_category_id) {
-                            $query->select('id')
-                                ->from('categories')
-                                ->where('parent_category_id', $sub_category_id);
-                        });
-                });
+            ->when($request->input('parent_category_id'), function ($query, $parent_category_id) {
+                return $query->whereIn('category_id', $parent_category_id); //multiple category id 
             })
             ->when($request->keyword, function ($query, $keyword) {
                 return $query->where(function ($query) use ($keyword) {
@@ -113,7 +106,7 @@ class ProductController extends Controller
             });
     }
 
-
+   
     public function details($productId){   
         $desiredCategoryIds = getUserCategoryIds();
 

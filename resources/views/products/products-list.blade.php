@@ -173,7 +173,7 @@
     sub_category_id: null,
     keyword: '{{ request('keyword') ?? null }}',
     layout: "",
-    category_id: [],
+    parent_category_id: [],
     minPrice: null,
     maxPrice: null,
     sizes: [],
@@ -199,20 +199,20 @@ $(".js-range-slider").on("change", function() {
 });
 
 function setCategory(event){
-    filter.category_id.length = 0;
+    filter.parent_category_id.length = 0;
     filter.sub_category_id = null;
     if(!$(event.target).hasClass('collapsed') || event.target.tagName.toLowerCase() == "i"){
         handleFilter();
         return false;  
     } 
     $(".category-" + event.target.getAttribute("data-id")).each(function () {
-        filter.category_id.push(Number($(this).attr('data-category')));
+        filter.parent_category_id.push(Number($(this).attr('data-category')));
     });
     handleFilter();
 }
 
 function setSubCategory(event){
-    filter.category_id.length = 0;
+    filter.parent_category_id.length = 0;
     filter.sub_category_id = event.target.getAttribute('data-category');
     handleFilter();
 }
