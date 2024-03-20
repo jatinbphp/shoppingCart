@@ -236,3 +236,13 @@ if (!function_exists('getUserCategoryIds')) {
         return Auth::check() && !empty(Auth::user()->categories_id) ? explode(',', Auth::user()->categories_id) : [];
     }
 }
+
+if (!function_exists('get_categories_by_ids')) {
+    function get_categories_by_ids($limit) {
+        if (Auth::check()) {
+            return Category::select('id', 'name')->whereIn('id', explode(',', Auth::user()->categories_id))->orderBy('name', 'ASC')->take($limit)->get();
+        }
+        // Return an empty collection or handle the case where the user is not authenticated
+        return collect(); // Empty collection
+    }
+}

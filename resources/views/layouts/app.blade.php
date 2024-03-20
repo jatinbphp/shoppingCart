@@ -17,18 +17,18 @@
     </head>
     <body>
         <div id="main-wrapper">
-            @include ('layouts.header-menu')
+            @include ('layouts.header')
 
             @yield('content')
 
-            @include ('layouts.footer-menu')
+            @include ('layouts.footer')
 
             @include ('modals.common-modals')
 
             <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
         </div>
 
-        @include ('layouts.footer')
+        @include ('layouts.scripts')
 
     </body>
 </html>

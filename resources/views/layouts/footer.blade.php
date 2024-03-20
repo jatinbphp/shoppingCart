@@ -1,17 +1,45 @@
-<script src="{{asset('assets/website/js/jquery.min.js') }}"></script>
-<script src="{{asset('assets/website/js/popper.min.js') }}"></script>
-<script src="{{asset('assets/website/js/bootstrap.min.js') }}"></script>
-<script src="{{asset('assets/website/js/ion.rangeSlider.min.js') }}"></script>
-<script src="{{asset('assets/website/js/slick.js') }}"></script>
-<script src="{{asset('assets/website/js/slider-bg.js') }}"></script>
-<script src="{{asset('assets/website/js/lightbox.js') }}"></script> 
-<script src="{{asset('assets/website/js/smoothproducts.js') }}"></script>
-<script src="{{asset('assets/website/js/snackbar.min.js') }}"></script>
-<script src="{{asset('assets/website/js/jQuery.style.switcher.js') }}"></script>
-<script src="{{asset('assets/website/js/custom.js') }}"></script>
-<script src="{{asset('assets/website/js/common.js') }}?{{ time()}}"></script>
-<script src="{{ URL::asset('assets/admin/plugins/select2/select2.full.min.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-<script src="{{ URL('assets/admin/plugins/summernote/summernote-bs4.min.js')}}"></script>
-<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-@yield('jquery')
+<footer class="light-footer">
+    <div class="footer-middle">
+        <div class="container">
+            <div class="row">
+                
+                @include ('layouts.footer.site-info')
+                
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                    <div class="footer_widget">
+                        <h4 class="widget_title">Supports</h4>
+                        <ul class="footer-menu">
+                            <li><a href="javaScript:;">Size Guide</a></li>
+                            <li><a href="javaScript:;">Shipping & Returns</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                    <div class="footer_widget">
+                        <h4 class="widget_title">Shop</h4>
+                        <ul class="footer-menu">
+                            @include ('layouts.footer.footer-shop-menu')
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                    <div class="footer_widget">
+                        <h4 class="widget_title">Company</h4>
+                        <ul class="footer-menu">
+                            <li><a href="{{route('about-us')}}">About Us</a></li>
+                            <li><a href="{{route('contact-us.index')}}">Contact Us</a></li>
+                            <li><a href="{{route('faq')}}">FAQ's</a></li>
+                            <li><a href="{{route('privacy-policy')}}">Privacy Policy</a></li>
+                            <li><a href="{{route('terms-conditions')}}">Terms & Conditions</a></li>
+                        </ul>
+                    </div>
+                </div>                
+
+                @include ('layouts.footer.subscribe-form')
+            </div>
+        </div>
+    </div>
+
+    @include ('layouts.footer.copy-rights')
+    
+</footer>
