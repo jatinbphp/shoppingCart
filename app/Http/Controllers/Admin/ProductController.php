@@ -381,15 +381,12 @@ class ProductController extends Controller
         return view('admin.order.product-edit-options', $data);
     }
 
-    public function productReviews(Request $request,$id)
+    public function reviewsList(Request $request,$id)
     {
-        $data['menu'] = 'Products';
-        $data['id']= $id;
+        $data['menu'] = 'Product Reviews';
         $data['product_info'] = Products::findorFail($id);
-        // return $data;
-        $rating_data= Review::with('user')->where('product_id',$id)->get();
         if ($request->ajax()) {
-            return Datatables::of($rating_data)
+            return Datatables::of(Review::with('user')->where('product_id',$id)->get())
             ->addIndexColumn()
             ->addColumn('review_information', function($row){
                 return view('admin.product.review-info', $row);
@@ -400,7 +397,7 @@ class ProductController extends Controller
         return view('admin.product.review-list', $data);
     }
 
-    public function adminreviewsInfo(Request $request, $id)
+    public function reviewDetails(Request $request, $id)
     {      
         $data['review_data'] = Review::findorFail($id);
         return response()->json($data);

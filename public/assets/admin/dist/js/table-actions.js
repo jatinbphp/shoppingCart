@@ -515,12 +515,8 @@ $(function () {
             type: "GET",
             headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
             success: function(data){
-                // Update modal body with the fetched description
+                $('#commonModal #commonModalLabels').html('Review Description');
                 $('#commonModal .modal-body').html(data.review_data.description);
-               
-                // $('#commonModal .modal-content').html(data.review_data.description);
-                
-                // Show the modal
                 $('#commonModal').modal('show');
             },
             error: function(xhr, status, error) {
@@ -528,7 +524,6 @@ $(function () {
             }
         });
     });
-    
 
     // clear filter
     $('#clear-filter').click(function() {

@@ -44,7 +44,7 @@
 
 @if ($section_name === 'products')
     <div class="btn-group btn-group-sm">
-        <a href="{{ url('admin/'.$section_name.'/'.$id.'/review') }}" title="Review {{$section_title}}" class="btn btn-sm btn-secondary tip">
+        <a href="{{ route('product.reviews.list', ['id' => $id]) }}" title="{{$section_title}} Reviews" class="btn btn-sm btn-secondary tip">
             <i class="fa fa-star"></i>
         </a>
     </div>

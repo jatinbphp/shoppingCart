@@ -144,9 +144,8 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
    Route::post('products/getoptions', [ProductController::class,'getOptions'])->name('products.getoptions');
    Route::post('products/editoption', [ProductController::class,'editOption'])->name('products.editoption');
    Route::resource('products', ProductController::class);
-   Route::get('products/{id}/review', [ProductController::class, 'productReviews'])->name('products.review.list');
-   Route::get('products/{reviewId}/review-infos',[ProductController::class,'adminreviewsInfo'])->name('admin.reviews-info');
-
+   Route::get('products/{id}/reviews', [ProductController::class, 'reviewsList'])->name('product.reviews.list');
+   Route::get('products/{reviewId}/review-infos',[ProductController::class,'reviewDetails'])->name('admin.product.review-info');
 
    /*Content Management*/
    Route::resource('content', ContentManagementController::class);
