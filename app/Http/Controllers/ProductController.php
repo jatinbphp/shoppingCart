@@ -59,9 +59,9 @@ class ProductController extends Controller
         return view('products.products-list', $data);
     }
 
-    protected function buildProductsQuery($request, $category_id){
+    protected function buildProductsQuery($request){
         return Products::where('status', 'active')
-            ->when($category_id, function ($query, $category_id) {
+            ->when($request->input('sub_category_id'), function ($query, $category_id) {
                 return $query->where(function ($query) use ($category_id) {
                     $query->where('category_id', $category_id)
                         ->orWhereIn('category_id', function ($query) use ($category_id) {
@@ -86,9 +86,14 @@ class ProductController extends Controller
             })
 
             ->when($request->input('minPrice') && $request->input('maxPrice'), function ($query) use ($request) {
-                return $query->whereBetween('price', [$request->minPrice, $request->maxPrice]);
+                return $query->whereRaw('CAST(price AS DECIMAL) BETWEEN ? AND ?', [(double) $request->minPrice, (double) $request->maxPrice]);
+            })
+
+            ->when($request->input('category_id'), function ($query, $category_id) {
+                return $query->whereIn('category_id', $category_id);
             });
     }
+
 
     public function details($productId){   
         $data['product'] = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values', 'reviews'])->where('status', 'active')->where('id', $productId)->firstOrFail();

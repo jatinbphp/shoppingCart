@@ -45,15 +45,15 @@
                                 <div class="col-xl-9 col-lg-8 col-md-7 col-sm-12">
                                     <div class="filter_wraps d-flex align-items-center justify-content-end m-start">
                                         <div class="single_fitres mr-2 br-right">
-                                            <select class="custom-select simple" id="sort-select" name="sort">
+                                            <select class="custom-select simple" id="sort-select" name="sort" onchange="setSort(event)">
                                                 <option value="">Default Sorting</option>
                                                 <option value="low_to_high">Sort by price: Low to High</option>
                                                 <option value="high_to_low">Sort by price: High to Low</option>
                                             </select>
                                         </div>
                                         <div class="single_fitres">
-                                            <a href="JavaScript:;" class="simple-button grid mr-1 view-btn active" data-id="grid-view"><i class="ti-layout-grid2"></i></a>
-                                            <a href="JavaScript:;" class="simple-button list view-btn" data-id="list-view"><i class="ti-view-list"></i></a>
+                                            <a href="JavaScript:;" onclick="setLayout('grid-view')" class="simple-button grid mr-1 view-btn active"><i class="ti-layout-grid2"></i></a>
+                                            <a href="JavaScript:;" onclick="setLayout('list-view')" class="simple-button list view-btn"><i class="ti-view-list"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -169,104 +169,80 @@
 @endsection
 @section('jquery')
 <script type="text/javascript">
-var itemsPerPage = {{ env('PRODUCT_PAGINATION_LENGHT') }};
-var currentPage = 1; 
-var currentSortOption = '';
+    var filter = {
+    sub_category_id: null,
+    keyword: '{{ request('keyword') ?? null }}',
+    layout: "",
+    category_id: [],
+    minPrice: null,
+    maxPrice: null,
+    sizes: [],
+    items: {{ env('PRODUCT_PAGINATION_LENGHT') ?? 'null' }},
+    sort: "",
+};
 
-function handleLoadMore() {
-    event.preventDefault();
-    currentPage++;
-    $.ajax({
-        url: "{{ route('products') }}",
-        type: "GET",
-        data: {
-            _token: '{{ csrf_token() }}',
-            sort: currentSortOption,
-            items: itemsPerPage,
-            page: currentPage,
-            category_id: {{ request()->route()->hasParameter('category_id') ? request()->route('category_id') : 'null' }},
-            keyword: '{{ request('keyword') ?? null }}',
-            layout: $('.view-btn.active').attr('data-id'),
-        },
-        success: function(response) {
-            if (response.status !== 200) return false;
-            var products = JSON.parse(JSON.stringify(response.products.data));
-            if (!products || products.length === 0) return false;
-            var totalCount = (currentPage - 1) * itemsPerPage + products.length; 
-            $('#items-found').text(totalCount); 
-            if (response.is_last) {
-                $("#load-more-btn").addClass('btn-secondary').attr('disabled', true);
-            }
-            $('.rows-products').append(response.view);
+function setSize(event) {
+    filter.sizes.length = 0;
+    $(".product-size").each(function () {
+        if ($(this).is(":checked")) {
+            filter.sizes.push(Number($(this).val()));
         }
     });
+    handleFilter();
 }
 
-$(document).ready(function() {
-    $('#sort-select').change(function() {
-        var sortOption = $(this).val(); 
-        currentPage = 1; 
-        currentSortOption = sortOption;
-        $.ajax({
-            url: "{{ route('products') }}",
-            type: "GET",
-            data: {
-                _token: '{{ csrf_token() }}',
-                sort: sortOption,
-                items: itemsPerPage,
-                page: currentPage,
-                category_id: {{ request()->route()->hasParameter('category_id') ? request()->route('category_id') : 'null' }},
-                keyword: '{{ request('keyword') ?? null }}',
-                layout: $('.view-btn.active').attr('data-id'),
-            },
-            success: function(response) {
-                if (response.status !== 200) return false;
-                var products = JSON.parse(JSON.stringify(response.products.data));
-                if (!products || products.length === 0) return false;
-                var totalCount = (currentPage - 1) * itemsPerPage + products.length; 
-                $('#items-found').text(totalCount); 
-                if (response.is_last) {
-                    $("#load-more-btn").addClass('btn-secondary').attr('disabled', true);
-                } else {
-                    $("#load-more-btn").removeClass('btn-secondary').attr('disabled', false);
-                }
-                $('.rows-products').html(response.view);
-            }
-        });
-    });
+$(".js-range-slider").on("change", function() {
+    var slider = $(this).data("ionRangeSlider");    
+    filter.minPrice = slider.result.from;
+    filter.maxPrice = slider.result.to;
+    handleFilter();
 });
 
-/*function for filtering products by size and price*/
-function handleProductFilter(minPrice=null, maxPrice=null){
-    var formData = $('#product-filter-form').serializeArray();
-    var category_id = {{ request()->route('category_id') ?? 'null' }};
-    var keyword = '{{ request('keyword') ?? null }}';
-    var layout = $('.view-btn.active').attr('data-id');
+function setCategory(event){
+    filter.category_id.length = 0;
+    filter.sub_category_id = null;
+    if(!$(event.target).hasClass('collapsed') || event.target.tagName.toLowerCase() == "i"){
+        handleFilter();
+        return false;  
+    } 
+    $(".category-" + event.target.getAttribute("data-id")).each(function () {
+        filter.category_id.push(Number($(this).attr('data-category')));
+    });
+    handleFilter();
+}
 
-    formData.push({name: 'category_id', value: category_id});
-    formData.push({name: 'items', value: itemsPerPage});
-    formData.push({name: 'keyword', value: keyword});
-    formData.push({name: 'layout', value: layout});
-    /*price range*/
-    formData.push({name: 'minPrice', value: minPrice});
-    formData.push({name: 'maxPrice', value: maxPrice});
+function setSubCategory(event){
+    filter.category_id.length = 0;
+    filter.sub_category_id = event.target.getAttribute('data-category');
+    handleFilter();
+}
 
+function setLayout(layout){
+    filter.layout = layout;
+}
+
+function setSort(event){
+    filter.sort = event.target.value
+    handleFilter();
+}
+
+function handleLoadMore(){
+    filter.items = filter.items + {{ env('PRODUCT_PAGINATION_LENGHT') ?? 0 }};
+    handleFilter();
+}
+
+function handleFilter(event){
     $.ajax({
-        url: $('#product-filter-form').attr('action'),
+        url: "{{ route('products') }}",
         method: 'GET',
         headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
-        data: $.param(formData),
+        data: filter,
         success: function(response) {
             if (response.status !== 200) return false;
             var products = JSON.parse(JSON.stringify(response.products.data));
-            //if (!products || products.length === 0) return false;
-            var totalCount = (currentPage - 1) * itemsPerPage + products.length; 
+            var totalCount = products.length; 
             $('#items-found').text(totalCount); 
-            if (response.is_last) {
-                $("#load-more-btn").addClass('btn-secondary').attr('disabled', true);
-            } else {
-                $("#load-more-btn").removeClass('btn-secondary').attr('disabled', false);
-            }
+            response.is_last ? $("#load-more-btn").addClass('d-none') : $("#load-more-btn").removeClass('d-none');
             $('.rows-products').html(response.view);
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -274,12 +250,5 @@ function handleProductFilter(minPrice=null, maxPrice=null){
         }
     });
 }
-
-$(".js-range-slider").on("change", function() {
-    var slider = $(this).data("ionRangeSlider");    
-    var minValue = slider.result.from;
-    var maxValue = slider.result.to;
-    handleProductFilter(minValue, maxValue)
-});
 </script>
 @endsection

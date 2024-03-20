@@ -16,7 +16,7 @@
                             <div class="filter-card" id="shop-categories">
                                 @foreach (getCategoriesWithProductsForFilter() as $key => $category)
                                     <div class="single_filter_card">
-                                        <h5><a href="#{{ strtolower($category->name ?? "") }}" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">{{ $category->name ?? "-" }}<i class="accordion-indicator ti-angle-down"></i></a></h5>
+                                        <h5><a onclick="setCategory(event)" href="#{{ strtolower($category->name ?? "") }}" data-id="{{ $category->id }}" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">{{ $category->name ?? "-" }}<i class="accordion-indicator ti-angle-down"></i></a></h5>
                                         <div class="collapse {{ request()->is('category/*/' . strtolower($category->name) . '/*') ? 'show' : '' }}" id="{{ strtolower($category->name ?? '') }}" data-parent="#shop-categories">
                                             <div class="card-body">
                                                 <div class="inner_widget_link">
@@ -24,7 +24,7 @@
                                                         @if (isset($category->children) && !empty($category->children))
                                                             @foreach ($category->children as $subKey => $subCategory)
                                                                 <li>
-                                                                    <a href="{{ route('products.filter', ['category_id' => ($subCategory->id ?? null), 'category_name' => strtolower($category->name), 'sub_category_name' => strtolower(str_replace(" ", "-", ($subCategory->name ?? '')))]) }}">
+                                                                    <a class="sub-category category-{{ $category->id }}" data-category="{{ $subCategory->id }}" href="javascript:void(0)" onclick="setSubCategory(event)">
                                                                         {{ $subCategory->name ?? "-" }}
                                                                         <span>{{ count($subCategory->products ?? []) }}</span>
                                                                     </a>
@@ -66,17 +66,12 @@
                             <div class="single_filter_card">
                                 <div class="card-body pt-0">
                                     <div class="text-left pb-0 pt-2">
-                                        {!! Form::open(['url' => route('products'), 'id' => 'product-filter-form', 'class' => 'form-horizontal']) !!}
-
-                                            @foreach(getProductSizesForFilter() as $key => $value)
-                                                <div class="form-check form-option form-check-inline mb-2">
-                                                    {!! Form::checkbox('sizes[]', $value ?? null, false, ['class' => 'form-check-input', 'id' => 'size-' . $value, 'onchange' => 'handleProductFilter()']) !!}
-
-                                                    <label class="form-option-label" for="{{ 'size-' . $value }}">{{ $value }}</label>
-                                                </div>
-                                            @endforeach
-
-                                        {!! Form::close() !!}
+                                        @foreach(getProductSizesForFilter() as $key => $value)
+                                            <div class="form-check form-option form-check-inline mb-2">
+                                                {!! Form::checkbox('sizes[]', $value ?? null, false, ['class' => 'form-check-input product-size', 'id' => 'size-' . $value, 'onchange' => 'setSize(event)']) !!}
+                                                <label class="form-option-label" for="{{ 'size-' . $value }}">{{ $value }}</label>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
