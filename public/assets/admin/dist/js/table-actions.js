@@ -49,6 +49,18 @@ $(function () {
         "order": [[1, "ASC"]]
     });
 
+    // Admin Rating Table
+        $('#adminRatingTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: $("#route_name").val(),
+            columns: [
+                { data: 'id', name: 'id', orderable: true, visible: false },
+                { data: 'review_information', name: 'description', orderable: false },
+            ],
+            "order": [[0, "DESC"]]
+        });
+
     //Product Table
     var products_table = $('#productsTable').DataTable({
         processing: true,
@@ -68,7 +80,7 @@ $(function () {
             {data: 'price', "width": "10%",  name: 'price', orderable: false, class: 'text-right'},
             {data: 'status', "width": "10%",  name: 'status', orderable: false},
             {data: 'created_at', "width": "15%", name: 'created_at'},
-            {data: 'action', "width": "12%",  name: 'action', orderable: false},
+            {data: 'action', "width": "18%",  name: 'action', orderable: false},
         ],
         "order": [[0, "DESC"]]
     });
@@ -490,6 +502,33 @@ $(function () {
             sales_report_table.ajax.reload(null, false);
         }
     });
+     
+    //product rating toggle
+    $(document).on('click', '#show-more-data', function (event) {
+        event.preventDefault();
+        $('#commonModal').modal('toggle');
+        $("#commonModal .modal-body").html("");
+        var url = $(this).attr('data-url');
+       
+        $.ajax({
+            url: url,
+            type: "GET",
+            headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+            success: function(data){
+                // Update modal body with the fetched description
+                $('#commonModal .modal-body').html(data.review_data.description);
+               
+                // $('#commonModal .modal-content').html(data.review_data.description);
+                
+                // Show the modal
+                $('#commonModal').modal('show');
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+    
 
     // clear filter
     $('#clear-filter').click(function() {
