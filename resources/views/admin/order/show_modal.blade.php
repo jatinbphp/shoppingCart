@@ -59,16 +59,28 @@
                                         @foreach ($order->orderItems as $item)
                                             <tr>
                                                 <td>
-                                                    {{ $item->product->product_name }}
-                                                    @if(!empty($item->orderOptions))
-                                                        @foreach ($item->orderOptions as $option)
-                                                            @if($option->name=='COLOR')
-                                                                </br><small><b>{{$option->name}} :</b> <i class="fas fa-square" style="color: {{$option->value}}"></i></small>
-                                                            @else
-                                                                </br><small><b>{{$option->name}} :</b> {{$option->value}}</small>
+                                                    <div class="main-div d-flex">
+                                                        <div class="image-div"> 
+                                                            @if(!empty($item->product->product_image->image) && file_exists($item->product->product_image->image))
+                                                                <img src="{{url($item->product->product_image->image)}}" alt="..." width="50px">
+                                                            @else 
+                                                                <img src="{{url('assets/website/images/default-image.png')}}" alt="..." width="50px">
                                                             @endif
-                                                        @endforeach
-                                                    @endif
+                                                        </div>
+
+                                                        <div class="info-div pl-3">
+                                                            {{ $item->product->product_name }}
+                                                            @if(!empty($item->orderOptions))
+                                                                @foreach ($item->orderOptions as $option)
+                                                                    @if($option->name=='COLOR')
+                                                                        </br><small><b>{{$option->name}} :</b> <i class="fas fa-square" style="color: {{$option->value}}"></i></small>
+                                                                    @else
+                                                                        </br><small><b>{{$option->name}} :</b> {{$option->value}}</small>
+                                                                    @endif
+                                                                @endforeach
+                                                            @endif
+                                                        </div>
+                                                    </div>
                                                 </td>   
                                                 <td>{{ $item->product->sku }}</td>
                                                 <td>{{ $item->product_qty }}</td>

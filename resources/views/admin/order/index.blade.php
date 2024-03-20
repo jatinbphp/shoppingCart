@@ -25,7 +25,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Order ID</th>
-                                    <th>User</th>
+                                    <th>User Informations</th>
                                     <th>Total</th>
                                     <th>Status</th>
                                     <th>Date Created</th>

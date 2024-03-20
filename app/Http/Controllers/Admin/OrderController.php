@@ -96,38 +96,15 @@ class OrderController extends Controller
                 }
             }
 
-            $table_data = Cart::select()->where('order_id',$request->order_id);
+            $table_data = Cart::with('product', 'product.product_image')->where('order_id',$request->order_id);
         } else {
-            $table_data = Cart::select()->where('order_id',0)->where('csrf_token',csrf_token());
+            $table_data = Cart::with('product', 'product.product_image')->where('order_id',0)->where('csrf_token',csrf_token());
         }
 
         if ($request->ajax()) {
             return DataTables::of($table_data)
                 ->addColumn('product_name', function($order) {
-
-                    $product_name = $order->product->product_name; 
-
-                    $options = json_decode($order->options);
-                    if(!empty($options)){
-                        foreach ($options as $keyO => $valueO) {
-
-                            $product_option = ProductsOptions::where('id',$keyO)->first();
-                            $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
-                            
-                            $product_name .= '</br><small><b>'.$product_option->option_name.' :</b> ';
-
-                            if($product_option->option_name == 'COLOR'){
-                                $product_name .= '<i class="fas fa-square" style="color: '.$product_option_value->option_value.'"></i>';
-                            } else {
-                                $product_name .= $product_option_value->option_value;
-                            }
-
-                            $product_name .= ' <a class="editOption" href="javascript:void(0)" data-option_id="'.$keyO.'" data-option_value_id="'.$valueO.'" data-product_id="'.$order->product->id.'" data-id="'.$order->id.'"/>Edit</a></small>';
-
-                        }
-                    }
-
-                    return $product_name;
+                    return view('admin.order.product-info', $order);
                 })
                 ->addColumn('sku', function($order) {
                     return $order->product->sku; 
