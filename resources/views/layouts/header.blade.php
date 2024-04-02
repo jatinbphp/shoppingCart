@@ -1,4 +1,4 @@
-<div class="header header-light">
+<div class="header header-dark">
     <div class="container">
         <nav id="navigation" class="navigation navigation-landscape">
             <div class="nav-header">

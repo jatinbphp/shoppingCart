@@ -169,4 +169,11 @@ class UserController extends Controller
             }
         }
     }
+
+    public function addAddresses(Request $request){   
+        if ($request->ajax()) {
+            $data = $request->all();
+            return view('admin.user.addresses', $data);
+        }
+    }
 }

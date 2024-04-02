@@ -91,7 +91,7 @@
         </div>
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <div class="form-group m-0">
-                {!! Form::button('Submit Review <i class="lni lni-arrow-right"></i>', ['type' => 'submit', 'class' => 'btn btn-white stretched-link hover-black', 'name' => 'submit']) !!}
+                {!! Form::button('Submit Review <i class="lni lni-arrow-right"></i>', ['type' => 'submit', 'class' => 'btn btn-dark stretched-link hover-black', 'name' => 'submit']) !!}
             </div>
         </div>
     {!! Form::close() !!}

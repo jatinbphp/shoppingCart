@@ -246,3 +246,31 @@ if (!function_exists('get_categories_by_ids')) {
         return collect(); // Empty collection
     }
 }
+
+if (!function_exists('getParentAndSubCategoryIds')) {
+    function getParentAndSubCategoryIds($limit = null)
+    {   
+        $parentAndSubCategoryIds = [];
+        if (Auth::check()) {
+            // Get desired category IDs from authenticated user
+            $desiredCategoryIds = getUserCategoryIds();
+
+            // Start building the query
+            $query = Category::with('children')
+                ->whereIn('id', $desiredCategoryIds)
+                ->orderBy('name', 'ASC');
+
+            // Apply limit if provided
+            if ($limit !== null) {
+                $query->take($limit);
+            }
+
+            // Retrieve parent category IDs and corresponding subcategory IDs
+            $parentAndSubCategoryIds = $query->get()->flatMap(function ($category) {
+                return [$category->id, ...$category->children->pluck('id')->toArray()];
+            });
+        }
+
+        return $parentAndSubCategoryIds;
+    }
+}

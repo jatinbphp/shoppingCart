@@ -40,7 +40,13 @@ class OrderController extends Controller
                     return $row['created_at']->format('Y-m-d h:i:s');
                 })
                 ->editColumn('status', function($row){
-                    $select = '<select class="form-control select2 orderStatus" id="status'.$row->unique_id.'"  data-id="'.$row->id.'" >';
+
+                    $disabled = 'disabled';
+                    if($row->status==='pending'){
+                        $disabled = '';
+                    }
+
+                    $select = '<select '.$disabled.' class="form-control select2 orderStatus" id="status'.$row->id.'"  data-id="'.$row->id.'" >';
                         foreach(Order::$allStatus as $key => $status){
                             $selected = ($key == $row->status) ? ' selected="selected"' : '';
                             $select .= '<option '.$selected.' value="'.$key.'">'.ucfirst($status).'</option>';
@@ -77,9 +83,11 @@ class OrderController extends Controller
                         $optionsArray = OrderOption::where('order_product_id',$value->id)->get();
 
                         $options = [];
+                        $options_text = [];
                         if(!empty($optionsArray)){
                             foreach ($optionsArray as $keyOption => $valueOption) {
                                 $options[$valueOption->product_option_id] = "$valueOption->product_option_value_id";
+                                $options_text[$valueOption->name] = "$valueOption->value";
                             }
                         }
 
@@ -89,6 +97,7 @@ class OrderController extends Controller
                             'product_id' => $value->product_id,
                             'quantity' => $value->product_qty,
                             'options' => json_encode($options),
+                            'options_text' => json_encode($options_text),
                             'csrf_token' => csrf_token()
                         ];
                         Cart::create($cartItems);       
@@ -102,6 +111,7 @@ class OrderController extends Controller
         }
 
         if ($request->ajax()) {
+
             return DataTables::of($table_data)
                 ->addColumn('product_name', function($order) {
                     return view('admin.order.product-info', $order);

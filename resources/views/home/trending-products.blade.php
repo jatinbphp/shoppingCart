@@ -4,8 +4,8 @@
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="sec_title position-relative text-center">
-                        <h2 class="off_title">Trendy Products</h2>
-                        <h3 class="ft-bold pt-3">Our Trending Products</h3>
+                        <h2 class="text-light off_title">Trendy Products</h2>
+                        <h3 class="text-light ft-bold pt-3">Our Trending Products</h3>
                     </div>
                 </div>
             </div>
@@ -48,12 +48,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-footers b-0 pt-3 px-2 bg-white d-flex align-items-start justify-content-center">
+                            <div class="card-footers b-0 py-3 px-2 dark_bg d-flex align-items-start justify-content-center">
                                 <div class="text-left">
                                     <div class="text-center">
-                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="shop-single.html">{{$value->product_name}}</a></h5>
+                                        <h5 class="fw-bolder fs-md text-light mb-0 lh-1 mb-1"><a href="shop-single.html" class="text-light">{{$value->product_name}}</a></h5>
                                         <div class="elis_rty">
-                                            <span class="ft-bold fs-md text-dark">
+                                            <span class="ft-bold fs-md text-light">
                                                 {{ env('CURRENCY') }}{{ number_format($value->price, 2) }}
                                             </span>
                                         </div>

@@ -15,7 +15,7 @@
                         <div class="side-list no-border">
                             <div class="filter-card" id="shop-categories">
                                 @foreach ($filter_categories as $key => $category)
-                                    <div class="single_filter_card">
+                                    <div class="single_filter_card mb-2">
                                         <h5><a onclick="setCategory(event)" href="#{{ strtolower($category->name ?? "") }}" data-id="{{ $category->id }}" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">{{ $category->name ?? "-" }}<i class="accordion-indicator ti-angle-down"></i></a></h5>
                                         <div class="collapse {{ request()->is('category/*/' . strtolower($category->name) . '/*') ? 'show' : '' }}" id="{{ strtolower($category->name ?? '') }}" data-parent="#shop-categories">
                                             <div class="card-body">

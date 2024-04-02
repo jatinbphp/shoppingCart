@@ -1,4 +1,4 @@
-<footer class="light-footer">
+<footer class="dark-footer skin-dark-footer style-2">
     <div class="footer-middle">
         <div class="container">
             <div class="row">

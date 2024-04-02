@@ -133,6 +133,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
 
    /*Users*/
    Route::resource('users', UserController::class);
+   Route::post('users/add-address', [UserController::class, 'addAddresses'])->name('user.add-address');
 
    /*Categories*/
    Route::resource('category', CategoryController::class);

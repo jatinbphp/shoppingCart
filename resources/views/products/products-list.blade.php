@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<section class="bg-cover bckPos-topCenter" data-overlay="1" style="background: url('{{url("assets/website/images/banner-1.jpg")}}'); background-repeat:no-repeat;">
+<section class="bg-cover bckPos-topCenter" data-overlay="5" style="background: url('{{url("assets/website/images/banner-1.jpg")}}'); background-repeat:no-repeat;">
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="col-xl-9 col-lg-8 col-md-7 col-sm-12">
                                     <div class="filter_wraps d-flex align-items-center justify-content-end m-start">
-                                        <div class="single_fitres mr-2 br-right">
+                                        <div class="single_fitres mr-2">
                                             <select class="custom-select simple" id="sort-select" name="sort" onchange="setSort(event)">
                                                 <option value="">Default Sorting</option>
                                                 <option value="low_to_high">Sort by price: Low to High</option>
@@ -101,7 +101,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-footer b-0 p-0 pt-2 bg-white">
+                                    <div class="card-footer b-0 p-0 pt-2 dark_bg">
                                         <div class="d-flex align-items-start justify-content-between">
                                             <div class="text-left">
                                                 @php

@@ -58,16 +58,27 @@ class ProductController extends Controller
 
         // filter categories
         $query = Category::with(['children' => function ($query) {
-                            $query->whereHas('products');
-                        }, 'children.products'])
-                    ->where('parent_category_id', 0)
-                    ->whereHas('children.products')
-                    ->orderBy('name', 'ASC');
+                    $query->whereHas('products');
+                }, 'children.products'])
+            ->where('parent_category_id', 0)
+            ->whereHas('children.products')
+            ->orderBy('name', 'ASC');
 
-                // Apply the condition only if $category_id is provided
-                if ($category_id !== null) {
+            // Apply the condition only if $category_id is provided
+            if ($category_id !== null) {
+                $category = Category::findOrFail($category_id);
+
+                if($category->parent_category_id==0){
                     $query->where('id', $category_id);
+                } else {
+                    $query->where('id', $category->parent_category_id);
                 }
+            }
+
+            // Check if desiredCategoryIds is not empty and apply filtering accordingly
+            if (!empty(getUserCategoryIds())) {
+                $query->whereIn('id', getUserCategoryIds());
+            }
 
         $data['filter_categories'] = $query->get();
 
@@ -75,6 +86,7 @@ class ProductController extends Controller
     }
 
     protected function buildProductsQuery($request, $category_id){
+
         return Products::where('status', 'active')
             ->when($category_id, function ($query, $category_id) {            
                 return $query->where(function ($query) use ($category_id) {
@@ -85,6 +97,9 @@ class ProductController extends Controller
                                 ->where('parent_category_id', $category_id);
                         });
                 });
+            })
+            ->when(getParentAndSubCategoryIds(), function ($query, $getParentAndSubCategoryIds) {
+                $query->whereIn('category_id', $getParentAndSubCategoryIds);
             })
             ->when($request->input('parent_category_id'), function ($query, $parent_category_id) {
                 return $query->whereIn('category_id', $parent_category_id); //multiple category id 

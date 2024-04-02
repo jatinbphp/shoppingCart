@@ -41,7 +41,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-footers b-0 pt-3 px-2 bg-white d-flex align-items-start justify-content-center">
+                                    <div class="card-footers b-0 py-3 px-2 dark_bg d-flex align-items-start justify-content-center">
                                         <div class="text-left">
                                             <div class="text-center">
                                                 <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">

@@ -1,6 +1,16 @@
 @if (!in_array($section_name, ['contactus', 'cart_products', 'order_products']) && !isset($order_dashboard))
+    
+    @php
+        $title = 'Edit '.$section_title;
+        $disabledEdit = ''; 
+        if ($section_name == 'orders' && $status != 'pending'){
+            $disabledEdit = 'disabled'; 
+            $title = 'You cannot edit this order because its status is '.$status;
+        }
+    @endphp
+    
     <div class="btn-group btn-group-sm">
-        <a href="{{ url('admin/'.$section_name.'/'.$id.'/edit') }}" title="Edit {{$section_title}}" class="btn btn-sm btn-info tip ">
+        <a href="{{ url('admin/'.$section_name.'/'.$id.'/edit') }}" title="{{$title}}" class="btn btn-sm btn-info tip {{$disabledEdit}}">
             <i class="fa fa-edit"></i>
         </a>
     </div>

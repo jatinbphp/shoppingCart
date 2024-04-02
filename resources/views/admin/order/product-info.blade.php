@@ -21,9 +21,17 @@
                     <small>
                         <b>{{ $product_option->option_name }} :</b> 
                         @if($product_option->option_name == 'COLOR')
-                            <i class="fas fa-square" style="color: {{ $product_option_value->option_value }}"></i>
+                            <i class="fas fa-square" style="color: @if(isset($product_option_value->option_value)) 
+                                {{ $product_option_value->option_value }} 
+                            @elseif(isset(json_decode($options_text)->COLOR))
+                                {{ json_decode($options_text)->COLOR }}
+                            @endif"></i>
                         @else
-                            {{ $product_option_value->option_value }}
+                            @if(isset($product_option_value->option_value)) 
+                                {{ $product_option_value->option_value }} 
+                            @elseif(isset(json_decode($options_text)->SIZE))
+                                {{ json_decode($options_text)->SIZE }}
+                            @endif
                         @endif
                         <a class="editOption" href="javascript:void(0)" data-option_id="{{ $keyO }}" data-option_value_id="{{ $valueO }}" data-product_id="{{ $product['id'] }}" data-id="{{ $id }}">Edit</a>
                     </small>

@@ -23,11 +23,11 @@
                                             <h4 class="fs-md ft-bold mb-1">Delivery Address</h4>
                                         </div>
                                         <div class="card-head-last-flex">
-                                            <a class="border p-3 circle text-dark d-inline-flex align-items-center justify-content-center" href="{{ route('addresses.edit', ['address' => $value->id]) }}">
+                                            <a class="border p-3 circle text-light d-inline-flex align-items-center justify-content-center" href="{{ route('addresses.edit', ['address' => $value->id]) }}">
                                                 <i class="fas fa-pen-nib position-absolute"></i>
                                             </a>
 
-                                            <a href="javascript:void(0)" class="border bg-white text-danger p-3 circle text-dark d-inline-flex align-items-center justify-content-center deleteRecord" data-id="{{$value->id}}">
+                                            <a href="javascript:void(0)" class="border bg-dark text-danger p-3 circle text-light d-inline-flex align-items-center justify-content-center deleteRecord" data-id="{{$value->id}}">
                                                 <i class="fas fa-times position-absolute"></i>
                                             </a>
                                         </div>

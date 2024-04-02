@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer b-0 p-0 pt-2 bg-white">
+            <div class="card-footer b-0 p-0 pt-2 dark_bg">
                 <div class="d-flex align-items-start justify-content-between">
                     <div class="text-left">
                         @php

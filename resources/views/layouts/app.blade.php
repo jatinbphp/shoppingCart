@@ -16,7 +16,7 @@
         <link href="{{asset('assets/website/css/styles.css') }}" rel="stylesheet" />
     </head>
     <body>
-        <div id="main-wrapper">
+        <div id="main-wrapper" class="bg-dark">
             @include ('layouts.header')
 
             @yield('content')

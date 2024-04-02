@@ -442,6 +442,10 @@ $(function () {
                             } else {
                                 swal("Error", "Something is wrong!", "error");
                             }
+
+                            if(status!='pending'){
+                                $("#status"+orderId).prop("disabled", true);
+                            }                            
                         }
                     });
                 } else {

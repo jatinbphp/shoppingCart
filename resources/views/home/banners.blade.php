@@ -2,7 +2,7 @@
     <div class="home-slider margin-bottom-0">
         @foreach(getActiveBanners() as $keyBanner => $valueBanner)
             @if(!empty($valueBanner->image) && file_exists($valueBanner->image))
-                <div class="item" data-overlay="3" style="background-image: url({{$valueBanner->image}});">
+                <div class="item" data-overlay="5" style="background-image: url({{$valueBanner->image}});">
                     <div class="container">
                         <div class="row">
                             <div class="col-12">

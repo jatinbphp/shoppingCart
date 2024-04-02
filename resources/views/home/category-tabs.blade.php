@@ -57,11 +57,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="card-footers b-0 pt-3 px-2 bg-white d-flex align-items-start justify-content-center">
+                                                    <div class="card-footers b-0 py-3 px-2 dark_bg d-flex align-items-start justify-content-center">
                                                         <div class="text-left">
                                                             <div class="text-center">
-                                                                <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="shop-single.html">{{$product->product_name}}</a></h5>
-                                                                <div class="elis_rty"><span class="ft-bold fs-md text-dark">{{ env('CURRENCY') }}{{ number_format($product->price, 2) }}</span></div>
+                                                                <h5 class="fw-bolder fs-md text-light mb-0 lh-1 mb-1"><a href="shop-single.html" class="text-light">{{$product->product_name}}</a></h5>
+                                                                <div class="elis_rty"><span class="ft-bold fs-md text-light">{{ env('CURRENCY') }}{{ number_format($product->price, 2) }}</span></div>
                                                             </div>
                                                         </div>
                                                     </div>

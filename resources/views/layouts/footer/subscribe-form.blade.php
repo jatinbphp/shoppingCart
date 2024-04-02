@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="address mt-3">
-            <h5 class="fs-sm">Secure Payments</h5>
+            <h4 class="widget_title fs-sm">Secure Payments</h4>
             <div class="scr_payment">
                 <img src="{{url('assets/website/images/card.png')}}" class="img-fluid" alt="" />
             </div>
