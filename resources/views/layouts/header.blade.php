@@ -3,7 +3,7 @@
         <nav id="navigation" class="navigation navigation-landscape">
             <div class="nav-header">
                 <a class="nav-brand" href="{{route('home')}}">
-                    <img src="{{url('assets/website/images/logo.png') }}" class="logo" alt="" />
+                    <img src="{{url('assets/website/images/logo.png') }}?{{ time() }}" class="logo" alt="" />
                 </a>
                 <div class="nav-toggle"></div>
 

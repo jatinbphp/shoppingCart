@@ -48,7 +48,7 @@ Route::get('/', function () {
 Auth::routes();
 
 /*Landing Page*/
-Route::get('home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 /*Information Page*/
 Route::get('about-us', [InformationController::class, 'about_us'])->name('about-us');
