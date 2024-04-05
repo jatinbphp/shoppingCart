@@ -20,6 +20,18 @@ class WishlistController extends Controller
         $data['title'] = 'My Wishlist';
         $user_id = Auth::user()->id;
 
+        // if user selected categories product added in the wishlist. then that products will be deleted.
+        // start
+        $getParentAndSubCategoryIds = getParentAndSubCategoryIds();
+        if(count($getParentAndSubCategoryIds)>0){
+            $product_ids = Products::whereIn('category_id', $getParentAndSubCategoryIds)
+                          ->pluck('id')
+                          ->toArray();
+
+            Wishlist::where('user_id', $user_id)->whereNotIn('product_id', $product_ids)->delete();
+        }
+        // end
+
         $items = $request->items ?? env('PRODUCT_PAGINATION_LENGHT');
         
         $wishlist_query = Wishlist::where('user_id', $user_id);

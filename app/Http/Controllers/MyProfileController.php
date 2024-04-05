@@ -35,6 +35,8 @@ class MyProfileController extends Controller
         //category
         if (!empty($input['categories_id'])) {
             $input['categories_id'] = implode(",", $input['categories_id']);
+        } else{
+            $input['categories_id'] = NULL;
         }
 
         //image

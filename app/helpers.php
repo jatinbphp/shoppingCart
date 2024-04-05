@@ -54,6 +54,19 @@ if (!function_exists('getTotalCartProducts')) {
     function getTotalCartProducts()
     {
         if (Auth::check()) {
+
+            // if user selected categories product added in the cart. then that products will be deleted.
+            // start
+            $getParentAndSubCategoryIds = getParentAndSubCategoryIds();
+            if(count($getParentAndSubCategoryIds)>0){
+                $product_ids = Products::whereIn('category_id', $getParentAndSubCategoryIds)
+                              ->pluck('id')
+                              ->toArray();
+
+                Cart::where('user_id', Auth::user()->id)->whereNotIn('product_id', $product_ids)->delete();
+            }
+            // end
+
             $cartProducts = Cart::with('product', 'product.product_image')
                             ->where('user_id', Auth::user()->id)
                             ->orderBy('created_at', 'desc')
@@ -255,20 +268,22 @@ if (!function_exists('getParentAndSubCategoryIds')) {
             // Get desired category IDs from authenticated user
             $desiredCategoryIds = getUserCategoryIds();
 
-            // Start building the query
-            $query = Category::with('children')
-                ->whereIn('id', $desiredCategoryIds)
-                ->orderBy('name', 'ASC');
+            if(count($desiredCategoryIds)>0){
+                // Start building the query
+                $query = Category::with('children')
+                    ->whereIn('id', $desiredCategoryIds)
+                    ->orderBy('name', 'ASC');
 
-            // Apply limit if provided
-            if ($limit !== null) {
-                $query->take($limit);
+                // Apply limit if provided
+                if ($limit !== null) {
+                    $query->take($limit);
+                }
+
+                // Retrieve parent category IDs and corresponding subcategory IDs
+                $parentAndSubCategoryIds = $query->get()->flatMap(function ($category) {
+                    return [$category->id, ...$category->children->pluck('id')->toArray()];
+                });
             }
-
-            // Retrieve parent category IDs and corresponding subcategory IDs
-            $parentAndSubCategoryIds = $query->get()->flatMap(function ($category) {
-                return [$category->id, ...$category->children->pluck('id')->toArray()];
-            });
         }
 
         return $parentAndSubCategoryIds;
