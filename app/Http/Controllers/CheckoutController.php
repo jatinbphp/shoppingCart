@@ -93,10 +93,10 @@ class CheckoutController extends Controller
             // clear cart
             Cart::where('user_id',Auth::user()->id)->delete();
 
-            //send order success mial
-            $data['order'] = Order::with('orderItems.product.product_image')->find(7);
+            /*//send order success mial
+            $data['order'] = Order::with('orderItems.product.product_image')->find($order->id);
             $data['user'] = Auth::user(); 
-            Mail::to('emmanuel.k.php@gmail.com')->send(new OrderPlaced($data));
+            Mail::to('vijay.g.php@gmail.com')->send(new OrderPlaced($data));*/
 
             return redirect()->route('checkout.order-completed');
             

@@ -14,6 +14,15 @@
 
         <div class="table-responsive mb-4">
             <table class="table m-0">
+                <tr>
+                    <td style="background: #031424; text-align: center;">
+                        <a class="nav-brand" href="{{route('home')}}">
+                            <img src="{{url('assets/website/images/logo.png') }}?{{ time() }}" class="logo" alt="" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <table class="table m-0">
                 <thead>
                     <tr>
                         <th>Order ID</th>
