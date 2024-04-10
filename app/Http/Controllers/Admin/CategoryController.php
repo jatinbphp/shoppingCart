@@ -48,7 +48,7 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request, $pcid = null)
     {
         $input = $request->all();
-        $input['user_id'] = Auth::user()->id;
+        $input['user_id'] = Auth::guard('admin')->id();
 
         if($file = $request->file('image')){
             $input['image'] = $this->fileMove($file,'categories');

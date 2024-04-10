@@ -68,7 +68,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $input = $request->all();
-        $input['user_id'] = Auth::user()->id;
+        $input['user_id'] = Auth::guard('admin')->id();
         $product = Products::create($input);
 
         //add default option
@@ -308,7 +308,7 @@ class ProductController extends Controller
                     $category = Category::where('name',$categoryName)->first();
                     if(empty($category)){
                         $inputCategory = [
-                            'user_id' => Auth::user()->id,
+                            'user_id' => Auth::guard('admin')->id(),
                             'name' => $categoryName,
                         ];
                         $category = Category::create($inputCategory);
@@ -317,7 +317,7 @@ class ProductController extends Controller
                     // check Product
                     $product = Products::where('sku',$data['SKU'])->first();
                     $inputProduct = [
-                        'user_id' => Auth::user()->id,
+                        'user_id' => Auth::guard('admin')->id(),
                         'category_id' => $category->id,
                         'sku' => $data['SKU'],
                         'product_name' => $data['PRODUCT_NAME'],
