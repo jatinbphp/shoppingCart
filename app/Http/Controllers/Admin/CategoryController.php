@@ -104,6 +104,18 @@ class CategoryController extends Controller
             $category_parent = Category::findorFail($request->parent_category_id);
             $input['full_name'] = $category_parent->name.' -> '.$request->name;
         } else {
+
+            // update paths
+            $parent_categories = Category::where('parent_category_id', $id)->get();
+
+            if(!$parent_categories->isEmpty()) {
+                foreach ($parent_categories as $categorySub) {
+                    $categorySub->update([
+                        'full_name' => $request->name.' -> '.$categorySub->name
+                    ]);
+                }
+            }
+
             $input['full_name'] = $request->name;
         }
         
