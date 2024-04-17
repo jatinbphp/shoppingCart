@@ -6,7 +6,7 @@
     @if(count(get_categories_by_ids(5))>0)
         @foreach(get_categories_by_ids(5) as $categoryFooter)
             <li>
-                <a href="{{ route('products.filter', ['category_id' => $categoryFooter->id, 'category_name' => strtolower(str_replace([' ', '/'], ['-', '-'], $categoryFooter->name))]) }}">
+                <a href="{{ route('products.filter', ['category_id' => $categoryFooter->id, 'category_name' => $categoryFooter->slug]) }}">
                     {{ $categoryFooter->name }}
                 </a>
 
@@ -14,7 +14,7 @@
                     <ul class="nav-dropdown nav-submenu">
                         @foreach($categoryFooter->children as $subCategory)
                             <li>
-                                <a href="{{ route('products.filter', ['category_id' => $subCategory->id, 'category_name' => strtolower(str_replace([' ', '/'], ['-', '-'], $categoryFooter->name)), 'sub_category_name' => strtolower(str_replace([' ', '/'], ['-', '-'], $subCategory->name))]) }}">
+                                <a href="{{ route('products.filter', ['category_id' => $subCategory->id, 'category_name' => $categoryFooter->slug, 'sub_category_name' => $subCategory->slug]) }}">
                                     {{ $subCategory->name }}
                                 </a>
                             </li>
@@ -32,7 +32,7 @@
     @if(!empty(getFooterCategoriesMenu()))
         @foreach(getFooterCategoriesMenu() as $keyMenu => $valueMenu)
             <li>
-                <a href="{{ route('products.filter', ['category_id' => ($valueMenu->id ?? null), 'category_name' => strtolower(str_replace([' ', '/'], ['-', '-'], ($valueMenu->name ?? '')))]) }}">{{$valueMenu->name}}</a>
+                <a href="{{ route('products.filter', ['category_id' => ($valueMenu->id ?? null), 'category_name' => $valueMenu->slug]) }}">{{$valueMenu->name}}</a>
             </li>
         @endforeach
     @endif

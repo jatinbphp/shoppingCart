@@ -40,7 +40,7 @@ class CategoryController extends Controller
     {
         $data['menu'] = 'Category';
 
-        $data['categories'] = Category::where('status', 'active')->orderBy('full_name', 'ASC')->where('parent_category_id', 0)->pluck('full_name', 'id')->prepend('Please Select', '0');
+        $data['categories'] = Category::orderBy('full_name', 'ASC')->where('parent_category_id', 0)->pluck('full_name', 'id')->prepend('Please Select', '0');
 
         return view("admin.category.create",$data);
     }
@@ -60,6 +60,8 @@ class CategoryController extends Controller
         } else {
             $input['full_name'] = $request->name;
         }
+
+        $input['slug'] = str_replace("--", "-",$this->getSlug($request->name));
 
         Category::create($input);
 
@@ -82,7 +84,7 @@ class CategoryController extends Controller
     {        
         $data['menu'] = 'Category';
         $data['category'] = Category::findOrFail($id);
-        $data['categories'] = Category::where('status', 'active')->orderBy('full_name', 'ASC')->where('parent_category_id', 0)->pluck('full_name', 'id')->prepend('Please Select', '0');
+        $data['categories'] = Category::orderBy('full_name', 'ASC')->where('parent_category_id', 0)->pluck('full_name', 'id')->prepend('Please Select', '0');
         
         return view('admin.category.edit',$data);
     }
@@ -117,6 +119,8 @@ class CategoryController extends Controller
 
             $input['full_name'] = $request->name;
         }
+
+        $input['slug'] = str_replace("--", "-",$this->getSlug($request->name));
         
         $category->update($input);
 

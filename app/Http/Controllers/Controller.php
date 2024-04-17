@@ -38,4 +38,11 @@ class Controller extends BaseController
 
         return $results;
     }
+
+    function getSlug($data){
+        $resString = preg_replace('/[^a-zA-Z0-9_ -]/s','',$data); 
+        $returnString = str_replace(" ","-",strtolower($resString)); 
+        // Returning the result  
+        return strtolower($returnString);
+    }
 }
