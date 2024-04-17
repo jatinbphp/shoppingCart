@@ -11,6 +11,11 @@
     <li class="nav-item">
         <a class="nav-link" id="tab4" data-toggle="tab" href="#content4">Breadcrumb Image</a>
     </li>
+    @if(!empty($settings->second_title))
+    <li class="nav-item">
+        <a class="nav-link" id="tab5" data-toggle="tab" href="#content5">{{$settings->second_title}}</a>
+    </li>
+    @endif
 </ul>
 <style type="text/css">
 .nav-tabs .active {color: #007bff !important;}
@@ -154,7 +159,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group{{ $errors->has('breadcrumb_image') ? ' has-error' : '' }}">
-                                @include('admin.common.label', ['field' => 'breadcrumb_image', 'labelText' => 'Breadcrumb Image', 'isRequired' => false])
+                                @include('admin.common.label', ['field' => 'breadcrumb_image', 'labelText' => 'Breadcrumb Image', 'isRequired' => true])
 
                                 <div class="">
                                     <div class="fileError">
@@ -169,6 +174,62 @@
                                 </div>
 
                                 @include('admin.common.errors', ['field' => 'breadcrumb_image'])
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row tab-pane fade" id="content5">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group{{ $errors->has('first_title') ? ' has-error' : '' }}">
+                                @include('admin.common.label', ['field' => 'first_title', 'labelText' => 'First Title', 'isRequired' => true])
+
+                                {!! Form::text('first_title', $settings->first_title ?? null, ['class' => 'form-control', 'placeholder' => 'Enter First Title', 'id' => 'first_title']) !!}
+
+                                @include('admin.common.errors', ['field' => 'first_title'])
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group{{ $errors->has('second_title') ? ' has-error' : '' }}">
+                                @include('admin.common.label', ['field' => 'second_title', 'labelText' => 'Second Title', 'isRequired' => true])
+
+                                {!! Form::text('second_title', $settings->second_title ?? null, ['class' => 'form-control', 'placeholder' => 'Enter Second Title', 'id' => 'second_title']) !!}
+
+                                @include('admin.common.errors', ['field' => 'second_title'])
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group{{ $errors->has('content') ? ' has-error' : '' }}">
+                                @include('admin.common.label', ['field' => 'content', 'labelText' => 'Description', 'isRequired' => true])
+
+                                {!! Form::textarea('content', $settings->content ?? null, ['class' => 'form-control', 'placeholder' => 'Enter Description', 'id' => 'content', 'rows' => 5]) !!}
+
+                                @include('admin.common.errors', ['field' => 'content'])
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+                                @include('admin.common.label', ['field' => 'image', 'labelText' => 'Background Image', 'isRequired' => true])
+
+                                <div class="">
+                                    <div class="fileError">
+                                        {!! Form::file('image', ['class' => '', 'id'=> 'image','accept'=>'image/*', 'onChange'=>'AjaxUploadImage(this)']) !!}
+                                    </div>
+
+                                    @if(!empty($settings['image']) && file_exists($settings['image']))
+                                        <img src="{{asset($settings['image'])}}" alt="Image" style="border: 1px solid #ccc;margin-top: 5px;" width="150" id="DisplayImage">
+                                    @else
+                                        <img src=" {{url('assets/admin/dist/img/no-image.png')}}" alt="Image" style="border: 1px solid #ccc;margin-top: 5px;padding: 20px;" width="150" id="DisplayImage">
+                                    @endif
+                                </div>
+
+                                @include('admin.common.errors', ['field' => 'image'])
                             </div>
                         </div>
                     </div>

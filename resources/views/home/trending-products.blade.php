@@ -4,8 +4,8 @@
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="sec_title position-relative text-center">
-                        <h2 class="text-light off_title">Trendy Products</h2>
-                        <h3 class="text-light ft-bold pt-3">Our Trending Products</h3>
+                        <h2 class="text-light off_title">Your Products</h2>
+                        <h3 class="text-light ft-bold pt-3">Your Products</h3>
                     </div>
                 </div>
             </div>

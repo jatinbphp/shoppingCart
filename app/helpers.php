@@ -124,7 +124,7 @@ if (!function_exists('customBadge')) {
 if (!function_exists('getHeaderCategoriesMenu')) {
     function getHeaderCategoriesMenu()
     {
-        $categoriesHeaderMenu = Category::with('children')->select('id', 'name')->whereIn('id', explode(",", get_settings()['header_menu_categories']))->orderBy('name', 'ASC')->get();
+        $categoriesHeaderMenu = Category::with('children')->select('id', 'name')->whereIn('id', explode(",", get_settings()['header_menu_categories']))->where('status', 'active')->orderBy('name', 'ASC')->get();
 
         return $categoriesHeaderMenu;
     }
@@ -134,7 +134,7 @@ if (!function_exists('getHeaderCategoriesMenu')) {
 if (!function_exists('getFooterCategoriesMenu')) {
     function getFooterCategoriesMenu()
     {
-        $categoriesFooterMenu = Category::select('id', 'name')->whereIn('id', explode(",", get_settings()['footer_menu_categories']))->orderBy('name', 'ASC')->get();
+        $categoriesFooterMenu = Category::select('id', 'name')->whereIn('id', explode(",", get_settings()['footer_menu_categories']))->where('status', 'active')->orderBy('name', 'ASC')->get();
 
         return $categoriesFooterMenu;
     }

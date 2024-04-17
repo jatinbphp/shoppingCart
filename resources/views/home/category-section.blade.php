@@ -32,7 +32,6 @@
                 </div>
             </div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                <!-- row -->
                 <div class="row no-gutters">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="single_cats">
@@ -65,7 +64,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- /row -->
             </div>
         </div>
     </div>

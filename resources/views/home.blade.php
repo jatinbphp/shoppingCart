@@ -3,12 +3,12 @@
 
     @include ('home.banners')
 
-    @include ('home.category-section')
+    <!-- @include ('home.category-section') -->
 
     @include ('home.trending-products')
 
     @include ('home.summer-collections')
 
-    @include ('home.category-tabs')
+    <!-- @include ('home.category-tabs') -->
 
 @endsection

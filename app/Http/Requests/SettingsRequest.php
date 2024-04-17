@@ -30,11 +30,16 @@ class SettingsRequest extends FormRequest
             'linkedin_url' => 'nullable|url', 
             'header_menu_categories' => 'required|nullable',
             'footer_menu_categories' => 'required|nullable',
-            'breadcrumb_image' => 'required|mimes:jpeg,jpg,png,bmp|dimensions:min_width=1060,min_height=710',
+            'breadcrumb_image' => 'mimes:jpeg,jpg,png,bmp|dimensions:min_width=1060,min_height=710',
+            'image' => 'mimes:jpeg,jpg,png,bmp|dimensions:min_width=1060,min_height=710',
+            'first_title' => 'required',
+            'second_title' => 'required',
+            'content' => 'required',
         ];
 
         if ($this->isMethod('patch')) {
             $rules['breadcrumb_image'] = 'mimes:jpeg,jpg,png,bmp|dimensions:min_width=1060,min_height=710';
+            $rules['image'] = 'mimes:jpeg,jpg,png,bmp|dimensions:min_width=1060,min_height=710';
         }
     }
 
@@ -42,6 +47,7 @@ class SettingsRequest extends FormRequest
     {
         return [
             'breadcrumb_image.dimensions' => 'The :attribute must be exactly 1060 pixels wide and 710 pixels tall.',
+            'image.dimensions' => 'The :attribute must be exactly 1060 pixels wide and 710 pixels tall.',
         ];
     }
 }

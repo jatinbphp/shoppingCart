@@ -25,13 +25,20 @@ class SettingController extends Controller{
           
         $setting = Setting::findorFail($id);
 
-        if($file = $request->file('breadcrumb_image')){
+        if($breadcrumb_image = $request->file('breadcrumb_image')){
             if (!empty($setting['breadcrumb_image']) && file_exists($setting['breadcrumb_image'])) {
                 unlink($setting['breadcrumb_image']);
             }
-            $input['breadcrumb_image'] = $this->fileMove($file,'banner');
+            $input['breadcrumb_image'] = $this->fileMove($breadcrumb_image,'banner');
         }
-        
+
+        if($image = $request->file('image')){
+            if (!empty($setting['image']) && file_exists($setting['image'])) {
+                unlink($setting['image']);
+            }
+            $input['image'] = $this->fileMove($image,'banner');
+        }
+
         $setting->updateOrCreate(['id' => $id], $input);
         Session::flash('success','Settings has been updated successfully!');
         return redirect('admin/settings/'.$id."/edit");
