@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<section class="bg-cover bckPos-topCenter" data-overlay="5" style="background: url('{{url("assets/website/images/banner-1.jpg")}}'); background-repeat:no-repeat;">
+<section class="bg-cover bckPos-topCenter" data-overlay="5" style="@if(!empty(get_settings()['breadcrumb_image']) && file_exists(get_settings()['breadcrumb_image'])) background: url('{{url(get_settings()['breadcrumb_image'])}}');  @endif background-repeat:no-repeat;">
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">

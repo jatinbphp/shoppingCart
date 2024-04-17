@@ -8,6 +8,9 @@
     <li class="nav-item">
         <a class="nav-link" id="tab3" data-toggle="tab" href="#content3">Menu</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" id="tab4" data-toggle="tab" href="#content4">Breadcrumb Image</a>
+    </li>
 </ul>
 <style type="text/css">
 .nav-tabs .active {color: #007bff !important;}
@@ -111,31 +114,62 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card mb-4">
                 <div class="card-body">
-                    <div class="col-md-12">
-                        <div class="form-group{{ $errors->has('header_menu_categories') ? ' has-error' : '' }}">
-                            @include('admin.common.label', ['field' => 'header_menu_categories', 'labelText' => 'Which Categories menu do you want to display in header menu?', 'isRequired' => true])
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group{{ $errors->has('header_menu_categories') ? ' has-error' : '' }}">
+                                @include('admin.common.label', ['field' => 'header_menu_categories', 'labelText' => 'Which Categories menu do you want to display in header menu?', 'isRequired' => true])
 
-                            {!! Form::select("header_menu_categories[]", $categories, !empty($settings['header_menu_categories']) ? explode(",", $settings['header_menu_categories']) : null, ["class" => "form-control select2 w-100", "id" => "header_menu_categories", "multiple" => "true", 'data-placeholder' => 'Please Select', "data-maximum-selection-length" => "2"]) !!}
+                                {!! Form::select("header_menu_categories[]", $categories, !empty($settings['header_menu_categories']) ? explode(",", $settings['header_menu_categories']) : null, ["class" => "form-control select2 w-100", "id" => "header_menu_categories", "multiple" => "true", 'data-placeholder' => 'Please Select', "data-maximum-selection-length" => "2"]) !!}
 
-                            @include('admin.common.errors', ['field' => 'header_menu_categories'])
+                                @include('admin.common.errors', ['field' => 'header_menu_categories'])
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group{{ $errors->has('footer_menu_categories') ? ' has-error' : '' }}">
+                                @include('admin.common.label', ['field' => 'footer_menu_categories', 'labelText' => 'Which Categories menu do you want to display in footer menu?', 'isRequired' => true])
+
+                                {!! Form::select("footer_menu_categories[]", $categories,  !empty($settings['footer_menu_categories']) ? explode(",", $settings['footer_menu_categories']) : null, ["class" => "form-control select2 w-100", "id" => "footer_menu_categories", "multiple" => "true", 'data-placeholder' => 'Please Select', "data-maximum-selection-length" => "5"]) !!}
+
+                                @include('admin.common.errors', ['field' => 'footer_menu_categories'])
+                            </div>
+                        </div>
+                        <div class="col-md-12 d-none">
+                            <div class="form-group{{ $errors->has('filters_categories') ? ' has-error' : '' }}">
+                                @include('admin.common.label', ['field' => 'filters_categories', 'labelText' => 'Which Categories do you want to display in filter?', 'isRequired' => true])
+
+                                {!! Form::select("filters_categories[]", $categories,  !empty($settings['filters_categories']) ? explode(",", $settings['filters_categories']) : null, ["class" => "form-control select2 w-100", "id" => "filters_categories", "multiple" => "true", 'data-placeholder' => 'Please Select']) !!}
+
+                                @include('admin.common.errors', ['field' => 'filters_categories'])
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="form-group{{ $errors->has('footer_menu_categories') ? ' has-error' : '' }}">
-                            @include('admin.common.label', ['field' => 'footer_menu_categories', 'labelText' => 'Which Categories menu do you want to display in footer menu?', 'isRequired' => true])
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row tab-pane fade" id="content4">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group{{ $errors->has('breadcrumb_image') ? ' has-error' : '' }}">
+                                @include('admin.common.label', ['field' => 'breadcrumb_image', 'labelText' => 'Breadcrumb Image', 'isRequired' => false])
 
-                            {!! Form::select("footer_menu_categories[]", $categories,  !empty($settings['footer_menu_categories']) ? explode(",", $settings['footer_menu_categories']) : null, ["class" => "form-control select2 w-100", "id" => "footer_menu_categories", "multiple" => "true", 'data-placeholder' => 'Please Select', "data-maximum-selection-length" => "5"]) !!}
+                                <div class="">
+                                    <div class="fileError">
+                                        {!! Form::file('breadcrumb_image', ['class' => '', 'id'=> 'breadcrumb_image','accept'=>'image/*', 'onChange'=>'AjaxUploadImage(this)']) !!}
+                                    </div>
 
-                            @include('admin.common.errors', ['field' => 'footer_menu_categories'])
-                        </div>
-                    </div>
-                    <div class="col-md-12 d-none">
-                        <div class="form-group{{ $errors->has('filters_categories') ? ' has-error' : '' }}">
-                            @include('admin.common.label', ['field' => 'filters_categories', 'labelText' => 'Which Categories do you want to display in filter?', 'isRequired' => true])
+                                    @if(!empty($settings['breadcrumb_image']) && file_exists($settings['breadcrumb_image']))
+                                        <img src="{{asset($settings['breadcrumb_image'])}}" alt="Breadcrumb Image" style="border: 1px solid #ccc;margin-top: 5px;" width="150" id="DisplayImage">
+                                    @else
+                                        <img src=" {{url('assets/admin/dist/img/no-image.png')}}" alt="Breadcrumb Image" style="border: 1px solid #ccc;margin-top: 5px;padding: 20px;" width="150" id="DisplayImage">
+                                    @endif
+                                </div>
 
-                            {!! Form::select("filters_categories[]", $categories,  !empty($settings['filters_categories']) ? explode(",", $settings['filters_categories']) : null, ["class" => "form-control select2 w-100", "id" => "filters_categories", "multiple" => "true", 'data-placeholder' => 'Please Select']) !!}
-
-                            @include('admin.common.errors', ['field' => 'filters_categories'])
+                                @include('admin.common.errors', ['field' => 'breadcrumb_image'])
+                            </div>
                         </div>
                     </div>
                 </div>

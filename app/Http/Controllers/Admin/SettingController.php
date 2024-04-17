@@ -24,6 +24,14 @@ class SettingController extends Controller{
         $input['footer_menu_categories'] = !empty($request->footer_menu_categories) ? implode(',', $request->footer_menu_categories) : '';      
           
         $setting = Setting::findorFail($id);
+
+        if($file = $request->file('breadcrumb_image')){
+            if (!empty($setting['breadcrumb_image']) && file_exists($setting['breadcrumb_image'])) {
+                unlink($setting['breadcrumb_image']);
+            }
+            $input['breadcrumb_image'] = $this->fileMove($file,'banner');
+        }
+        
         $setting->updateOrCreate(['id' => $id], $input);
         Session::flash('success','Settings has been updated successfully!');
         return redirect('admin/settings/'.$id."/edit");
