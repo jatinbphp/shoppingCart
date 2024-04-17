@@ -37,7 +37,7 @@
                             <div class="card-footer">
                                 <a href="{{ route('products.index') }}" class="btn btn-sm btn-default"><i class="fa fa-arrow-left pr-1"></i> Back</a>
                                 
-                                {!! Form::submit('<i class="fa fa-upload" aria-hidden="true"></i> Import', ['class' => 'btn btn-sm btn-info float-right']) !!}
+                                {!! Form::button('<i class="fa fa-upload" aria-hidden="true"></i> Import', ['class' => 'btn btn-sm btn-info float-right', 'type' => 'submit']) !!}
                             </div>
                         {!! Form::close() !!}
                     </div>

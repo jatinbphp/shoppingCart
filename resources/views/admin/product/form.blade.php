@@ -106,7 +106,7 @@
                         if(!empty($product)){
                             if (!empty($product->product_images)) {
                                 foreach ($product->product_images as $key => $value) { ?>
-                                    <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12" id="proImg_{{$value['id']}}">
                                         <div class="imagePreviewPlus">
                                             <div class="text-right">
                                                 {!! Form::button('<i class="fa fa-trash" aria-hidden="true"></i>', [
@@ -543,7 +543,8 @@ function removeAdditionalProductImg(img_name, image_id, product_id){
                     'product_id': product_id,
                     'img_name': img_name,
                  },
-                success: function(data){                        
+                success: function(data){
+                    $('#proImg_'+image_id).remove();
                     swal("Deleted", "Your image successfully deleted!", "success");
                 }
             });

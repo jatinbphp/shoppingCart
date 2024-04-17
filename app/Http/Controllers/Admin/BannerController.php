@@ -48,7 +48,7 @@ class BannerController extends Controller{
         
         Banner::create($input);
         Session::flash('success', 'Banner has been inserted successfully!');
-        return redirect()->route('banner.index');
+        return redirect()->route('banners.index');
     }
 
     public function show($id){
@@ -63,7 +63,7 @@ class BannerController extends Controller{
 
     public function edit(string $id){
         $data['menu'] = 'Banners';
-        $data['banner'] = Banner::where('id',$id)->first();
+        $data['banner'] = Banner::findOrFail($id);
         return view('admin.banner.edit',$data);
     }
 
@@ -80,7 +80,7 @@ class BannerController extends Controller{
 
         $banner->update($input);
         Session::flash('success','Banner has been updated successfully!');
-        return redirect()->route('banner.index');
+        return redirect()->route('banners.index');
     }
 
     public function destroy(string $id)

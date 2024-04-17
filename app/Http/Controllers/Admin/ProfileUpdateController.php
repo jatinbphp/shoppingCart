@@ -45,13 +45,15 @@ class ProfileUpdateController extends Controller
             'image' => 'mimes:jpeg,jpg,png,bmp',
             'password' => 'confirmed',
         ]);
+        
+        $input = $request->all();
 
         if(empty($request['password'])){
-            unset($request['password']);
+            unset($input['password']);
+        }else{
+            $input['password']= Hash::make($request->password);    
         }
-
-        $input = $request->all();
-        $input['password']= Hash::make($request->password);
+        
         $admin = Admin::findorFail($id);
         if($file = $request->file('image')){
             if (!empty($admin['image'])) {

@@ -1,6 +1,6 @@
 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
     <div class="footer_widget">
-        <img src="{{url('assets/website/images/logo.png')}}" class="img-footer small mb-2" alt="" />
+        <img src="{{url('assets/website/images/logo.png')}}?{{ time() }}" class="img-footer small mb-2" alt="" />
 
         @if(!empty(get_settings()['address']))
         <div class="address mt-3">

@@ -8,9 +8,9 @@
                         <div class="ct_body">
                             <div class="ct_body_caption left">
                                 <h2 class="m-0 ft-bold lh-1 fs-md text-upper">Women Clothes</h2>
-                                <span>3272 Items</span>
+                                <span class="d-none">3272 Items</span>
                             </div>
-                            <div class="ct_footer left">
+                            <div class="ct_footer left d-none">
                                 <span class="stretched-link fs-md">Browse Items <i class="ti-arrow-circle-right"></i></span>
                             </div>
                         </div>
@@ -22,9 +22,9 @@
                         <div class="ct_body">
                             <div class="ct_body_caption left">
                                 <h2 class="m-0 ft-bold lh-1 fs-md text-upper">Men's Wear</h2>
-                                <span>7632 Items</span>
+                                <span class="d-none">7632 Items</span>
                             </div>
-                            <div class="ct_footer left">
+                            <div class="ct_footer left d-none">
                                 <span class="stretched-link fs-md">Browse Items <i class="ti-arrow-circle-right"></i></span>
                             </div>
                         </div>
@@ -41,9 +41,9 @@
                                 <div class="ct_body">
                                     <div class="ct_body_caption left">
                                         <h2 class="m-0 ft-bold lh-1 fs-md text-upper">Kid's Wear</h2>
-                                        <span>4072 Items</span>
+                                        <span class="d-none">4072 Items</span>
                                     </div>
-                                    <div class="ct_footer left">
+                                    <div class="ct_footer left d-none">
                                         <span class="stretched-link fs-md">Browse Items <i class="ti-arrow-circle-right"></i></span>
                                     </div>
                                 </div>
@@ -55,9 +55,9 @@
                                 <div class="ct_body">
                                     <div class="ct_body_caption left">
                                         <h2 class="m-0 ft-bold lh-1 fs-md text-upper">Men's Jackets</h2>
-                                        <span>9652 Items</span>
+                                        <span class="d-none">9652 Items</span>
                                     </div>
-                                    <div class="ct_footer left">
+                                    <div class="ct_footer left d-none">
                                         <span class="stretched-link fs-md">Browse Items <i class="ti-arrow-circle-right"></i></span>
                                     </div>
                                 </div>

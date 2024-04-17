@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Mail;
 use App\Models\UserAddresses;
 use App\Models\Cart;
 use App\Models\Order;
@@ -13,6 +14,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\OrderPlacedRequest;
+use App\Mail\OrderPlaced;
 
 class CheckoutController extends Controller
 {
@@ -90,6 +92,11 @@ class CheckoutController extends Controller
 
             // clear cart
             Cart::where('user_id',Auth::user()->id)->delete();
+
+            /*//send order success mial
+            $data['order'] = Order::with('orderItems.product.product_image')->find($order->id);
+            $data['user'] = Auth::user(); 
+            Mail::to('vijay.g.php@gmail.com')->send(new OrderPlaced($data));*/
 
             return redirect()->route('checkout.order-completed');
             

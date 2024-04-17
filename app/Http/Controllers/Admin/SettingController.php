@@ -13,7 +13,7 @@ class SettingController extends Controller{
   
     public function edit(string $id){
         $data['menu'] = 'Settings';
-        $data['settings'] = Setting::find($id);
+        $data['settings'] = Setting::findorFail($id);
         $data['categories'] = Category::where('status', 'active')->where('parent_category_id', 0)->orderBy('name', 'ASC')->pluck('name','id');   
         return view('admin.setting.edit',$data);
     }
@@ -23,7 +23,7 @@ class SettingController extends Controller{
         $input['header_menu_categories'] = !empty($request->header_menu_categories) ? implode(',', $request->header_menu_categories) : '';
         $input['footer_menu_categories'] = !empty($request->footer_menu_categories) ? implode(',', $request->footer_menu_categories) : '';      
           
-        $setting = Setting::find($id);
+        $setting = Setting::findorFail($id);
         $setting->updateOrCreate(['id' => $id], $input);
         Session::flash('success','Settings has been updated successfully!');
         return redirect('admin/settings/'.$id."/edit");

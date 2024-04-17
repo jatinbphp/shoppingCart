@@ -87,7 +87,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $data['menu'] = 'Users';
-        $data['users'] = User::where('id',$id)->first();
+        $data['users'] = User::findorFail($id);
         $data['user_addresses'] = UserAddresses::where('user_id',$id)->get();
         $data['categories'] = Category::where('status', 'active')->where('parent_category_id', 0)->orderBy('full_name', 'ASC')->pluck('full_name', 'id');
         return view('admin.user.edit',$data);

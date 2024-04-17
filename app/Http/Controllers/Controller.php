@@ -13,13 +13,13 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
 
     public function fileMove($photo, $path){
-        $root = 'uploads/'.$path;
+        $root = 'public/uploads/'.$path;
         $name = Str::random(20).".".$photo->getClientOriginalExtension();
         if (!file_exists($root)) {
             mkdir($root, 0777, true);
         }
         $photo->move($root,$name);
-        return 'uploads/'.$path."/".$name;
+        return 'public/uploads/'.$path."/".$name;
     }
 
     public function getCategories(){

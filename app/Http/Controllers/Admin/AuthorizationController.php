@@ -10,6 +10,9 @@ class AuthorizationController extends Controller
 {
     public function adminLoginForm()
     {
+        if(Auth::guard('admin')->check()){
+            return redirect()->route('admin.dashboard');
+        }
         return view('admin.auth.admin_login', ['url' => route('admin.login'), 'title' => 'Admin']);
     }
 

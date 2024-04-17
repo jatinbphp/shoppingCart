@@ -48,7 +48,7 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request, $pcid = null)
     {
         $input = $request->all();
-        $input['user_id'] = Auth::user()->id;
+        $input['user_id'] = Auth::guard('admin')->id();
 
         if($file = $request->file('image')){
             $input['image'] = $this->fileMove($file,'categories');
@@ -81,8 +81,7 @@ class CategoryController extends Controller
     public function edit(string $id, $pcid = null)
     {        
         $data['menu'] = 'Category';
-
-        $data['category'] = Category::where('id',$id)->first();
+        $data['category'] = Category::findOrFail($id);
         $data['categories'] = Category::where('status', 'active')->orderBy('full_name', 'ASC')->where('parent_category_id', 0)->pluck('full_name', 'id')->prepend('Please Select', '0');
         
         return view('admin.category.edit',$data);
@@ -104,6 +103,18 @@ class CategoryController extends Controller
             $category_parent = Category::findorFail($request->parent_category_id);
             $input['full_name'] = $category_parent->name.' -> '.$request->name;
         } else {
+
+            // update paths
+            $parent_categories = Category::where('parent_category_id', $id)->get();
+
+            if(!$parent_categories->isEmpty()) {
+                foreach ($parent_categories as $categorySub) {
+                    $categorySub->update([
+                        'full_name' => $request->name.' -> '.$categorySub->name
+                    ]);
+                }
+            }
+
             $input['full_name'] = $request->name;
         }
         

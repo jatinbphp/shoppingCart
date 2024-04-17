@@ -243,7 +243,7 @@ class OrderController extends Controller
         $data['users'] = User::where('status', 'active')->where('role', 'user')->orderBy('name', 'ASC')->get()->pluck('full_name', 'id');
         $data['products'] = Products::where('status', 'active')->orderBy('product_name', 'ASC')->get()->pluck('full_name', 'id');
 
-        $data['order'] = Order::where('id',$id)->first();
+        $data['order'] = Order::findorFail($id);
         
         return view('admin.order.edit',$data);
     }

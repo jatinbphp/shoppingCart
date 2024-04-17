@@ -43,84 +43,87 @@ use App\Http\Controllers\OrderController as FrontOrderController;
 
 Route::get('/', function () {
    return redirect()->route('home');
+})->middleware(['removePublic']);
+
+Route::middleware('removePublic')->group(function () {
+    Auth::routes();
 });
 
-Auth::routes();
 
 /*Landing Page*/
-Route::get('home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home')->middleware(['removePublic']);
 
 /*Information Page*/
-Route::get('about-us', [InformationController::class, 'about_us'])->name('about-us');
-Route::get('faq', [InformationController::class, 'faq'])->name('faq');
-Route::get('privacy-policy', [InformationController::class, 'privacy_policy'])->name('privacy-policy');
-Route::get('terms-&-conditions', [InformationController::class, 'terms_and_conditions'])->name('terms-conditions');
+Route::get('about-us', [InformationController::class, 'about_us'])->name('about-us')->middleware(['removePublic']);
+Route::get('faq', [InformationController::class, 'faq'])->name('faq')->middleware(['removePublic']);
+Route::get('privacy-policy', [InformationController::class, 'privacy_policy'])->name('privacy-policy')->middleware(['removePublic']);
+Route::get('terms-&-conditions', [InformationController::class, 'terms_and_conditions'])->name('terms-conditions')->middleware(['removePublic']);
 
 /*404 Page*/
-Route::get('404', [HomeController::class, 'page_not_found'])->name('errors.404');
+Route::get('404', [HomeController::class, 'page_not_found'])->name('errors.404')->middleware(['removePublic']);
 
 /*Contact Us Page*/
-Route::resource('contact-us', FrontContactUsController::class);
+Route::resource('contact-us', FrontContactUsController::class)->middleware(['removePublic']);
 
 /*Subscriber*/
-Route::post('subscriber-form',[FrontSubscriberController::class,'store'])->name('subscriber.form.submit');
+Route::post('subscriber-form',[FrontSubscriberController::class,'store'])->name('subscriber.form.submit')->middleware(['removePublic']);
 
 /*Products*/
-Route::get('shop', [FrontProductController::class, 'index'])->name('products');
+Route::get('shop', [FrontProductController::class, 'index'])->name('products')->middleware(['removePublic']);
 
 /*Caegory Products*/
-Route::get('category/{category_id?}/{category_name?}/{sub_category_name?}', [FrontProductController::class, 'index'])->name('products.filter');
+Route::get('category/{category_id?}/{category_name?}/{sub_category_name?}', [FrontProductController::class, 'index'])->name('products.filter')->middleware(['removePublic']);
 
 /*Product Details*/
-Route::get('shop/{id}/details', [FrontProductController::class, 'details'])->name('products.details');
+Route::get('shop/{id}/details', [FrontProductController::class, 'details'])->name('products.details')->middleware(['removePublic']);
 
 /*Quick View*/
-Route::get('shop/quick-view/{product_id}', [FrontProductController::class, 'quickview'])->name('products.quickview');
+Route::get('shop/quick-view/{product_id}', [FrontProductController::class, 'quickview'])->name('products.quickview')->middleware(['removePublic']);
 
 /*Wishlist*/
-Route::post('wishlist/add-wishlist', [WishlistController::class,'addProducttoWishlist'])->name('products.add.wishlist');
-Route::get('wishlist/wishlist-view', [WishlistController::class, 'wishlistview'])->name('wishlist.view');
-Route::get('wishlist/remove/{id}',[WishlistController::class,'wishlistRemove'])->name('wishlist.remove');
-Route::get('wishlist', [WishlistController::class, 'myWishlist'])->name('wishlist');
+Route::post('wishlist/add-wishlist', [WishlistController::class,'addProducttoWishlist'])->name('products.add.wishlist')->middleware(['removePublic']);
+Route::get('wishlist/wishlist-view', [WishlistController::class, 'wishlistview'])->name('wishlist.view')->middleware(['removePublic']);
+Route::get('wishlist/remove/{id}',[WishlistController::class,'wishlistRemove'])->name('wishlist.remove')->middleware(['removePublic']);
+Route::get('wishlist', [WishlistController::class, 'myWishlist'])->name('wishlist')->middleware(['removePublic']);
 
 /*Shopping Cart*/
-Route::get('cart/cart-view', [ShoppingCartController::class, 'cartview'])->name('cart.view');
-Route::post('cart/remove-cart', [ShoppingCartController::class,'removeProducttoCart'])->name('cart.remove');
-Route::post('cart/add-product-to-cart', [ShoppingCartController::class,'addProductToCart'])->name('cart.add-product');
-Route::get('cart', [ShoppingCartController::class, 'shoppingCart'])->name('shopping-cart');
-Route::post('cart/update-quantity', [ShoppingCartController::class, 'updateQuantity'])->name('cart.update-quantity');
+Route::get('cart/cart-view', [ShoppingCartController::class, 'cartview'])->name('cart.view')->middleware(['removePublic']);
+Route::post('cart/remove-cart', [ShoppingCartController::class,'removeProducttoCart'])->name('cart.remove')->middleware(['removePublic']);
+Route::post('cart/add-product-to-cart', [ShoppingCartController::class,'addProductToCart'])->name('cart.add-product')->middleware(['removePublic']);
+Route::get('cart', [ShoppingCartController::class, 'shoppingCart'])->name('shopping-cart')->middleware(['removePublic']);
+Route::post('cart/update-quantity', [ShoppingCartController::class, 'updateQuantity'])->name('cart.update-quantity')->middleware(['removePublic']);
 
 /*Checkout*/
-Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout');
-Route::post('checkout-order-placed', [CheckoutController::class, 'placed'])->name('checkout-order-placed');
-Route::get('checkout/order-completed', [CheckoutController::class, 'orderCompleted'])->name('checkout.order-completed');
+Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout')->middleware(['removePublic']);
+Route::post('checkout-order-placed', [CheckoutController::class, 'placed'])->name('checkout-order-placed')->middleware(['removePublic']);
+Route::get('checkout/order-completed', [CheckoutController::class, 'orderCompleted'])->name('checkout.order-completed')->middleware(['removePublic']);
 
 /*My Account*/
-Route::get('profile-info', [MyProfileController::class, 'index'])->name('profile-info');
-Route::post('profile-info/update',[MyProfileController::class,'update'])->name('profile-info-update');
+Route::get('profile-info', [MyProfileController::class, 'index'])->name('profile-info')->middleware(['removePublic']);
+Route::post('profile-info/update',[MyProfileController::class,'update'])->name('profile-info-update')->middleware(['removePublic']);
 
 /*Change Password*/
-Route::get('change-password', [ChangePasswordController::class, 'index'])->name('change.password');
-Route::post('change-password-update',[ChangePasswordController::class,'update'])->name('change.password.update');
+Route::get('change-password', [ChangePasswordController::class, 'index'])->name('change.password')->middleware(['removePublic']);
+Route::post('change-password-update',[ChangePasswordController::class,'update'])->name('change.password.update')->middleware(['removePublic']);
 
 /* My Orders */
-Route::get('orders', [FrontOrderController::class, 'index'])->name('orders-list');
-Route::get('orders/{id}/details', [FrontOrderController::class, 'orderDetails'])->name('order-details');
+Route::get('orders', [FrontOrderController::class, 'index'])->name('orders-list')->middleware(['removePublic']);
+Route::get('orders/{id}/details', [FrontOrderController::class, 'orderDetails'])->name('order-details')->middleware(['removePublic']);
 
 /* My Addresses */
-Route::resource('addresses', AddressController::class);
+Route::resource('addresses', AddressController::class)->middleware(['removePublic']);
 
 /* Product Review */
-Route::post('submit-review',[ReviewController::class,'productReview'])->name('add-product-review');
-Route::get('product/{productId}/reviews-list',[ReviewController::class,'reviewsList'])->name('reviews-list');
-Route::get('reviews/{reviewId}/review-info',[ReviewController::class,'reviewsInfo'])->name('reviews-info');
+Route::post('submit-review',[ReviewController::class,'productReview'])->name('add-product-review')->middleware(['removePublic']);
+Route::get('product/{productId}/reviews-list',[ReviewController::class,'reviewsList'])->name('reviews-list')->middleware(['removePublic']);
+Route::get('reviews/{reviewId}/review-info',[ReviewController::class,'reviewsInfo'])->name('reviews-info')->middleware(['removePublic']);
 
 
 // ------------------main routes------------------------------------------
-Route::get('/admin', [AuthorizationController::class, 'adminLoginForm'])->name('admin.login');
+Route::get('/admin', [AuthorizationController::class, 'adminLoginForm'])->name('admin.login')->middleware(['removePublic']);
 Route::post('/adminLogin', [AuthorizationController::class, 'adminLogin'])->name('admin.signin');
 
-Route::prefix('admin')->middleware(['admin'])->group(function () {
+Route::prefix('admin')->middleware(['admin', 'removePublic'])->group(function () {
    Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
    Route::get('logout', [AuthorizationController::class, 'adminLogout'])->name('admin.logout');
 

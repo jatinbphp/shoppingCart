@@ -269,7 +269,7 @@ $(function () {
     });
 
     //Banners Table
-    var banner_table = $('#bannerTable').DataTable({
+    var banners_table = $('#bannerTable').DataTable({
         processing: true,
         serverSide: true,
         pageLength: 100,
@@ -295,7 +295,7 @@ $(function () {
     });
 
      //Subscriber Table
-     var banner_table = $('#subscriberTable').DataTable({
+     var subscriber_table = $('#subscriberTable').DataTable({
         processing: true,
         serverSide: true,
         pageLength: 100,
@@ -357,8 +357,8 @@ $(function () {
                             contactus_table.row('.selected').remove().draw(false);
                         } else if (section == 'orders_table') {
                             orders_table.row('.selected').remove().draw(false);
-                        } else if (section == 'banner_table') {
-                             banner_table.row('.selected').remove().draw(false);
+                        } else if (section == 'banners_table') {
+                            banners_table.row('.selected').remove().draw(false);
                         }
 
                         swal("Deleted", "Your data successfully deleted!", "success");
