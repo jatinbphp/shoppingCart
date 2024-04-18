@@ -90,6 +90,50 @@ class ProductController extends Controller
         return Products::where('status', 'active')
             ->when($category_id, function ($query, $category_id) {            
                 return $query->where(function ($query) use ($category_id) {
+                    $query->whereRaw("FIND_IN_SET(?, category_id)", [$category_id])
+                        ->orWhereIn('category_id', function ($query) use ($category_id) {
+                            $query->select('id')
+                                ->from('categories')
+                                ->where('parent_category_id', $category_id);
+                        });
+                });
+            })
+            ->when(getParentAndSubCategoryIds(), function ($query, $getParentAndSubCategoryIds) {
+                return $query->where(function ($query) use ($getParentAndSubCategoryIds) {
+                    foreach ($getParentAndSubCategoryIds as $categoryId) {
+                        $query->orWhereRaw("FIND_IN_SET(?, category_id)", [$categoryId]);
+                    }
+                });
+            })
+            ->when($request->input('parent_category_id'), function ($query, $parent_category_ids) {
+                return $query->where(function ($query) use ($parent_category_ids) {
+                    foreach ($parent_category_ids as $parent_category_id) {
+                        $query->orWhereRaw("FIND_IN_SET(?, category_id)", [$parent_category_id]);
+                    }
+                });
+            })
+            ->when($request->keyword, function ($query, $keyword) {
+                return $query->where(function ($query) use ($keyword) {
+                    $query->where('product_name', 'like', '%' . $keyword . '%')
+                        ->orWhere('sku', 'like', '%' . $keyword . '%')
+                        ->orWhere('description', 'like', '%' . $keyword . '%');
+                });
+            })
+            ->when($request->input('sizes'), function ($query, $sizes) {
+                return $query->whereHas('products_options_value', function ($query) use ($sizes) {
+                    $query->whereIn('option_value', $sizes);
+                });
+            })
+            ->when($request->input('minPrice') && $request->input('maxPrice'), function ($query) use ($request) {
+                return $query->whereRaw('CAST(price AS DECIMAL) BETWEEN ? AND ?', [(double) $request->minPrice, (double) $request->maxPrice]);
+            });
+    }
+
+    protected function buildProductsQuery_bk($request, $category_id){
+
+        return Products::where('status', 'active')
+            ->when($category_id, function ($query, $category_id) {            
+                return $query->where(function ($query) use ($category_id) {
                     $query->where('category_id', $category_id)
                         ->orWhereIn('category_id', function ($query) use ($category_id) {
                             $query->select('id')
@@ -120,7 +164,6 @@ class ProductController extends Controller
                 return $query->whereRaw('CAST(price AS DECIMAL) BETWEEN ? AND ?', [(double) $request->minPrice, (double) $request->maxPrice]);
             });
     }
-
    
     public function details($productId){   
         $desiredCategoryIds = getUserCategoryIds();

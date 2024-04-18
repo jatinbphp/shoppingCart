@@ -54,11 +54,8 @@ class ProductController extends Controller
     public function create()
     {
         $data['menu'] = 'Products';
-
-        $data['categories'] = Category::where('status', 'active')->orderBy('full_name', 'ASC')->pluck('full_name', 'id')->prepend('Please Select', '0');
-
+        $data['categories'] = Category::where('status', 'active')->orderBy('full_name', 'ASC')->pluck('full_name', 'id');
         $data['product_options'] = [];
-
         return view("admin.product.create",$data);
     }
 
@@ -69,6 +66,7 @@ class ProductController extends Controller
     {
         $input = $request->all();
         $input['user_id'] = Auth::guard('admin')->id();
+        $input['category_id'] = !empty($input['category_id']) ? implode(',', $input['category_id']) : '';
         $product = Products::create($input);
 
         //add default option
@@ -112,12 +110,19 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $products = Products::with(['category', 'product_images', 'options.product_option_values'])->findOrFail($id);
+        //$products = Products::with(['category', 'product_images', 'options.product_option_values'])->findOrFail($id);
+        $products = Products::with(['product_images', 'options.product_option_values'])->findOrFail($id);
+        
+        $products['categories'] = [];
+        if(!empty($products['category_id'])){
+            //$products['categories'] = get_product_categories_by_ids($products['category_id']);
+            $products['categories'] =  Category::select('id', 'full_name', 'slug')->whereIn('id', explode(',', $products['category_id']))->orderBy('full_name', 'ASC')->get();
+        }
         
         return view('admin.common.show_modal', [
             'section_info' => $products->toArray(),
             'type' => 'Product',
-            'required_columns' => ['id', 'category', 'product_name', 'sku', 'description', 'price', 'status', 'created_at', 'product_images', 'options']
+            'required_columns' => ['id', 'categories', 'product_name', 'sku', 'description', 'price', 'status', 'created_at', 'product_images', 'options']
         ]);
     }
 
@@ -128,9 +133,8 @@ class ProductController extends Controller
     {
         $data['menu'] = 'Products';
         $data['product'] = Products::with('product_images')->findorFail($id);
-        $data['categories'] = Category::where('status', 'active')->orderBy('full_name', 'ASC')->pluck('full_name', 'id')->prepend('Please Select', '0');
+        $data['categories'] = Category::where('status', 'active')->orderBy('full_name', 'ASC')->pluck('full_name', 'id');
         $data['product_options'] = ProductsOptions::with('product_option_values')->where('product_id',$id)->where('status','active')->get();
-        
         return view('admin.product.edit',$data);
     }
 
@@ -141,6 +145,7 @@ class ProductController extends Controller
     {
         $input = $request->all();
         $product = Products::findorFail($id);
+        $input['category_id'] = !empty($input['category_id']) ? implode(',', $input['category_id']) : '';
         $product->update($input);
 
         if ($request->hasFile('file')) {

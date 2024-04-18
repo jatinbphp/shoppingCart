@@ -19,16 +19,32 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
                                 @include('admin.common.label', ['field' => 'category_id', 'labelText' => 'Select Category', 'isRequired' => true])
 
-                                {!! Form::select("category_id", $categories, null, ["class" => "form-control", "id" => "category_id"]) !!}
+                                <!-- {!! Form::select("category_id", $categories, null, ["class" => "form-control", "id" => "category_id"]) !!} -->
+
+                                @if ($errors->has('category_id'))
+                                    {!! Form::select("category_id[]", $categories, [], [
+                                        "class" => "form-control select2 w-100",
+                                        "id" => "category_id",
+                                        "multiple" => "true",
+                                        'data-placeholder' => 'Please Select'
+                                    ]) !!}
+                                @else
+                                    {!! Form::select("category_id[]", $categories, !empty($product['category_id']) ? explode(",", $product['category_id']) : [], [
+                                        "class" => "form-control select2 w-100",
+                                        "id" => "category_id",
+                                        "multiple" => "true",
+                                        'data-placeholder' => 'Please Select'
+                                    ]) !!}
+                                @endif
 
                                 @include('admin.common.errors', ['field' => 'category_id'])
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group{{ $errors->has('product_name') ? ' has-error' : '' }}">
                                 @include('admin.common.label', ['field' => 'product_name', 'labelText' => 'Product Name', 'isRequired' => true])
 
@@ -37,7 +53,7 @@
                                 @include('admin.common.errors', ['field' => 'product_name'])
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group{{ $errors->has('sku') ? ' has-error' : '' }}">
                                 @include('admin.common.label', ['field' => 'sku', 'labelText' => 'SKU', 'isRequired' => true])
 

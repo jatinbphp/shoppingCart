@@ -39,4 +39,11 @@ class ProductRequest extends FormRequest
 
         return $rules;
     }
+
+    public function messages(): array
+    {
+        return [
+            'category_id' => 'The category field is required.',
+        ];
+    }
 }

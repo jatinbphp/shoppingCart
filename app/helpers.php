@@ -59,9 +59,15 @@ if (!function_exists('getTotalCartProducts')) {
             // start
             $getParentAndSubCategoryIds = getParentAndSubCategoryIds();
             if(count($getParentAndSubCategoryIds)>0){
-                $product_ids = Products::whereIn('category_id', $getParentAndSubCategoryIds)
+                /*$product_ids = Products::whereIn('category_id', $getParentAndSubCategoryIds)
                               ->pluck('id')
-                              ->toArray();
+                              ->toArray();*/
+
+                $product_ids = Products::where(function ($query) use ($getParentAndSubCategoryIds) {
+                    foreach ($getParentAndSubCategoryIds as $category_id) {
+                        $query->orWhereRaw("FIND_IN_SET('$category_id', category_id)");
+                    }
+                })->pluck('id')->toArray();
 
                 Cart::where('user_id', Auth::user()->id)->whereNotIn('product_id', $product_ids)->delete();
             }
@@ -287,5 +293,17 @@ if (!function_exists('getParentAndSubCategoryIds')) {
         }
 
         return $parentAndSubCategoryIds;
+    }
+}
+
+if (!function_exists('get_product_categories_by_ids')) {
+    function get_product_categories_by_ids($categories_id) {
+        if (Auth::check()) {
+            //return Category::select('full_name')->whereIn('id', explode(',', $categories_id))->orderBy('full_name', 'ASC')->pluck('full_name')->implode(', ');
+
+            return Category::select('id', 'full_name', 'slug')->whereIn('id', explode(',', $categories_id))->orderBy('full_name', 'ASC')->get();
+        }
+        // Return an empty collection or handle the case where the user is not authenticated
+        return collect(); // Empty collection
     }
 }

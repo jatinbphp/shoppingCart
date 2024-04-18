@@ -46,9 +46,9 @@
                                 <a href="{{ route('reviews-list', ['productId' => $product->id]) }}"><span class="small">({{$product['total_reviews']}} Reviews)</span></a>
                             </div> -->
                             <div class="elis_rty">
-                                <span class="ft-medium text-muted line-through fs-md mr-2">
+                                <!-- <span class="ft-medium text-muted line-through fs-md mr-2">
                                     {{ env('CURRENCY') }}{{ number_format(($product['price']+100), 2) }}
-                                </span>
+                                </span> -->
                                 <span class="ft-bold theme-cl fs-lg mr-2">
                                     {{ env('CURRENCY') }}{{ number_format($product['price'], 2) }}
                                 </span>

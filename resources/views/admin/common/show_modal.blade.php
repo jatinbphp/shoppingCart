@@ -66,6 +66,13 @@
                                                                 -
                                                             @endif
                                                             @break
+                                                        @case('categories')
+                                                            @if(!empty($section_info[$key]))
+                                                                @foreach($section_info[$key] as $category)
+                                                                    <span class="badge badge-success">{{$category['full_name']}}</span>
+                                                                @endforeach
+                                                            @endif
+                                                            @break
                                                         @case('product_images')
                                                             @if(!empty($section_info[$key]))
                                                                 <div class="row">
