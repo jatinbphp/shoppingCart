@@ -13,7 +13,7 @@ class Order extends Model
     protected $fillable = ['user_id','address_id', 'total_amount', 'status', 'delivey_method', 'notes', 'address_info'];
 
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     public function product(){

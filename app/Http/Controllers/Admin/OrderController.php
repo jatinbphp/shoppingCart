@@ -31,7 +31,14 @@ class OrderController extends Controller
                     return env('ORDER_PREFIX').'-'.date("Y", strtotime($order->created_at)).'-'.$order->id; 
                 })
                 ->addColumn('user_name', function($order) {
-                    return $order->user->name; 
+
+                    $userName = $order->user->name .'('.$order->user->email.') </br>'; 
+
+                    if(isset($order->user->deleted_at)){
+                        $userName .= '<small class="text-danger">User Deleted</small>';
+                    }
+
+                    return $userName;
                 })
                 ->editColumn('total_amount', function($order) {
                     return env('CURRENCY').number_format($order->total_amount, 2);
@@ -42,7 +49,7 @@ class OrderController extends Controller
                 ->editColumn('status', function($row){
 
                     $disabled = 'disabled';
-                    if($row->status==='pending'){
+                    if($row->status==='pending' && !isset($row->user->deleted_at)){
                         $disabled = '';
                     }
 
@@ -59,7 +66,7 @@ class OrderController extends Controller
                     $row['section_title'] = 'order';
                     return view('admin.common.action-buttons', $row);
                 })
-                ->rawColumns(['status'])
+                ->rawColumns(['status', 'user_name'])
                 ->make(true);
         }
 
@@ -454,7 +461,13 @@ class OrderController extends Controller
                     return env('ORDER_PREFIX').'-'.date("Y", strtotime($order->created_at)).'-'.$order->id; 
                 })
                 ->addColumn('user_name', function($order) {
-                    return $order->user->name; 
+                    $userName = $order->user->name .'('.$order->user->email.') </br>'; 
+
+                    if(isset($order->user->deleted_at)){
+                        $userName .= '<small class="text-danger">User Deleted</small>';
+                    }
+
+                    return $userName;
                 })
                 ->editColumn('total_amount', function($order) {
                     return env('CURRENCY').number_format($order->total_amount, 2);
@@ -477,7 +490,7 @@ class OrderController extends Controller
                     $row['section_title'] = 'order';
                     return view('admin.common.action-buttons', $row);
                 })
-                ->rawColumns(['status'])
+                ->rawColumns(['status', 'user_name'])
                 ->make(true);
         }
     }
