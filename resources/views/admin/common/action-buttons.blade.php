@@ -3,7 +3,7 @@
     @php
         $title = 'Edit '.$section_title;
         $disabledEdit = ''; 
-        if(($section_name == 'orders' && $status != 'pending') || ($user['deleted_at'])){
+        if(($section_name == 'orders' && $status != 'pending') || isset($user['deleted_at'])){
             $disabledEdit = 'disabled'; 
             $title = 'You cannot edit this order because its status is '.$status;
         }
@@ -52,10 +52,10 @@
     </span>
 @endif
 
-@if ($section_name === 'products')
+<!-- @if ($section_name === 'products')
     <div class="btn-group btn-group-sm">
         <a href="{{ route('product.reviews.list', ['id' => $id]) }}" title="{{$section_title}} Reviews" class="btn btn-sm btn-secondary tip">
             <i class="fa fa-star"></i>
         </a>
     </div>
-@endif
+@endif -->

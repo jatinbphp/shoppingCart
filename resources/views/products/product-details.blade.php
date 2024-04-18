@@ -31,7 +31,7 @@
                     <div class="prt_02 mb-3">
                         <h2 class="ft-bold mb-1">{{$product['product_name']}}</h2>
                         <div class="text-left">
-                            @php
+                            <!-- @php
                                 $average_rating = ($product['total_reviews'] > 0) ? $product['total_review_rating'] / $product['total_reviews'] : 0;
                                 $filled_stars = round($average_rating);
                             @endphp
@@ -44,7 +44,7 @@
                                     @endif
                                 @endfor
                                 <a href="{{ route('reviews-list', ['productId' => $product->id]) }}"><span class="small">({{$product['total_reviews']}} Reviews)</span></a>
-                            </div>
+                            </div> -->
                             <div class="elis_rty">
                                 <span class="ft-medium text-muted line-through fs-md mr-2">
                                     {{ env('CURRENCY') }}{{ number_format(($product['price']+100), 2) }}
@@ -178,9 +178,9 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" href="#information" id="information-tab" data-toggle="tab" role="tab" aria-controls="information" aria-selected="false">Additional information</a>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <!-- <li class="nav-item" role="presentation">
                         <a class="nav-link" href="#reviews" id="reviews-tab" data-toggle="tab" role="tab" aria-controls="reviews" aria-selected="false">Reviews</a>
-                    </li>
+                    </li> -->
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <!-- Description Content -->

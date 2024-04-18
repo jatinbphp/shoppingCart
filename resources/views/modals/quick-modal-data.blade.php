@@ -32,7 +32,7 @@
                     <div class="prt_02 mb-2">
                         <h2 class="ft-bold mb-1">{{$info['product_name']}}</h2>
                         <div class="text-left">
-                            @php
+                            <!-- @php
                                 $average_rating = ($info['total_reviews'] > 0) ? $info['total_review_rating'] / $info['total_reviews'] : 0;
                                 $filled_stars = round($average_rating);
                             @endphp
@@ -45,7 +45,7 @@
                                     @endif
                                 @endfor
                                 <span class="small">({{$info['total_reviews']}} Reviews)</span>
-                            </div>
+                            </div> -->
                             <div class="elis_rty">
                                 <span class="ft-medium text-muted line-through fs-md mr-2">
                                     {{ env('CURRENCY') }}{{ number_format(($info['price']+100), 2) }}

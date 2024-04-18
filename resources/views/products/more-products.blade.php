@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="card-footer b-0 p-0 pt-2 dark_bg">
-                <div class="d-flex align-items-start justify-content-between">
+                <!-- <div class="d-flex align-items-start justify-content-between">
                     <div class="text-left">
                         @php
                             $average_rating = ($value->total_reviews > 0) ? $value->total_review_rating / $value->total_reviews : 0;
@@ -53,7 +53,7 @@
                             <span class="small">({{$value->total_reviews}} Reviews)</span>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="text-left">
                     <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
                         <a href="{{route('products.details', [$value->id])}}">{{ $value->product_name ?? "-"}}</a>
