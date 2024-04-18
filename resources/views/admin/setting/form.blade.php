@@ -124,7 +124,7 @@
                             <div class="form-group{{ $errors->has('header_menu_categories') ? ' has-error' : '' }}">
                                 @include('admin.common.label', ['field' => 'header_menu_categories', 'labelText' => 'Which Categories menu do you want to display in header menu?', 'isRequired' => true])
 
-                                {!! Form::select("header_menu_categories[]", $categories, !empty($settings['header_menu_categories']) ? explode(",", $settings['header_menu_categories']) : null, ["class" => "form-control select2 w-100", "id" => "header_menu_categories", "multiple" => "true", 'data-placeholder' => 'Please Select', "data-maximum-selection-length" => "2"]) !!}
+                                {!! Form::select("header_menu_categories[]", $categories, !empty($settings['header_menu_categories']) ? explode(",", $settings['header_menu_categories']) : null, ["class" => "form-control select2 w-100", "id" => "header_menu_categories", "multiple" => "true", 'data-placeholder' => 'Please Select', "data-maximum-selection-length" => "3"]) !!}
 
                                 @include('admin.common.errors', ['field' => 'header_menu_categories'])
                             </div>

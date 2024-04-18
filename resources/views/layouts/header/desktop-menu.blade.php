@@ -4,7 +4,7 @@
     
     @include ('layouts.header.categories-menu')
 
-    <li><a href="{{route('about-us')}}">About Us</a></li>
+    <!-- <li><a href="{{route('about-us')}}">About Us</a></li> -->
     <li><a href="{{route('contact-us.index')}}">Contact Us</a></li>
 </ul>
 <ul class="nav-menu nav-menu-social align-to-right">

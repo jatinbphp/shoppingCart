@@ -51,7 +51,11 @@
                             <div class="card-footers b-0 py-3 px-2 dark_bg d-flex align-items-start justify-content-center">
                                 <div class="text-left">
                                     <div class="text-center">
-                                        <h5 class="fw-bolder fs-md text-light mb-0 lh-1 mb-1"><a href="shop-single.html" class="text-light">{{$value->product_name}}</a></h5>
+                                        <h5 class="fw-bolder fs-md text-light mb-0 lh-1 mb-1">
+                                            <a target="_blank" href="{{route('products.details', [$value->id])}}" class="text-light">
+                                                {{$value->product_name}}
+                                            </a>
+                                        </h5>
                                         <div class="elis_rty">
                                             <span class="ft-bold fs-md text-light">
                                                 {{ env('CURRENCY') }}{{ number_format($value->price, 2) }}

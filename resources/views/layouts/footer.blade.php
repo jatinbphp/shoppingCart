@@ -26,7 +26,7 @@
                     <div class="footer_widget">
                         <h4 class="widget_title">Company</h4>
                         <ul class="footer-menu">
-                            <li><a href="{{route('about-us')}}">About Us</a></li>
+                            <!-- <li><a href="{{route('about-us')}}">About Us</a></li> -->
                             <li><a href="{{route('contact-us.index')}}">Contact Us</a></li>
                             <li><a href="{{route('faq')}}">FAQ's</a></li>
                             <li><a href="{{route('privacy-policy')}}">Privacy Policy</a></li>
