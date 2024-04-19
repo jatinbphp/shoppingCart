@@ -28,9 +28,20 @@
             </div>
             <div class="quick_view_capt">
                 <div class="prd_details">
-                    <div class="prt_01 mb-1"><span class="text-light bg-info rounded px-2 py-1">{{$info['category']['full_name']}}</span></div>
+                    <!-- <div class="prt_01 mb-1">
+                        <span class="text-light bg-info rounded px-2 py-1"></span>
+                    </div> -->
                     <div class="prt_02 mb-2">
                         <h2 class="ft-bold mb-1">{{$info['product_name']}}</h2>
+
+                        @if(!empty($info['categories']))
+                            <div class="prt_04 mb-2">
+                                <p class="align-items-center mb-0">
+                                    <b class="pr-1">Categories : </b> {{$info['categories']}}
+                                </p>
+                            </div>
+                        @endif
+
                         <div class="text-left">
                             <!-- @php
                                 $average_rating = ($info['total_reviews'] > 0) ? $info['total_review_rating'] / $info['total_reviews'] : 0;
@@ -47,9 +58,9 @@
                                 <span class="small">({{$info['total_reviews']}} Reviews)</span>
                             </div> -->
                             <div class="elis_rty">
-                                <span class="ft-medium text-muted line-through fs-md mr-2">
+                                <!-- <span class="ft-medium text-muted line-through fs-md mr-2">
                                     {{ env('CURRENCY') }}{{ number_format(($info['price']+100), 2) }}
-                                </span>
+                                </span> -->
                                 <span class="ft-bold theme-cl fs-lg mr-2">
                                     {{ env('CURRENCY') }}{{ number_format($info['price'], 2) }}
                                 </span>

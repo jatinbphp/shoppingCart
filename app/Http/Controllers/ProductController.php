@@ -168,7 +168,7 @@ class ProductController extends Controller
     public function details($productId){   
         $desiredCategoryIds = getUserCategoryIds();
 
-        $data['product'] = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values', 'reviews'])
+        $data['product'] = Products::with(['product_image', 'product_images', 'options.product_option_values', 'reviews'])
             ->where('status', 'active')
             ->where('id', $productId)
             ->whereHas('category', function ($query) use ($desiredCategoryIds) {
@@ -180,11 +180,19 @@ class ProductController extends Controller
                 }
             })
             ->firstOrFail();
+
+        $data['product']->categories = [];
+        if(!empty($data['product']->category_id)){
+            $data['product']->categories = Category::whereIn('id', explode(',', $data['product']->category_id))
+                ->orderBy('full_name', 'ASC')
+                ->pluck('full_name')
+                ->implode(', ');
+        }
         
         // Calculate total_reviews and total_review_rating for the fetched product
         $data['product']->total_reviews = $data['product']->reviews->count();
         $data['product']->total_review_rating = $data['product']->reviews->sum('rating');
-
+        
         $data['title'] = $data['product']['product_name'];
 
         $category = Category::findOrFail($data['product']['category_id']);
@@ -194,7 +202,16 @@ class ProductController extends Controller
     }
 
     public function quickview($productId){   
-        $product = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values', 'reviews'])->where('status', 'active')->where('id', $productId)->first();
+        //$product = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values', 'reviews'])->where('status', 'active')->where('id', $productId)->first();
+        $product = Products::with(['product_image', 'product_images', 'options.product_option_values', 'reviews'])->where('status', 'active')->where('id', $productId)->first();
+
+        $product->categories = [];
+        if(!empty($product['category_id'])){
+            $product->categories = Category::whereIn('id', explode(',', $product['category_id']))
+                ->orderBy('full_name', 'ASC')
+                ->pluck('full_name')
+                ->implode(', ');
+        }
 
         // Calculate total_reviews and total_review_rating for the fetched product
         $product->total_reviews = $product->reviews->count();

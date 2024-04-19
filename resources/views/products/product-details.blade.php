@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-@include('common.breadcrumb', ['breadcrumbs' => ['Home', 'Shop', $product['category']['full_name'], $product['product_name']]])
+@include('common.breadcrumb', ['breadcrumbs' => ['Home', 'Shop', $product['categories'], $product['product_name']]])
 <section class="middle">
     <div class="container">
         <div class="row justify-content-between">
@@ -23,13 +23,21 @@
             </div>
             <div class="col-xl-7 col-lg-6 col-md-12 col-sm-12">
                 <div class="prd_details pl-3">
-                    <div class="prt_01 mb-1">
+                    <!-- <div class="prt_01 mb-1">
                         <span class="text-light bg-info rounded px-2 py-1">
-                            {{$product['category']['full_name']}}
                         </span>
-                    </div>
+                    </div> -->
                     <div class="prt_02 mb-3">
                         <h2 class="ft-bold mb-1">{{$product['product_name']}}</h2>
+
+                        @if(!empty($product['categories']))
+                            <div class="prt_04 mb-2">
+                                <p class="align-items-center mb-0">
+                                    <b class="pr-1">Categories : </b> {{$product['categories']}}
+                                </p>
+                            </div>
+                        @endif
+
                         <div class="text-left">
                             <!-- @php
                                 $average_rating = ($product['total_reviews'] > 0) ? $product['total_review_rating'] / $product['total_reviews'] : 0;

@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
         <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
         <link rel="stylesheet" href="{{ URL::asset('assets/admin/plugins/summernote/summernote-bs4.min.css') }}">
-        <link href="{{asset('assets/website/css/styles.css') }}" rel="stylesheet" />
+        <link href="{{asset('assets/website/css/styles.css') }}?{{ time()}}" rel="stylesheet" />
     </head>
     <body>
         <div id="main-wrapper" class="bg-dark">
