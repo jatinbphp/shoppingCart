@@ -153,7 +153,7 @@ $(function () {
     });
 
     //Order Dashboard Table
-    var orders_table = $('#ordersDasboardTable').DataTable({
+    var orders_dashboard_table = $('#ordersDasboardTable').DataTable({
         processing: true,
         serverSide: true,
         ajax: $("#route_name").val(),

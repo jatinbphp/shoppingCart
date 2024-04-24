@@ -93,10 +93,26 @@ class CheckoutController extends Controller
             // clear cart
             Cart::where('user_id',Auth::user()->id)->delete();
 
-            /*//send order success mial
+            //send order success mial
             $data['order'] = Order::with('orderItems.product.product_image')->find($order->id);
             $data['user'] = Auth::user(); 
-            Mail::to('vijay.g.php@gmail.com')->send(new OrderPlaced($data));*/
+            //Mail::to('vijay.g.php@gmail.com')->send(new OrderPlaced($data));
+
+            $to = "info@reformedia.co.uk";
+            $subject = 'Order Received: #' . 'INV-'. date('Y', strtotime($data['order']->created_at)) . '-' . $data['order']->id;
+
+            // Render the email view into a string
+            $message = view('mail-templates.orders.order-placed', $data)->render();
+
+            $headers = [
+                'MIME-Version: 1.0',
+                'Content-Type: text/html; charset=ISO-8859-1',
+                'From: info@reformedia.co.uk',
+                'Reply-To: info@reformedia.co.uk'
+            ];
+ 
+            // Send email
+            $mailSent = mail($to, $subject, $message, implode("\r\n", $headers));
 
             return redirect()->route('checkout.order-completed');
             

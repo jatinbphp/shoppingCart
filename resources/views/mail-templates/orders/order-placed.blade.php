@@ -4,13 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{asset('assets/website/css/styles.css') }}" rel="stylesheet" />
-    <title></title>
+    <link href="{{asset('assets/website/css/plugins/bootstrap.min.css') }}" rel="stylesheet" />
+    <title>Order Details</title>
+    <style type="text/css">
+        table.table.m-0{border:1px solid #eaeff5}
+        .table-responsive table{white-space:nowrap}
+        .table{width:100%;max-width:100%;margin-bottom:1rem;background-color:transparent}
+        .m-0{margin:0!important}
+        .container{max-width:1200px}
+        p{margin-top:0;margin-bottom:1rem}
+        .mb-4{margin-bottom:1.5rem!important}
+        .table>tbody>tr>td,.table>tbody>tr>th,.table>tfoot>tr>td,.table>tfoot>tr>th,.table>thead>tr>td,.table>thead>tr>th{border-top:1px solid #f0f4f7}
+        .table tr th,.table tr td{border-color:#eaeff5;padding:12px 15px;vertical-align:middle}
+        .nav-brand{padding:13px 15px;font-size:24px;margin-right:1rem;padding-left:0;text-decoration:none!important}
+        table.table tr th{font-weight:600}
+        .table thead th{vertical-align:bottom;border-bottom:2px solid #e9ecef}
+        .table tr th,.table tr td{border-color:#eaeff5;padding:12px 15px;vertical-align:middle}
+        .table thead th{vertical-align:bottom;border-bottom:2px solid transparent;border-top:0!important;text-align: left;}
+        .fa, .fas {font-family: 'Font Awesome 5 Free';font-weight: 900;}
+    </style>
 </head>
 <body>
     <div class="container">
         <p>Dear Admin,</p>
 
-        <p>I hope this message finds you well. I wanted to inform you that <b>{{ $user->name }}</b> have recently placed an order on your website. Below are the details of my order:</p>
+        <p>I hope this message finds you well. I wanted to inform you that <b>{{ $order->user->name }}</b> have recently placed an order on your website. Below are the details of my order:</p>
 
         <div class="table-responsive mb-4">
             <table class="table m-0">
@@ -59,8 +77,8 @@
                         <th>Product Information</th>
                         <th>SKU</th>
                         <th>Quantity</th>
-                        <th class="text-right">Unit Price</th>
-                        <th class="text-right">Total</th>
+                        <th style="text-align: right;">Unit Price</th>
+                        <th style="text-align: right;">Total</th>
                     </tr>
                 </thead>
 
@@ -70,7 +88,7 @@
                             <tr> 
                                 <td>
                                     <div class="single_rev_caption d-flex align-items-start">
-                                        <div class="single_capt_left pr-2">
+                                        <div class="single_capt_left pr-2" style=" float: left;  margin-right: 10px;">
                                             @if(!empty($item->product->product_image->image) && file_exists($item->product->product_image->image))
                                                 <img src="{{url($item->product->product_image->image)}}" alt="..." width="50px">
                                             @else 
@@ -78,16 +96,19 @@
                                             @endif
                                         </div>
                                         <div class="single_capt_right">
-                                            <h4 class="product_title fs-sm ft-medium mb-1 lh-1">
+                                            <h4 class="product_title fs-sm ft-medium mb-1 lh-1" style="margin: 0px;">
                                                 {{ $item->product->product_name }}
                                             </h4>
                                             <p class="m-0">
                                                 @if(!empty($item->orderOptions))
                                                     @foreach ($item->orderOptions as $option)
                                                         @if($option->name=='COLOR')
-                                                            <span class="text-dark medium">{{$option->name}} : <i class="fas fa-square" style="color: {{$option->value}}"></i></span></br>
+                                                            <div style="display: inline-block;" class="text-dark medium">
+                                                                <div style="float: left;">{{$option->name}} :</div>
+                                                                <div style="background-color: {{$option->value}};width: 20px;height: 20px;float: left;border: 1px solid #000;"></div>
+                                                            </div>
                                                         @else
-                                                            <span class="text-dark medium">{{$option->name}} : {{$option->value}}</span></br>
+                                                            <div class="text-dark medium">{{$option->name}} : {{$option->value}}</div></br>
                                                         @endif
                                                     @endforeach
                                                 @endif
@@ -97,8 +118,8 @@
                                 </td>
                                 <td>{{ $item->product->sku }}</td>
                                 <td>{{ $item->product_qty }}</td>
-                                <td class="text-right">{{ env('CURRENCY') }}{{ number_format($item->product_price, 2) }}</td>
-                                <td class="text-right">{{ env('CURRENCY') }}{{ number_format($item->sub_total, 2) }}</td>
+                                <td style="text-align: right;">{{ env('CURRENCY') }}{{ number_format($item->product_price, 2) }}</td>
+                                <td style="text-align: right;">{{ env('CURRENCY') }}{{ number_format($item->sub_total, 2) }}</td>
                             </tr>
                         @endforeach
                     @else
@@ -109,12 +130,12 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="4" class="text-right"><strong>Sub-Total</strong></td>
-                        <td class="text-right">{{ env('CURRENCY') }}{{ number_format($order->total_amount, 2) }}</td>
+                        <td colspan="4"  style="text-align: right;"><strong>Sub-Total</strong></td>
+                        <td style="text-align: right;">{{ env('CURRENCY') }}{{ number_format($order->total_amount, 2) }}</td>
                     </tr>
                     <tr>
-                        <td colspan="4" class="text-right"><strong>Total</strong></td>
-                        <td class="text-right">{{ env('CURRENCY') }}{{ number_format($order->total_amount, 2) }}</td>
+                        <td colspan="4"  style="text-align: right;"><strong>Total</strong></td>
+                        <td style="text-align: right;">{{ env('CURRENCY') }}{{ number_format($order->total_amount, 2) }}</td>
                     </tr>
                 </tfoot>
             </table>

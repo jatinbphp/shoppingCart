@@ -79,6 +79,7 @@ Route::get('shop/{id}/details', [FrontProductController::class, 'details'])->nam
 
 /*Quick View*/
 Route::get('shop/quick-view/{product_id}', [FrontProductController::class, 'quickview'])->name('products.quickview')->middleware(['removePublic']);
+Route::get('shop/quick-view-image/{product_id}', [FrontProductController::class, 'quickviewimage'])->name('products.quickviewimage')->middleware(['removePublic']);
 
 /*Wishlist*/
 Route::post('wishlist/add-wishlist', [WishlistController::class,'addProducttoWishlist'])->name('products.add.wishlist')->middleware(['removePublic']);

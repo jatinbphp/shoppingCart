@@ -50,7 +50,7 @@
                                                             
                                                             <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
                                                                 <div class="edlio">
-                                                                    <a href="javascript:void(0)" id="quickview" class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center text-white fs-sm ft-medium" data-id="{{$product->id}}" data-url="{{route('products.quickview', [$product->id])}}">
+                                                                    <a href="javascript:void(0)" id="quickview" class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center text-white fs-sm ft-medium" data-id="{{$product->id}}" data-url="{{route('products.quickview', [$product->id])}}" data-url-image="{{route('products.quickviewimage', [$product->id])}}">
                                                                         <i class="fas fa-eye mr-1"></i>Quick View
                                                                     </a>
                                                                 </div>

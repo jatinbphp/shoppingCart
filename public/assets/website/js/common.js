@@ -81,6 +81,7 @@ $(function () {
         var $slider = $('.quick_view_slide');
         var url = $(this).attr('data-url');
         var id = $(this).attr("data-id");
+        var urlimage = $(this).attr('data-url-image');
 
         $.ajax({
             url: url,
@@ -88,8 +89,20 @@ $(function () {
             headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
             success: function(data){
                 $('#quickviewModal .modal-content').html(data);
-                initSlickSlider();
+                //initSlickSlider();
                 $('#quickviewModal').modal('show');
+
+                setTimeout(function() {
+                    $.ajax({
+                        url: urlimage,
+                        type: "GET",
+                        headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+                        success: function(data){
+                            $('#quick_view_thmb').html(data);
+                            initSlickSlider();
+                        }
+                    });
+                }, 1000);
             }
         });
     });

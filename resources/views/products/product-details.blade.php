@@ -113,14 +113,7 @@
                         <div class="prt_05 mb-4">
                             <div class="form-row mb-7">
                                 <div class="col-12 col-lg-auto">
-                                    @php
-                                        $quantity = [];
-                                        for ($i = 1; $i <= 10; $i++) {
-                                            $quantity[$i] = $i;
-                                        }
-                                    @endphp
-
-                                    {{ Form::select('quantity', $quantity, null, ['class' => 'mb-2 custom-select']) }}
+                                    {{ Form::number('quantity', 1, ['class' => 'mb-2 form-control', 'min' => '1']) }}
                                 </div>
                                 <div class="col-12 col-lg">
                                     @guest

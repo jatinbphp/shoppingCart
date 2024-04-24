@@ -44,7 +44,7 @@
 	                                        </a>
 
 	                                        <div class="edlio">
-	                                            <a href="javascript:void(0)" id="quickview" class="text-white product-hover-overlay bg-dark d-flex align-items-center justify-content-center fs-sm ft-medium" data-id="{{$valueSlider->id}}" data-url="{{route('products.quickview', [$valueSlider->id])}}">
+	                                            <a href="javascript:void(0)" id="quickview" class="text-white product-hover-overlay bg-dark d-flex align-items-center justify-content-center fs-sm ft-medium" data-id="{{$valueSlider->id}}" data-url="{{route('products.quickview', [$valueSlider->id])}}" data-url-image="{{route('products.quickviewimage', [$valueSlider->id])}}">
 	                                                <i class="fas fa-eye mr-1"></i>Quick View
 	                                            </a>
 	                                        </div>

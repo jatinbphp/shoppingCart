@@ -8,23 +8,9 @@
         ]) !!}
     </div>
     <div class="modal-body">
-        <div class="quick_view_wrap">
-            <div class="quick_view_thmb">
-                <div class="quick_view_slide">
-                    @if(!empty($info['product_images']))
-                        @foreach($info['product_images'] as $keyImages => $valueImages)
-                            @if(!empty($valueImages['image']) && file_exists($valueImages['image']))
-                                <div class="single_view_slide">
-                                    <img src="{{url($valueImages['image'])}}" class="img-fluid" alt="" />
-                                </div>
-                            @endif
-                        @endforeach
-                    @else 
-                        <div class="single_view_slide">
-                            <img class="img-fluid" src="{{url('assets/website/images/default-image.png')}}" alt="...">
-                        </div>
-                    @endif
-                </div>
+        <div class="quick_view_wrap align-items-center">
+            <div class="quick_view_thmb text-center" id="quick_view_thmb">
+                <img class="img-fluid" src="{{url('assets/website/images/loader.gif')}}?v={{ time()}}" alt="...">
             </div>
             <div class="quick_view_capt">
                 <div class="prd_details">
@@ -114,14 +100,7 @@
                     <div class="prt_05 mb-4">
                         <div class="form-row mb-7">
                             <div class="col-12 col-lg-auto">
-                                @php
-                                    $quantity = [];
-                                    for ($i = 1; $i <= 10; $i++) {
-                                        $quantity[$i] = $i;
-                                    }
-                                @endphp
-
-                                {{ Form::select('quantity', $quantity, null, ['class' => 'mb-2 custom-select']) }}
+                                {{ Form::number('quantity', 1, ['class' => 'mb-2 form-control', 'min' => '1']) }}
                             </div>
                             <div class="col-12 col-lg">
                                 @guest

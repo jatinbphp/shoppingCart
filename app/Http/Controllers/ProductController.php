@@ -192,7 +192,7 @@ class ProductController extends Controller
         // Calculate total_reviews and total_review_rating for the fetched product
         $data['product']->total_reviews = $data['product']->reviews->count();
         $data['product']->total_review_rating = $data['product']->reviews->sum('rating');
-        
+
         $data['title'] = $data['product']['product_name'];
 
         $category = Category::findOrFail($data['product']['category_id']);
@@ -203,7 +203,7 @@ class ProductController extends Controller
 
     public function quickview($productId){   
         //$product = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values', 'reviews'])->where('status', 'active')->where('id', $productId)->first();
-        $product = Products::with(['product_image', 'product_images', 'options.product_option_values', 'reviews'])->where('status', 'active')->where('id', $productId)->first();
+        $product = Products::with(['options.product_option_values', 'reviews'])->where('status', 'active')->where('id', $productId)->first();
 
         $product->categories = [];
         if(!empty($product['category_id'])){
@@ -218,6 +218,15 @@ class ProductController extends Controller
         $product->total_review_rating = $product->reviews->sum('rating');
         
         return view('modals.quick-modal-data', [
+            'info' => $product->toArray()
+        ]);
+    }
+
+    public function quickviewimage($productId){   
+        //$product = Products::with(['product_image', 'category', 'product_images', 'options.product_option_values', 'reviews'])->where('status', 'active')->where('id', $productId)->first();
+        $product = Products::with(['product_image', 'product_images'])->where('status', 'active')->where('id', $productId)->first();
+        
+        return view('modals.quick-modal-image-data', [
             'info' => $product->toArray()
         ]);
     }
