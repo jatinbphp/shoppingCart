@@ -8,11 +8,11 @@
                         <i class="lni lni-shopping-basket mr-2"></i>My Orders
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="{{route('wishlist')}}" @if(isset($menu) && $menu=='wishlists') class="active" @endif>
                         <i class="lni lni-heart mr-2"></i>Wishlist
                     </a>
-                </li>
+                </li> -->
                 <li>
                     <a href="{{route('addresses.index')}}" @if(isset($menu) && $menu=='addresses') class="active" @endif>
                         <i class="lni lni-map-marker mr-2"></i>Addresses

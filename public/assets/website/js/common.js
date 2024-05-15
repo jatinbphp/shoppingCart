@@ -63,14 +63,14 @@ $(function () {
             $('.filter_wraps .single_fitres a.list').addClass('active');
             $('.filter_wraps .single_fitres a.grid').removeClass('active');
             $('.rows-products').removeClass('grid').addClass('list');
-            $('.rows-products .col-6').removeClass('col-xl-4 col-lg-4 col-md-6 col-6').addClass('col-12');
+            $('.rows-products .col-6').removeClass('col-xl-3 col-lg-3 col-md-6 col-6').addClass('col-12');
             $('.product_grid .card-footer .text-left .d-none').removeClass('d-none').addClass('d-block');
         }
         else if ($(this).hasClass('grid')) {
             $('.filter_wraps .single_fitres a.grid').addClass('active');
             $('.filter_wraps .single_fitres a.list').removeClass('active');
             $('.rows-products').removeClass('list').addClass('grid');
-            $('.rows-products .col-12').removeClass('col-12').addClass('col-xl-4 col-lg-4 col-md-6 col-6');
+            $('.rows-products .col-12').removeClass('col-12').addClass('col-xl-3 col-lg-3 col-md-6 col-6');
             $('.product_grid .card-footer .text-left .d-block').removeClass('d-block').addClass('d-none');
         }
     });

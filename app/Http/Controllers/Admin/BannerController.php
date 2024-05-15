@@ -63,7 +63,7 @@ class BannerController extends Controller{
 
     public function edit(string $id){
         $data['menu'] = 'Banners';
-        $data['banner'] = Banner::findOrFail($id);
+        $data['banner'] = Banner::where('id',$id)->first();
         return view('admin.banner.edit',$data);
     }
 

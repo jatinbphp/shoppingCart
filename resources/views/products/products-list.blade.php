@@ -33,8 +33,8 @@
 
         @include ('common.error')
         <div class="row">
-            @include ('products.products-filter')
-            <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12">
+            <!-- @include ('products.products-filter') -->
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12">
                         <div class="border mb-3 mfliud">
@@ -65,7 +65,7 @@
                 @if(!empty($products) && isset($products) && count($products)>0)
                     <div class="row align-items-center rows-products grid">
                         @foreach($products as $key => $value)
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-6">
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-6">
                                 <div class="product_grid card b-0">
 
                                     @if(!empty($value->type))
@@ -89,9 +89,9 @@
                                         <div class="shop_thumb position-relative">
                                             <a target="_blank" class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$value->id])}}">
                                                 @if(!empty($value->product_image->image) && file_exists($value->product_image->image))
-                                                    <img class="card-img-top" src="{{url($value->product_image->image)}}" alt="...">
+                                                    <img class="card-img-top image-view" src="{{url($value->product_image->image)}}" alt="...">
                                                 @else 
-                                                    <img class="card-img-top" src="{{url('assets/website/images/default-image.png')}}" alt="...">
+                                                    <img class="card-img-top image-view" src="{{url('assets/website/images/default-image.png')}}" alt="...">
                                                 @endif
                                             </a>
                                             <div class="edlio">

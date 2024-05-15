@@ -4,7 +4,7 @@
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="sec_title position-relative text-center">
-                        <h2 class="text-light off_title">Your Products</h2>
+                        <!-- <h2 class="text-light off_title">Your Products</h2> -->
                         <h3 class="text-light ft-bold pt-3">Your Products</h3>
                     </div>
                 </div>
@@ -36,9 +36,9 @@
                                 <div class="shop_thumb position-relative">
                                     <a class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$value->id])}}">
                                         @if(!empty($value->product_image->image) && file_exists($value->product_image->image))
-                                            <img class="card-img-top" src="{{url($value->product_image->image)}}" alt="...">
+                                            <img class="card-img-top image-view" src="{{url($value->product_image->image)}}" alt="...">
                                         @else 
-                                            <img class="card-img-top" src="{{url('assets/website/images/default-image.png')}}" alt="...">
+                                            <img class="card-img-top image-view" src="{{url('assets/website/images/default-image.png')}}" alt="...">
                                         @endif
                                     </a>
                                     <div class="edlio">

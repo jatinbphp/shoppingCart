@@ -180,7 +180,8 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            {{$order->delivey_method}}
+                                            <!-- {{$order->delivey_method}} -->
+                                            3-5 WORKING DAYS
                                         </td>
                                     </tr>
                                 </tbody>

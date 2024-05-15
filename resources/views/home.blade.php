@@ -7,7 +7,7 @@
 
     @include ('home.trending-products')
 
-    @include ('home.summer-collections')
+    <!-- @include ('home.summer-collections') -->
 
     <!-- @include ('home.category-tabs') -->
 

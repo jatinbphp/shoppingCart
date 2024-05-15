@@ -1,5 +1,5 @@
 @foreach($products as $key => $value)
-    <div class="{{(isset($layout) && $layout == 'list-view') ? 'col-12' : 'col-xl-4 col-lg-4 col-md-6 col-6'}}">
+    <div class="{{(isset($layout) && $layout == 'list-view') ? 'col-12' : 'col-xl-3 col-lg-3 col-md-6 col-6'}}">
         <div class="product_grid card b-0">
             @if(!empty($value->type))
                 {!! customBadge($value->type) !!}
@@ -22,9 +22,9 @@
                 <div class="shop_thumb position-relative">
                     <a target="_blank" class="card-img-top d-block overflow-hidden" href="{{route('products.details', [$value->id])}}">
                         @if(!empty($value->product_image->image) && file_exists($value->product_image->image))
-                            <img class="card-img-top" src="{{url($value->product_image->image)}}" alt="...">
+                            <img class="card-img-top image-view" src="{{url($value->product_image->image)}}" alt="..." c>
                         @else 
-                            <img class="card-img-top" src="{{url('assets/website/images/default-image.png')}}" alt="...">
+                            <img class="card-img-top image-view" src="{{url('assets/website/images/default-image.png')}}" alt="...">
                         @endif
                     </a>
                     <div class="edlio">

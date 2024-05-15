@@ -32,9 +32,9 @@
                 <li>
                     <a href="{{route('checkout')}}" class="dropdown-item medium text-medium">Checkout</a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="{{route('wishlist')}}" class="dropdown-item medium text-medium">Wishlist</a>
-                </li>
+                </li> -->
                 <li>
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         {{ __('Log out') }}
@@ -47,11 +47,11 @@
             @endguest
         </ul>
     </li>
-    <li>
+    <!-- <li>
         <a href="javaScript:void(0);" data-url="{{route('wishlist.view')}}" id="open-wishlist-sidebar" title="Wishlist">
             <i class="lni lni-heart"></i><span class="dn-counter wishlist-counter">{{count(getWishlistProductIds())}}</span>
         </a>
-    </li>
+    </li> -->
     <li>
         <a href="javaScript:void(0);" data-url="{{route('cart.view')}}" id="open-cart-sidebar" title="Shopping Cart">
             <i class="lni lni-shopping-basket"></i><span class="dn-counter cart-counter">{{count(getTotalCartProducts())}}</span>

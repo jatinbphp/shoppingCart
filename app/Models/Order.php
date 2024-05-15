@@ -39,8 +39,8 @@ class Order extends Model
         self::STATUS_TYPE_CANCEL => 'Cancel',
     ];
     
-    const DELIVERY_METHOD_FEDEX = 'FEDEX';
+    const DELIVERY_METHOD_FEDEX = '3-5 WORKING DAYS';
     public static $allDeliveryMethod = [
-        self::DELIVERY_METHOD_FEDEX => 'FEDEX',
+        self::DELIVERY_METHOD_FEDEX => '3-5 WORKING DAYS',
     ];
 }

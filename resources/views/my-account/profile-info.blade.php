@@ -14,7 +14,7 @@
 
                     {!! Form::model($user_info,['url' => route('profile-info-update'),'method'=>'post','id' => 'profile-form','class' => 'row m-0','files'=>true]) !!}
 
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 d-none">
                             <div class="form-group">
                                 @include('common.label', ['field' => 'categories_id', 'labelText' => 'Which categories of products do you want to see?', 'isRequired' => false])
 

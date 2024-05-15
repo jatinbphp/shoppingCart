@@ -118,8 +118,8 @@
                                 </td>
                                 <td>{{ $item->product->sku }}</td>
                                 <td>{{ $item->product_qty }}</td>
-                                <td style="text-align: right;">{{ env('CURRENCY') }}{{ number_format($item->product_price, 2) }}</td>
-                                <td style="text-align: right;">{{ env('CURRENCY') }}{{ number_format($item->sub_total, 2) }}</td>
+                                <td style="text-align: right;">£{{ number_format($item->product_price, 2) }}</td>
+                                <td style="text-align: right;">£{{ number_format($item->sub_total, 2) }}</td>
                             </tr>
                         @endforeach
                     @else
@@ -131,11 +131,11 @@
                 <tfoot>
                     <tr>
                         <td colspan="4"  style="text-align: right;"><strong>Sub-Total</strong></td>
-                        <td style="text-align: right;">{{ env('CURRENCY') }}{{ number_format($order->total_amount, 2) }}</td>
+                        <td style="text-align: right;">£{{ number_format($order->total_amount, 2) }}</td>
                     </tr>
                     <tr>
                         <td colspan="4"  style="text-align: right;"><strong>Total</strong></td>
-                        <td style="text-align: right;">{{ env('CURRENCY') }}{{ number_format($order->total_amount, 2) }}</td>
+                        <td style="text-align: right;">£{{ number_format($order->total_amount, 2) }}</td>
                     </tr>
                 </tfoot>
             </table>

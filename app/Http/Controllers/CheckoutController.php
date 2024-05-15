@@ -87,7 +87,7 @@ class CheckoutController extends Controller
             $address = UserAddresses::findOrFail($input['address_id']);
             $order['address_info'] = json_encode($address);
             $order['total_amount'] = $orderTotal;
-            $order['status'] = 'complete';
+            $order['status'] = 'pending';
             $order->save();
 
             // clear cart
@@ -98,7 +98,7 @@ class CheckoutController extends Controller
             $data['user'] = Auth::user(); 
             //Mail::to('vijay.g.php@gmail.com')->send(new OrderPlaced($data));
 
-            $to = "info@reformedia.co.uk";
+            $to = env('MAIL_FROM_ADDRESS');
             $subject = 'Order Received: #' . 'INV-'. date('Y', strtotime($data['order']->created_at)) . '-' . $data['order']->id;
 
             // Render the email view into a string
@@ -107,8 +107,8 @@ class CheckoutController extends Controller
             $headers = [
                 'MIME-Version: 1.0',
                 'Content-Type: text/html; charset=ISO-8859-1',
-                'From: info@reformedia.co.uk',
-                'Reply-To: info@reformedia.co.uk'
+                'From: '.env('MAIL_FROM_ADDRESS'),
+                'Reply-To: '.env('MAIL_FROM_ADDRESS')
             ];
  
             // Send email
