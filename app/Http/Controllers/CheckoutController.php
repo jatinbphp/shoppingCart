@@ -93,16 +93,20 @@ class CheckoutController extends Controller
             // clear cart
             Cart::where('user_id',Auth::user()->id)->delete();
 
-            //send order success mial
+            //send order
             $data['order'] = Order::with('orderItems.product.product_image')->find($order->id);
             $data['user'] = Auth::user(); 
-            //Mail::to('vijay.g.php@gmail.com')->send(new OrderPlaced($data));
 
             $to = env('MAIL_FROM_ADDRESS');
-            $subject = 'Order Received: #' . 'INV-'. date('Y', strtotime($data['order']->created_at)) . '-' . $data['order']->id;
+            $subject = 'New Order Received: #' . 'INV-'. date('Y', strtotime($data['order']->created_at)) . '-' . $data['order']->id;
 
-            // Render the email view into a string
-            $message = view('mail-templates.orders.order-placed', $data)->render();
+            // For admin notification
+            $data['recipient'] = 'admin';
+            $adminMessage = view('mail-templates.orders.order-placed', $data)->render();
+
+            // For customer confirmation
+            $data['recipient'] = 'customer';
+            $customerMessage = view('mail-templates.orders.order-placed', $data)->render();
 
             $headers = [
                 'MIME-Version: 1.0',
@@ -112,7 +116,8 @@ class CheckoutController extends Controller
             ];
  
             // Send email
-            $mailSent = mail($to, $subject, $message, implode("\r\n", $headers));
+            mail($to, $subject, $adminMessage, implode("\r\n", $headers)); //for admin
+            mail(Auth::user()->email, $subject, $customerMessage, implode("\r\n", $headers)); //for customers
 
             return redirect()->route('checkout.order-completed');
             

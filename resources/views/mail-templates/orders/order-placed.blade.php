@@ -20,15 +20,25 @@
         table.table tr th{font-weight:600}
         .table thead th{vertical-align:bottom;border-bottom:2px solid #e9ecef}
         .table tr th,.table tr td{border-color:#eaeff5;padding:12px 15px;vertical-align:middle}
-        .table thead th{vertical-align:bottom;border-bottom:2px solid transparent;border-top:0!important;text-align: left;}
-        .fa, .fas {font-family: 'Font Awesome 5 Free';font-weight: 900;}
+        .table thead th{vertical-align:bottom;border-bottom:2px solid transparent;border-top:0!important;text-align:left}
+        .fa,.fas{font-family:'Font Awesome 5 Free';font-weight:900}
     </style>
 </head>
 <body>
     <div class="container">
-        <p>Dear Admin,</p>
 
-        <p>I hope this message finds you well. I wanted to inform you that <b>{{ $order->user->name }}</b> have recently placed an order on your website. Below are the details of my order:</p>
+        @if ($recipient === 'admin')
+            <p>Dear Admin,</p>
+            <p>I hope this message finds you well. I wanted to inform you that <b>{{ $order->user->name }}</b> have recently placed an order on your website. Below are the details of their order:</p>
+        @elseif ($recipient === 'customer')
+            <p>Dear {{ $order->user->name }},</p>
+
+            @if(!isset($update_status))
+                <p>Thank you for choosing to shop with us! We're excited to confirm that we've received your recent order. Here are the details:</p>
+            @else
+                <p>Thank you for choosing to shop with us! We're excited to inform you that there has been an update regarding your recent order. Here are the updated details:</p>
+            @endif
+        @endif
 
         <div class="table-responsive mb-4">
             <table class="table m-0">
@@ -56,10 +66,10 @@
                         <td>{{ $order->created_at }}</td>
                         @php
                         $status = [
-                            'pending' => '<span class="ft-medium small text-primary bg-light-primary rounded px-3 py-1">Pending</span>',
-                            'reject'  => '<span class="ft-medium small text-warning bg-light-warning rounded px-3 py-1">Reject</span>',
-                            'complete'=> '<span class="ft-medium small text-success bg-light-success rounded px-3 py-1">Complete</span>',
-                            'cancel'  => '<span class="ft-medium small text-danger bg-light-danger rounded px-3 py-1">Cancel</span>',
+                            'pending' => '<span style="color:#fff;background-color:#007bff;padding: 0.25em 0.4em;border-radius: 0.25rem;">Pending</span>',
+                            'shipped'  => '<span style="color:#1f2d3d;background-color:#ffc107;padding: 0.25em 0.4em;border-radius: 0.25rem;">Shipped</span>',
+                            'completed'=> '<span style="color:#fff;background-color:#28a745;padding: 0.25em 0.4em;border-radius: 0.25rem;">Completed</span>',
+                            'cancelled'  => '<span style="color:#fff;background-color:#dc3545;padding: 0.25em 0.4em;border-radius: 0.25rem;">Cancelled</span>',
                         ];
                         @endphp
                         <td>
@@ -140,8 +150,102 @@
                 </tfoot>
             </table>
         </div>
-        <p>Thank you.</p>
-        <p>Best.</p>
+
+        <div class="table-responsive mb-4">
+            <table class="table m-0">
+                <tbody>
+                    <tr>
+                        <th style="text-align: left;">Address</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            @php
+                            $addressArray = [];
+                            if(!empty($order->address_info)){
+                                $addressArray = json_decode($order->address_info);
+                            }
+                            @endphp
+
+                            <h5 class="ft-medium mb-1">
+                                @if(!empty($addressArray->first_name))
+                                    {{ $addressArray->first_name }}
+                                @endif
+
+                                @if(!empty($addressArray->last_name))
+                                    {{ $addressArray->last_name }}
+                                @endif
+                            </h5>
+
+                            <p>
+                                @if (!empty($addressArray->title))
+                                    <br><b>{{ $addressArray->title }}</b>
+                                @endif
+
+                                @if (!empty($addressArray->company))
+                                    <br>{{ $addressArray->company }}
+                                @endif
+
+                                @if (!empty($addressArray->address_line1))
+                                    <br>{{ $addressArray->address_line1 }},
+                                @endif
+
+                                @if (!empty($addressArray->address_line2))
+                                    <br>{{ $addressArray->address_line2 }},
+                                @endif
+
+                                @if (!empty($addressArray->city) || !empty($addressArray->state) || !empty($addressArray->country) || !empty($addressArray->pincode))
+                                    <br>
+                                    @if (!empty($addressArray->pincode)) {{ $addressArray->pincode }} - @endif
+                                    @if (!empty($addressArray->city)) {{ $addressArray->city }}, @endif
+                                    @if (!empty($addressArray->state)) {{ $addressArray->state }}, @endif
+                                    @if (!empty($addressArray->country)) {{ $addressArray->country }} @endif
+                                @endif
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        @if(!empty($order->notes))
+        <div class="table-responsive mb-4">
+            <table class="table m-0">
+                <tbody>
+                    <tr>
+                        <th style="text-align: left;">Comment</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{$order->notes}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        @endif
+
+        <div class="table-responsive mb-4">
+            <table class="table m-0">
+                <tbody>
+                    <tr>
+                        <th style="text-align: left;">Delivery Method</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{$order->delivey_method}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Thank you for shopping with us!</p>
+        </br>
+        <p style="margin-bottom: 0px;">Sincerely,</p>
+        <p style="margin-bottom: 0px;"><b>{{env('MAIL_INFO_MAIN_NAME')}}</b></p>
+        <p style="margin-bottom: 0px;">{{env('MAIL_INFO_NAME')}}</p>
+        <p style="margin-bottom: 0px;"><a href="{{env('MAIL_INFO_WEBSITE')}}" target="_blank">{{env('MAIL_INFO_WEBSITE')}}</a></p>
+        <p style="margin-bottom: 0px;">{{env('MAIL_INFO_NUMBER')}}</p>
     </div>
 </body>
 </html>

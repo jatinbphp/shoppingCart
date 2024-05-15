@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('address_id')->default(0);
             $table->string('total_amount')->default(0);
             $table->string('status')->default('pending');
-            $table->string('delivey_method')->default('fedex');
+            $table->string('delivey_method')->default('Next Day Delivery (order before 12pm)');
             $table->string('notes')->nullable();
             $table->longText('address_info')->nullable();
             $table->softDeletes();

@@ -421,7 +421,7 @@ $(function () {
             var status = $(this).val();
             swal({
                 title: "Are you sure?",
-                text: "To update status of this order",
+                text: "You want to update the status of this order, and the system will send an email regarding the status update.",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#17a2b8',
@@ -437,15 +437,13 @@ $(function () {
                         type: "post",
                         data: {'id': orderId, 'status': status, '_token': $('meta[name=_token]').attr('content') },
                         success: function(data){
-                            if(data.status == 1){
-                                swal("Success", "Order status is updated", "success");
+                            if(data == 1){
+                                swal("Success", "Order status is updated!", "success");
                             } else {
                                 swal("Error", "Something is wrong!", "error");
                             }
 
-                            if(status!='pending'){
-                                $("#status"+orderId).prop("disabled", true);
-                            }                            
+                            orders_table.row('.selected').remove().draw(false);                       
                         }
                     });
                 } else {

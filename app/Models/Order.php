@@ -29,18 +29,18 @@ class Order extends Model
     }
 
     const STATUS_TYPE_PENDING  = 'pending';
-    const STATUS_TYPE_REJECT   = 'reject';
-    const STATUS_TYPE_COMPLETE = 'complete';
-    const STATUS_TYPE_CANCEL   = 'cancel';
+    const STATUS_TYPE_SHIPPED   = 'shipped';
+    const STATUS_TYPE_COMPLETE = 'completed';
+    const STATUS_TYPE_CANCEL   = 'cancelled';
     public static $allStatus = [
         self::STATUS_TYPE_PENDING => 'Pending',
-        self::STATUS_TYPE_REJECT => 'Reject',
-        self::STATUS_TYPE_COMPLETE => 'Complete',
-        self::STATUS_TYPE_CANCEL => 'Cancel',
+        self::STATUS_TYPE_SHIPPED => 'Shipped',
+        self::STATUS_TYPE_COMPLETE => 'Completed',
+        self::STATUS_TYPE_CANCEL => 'Cancelled',
     ];
     
-    const DELIVERY_METHOD_FEDEX = '3-5 WORKING DAYS';
+    const DELIVERY_METHOD_FEDEX = 'Next Day Delivery (order before 12pm)';
     public static $allDeliveryMethod = [
-        self::DELIVERY_METHOD_FEDEX => '3-5 WORKING DAYS',
+        self::DELIVERY_METHOD_FEDEX => 'Next Day Delivery (order before 12pm)',
     ];
 }

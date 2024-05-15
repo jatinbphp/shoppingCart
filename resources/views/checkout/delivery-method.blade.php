@@ -4,15 +4,10 @@
         <div class="panel-group" id="payaccordion">
             <div class="accordion">
                 <article class="panel panel-default border">
-                    <input id="delivey_method_f" type="radio" name="delivery_method" value="3-5 WORKING DAYS" checked>
+                    <input id="delivey_method_f" type="radio" name="delivery_method" value="Next Day Delivery (order before 12pm)" checked>
                     <label class="article-lable" for="delivey_method_f">
-                        <h5>3-5 WORKING DAYS</h5>
+                        <h5>Next Day Delivery (order before 12pm)</h5>
                     </label>
-                    <!-- <div id="delivey_method_f" class="panel-collapse collapse show" aria-labelledby="pay" data-parent="#payaccordion">
-                        <div class="panel-body">
-                            3-5 WORKING DAYS
-                        </div>
-                    </div> -->
                 </article>
             </div>
         </div>

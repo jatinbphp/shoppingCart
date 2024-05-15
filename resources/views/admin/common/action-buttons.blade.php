@@ -3,7 +3,7 @@
     @php
         $title = 'Edit '.$section_title;
         $disabledEdit = ''; 
-        if(($section_name == 'orders' && $status != 'pending') || isset($user['deleted_at'])){
+        if(($section_name == 'orders' && $status != 'pending' && $status != 'shipped') || isset($user['deleted_at'])){
             $disabledEdit = 'disabled'; 
             $title = 'You cannot edit this order because its status is '.$status;
         }

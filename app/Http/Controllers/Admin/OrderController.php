@@ -48,18 +48,8 @@ class OrderController extends Controller
                 })
                 ->editColumn('status', function($row){
 
-                    $disabled = 'disabled';
-                    if($row->status==='pending' && !isset($row->user->deleted_at)){
-                        $disabled = '';
-                    }
+                    return view('admin.common.order-status-dropdown', ['order' => $row]);
 
-                    $select = '<select '.$disabled.' class="form-control select2 orderStatus" id="status'.$row->id.'"  data-id="'.$row->id.'" >';
-                        foreach(Order::$allStatus as $key => $status){
-                            $selected = ($key == $row->status) ? ' selected="selected"' : '';
-                            $select .= '<option '.$selected.' value="'.$key.'">'.ucfirst($status).'</option>';
-                        }
-                    $select .= '</select>';
-                    return $select;
                 })
                 ->addColumn('action', function($row){
                     $row['section_name'] = 'orders';
@@ -246,12 +236,9 @@ class OrderController extends Controller
     public function edit(string $id)
     {
         $data['menu'] = 'Orders';
-
+        $data['order'] = Order::whereIn('status', ['pending', 'shipped'])->findorFail($id);
         $data['users'] = User::where('status', 'active')->where('role', 'user')->orderBy('name', 'ASC')->get()->pluck('full_name', 'id');
         $data['products'] = Products::where('status', 'active')->orderBy('product_name', 'ASC')->get()->pluck('full_name', 'id');
-
-        $data['order'] = Order::findorFail($id);
-        
         return view('admin.order.edit',$data);
     }
 
@@ -313,10 +300,7 @@ class OrderController extends Controller
             $address = UserAddresses::findOrFail($input['address_id']);
             $order['address_info'] = json_encode($address);
             $order['total_amount'] = $orderTotal;
-            $order['status'] = $input['status'];
-            $order['delivey_method'] = $input['delivey_method'];
-            $order['notes'] = $input['notes'];
-            $order->save();
+            $order->update($input);
 
             // clear cart
             Cart::where('csrf_token',csrf_token())->where('order_id',$input['order_id'])->delete();
@@ -403,16 +387,37 @@ class OrderController extends Controller
 
     public function updateOrderStatus(Request $request)
     { 
-        $data['status'] = 0;
-        $order = Order::findOrFail($request->id);
-        $input = $request->all();
-        
-        if (!empty($order)) {
+        $order = Order::find($request->id);
+
+        if ($order) {
             $order->update(['status' => $request->status]);
-            $data['status'] = 1;
+
+            //send order
+            $data['order'] = Order::with('orderItems.product.product_image')->find($request->id);
+            $data['user'] = User::with('user_addresses')->where('id', $order->user_id)->first();
+
+            $to = env('MAIL_FROM_ADDRESS');
+            $subject = 'Update Your Order status: #' . 'INV-'. date('Y', strtotime($data['order']->created_at)) . '-' . $data['order']->id;
+
+            // For customer confirmation
+            $data['recipient'] = 'customer';
+            $data['update_status'] = 1;
+            $customerMessage = view('mail-templates.orders.order-placed', $data)->render();
+
+            $headers = [
+                'MIME-Version: 1.0',
+                'Content-Type: text/html; charset=ISO-8859-1',
+                'From: '.env('MAIL_FROM_ADDRESS'),
+                'Reply-To: '.env('MAIL_FROM_ADDRESS')
+            ];
+ 
+            // Send email
+            mail($data['user']['email'], $subject, $customerMessage, implode("\r\n", $headers)); //for customers
+
+            return true;
         }
 
-        return $data;
+        return false;
     }
 
     public function editProductOptionToCart(Request $request)
@@ -478,9 +483,9 @@ class OrderController extends Controller
                 ->editColumn('status', function($row){
                     $status = [
                         'pending' => '<span class="badge badge-primary">Pending</span>',
-                        'reject'  => '<span class="badge badge-warning">Reject</span>',
-                        'complete'=> '<span class="badge badge-success">Complete</span>',
-                        'cancel'  => '<span class="badge badge-danger">Cancel</span>',
+                        'shipped'  => '<span class="badge badge-warning">Shipped</span>',
+                        'completed'=> '<span class="badge badge-success">Completed</span>',
+                        'cancelled'  => '<span class="badge badge-danger">Cancelled</span>',
                     ]; 
                     return $status[$row->status] ?? null;
                 })

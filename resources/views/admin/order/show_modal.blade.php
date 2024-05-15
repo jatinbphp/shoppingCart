@@ -30,9 +30,9 @@
                                         @php
                                         $status = [
                                             'pending' => '<span class="badge badge-primary">Pending</span>',
-                                            'reject'  => '<span class="badge badge-warning">Reject</span>',
-                                            'complete'=> '<span class="badge badge-success">Complete</span>',
-                                            'cancel'  => '<span class="badge badge-danger">Cancel</span>',
+                                            'shipped'  => '<span class="badge badge-warning">Shipped</span>',
+                                            'completed'=> '<span class="badge badge-success">Completed</span>',
+                                            'cancelled'  => '<span class="badge badge-danger">Cancelled</span>',
                                         ];
                                         @endphp
                                         <td>{!! $status[$order->status] !!}</td>
@@ -180,8 +180,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <!-- {{$order->delivey_method}} -->
-                                            3-5 WORKING DAYS
+                                            {{$order->delivey_method}}
                                         </td>
                                     </tr>
                                 </tbody>

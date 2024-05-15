@@ -26,9 +26,9 @@
                                 @php
                                 $status = [
                                     'pending' => '<span class="ft-medium small text-primary bg-light-primary rounded px-3 py-1">Pending</span>',
-                                    'reject'  => '<span class="ft-medium small text-warning bg-light-warning rounded px-3 py-1">Reject</span>',
-                                    'complete'=> '<span class="ft-medium small text-success bg-light-success rounded px-3 py-1">Complete</span>',
-                                    'cancel'  => '<span class="ft-medium small text-danger bg-light-danger rounded px-3 py-1">Cancel</span>',
+                                    'shipped'  => '<span class="ft-medium small text-warning bg-light-warning rounded px-3 py-1">Shipped</span>',
+                                    'completed'=> '<span class="ft-medium small text-success bg-light-success rounded px-3 py-1">Completed</span>',
+                                    'cancelled'  => '<span class="ft-medium small text-danger bg-light-danger rounded px-3 py-1">Cancelled</span>',
                                 ];
                                 @endphp
                                 <td>
