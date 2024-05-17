@@ -141,15 +141,17 @@ class UserController extends Controller
         $address_ids = [];
         if(!empty($input['addresses']['old'])){
             foreach ($input['addresses']['old'] as $key => $value) {
-                $addressOld = UserAddresses::where('id',$key)->where('user_id',$user_id)->first();
-                $inputAddress = [
-                    'user_id' => $user_id,
-                ];
-                foreach ($value as $innerKey => $innerValue) {
-                    $inputAddress[$innerKey] = $innerValue;
+                if(!empty($value)){
+                    $addressOld = UserAddresses::where('id',$key)->where('user_id',$user_id)->first();
+                    $inputAddress = [
+                        'user_id' => $user_id,
+                    ];
+                    foreach ($value as $innerKey => $innerValue) {
+                        $inputAddress[$innerKey] = $innerValue;
+                    }
+                    $addressOld->update($inputAddress);
+                    $address_ids[] = $addressOld->id;
                 }
-                $addressOld->update($inputAddress);
-                $address_ids[] = $addressOld->id;
             }
 
             if(count($address_ids)>0){
@@ -159,13 +161,15 @@ class UserController extends Controller
         
         if(!empty($input['addresses']['new'])){
             foreach ($input['addresses']['new'] as $key => $value) {
-                $inputAddress = [
-                    'user_id' => $user_id,
-                ];
-                foreach ($value as $innerKey => $innerValue) {
-                    $inputAddress[$innerKey] = $innerValue;
+                if(!empty($value)){
+                    $inputAddress = [
+                        'user_id' => $user_id,
+                    ];
+                    foreach ($value as $innerKey => $innerValue) {
+                        $inputAddress[$innerKey] = $innerValue;
+                    }
+                    $addressNew = UserAddresses::create($inputAddress);
                 }
-                $addressNew = UserAddresses::create($inputAddress);
             }
         }
     }

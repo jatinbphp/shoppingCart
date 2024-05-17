@@ -143,6 +143,8 @@ Route::prefix('admin')->middleware(['admin', 'removePublic'])->group(function ()
    Route::resource('category', CategoryController::class);
 
    /*Products*/
+   Route::post('products/add-stock', [ProductController::class,'addProductStock'])->name('products.add_stock');
+   Route::get('/index_stock', [ProductController::class, 'index_stock'])->name('products.index_stock');
    Route::get('products/import-product', [ProductController::class,'importProduct'])->name('products.import.product');
    Route::post('products/import-product-store', [ProductController::class,'importProductStore'])->name('products.import.product.store');
    Route::post('products/removeimage', [ProductController::class,'removeImage'])->name('products.removeimage');
@@ -168,6 +170,7 @@ Route::prefix('admin')->middleware(['admin', 'removePublic'])->group(function ()
    Route::post('orders/editoption', [OrderController::class,'editProductOptionToCart'])->name('orders.editoption');
    Route::get('/index_product', [OrderController::class, 'index_product'])->name('orders.index_product');
    Route::get('/index_order_dashborad', [OrderController::class, 'index_order_dashborad'])->name('orders.index_dashboard');
+   Route::get('/orders/export', [OrderController::class,'exportOrders'])->name('orders.export');
    Route::resource('orders',OrderController::class);
 
    /*Reports*/

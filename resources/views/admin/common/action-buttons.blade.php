@@ -1,4 +1,4 @@
-@if (!in_array($section_name, ['contactus', 'cart_products', 'order_products']) && !isset($order_dashboard))
+@if (!in_array($section_name, ['contactus', 'cart_products', 'order_products', 'add_stock']) && !isset($order_dashboard))
     
     @php
         $title = 'Edit '.$section_title;
@@ -16,7 +16,7 @@
     </div>
 @endif
 
-@if (!in_array($section_name, ['content', 'cart_products', 'order_products']) && !isset($order_dashboard))
+@if (!in_array($section_name, ['content', 'cart_products', 'order_products', 'add_stock']) && !isset($order_dashboard))
     <span data-toggle="tooltip" title="Delete {{$section_title}}" data-trigger="hover">
         {!! Form::button('<i class="fa fa-trash"></i>', [
             'class' => 'btn btn-sm btn-danger deleteRecord',
@@ -34,7 +34,7 @@
             <i class="fa fa-eye"></i>
         </a>
     </div>
-@elseif (!in_array($section_name, ['cart_products', 'order_products']))
+@elseif (!in_array($section_name, ['cart_products', 'order_products', 'add_stock']))
     <div class="btn-group btn-group-sm">
         <a href="javascript:void(0)" title="View {{$section_title}}" data-id="{{$id}}" class="btn btn-sm btn-warning tip  view-info" data-url="{{ route($section_name.'.show', [$section_name != 'contactus' ? strtolower(str_replace(' ', '_', $section_title)) : 'contactu' => $id]) }}">
             <i class="fa fa-eye"></i>
@@ -59,3 +59,11 @@
         </a>
     </div>
 @endif -->
+
+@if (in_array($section_name, ['add_stock']))
+    <a href="javascript:void(0)" title="Add" class="btn btn-sm btn-info tip" data-product_id="{{$product_id}}" data-option_id_value_1="{{$option_id_value_1}}" data-option_id_value_2="{{$option_id_value_2}}" id="add_qty">
+        <i class="fa fa-plus"></i>
+    </a>
+
+    <a href="javascript:void(0)" title="History" class="btn btn-sm btn-warning tip" data-product_id="{{$product_id}}" data-option_id_value_1="{{$option_id_value_1}}" data-option_id_value_2="{{$option_id_value_2}}" id="inventory_history"><i class="fa fa-list"></i></a>
+@endif

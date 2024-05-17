@@ -499,4 +499,88 @@ class OrderController extends Controller
                 ->make(true);
         }
     }
+
+    public function exportOrders()
+    {
+        $orders = Order::with('user', 'orderItems')->orderBy('id', 'DESC')->get();
+
+        if(empty($orders)){
+            \Session::flash('danger','No orders found!');
+            return redirect()->route('orders.index'); 
+        }
+
+        $headers = ['Order ID', 'Date Ordered', 'Customer Name', 'Products Information', 'Sub Total', 'Total', 'Address', 'Comments', 'Delivery Method', 'Status'];
+
+        $exportData = [];
+        foreach ($orders as $key => $order) {
+            
+            $productDetails = [];
+            if(!empty($order->orderItems)){
+                foreach ($order->orderItems as $keyI => $item) {
+                    $productDetails[$keyI] = [
+                        'Name' => $item->product_name,
+                        'SKU' => $item->product_sku,
+                        'PRICE' => $item->product_price,
+                        'QTY' => $item->product_qty,
+                        'SUB_TOTAL' => $item->sub_total,
+                    ];
+
+                    if(!empty($item->orderOptions)){
+                        foreach ($item->orderOptions as $option){
+                            $productDetails[$keyI][$option->name] = $option->value;
+                        }
+                    }
+                }
+            }
+
+            $productInformations = json_encode($productDetails);
+
+            $orderdata = [
+                env('ORDER_PREFIX') . '-' . date("Y", strtotime($order->created_at)) . '-' . $order->id,
+                $order->created_at,
+                $order->user->name . ' (' . $order->user->email . ')',
+                $productInformations, // JSON encoded products information
+                env('CURRENCY') . number_format($order->total_amount, 2),
+                env('CURRENCY') . number_format($order->total_amount, 2),
+                'Address Placeholder', // Replace with actual address field
+                $order->notes ?? '-',
+                $order->delivey_method,
+                ucfirst($order->status),
+            ];
+
+            $exportData[] = $orderdata;
+        }
+
+        // Create a temporary file to store CSV data
+        $temp_file = tempnam(sys_get_temp_dir(), 'export_');
+        $file = fopen($temp_file, 'w');
+
+        // Write headers to CSV file
+        fputcsv($file, $headers);
+
+        // Write data to CSV file
+        foreach ($exportData as $row) {
+            fputcsv($file, $row);
+        }
+
+        // Close the file
+        fclose($file);
+
+        // Set headers for direct download
+        header('Content-Description: File Transfer');
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="exported_order_data.csv"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($temp_file));
+
+        // Output file contents
+        readfile($temp_file);
+
+        // Delete temporary file
+        unlink($temp_file);
+
+        exit;
+    }
 } 

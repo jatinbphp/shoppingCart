@@ -9,11 +9,15 @@ use App\Models\ProductImages;
 use App\Models\ProductsOptions;
 use App\Models\ProductsOptionsValues;
 use App\Models\Review;
+use App\Models\ProductStock;
+use App\Models\ProductStockHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductImportRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -135,6 +139,7 @@ class ProductController extends Controller
         $data['product'] = Products::with('product_images')->findorFail($id);
         $data['categories'] = Category::where('status', 'active')->orderBy('full_name', 'ASC')->pluck('full_name', 'id');
         $data['product_options'] = ProductsOptions::with('product_option_values')->where('product_id',$id)->where('status','active')->get();
+
         return view('admin.product.edit',$data);
     }
 
@@ -407,5 +412,90 @@ class ProductController extends Controller
         return response()->json($data);
     }
 
-   
+    public function index_stock(Request $request)
+    {
+        $id = $request->product_id;
+
+        $combinations = DB::select("
+                SELECT CONCAT(po1.option_value, ' ', po2.option_value) AS combination,
+                       po1.option_value AS option_value_1,
+                       po2.option_value AS option_value_2,
+                       po1.id AS option_id_value_1,
+                       po2.id AS option_id_value_2,
+                       po1.option_id AS option_id_1,
+                       po2.option_id AS option_id_2,
+                       'SIZE' AS option_name_1,
+                       'COLOR' AS option_name_2,
+                       po1.product_id
+                FROM (
+                    SELECT * FROM products_options_values WHERE product_id = ? AND option_id IN (SELECT id FROM products_options WHERE option_name = 'SIZE')
+                ) po1
+                JOIN (
+                    SELECT * FROM products_options_values WHERE product_id = ? AND option_id IN (SELECT id FROM products_options WHERE option_name = 'COLOR')
+                ) po2 ON po1.product_id = po2.product_id AND po1.id <> po2.id
+                WHERE po1.product_id = ?
+                ORDER BY po1.option_value, po2.option_value
+            ", [$id, $id, $id]);
+
+        if ($request->ajax()) {
+            return Datatables::of($combinations)
+                ->addIndexColumn()
+                ->editColumn('option_value_2', function($row){
+                    return '<i class="fas fa-square" style="color: '.$row->option_value_2.'"></i>';
+                })
+                ->addColumn('total_qty', function($row){
+                    $existStock = ProductStock::where('product_id',$row->product_id)->where('option_id_value_1',$row->option_id_value_1)->where('option_id_value_2',$row->option_id_value_2)->first();
+                    return !empty($existStock) ? $existStock->total_qty : 0;
+                })
+                ->addColumn('remaining_qty', function($row){
+                    $existStock = ProductStock::where('product_id',$row->product_id)->where('option_id_value_1',$row->option_id_value_1)->where('option_id_value_2',$row->option_id_value_2)->first();
+                    return !empty($existStock) ? ($existStock->total_qty-$existStock->order_qty) : 0;
+                })
+                ->addColumn('order_qty', function($row){
+                    $existStock = ProductStock::where('product_id',$row->product_id)->where('option_id_value_1',$row->option_id_value_1)->where('option_id_value_2',$row->option_id_value_2)->first();
+                    return !empty($existStock) ? $existStock->order_qty : 0;
+                })
+                ->addColumn('action', function($row){
+                    $rowArray['section_name'] = 'add_stock';
+                    $rowArray['product_id'] = $row->product_id;
+                    $rowArray['option_id_value_1'] = $row->option_id_value_1;
+                    $rowArray['option_id_value_2'] = $row->option_id_value_2;
+                    return view('admin.common.action-buttons', $rowArray);
+                })
+                ->rawColumns(['option_value_2'])
+                ->make(true);
+        }
+
+        return view('admin.product.index', $data);
+    }
+
+    public function addProductStock(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'qty' => 'required|numeric|min:1',
+            'product_id' =>'required',
+            'option_id_value_1' => 'required',
+            'option_id_value_2' => 'required',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $input = $request->all();
+        ProductStockHistory::create($input);
+
+        $existStock = ProductStock::where('product_id',$input['product_id'])->where('option_id_value_1',$input['option_id_value_1'])->where('option_id_value_2',$input['option_id_value_2'])->first();
+
+        if(empty($existStock)){
+            $input = $request->all();
+            $input['total_qty'] = $input['qty'];
+            ProductStock::create($input);
+        } else{
+            $input['total_qty'] = ($input['qty']+$existStock['total_qty']);
+            $existStock->update($input);
+        }
+
+        return response()->json(['success' => true, 'message' => 'Your data has been inserted successfully!']);
+    }
 }

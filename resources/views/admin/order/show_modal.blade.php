@@ -167,7 +167,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            {{$order->notes}}
+                                            {{$order->notes ? $order->notes : 'No Comment available'}}
                                         </td>
                                     </tr>
                                 </tbody>

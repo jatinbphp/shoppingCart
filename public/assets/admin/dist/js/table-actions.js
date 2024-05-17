@@ -85,6 +85,44 @@ $(function () {
         "order": [[0, "DESC"]]
     });
 
+    //Product Manage Inventory Table
+    var productsstock_table = $('#productsStockTable').DataTable({
+        processing: true,
+        serverSide: true,
+        paging: false,
+        info: false,
+        pageLength: -1, // Display all records without pagination
+        searching: false, // Disable searching
+        ajax: {
+            url: $("#route_name").val(),
+            type: "GET",
+            data: {
+                product_id: $("#product_id").val()
+            }
+        },
+        columns: [
+            {data: 'option_value_1', option_value_1: 'option_value_1', orderable: false, searchable: false},
+            {data: 'option_value_2', option_value_2: 'option_value_2', orderable: false, searchable: false},
+            {data: 'total_qty', total_qty: 'total_qty', orderable: false, searchable: false},
+            {data: 'remaining_qty', remaining_qty: 'remaining_qty', orderable: false, searchable: false},
+            {data: 'order_qty', order_qty: 'order_qty', orderable: false, searchable: false},
+            {
+                // Custom column for the number input box
+                data: null,
+                render: function (data, type, row) {
+                    // Return a number input box with a specific ID
+                    return '<input class="form-control" type="number" id="quantityInput_' + data.product_id + '_' + data.option_id_value_1 + '_' + data.option_id_value_2 +'" value="" min="0">';
+
+
+                },
+                orderable: false,
+                searchable: false
+            },
+            {data: 'action', "width": "10%",  name: 'action', orderable: false, searchable: false},
+        ],
+        order: []
+    });
+
     //CMS Table
     var content_table = $('#contentTable').DataTable({
         processing: true,
@@ -416,41 +454,41 @@ $(function () {
 
     //change order status
     $('#ordersTable tbody').on('change', '.orderStatus', function (event) {
-            event.preventDefault();
-            var orderId = $(this).attr('data-id');
-            var status = $(this).val();
-            swal({
-                title: "Are you sure?",
-                text: "You want to update the status of this order, and the system will send an email regarding the status update.",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: '#17a2b8',
-                confirmButtonText: 'Yes, Sure',
-                cancelButtonText: "No, cancel",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            },
-            function(isConfirm) {
-                if (isConfirm) {
-                    $.ajax({
-                        url: $("#order_update").val(),
-                        type: "post",
-                        data: {'id': orderId, 'status': status, '_token': $('meta[name=_token]').attr('content') },
-                        success: function(data){
-                            if(data == 1){
-                                swal("Success", "Order status is updated!", "success");
-                            } else {
-                                swal("Error", "Something is wrong!", "error");
-                            }
-
-                            orders_table.row('.selected').remove().draw(false);                       
+        event.preventDefault();
+        var orderId = $(this).attr('data-id');
+        var status = $(this).val();
+        swal({
+            title: "Are you sure?",
+            text: "You want to update the status of this order, and the system will send an email regarding the status update.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#17a2b8',
+            confirmButtonText: 'Yes, Sure',
+            cancelButtonText: "No, cancel",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url: $("#order_update").val(),
+                    type: "post",
+                    data: {'id': orderId, 'status': status, '_token': $('meta[name=_token]').attr('content') },
+                    success: function(data){
+                        if(data == 1){
+                            swal("Success", "Order status is updated!", "success");
+                        } else {
+                            swal("Error", "Something is wrong!", "error");
                         }
-                    });
-                } else {
-                    swal("Cancelled", "Your data is safe!", "error");
-                }
-            });
+
+                        orders_table.row('.selected').remove().draw(false);                       
+                    }
+                });
+            } else {
+                swal("Cancelled", "Your data is safe!", "error");
+            }
         });
+    });
 
     //get Order Indo
     $('.datatable-dynamic tbody').on('click', '.order-info', function (event) {
@@ -540,6 +578,54 @@ $(function () {
             purchase_product_report_table.ajax.reload(null, false);
         } else if(dataType=='sales-orders'){
             sales_report_table.ajax.reload(null, false);
+        }
+    });
+
+    //get Order Indo
+    $('.datatable-dynamic tbody').on('click', '#add_qty', function (event) {
+        event.preventDefault();
+        var product_id = $(this).attr('data-product_id');
+        var option_id_value_1 = $(this).attr("data-option_id_value_1");
+        var option_id_value_2 = $(this).attr("data-option_id_value_2");
+        var qty = $("#quantityInput_"+product_id+"_"+option_id_value_1+"_"+option_id_value_2).val();
+        var url = $('#add_stock_route').val();
+
+        if(qty!='' && qty>0){
+
+            swal({
+                title: "Are you sure?",
+                text: "You want to add stock in this option?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, Add',
+                cancelButtonText: "No, cancel",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function(isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        data: {
+                            'qty': qty,
+                            'product_id': product_id,
+                            'option_id_value_1': option_id_value_1,
+                            'option_id_value_2': option_id_value_2,
+                        },
+                        headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+                        success: function(data){
+                            productsstock_table.draw(false);
+                            swal("Success", "Your data has been inserted successfully!", "success");
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Your data safe!", "error");
+                }
+            });
+        } else {
+            swal("Warning", "Please add a quantity greater than 0.", "warning");
         }
     });
 });

@@ -14,6 +14,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <a href="{{ route('orders.create') }}" class="btn btn-sm btn-info float-right"><i class="fa fa-plus pr-1"></i> Add New</a>
+
+                                <a href="{{ route('orders.export') }}" class="btn btn-sm btn-info float-right mr-1"><i class="fa fa-download pr-1"></i> Export Orders</a>
                             </div>
                         </div>
                     </div>

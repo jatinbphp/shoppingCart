@@ -8,6 +8,11 @@
     <li class="nav-item">
         <a class="nav-link @if(!isset($product)) disabled @endif" id="tab3" data-toggle="tab" href="#content3">Options</a>
     </li>
+    @if(count($product_options)>0)
+    <li class="nav-item">
+        <a class="nav-link @if(!isset($product)) disabled @endif" id="tab3" data-toggle="tab" href="#content4">Manage Inventory</a>
+    </li>
+    @endif
 </ul>
 <style type="text/css">
 .nav-tabs .active {color: #007bff !important;}
@@ -347,6 +352,34 @@
             </div>
         </div>
     </div>
+    @if(count($product_options)>0)
+        <div class="row tab-pane fade" id="content4">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card mb-4">
+                    <div class="card-body table-responsive">
+                        <input type="hidden" id="product_id" value="{{ $product->id ?? 0 }}">
+                        <input type="hidden" id="add_stock_route" value="{{ route('products.add_stock') }}">
+                        <input type="hidden" id="route_name" value="{{ route('products.index_stock') }}">
+                        <table id="productsStockTable" class="table table-bordered table-striped datatable-dynamic w-100">
+                            <thead>
+                                <tr>
+                                    <th>SIZE</th>
+                                    <th>COLOR</th>
+                                    <th>Total Quantity</th>
+                                    <th>Remaining Quantity</th>
+                                    <th>Order Quantity</th>
+                                    <th>New Quantity</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
 
 @section('jquery')

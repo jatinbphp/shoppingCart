@@ -23,7 +23,7 @@ class OrderPlacedRequest extends FormRequest
     {
         $rules = [
             'address_id' => 'required',
-            'delivery_method' => 'required',
+            'delivey_method' => 'required',
         ];
 
         if ($this->input('address_id')==0) {
