@@ -75,7 +75,7 @@
 
                                 @include('admin.common.errors', ['field' => 'description'])
                             </div>
-                        </div>                    
+                        </div>
                         <div class="col-md-4">
                             <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
                                 @include('admin.common.label', ['field' => 'type', 'labelText' => 'Type', 'isRequired' => false])
@@ -104,7 +104,7 @@
                                         <label>
                                             {!! Form::radio('status', $key, null, ['class' => 'flat-red',$checked]) !!} <span style="margin-right: 10px">{{ $value }}</span>
                                         </label>
-                                    @endforeach                                    
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
                             <h5>Add Product Images</h5>
                         </div>
 
-                        <?php 
+                        <?php
                         if(!empty($product)){
                             if (!empty($product->product_images)) {
                                 foreach ($product->product_images as $key => $value) { ?>
@@ -139,7 +139,7 @@
                                             <img style="width: inherit; height: inherit;" @if(!empty($value['image'])) src="{{ url($value['image'])}}" @endif alt="">
                                         </div>
                                     </div>
-                                <?php 
+                                <?php
                                 }
                             }
                         } ?>
@@ -178,7 +178,7 @@
                         </div>
                     </div>
                     @if(count($product_options)>0)
-                        @foreach ($product_options as $key => $option) 
+                        @foreach ($product_options as $key => $option)
                         <div class="card product-attribute" id="options_{{ $option->id }}">
                                 <div class="row p-2">
                                     <div class="col-md-4">
@@ -215,7 +215,7 @@
                                                                 @include('admin.common.errors', ['field' => 'option_values'])
                                                             </div>
                                                         </div>
-                                                    @else 
+                                                    @else
                                                         <div class="col-md-5">
                                                             <div class="input-group my-colorpicker2 form-group{{ $errors->has('option_values') ? ' has-error' : '' }}" data-id="{{$option_value->id}}">
                                                                 {!! Form::text("option_values[old][$option->id][$option_value->id]", $option_value->option_value, ['class' => 'form-control','required-', 'placeholder' => "Enter Option Value"]) !!}
@@ -249,7 +249,7 @@
                                                 @endphp
                                             @endforeach
                                             <!-- <div id="extraValuesOption_{{ $option->id }}_{{ $option->id }}"></div> -->
-                                        @else 
+                                        @else
                                             <div class="row" id="options_values_1">
                                                 <div class="col-md-12">
                                                     @include('admin.common.label', ['field' => 'option_values', 'labelText' => 'Option Values', 'isRequired' => true])
@@ -289,7 +289,7 @@
                                                         'onclick' => "optionValuesBtn({$option->id}, {$option->id}, '{$option->option_name}')"
                                                     ]) !!}
                                                 </div>
-                                            </div>                                            
+                                            </div>
                                             @php
                                             $optionValuesCounter = $option->id;
                                             @endphp
@@ -352,6 +352,7 @@
             </div>
         </div>
     </div>
+
     @if(count($product_options)>0)
         <div class="row tab-pane fade" id="content4">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -360,9 +361,16 @@
                         <input type="hidden" id="product_id" value="{{ $product->id ?? 0 }}">
                         <input type="hidden" id="add_stock_route" value="{{ route('products.add_stock') }}">
                         <input type="hidden" id="route_name" value="{{ route('products.index_stock') }}">
+                        <button type="button" id="updateAllStock" class="btn btn-info pull-right">Update All</button>
                         <table id="productsStockTable" class="table table-bordered table-striped datatable-dynamic w-100">
                             <thead>
                                 <tr>
+                                    <th>
+                                        <div class="form-check">
+                                            {!! Form::checkbox('select_all', null, null, ['class' => 'form-check-input', 'id' => 'selectAll']) !!}
+                                            <label class="form-check-label" for="selectAll">Select All</label>
+                                        </div>
+                                    </th>
                                     <th>SIZE</th>
                                     <th>COLOR</th>
                                     <th>Total Quantity</th>
@@ -375,6 +383,38 @@
                             <tbody>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade bd-example-modal-lg" id="stockHistoryModal" tabindex="-1" role="dialog" aria-labelledby="stockHistoryModal" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Stock History</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table id="stockHistoryTable" class="table table-bordered table-striped datatable-dynamic w-100">
+                                    <thead>
+                                    <tr>
+                                        <th>New Quantity</th>
+                                        <th>Created At</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -420,7 +460,7 @@ $('#optionBtn').on('click', function(){
                         '<div class="col-md-2">'+
                             '<button type="button" class="btn btn-danger mr-1" onClick="removeOptionRow('+optionName+', 1)"><i class="fa fa-trash"></i></button>'+
                             '<button type="button" class="btn btn-info add-option" onclick="optionValuesBtn('+optionName+', '+optionName+')"><i class="fa fa-plus"></i> </button>'+
-                        '</div>'+                    
+                        '</div>'+
                     '</div>'+
                 '</div>'+
             '</div>'+
@@ -449,7 +489,7 @@ function optionValuesBtn(option_value_number, option_number, option_name) {
         </div>
         <div class="col-md-2">
             <button type="button" class="btn btn-danger mr-1" onClick="removeOptionRow('${optionName}', 1)"><i class="fa fa-trash"></i></button>
-        </div>                    
+        </div>
     </div>`;
 
     $('#extraValuesOption_'+option_value_number+'_'+option_number).append(exOptionContent);
@@ -496,7 +536,7 @@ function deleteRow(divId, type){
             $('#optionBtn').click();
         }
     }
-    return 1;  
+    return 1;
 }
 
 function createOptionAlert(title, text, type) {
@@ -536,7 +576,7 @@ $(".imgAdd").click(function(){
 
 $(document).on("click", ".deleteProdcutImage" , function() {
     var id = $(this).data('id');
-    $(document).find('#imgBox_'+id).remove(); 
+    $(document).find('#imgBox_'+id).remove();
 });
 
 $(function() {
@@ -544,11 +584,11 @@ $(function() {
         var uploadFile = $(this);
         var files = !!this.files ? this.files : [];
         if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
- 
+
         if (/^image/.test( files[0].type)){ // only image file
             var reader = new FileReader(); // instance of the FileReader
             reader.readAsDataURL(files[0]); // read the local file
- 
+
             reader.onloadend = function(){ // set image data as background of div
                 //alert(uploadFile.closest(".upimage").find('.imagePreview').length);
                 uploadFile.closest(".imgUp").find('.imagePreview').css("background-image", "url("+this.result+")");
@@ -602,5 +642,46 @@ function removeAdditionalProductImg(img_name, image_id, product_id){
         }
     });
 }
+
+$("#selectAll").click(function () {
+    $(".stockArr").prop('checked', $(this).prop('checked'));
+});
+
+function checkUncheck(){
+    if($(".stockArr").length == $(".stockArr:checked").length) {
+        $("#selectAll").prop("checked", true);
+    }else {
+        $("#selectAll").prop("checked", false);
+    }
+}
+
+function inventory_history(oId1, oId2){
+    var pId = $('#product_id').val();
+    $('#stockHistoryTable').dataTable().fnDestroy();
+    $('#stockHistoryTable').DataTable({
+        processing: true,
+        serverSide: true,
+        paging: true,
+        info: false,
+        searching: false, // Disable searching
+        ajax: {
+            url: '{{route('products.stockHistory')}}',
+            type: "POST",
+            data: {
+                'product_id': pId,
+                'option_1': oId1,
+                'option_2': oId2,
+                _token: '{{csrf_token()}}',
+            }
+        },
+        columns: [
+            {data: 'qty', orderable: false, searchable: false},
+            {data: 'created_at', orderable: false, searchable: false},
+        ],
+    });
+
+    $("#stockHistoryModal").modal('show');
+}
+
 </script>
 @endsection

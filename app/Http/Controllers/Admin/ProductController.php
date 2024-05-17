@@ -116,13 +116,13 @@ class ProductController extends Controller
     {
         //$products = Products::with(['category', 'product_images', 'options.product_option_values'])->findOrFail($id);
         $products = Products::with(['product_images', 'options.product_option_values'])->findOrFail($id);
-        
+
         $products['categories'] = [];
         if(!empty($products['category_id'])){
             //$products['categories'] = get_product_categories_by_ids($products['category_id']);
             $products['categories'] =  Category::select('id', 'full_name', 'slug')->whereIn('id', explode(',', $products['category_id']))->orderBy('full_name', 'ASC')->get();
         }
-        
+
         return view('admin.common.show_modal', [
             'section_info' => $products->toArray(),
             'type' => 'Product',
@@ -235,7 +235,7 @@ class ProductController extends Controller
                 ProductsOptionsValues::whereNotIn('id', $option_values_ids)->where('product_id', $product_id)->delete();
             }
         }
-        
+
         if(!empty($input['options']['new'])){
             foreach ($input['options']['new'] as $key => $value) {
 
@@ -293,7 +293,7 @@ class ProductController extends Controller
 
     public function importProduct()
     {
-        $data['menu'] = 'Products';        
+        $data['menu'] = 'Products';
         return view("admin.product.import",$data);
     }
 
@@ -407,7 +407,7 @@ class ProductController extends Controller
     }
 
     public function reviewDetails(Request $request, $id)
-    {      
+    {
         $data['review_data'] = Review::findorFail($id);
         return response()->json($data);
     }
@@ -428,10 +428,10 @@ class ProductController extends Controller
                        'COLOR' AS option_name_2,
                        po1.product_id
                 FROM (
-                    SELECT * FROM products_options_values WHERE product_id = ? AND option_id IN (SELECT id FROM products_options WHERE option_name = 'SIZE')
+                    SELECT * FROM products_options_values WHERE product_id = ? AND option_id IN (SELECT id FROM products_options WHERE option_name = 'SIZE') AND deleted_at IS NULL
                 ) po1
                 JOIN (
-                    SELECT * FROM products_options_values WHERE product_id = ? AND option_id IN (SELECT id FROM products_options WHERE option_name = 'COLOR')
+                    SELECT * FROM products_options_values WHERE product_id = ? AND option_id IN (SELECT id FROM products_options WHERE option_name = 'COLOR') AND deleted_at IS NULL
                 ) po2 ON po1.product_id = po2.product_id AND po1.id <> po2.id
                 WHERE po1.product_id = ?
                 ORDER BY po1.option_value, po2.option_value
@@ -477,7 +477,7 @@ class ProductController extends Controller
             'option_id_value_1' => 'required',
             'option_id_value_2' => 'required',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
@@ -497,5 +497,23 @@ class ProductController extends Controller
         }
 
         return response()->json(['success' => true, 'message' => 'Your data has been inserted successfully!']);
+    }
+
+    public function getStockHistory(Request $request){
+        $history = ProductStockHistory::where('product_id',$request['product_id'])
+            ->where('option_id_value_1',$request['option_1'])->where('option_id_value_2',$request['option_2'])
+            ->orderBy('id','DESC')
+            ->select();
+
+        if ($request->ajax()) {
+            return Datatables::of($history)
+                ->addIndexColumn()
+                ->editColumn('created_at', function($row){
+                    return $row['created_at']->format('Y-m-d h:i:s');
+                })
+                ->make(true);
+        }
+
+        return ;
     }
 }

@@ -2,7 +2,7 @@
 @section('content')
     <div class="content-wrapper">
         @include('admin.common.header', ['menu' => $menu, 'breadcrumb' => [['route' => route('admin.dashboard'), 'title' => 'Dashboard']], 'active' => $menu])
-        
+
         <!-- Main content -->
         <section class="content">
             @include ('admin.common.error')

@@ -101,6 +101,14 @@ $(function () {
             }
         },
         columns: [
+            {
+                data: null,
+                render: function (data, type, row) {
+                    return '<div class="form-check"><input class="form-check-input stockArr" type="checkbox" name="stockArr['+data.product_id+']['+data.option_id_value_1+']['+data.option_id_value_2+']" id="stockArr_' + data.product_id + '_' + data.option_id_value_1 + '_' + data.option_id_value_2 +'" onclick="checkUncheck()" data-option1="'+data.option_id_value_1+'" data-option2="'+data.option_id_value_2+'" data-product="'+data.product_id+'"></div>';
+                },
+                orderable: false,
+                searchable: false
+            },
             {data: 'option_value_1', option_value_1: 'option_value_1', orderable: false, searchable: false},
             {data: 'option_value_2', option_value_2: 'option_value_2', orderable: false, searchable: false},
             {data: 'total_qty', total_qty: 'total_qty', orderable: false, searchable: false},
@@ -111,9 +119,7 @@ $(function () {
                 data: null,
                 render: function (data, type, row) {
                     // Return a number input box with a specific ID
-                    return '<input class="form-control" type="number" id="quantityInput_' + data.product_id + '_' + data.option_id_value_1 + '_' + data.option_id_value_2 +'" value="" min="0">';
-
-
+                    return '<input name="qty['+data.product_id+']['+data.option_id_value_1+']['+data.option_id_value_2+']" class="form-control" type="number" id="quantityInput_' + data.product_id + '_' + data.option_id_value_1 + '_' + data.option_id_value_2 +'" value="" min="0">';
                 },
                 orderable: false,
                 searchable: false
@@ -481,7 +487,7 @@ $(function () {
                             swal("Error", "Something is wrong!", "error");
                         }
 
-                        orders_table.row('.selected').remove().draw(false);                       
+                        orders_table.row('.selected').remove().draw(false);
                     }
                 });
             } else {
@@ -542,14 +548,14 @@ $(function () {
             sales_report_table.ajax.reload(null, false);
         }
     });
-     
+
     //product rating toggle
     $(document).on('click', '#show-more-data', function (event) {
         event.preventDefault();
         $('#commonModal').modal('toggle');
         $("#commonModal .modal-body").html("");
         var url = $(this).attr('data-url');
-       
+
         $.ajax({
             url: url,
             type: "GET",
@@ -627,6 +633,61 @@ $(function () {
         } else {
             swal("Warning", "Please add a quantity greater than 0.", "warning");
         }
+    });
+
+    //Update Stock In Bulk
+    $('#updateAllStock').on('click', function(event){
+        var url = $('#add_stock_route').val();
+        var totalCheck = $(".stockArr:checked").length;
+        var i = 0;
+        swal({
+            title: "Are you sure?",
+            text: "You want to add stock in bulk options?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes, Add',
+            cancelButtonText: "No, cancel",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm) {
+            if (isConfirm) {
+                $('.stockArr:checked').each(function() {
+                    var pId = $(this).data('product');
+                    var oId1 = $(this).data('option1');
+                    var oId2 = $(this).data('option2');
+                    var qty = $('#quantityInput_'+pId+'_'+oId1+'_'+oId2).val();
+
+                    if(qty!='' && qty>0){
+                        $.ajax({
+                            url: url,
+                            type: "POST",
+                            data: {
+                                'qty': qty,
+                                'product_id': pId,
+                                'option_id_value_1': oId1,
+                                'option_id_value_2': oId2,
+                            },
+                            headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+                            success: function(data){
+                                productsstock_table.draw(false);
+                                i++;
+                                console.log('Increase I==>'+i);
+                                if(totalCheck == i){
+                                    console.log('totalCheck = i')
+                                    swal("Success", "Your stock has been updated successfully!", "success");
+                                }
+                            }
+                        });
+                    }else{
+                        swal("Warning", "Please add a quantity greater than 0.", "warning");
+                    }
+                });
+            } else {
+                swal("Cancelled", "Your data safe!", "error");
+            }
+        });
     });
 });
 

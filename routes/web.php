@@ -143,6 +143,7 @@ Route::prefix('admin')->middleware(['admin', 'removePublic'])->group(function ()
    Route::resource('category', CategoryController::class);
 
    /*Products*/
+   Route::post('getStockHistory', [ProductController::class,'getStockHistory'])->name('products.stockHistory');
    Route::post('products/add-stock', [ProductController::class,'addProductStock'])->name('products.add_stock');
    Route::get('/index_stock', [ProductController::class, 'index_stock'])->name('products.index_stock');
    Route::get('products/import-product', [ProductController::class,'importProduct'])->name('products.import.product');

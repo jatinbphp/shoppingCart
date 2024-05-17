@@ -1,14 +1,14 @@
 @if (!in_array($section_name, ['contactus', 'cart_products', 'order_products', 'add_stock']) && !isset($order_dashboard))
-    
+
     @php
         $title = 'Edit '.$section_title;
-        $disabledEdit = ''; 
+        $disabledEdit = '';
         if(($section_name == 'orders' && $status != 'pending' && $status != 'shipped') || isset($user['deleted_at'])){
-            $disabledEdit = 'disabled'; 
+            $disabledEdit = 'disabled';
             $title = 'You cannot edit this order because its status is '.$status;
         }
     @endphp
-    
+
     <div class="btn-group btn-group-sm">
         <a href="{{ url('admin/'.$section_name.'/'.$id.'/edit') }}" title="{{$title}}" class="btn btn-sm btn-info tip {{$disabledEdit}}">
             <i class="fa fa-edit"></i>
@@ -65,5 +65,5 @@
         <i class="fa fa-plus"></i>
     </a>
 
-    <a href="javascript:void(0)" title="History" class="btn btn-sm btn-warning tip" data-product_id="{{$product_id}}" data-option_id_value_1="{{$option_id_value_1}}" data-option_id_value_2="{{$option_id_value_2}}" id="inventory_history"><i class="fa fa-list"></i></a>
+    <a href="javascript:void(0)" title="History" class="btn btn-sm btn-warning tip" data-product_id="{{$product_id}}" data-option_id_value_1="{{$option_id_value_1}}" data-option_id_value_2="{{$option_id_value_2}}" id="inventory_history" onclick="inventory_history({{$option_id_value_1}},{{$option_id_value_2}})"><i class="fa fa-list"></i></a>
 @endif
