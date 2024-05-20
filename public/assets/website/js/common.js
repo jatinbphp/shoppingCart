@@ -208,7 +208,7 @@ $(function () {
                 if(action_type=='page-view'){
                     setTimeout(function() {
                         location.reload();
-                    }, 1000);    
+                    }, 1000);
                 } else {
                     $("#open-cart-sidebar").click();
                 }
@@ -233,7 +233,7 @@ $(function () {
             $('#subscribe_message').html('<div class="text-danger">'+error_message+'</div>');
             setTimeoutFun('#subscribe_message', 2000)
             return;
-        }   
+        }
 
         $.ajax({
             url: url,
@@ -245,7 +245,7 @@ $(function () {
             success: function(response) {
                 $('#subscribe_message').html('<div class="text-success">'+response.success+'</div>');
                 setTimeoutFun('#subscribe_message', 2000)
-                $('#subscriber_email').val(''); 
+                $('#subscriber_email').val('');
             },
             error: function(xhr) {
                 var errors = xhr.responseJSON;
@@ -269,7 +269,8 @@ $(function () {
             type: 'POST',
             data: form.serialize(),
             success: function(response){
-                $('.cart-counter').text(response)
+
+                $('.cart-counter').text(response.cartCount)
                 $('#quickviewModal').modal('hide');
 
                 if(form_type=='product-details'){
@@ -277,8 +278,12 @@ $(function () {
                 } else {
                     $('#addProductToCartForm')[0].reset(); // Resetting the form
                 }
-                
-                var msg = 'Your product was added to cart successfully!';
+                if(response.status == 1){
+                    var msg = 'Your product was added to cart successfully!';
+                }
+                if(response.status == 0){
+                    var msg = 'Your selected variant is out of stock. Please select other variant.';
+                }
                 SnackbarAlert(msg);
             },
             error: function(xhr, status, error){
@@ -316,7 +321,7 @@ $(function () {
 
                 setTimeout(function() {
                     location.reload();
-                }, 2000);                
+                }, 2000);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error('AJAX Error:', textStatus, errorThrown);
@@ -325,7 +330,7 @@ $(function () {
     });
 
     $('#reviewForm').submit(function(e) {
-        e.preventDefault(); 
+        e.preventDefault();
         var formData = $(this).serialize();
         var full_name = $('#reviewForm #full_name').val();
         var email_address = $('#reviewForm #email_address').val();

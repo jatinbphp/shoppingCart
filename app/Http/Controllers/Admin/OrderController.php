@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\OrderStockHistory;
+use App\Models\ProductStock;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -28,11 +30,11 @@ class OrderController extends Controller
         if ($request->ajax()) {
             return DataTables::of(Order::with('user'))
                 ->addColumn('order_id', function($order) {
-                    return env('ORDER_PREFIX').'-'.date("Y", strtotime($order->created_at)).'-'.$order->id; 
+                    return env('ORDER_PREFIX').'-'.date("Y", strtotime($order->created_at)).'-'.$order->id;
                 })
                 ->addColumn('user_name', function($order) {
 
-                    $userName = $order->user->name .'('.$order->user->email.') </br>'; 
+                    $userName = $order->user->name .'('.$order->user->email.') </br>';
 
                     if(isset($order->user->deleted_at)){
                         $userName .= '<small class="text-danger">User Deleted</small>';
@@ -66,7 +68,7 @@ class OrderController extends Controller
     public function index_product(Request $request)
     {
         $data['menu'] = 'Orders';
-        
+
         if(isset($request->order_id) && $request->order_id>0){
 
             if($request->first_time_load==0){
@@ -97,7 +99,7 @@ class OrderController extends Controller
                             'options_text' => json_encode($options_text),
                             'csrf_token' => csrf_token()
                         ];
-                        Cart::create($cartItems);       
+                        Cart::create($cartItems);
                     }
                 }
             }
@@ -114,7 +116,7 @@ class OrderController extends Controller
                     return view('admin.order.product-info', $order);
                 })
                 ->addColumn('sku', function($order) {
-                    return $order->product->sku; 
+                    return $order->product->sku;
                 })
                 ->addColumn('unit_price', function($order) {
                     return env('CURRENCY').number_format($order->product->price, 2);
@@ -149,7 +151,7 @@ class OrderController extends Controller
 
         $data['users'] = User::where('status', 'active')->where('role', 'user')->orderBy('name', 'ASC')->get()->pluck('full_name', 'id');
         $data['products'] = Products::where('status', 'active')->orderBy('product_name', 'ASC')->get()->pluck('full_name', 'id');
-        
+
         return view("admin.order.create",$data);
     }
 
@@ -214,7 +216,7 @@ class OrderController extends Controller
 
             \Session::flash('success','Order has been updated successfully!');
             return redirect()->route('orders.index');
-            
+
         } else {
             \Session::flash('success', 'Please add Product.');
             return redirect()->route('orders.create');
@@ -246,7 +248,7 @@ class OrderController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request)
-    { 
+    {
         $input = $request->all();
         $order_products = Cart::with('product')->where('csrf_token',csrf_token())->where('order_id',$input['order_id'])->get();
         if(!empty($order_products)){
@@ -254,7 +256,7 @@ class OrderController extends Controller
             OrderItem::where('order_id',$input['order_id'])->delete();
             OrderOption::where('order_id',$input['order_id'])->delete();
 
-            $order = Order::find($input['order_id']);    
+            $order = Order::find($input['order_id']);
 
             $orderTotal = 0;
             foreach ($order_products as $key => $value) {
@@ -306,7 +308,7 @@ class OrderController extends Controller
             Cart::where('csrf_token',csrf_token())->where('order_id',$input['order_id'])->delete();
 
             \Session::flash('success','Order has been updated successfully!');
-            return redirect()->route('orders.index');   
+            return redirect()->route('orders.index');
         }
     }
 
@@ -352,7 +354,7 @@ class OrderController extends Controller
     }
 
     public function getAddressesByUser($userId)
-    {   
+    {
         $user = User::with('user_addresses')->where('id', $userId)->first();
         $addresses = $user->user_addresses;
         return response()->json($addresses);
@@ -360,7 +362,7 @@ class OrderController extends Controller
 
     public function deleteCart(Request $request, $id)
     {
-        $cart = Cart::find($id);    
+        $cart = Cart::find($id);
 
         if ($cart) {
             $cart->delete();
@@ -386,11 +388,24 @@ class OrderController extends Controller
     }
 
     public function updateOrderStatus(Request $request)
-    { 
-        $order = Order::find($request->id);
+    {
+        $order = Order::with('orderItems','orderItems.orderOptions')->find($request->id);
 
         if ($order) {
             $order->update(['status' => $request->status]);
+
+            /*Update Stock When Order Cancelled*/
+            if($request->status == 'cancelled'){
+                if(count($order['orderItems']) > 0){
+                    foreach ($order['orderItems'] as $oItem){
+                        if(count($oItem['orderOptions']) > 0){
+                            $oIds = [$oItem['orderOptions'][0]['product_option_value_id'], $oItem['orderOptions'][1]['product_option_value_id']];
+                            /*Stock Update During Order*/
+                            $this->checkStock($oItem->product_id,$oIds,0, $order->id, $oItem->product_qty, 1);
+                        }
+                    }
+                }
+            }
 
             //send order
             $data['order'] = Order::with('orderItems.product.product_image')->find($request->id);
@@ -410,7 +425,7 @@ class OrderController extends Controller
                 'From: '.env('MAIL_FROM_ADDRESS'),
                 'Reply-To: '.env('MAIL_FROM_ADDRESS')
             ];
- 
+
             // Send email
             mail($data['user']['email'], $subject, $customerMessage, implode("\r\n", $headers)); //for customers
 
@@ -463,10 +478,10 @@ class OrderController extends Controller
         if ($request->ajax()) {
             return DataTables::of(Order::with('user')->orderBy('id', 'DESC')->take(5))
                 ->addColumn('order_id', function($order) {
-                    return env('ORDER_PREFIX').'-'.date("Y", strtotime($order->created_at)).'-'.$order->id; 
+                    return env('ORDER_PREFIX').'-'.date("Y", strtotime($order->created_at)).'-'.$order->id;
                 })
                 ->addColumn('user_name', function($order) {
-                    $userName = $order->user->name .'('.$order->user->email.') </br>'; 
+                    $userName = $order->user->name .'('.$order->user->email.') </br>';
 
                     if(isset($order->user->deleted_at)){
                         $userName .= '<small class="text-danger">User Deleted</small>';
@@ -486,7 +501,7 @@ class OrderController extends Controller
                         'shipped'  => '<span class="badge badge-warning">Shipped</span>',
                         'completed'=> '<span class="badge badge-success">Completed</span>',
                         'cancelled'  => '<span class="badge badge-danger">Cancelled</span>',
-                    ]; 
+                    ];
                     return $status[$row->status] ?? null;
                 })
                 ->addColumn('action', function($row){
@@ -506,14 +521,14 @@ class OrderController extends Controller
 
         if(empty($orders)){
             \Session::flash('danger','No orders found!');
-            return redirect()->route('orders.index'); 
+            return redirect()->route('orders.index');
         }
 
         $headers = ['Order ID', 'Date Ordered', 'Customer Name', 'Products Information', 'Sub Total', 'Total', 'Address', 'Comments', 'Delivery Method', 'Status'];
 
         $exportData = [];
         foreach ($orders as $key => $order) {
-            
+
             $productDetails = [];
             if(!empty($order->orderItems)){
                 foreach ($order->orderItems as $keyI => $item) {
@@ -583,4 +598,4 @@ class OrderController extends Controller
 
         exit;
     }
-} 
+}

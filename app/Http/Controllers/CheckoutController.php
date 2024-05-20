@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OrderStockHistory;
+use App\Models\ProductStock;
 use Mail;
 use App\Models\UserAddresses;
 use App\Models\Cart;
@@ -22,7 +24,7 @@ class CheckoutController extends Controller
         $this->middleware('auth');
     }
 
-    public function checkout(){        
+    public function checkout(){
         $data['title'] = 'Checkout';
         $data['user_addresses'] = UserAddresses::where('user_id',Auth::user()->id)->get();
         $data['cart_products'] = getTotalCartProducts();
@@ -49,38 +51,46 @@ class CheckoutController extends Controller
 
             $orderTotal = 0;
             foreach ($order_products as $key => $value) {
-
-                $orderTotal += ($value->product->price*$value->quantity);
-                $inputOrderItem = [
-                    'order_id' => $order->id,
-                    'product_id' => $value->product_id,
-                    'product_name' => $value->product->product_name,
-                    'product_sku' => $value->product->sku,
-                    'product_price' => $value->product->price,
-                    'product_qty' => $value->quantity,
-                    'sub_total' => ($value->product->price*$value->quantity),
-                ];
-                $OrderItem = OrderItem::create($inputOrderItem);
-
                 $options = json_decode($value->options);
+                $oIds = [];
                 if(!empty($options)){
                     foreach ($options as $keyO => $valueO) {
-
-                        $product_option = ProductsOptions::where('id',$keyO)->first();
-                        $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
-                        $inputOrderOption = [
-                            'order_id' => $order->id,
-                            'order_product_id' => $OrderItem->id,
-                            'product_option_id' => $keyO,
-                            'product_option_value_id' => $valueO,
-                            'name' => $product_option->option_name,
-                            'value' => $product_option_value->option_value,
-                            'price' => $product_option_value->option_price,
-                        ];
-                        OrderOption::create($inputOrderOption);
+                        $oIds[] = $valueO;
                     }
                 }
-                //OrderOption
+                /*Stock Update During Order*/
+                $stock = $this->checkStock($value->product_id,$oIds,0, $order->id, $value->quantity, 0);
+                if($stock == 1){
+                    $orderTotal += ($value->product->price*$value->quantity);
+                    $inputOrderItem = [
+                        'order_id' => $order->id,
+                        'product_id' => $value->product_id,
+                        'product_name' => $value->product->product_name,
+                        'product_sku' => $value->product->sku,
+                        'product_price' => $value->product->price,
+                        'product_qty' => $value->quantity,
+                        'sub_total' => ($value->product->price*$value->quantity),
+                    ];
+                    $OrderItem = OrderItem::create($inputOrderItem);
+
+                    if(!empty($options)){
+                        foreach ($options as $keyO => $valueO) {
+                            $product_option = ProductsOptions::where('id',$keyO)->first();
+                            $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
+                            $inputOrderOption = [
+                                'order_id' => $order->id,
+                                'order_product_id' => $OrderItem->id,
+                                'product_option_id' => $keyO,
+                                'product_option_value_id' => $valueO,
+                                'name' => $product_option->option_name,
+                                'value' => $product_option_value->option_value,
+                                'price' => $product_option_value->option_price,
+                            ];
+                            OrderOption::create($inputOrderOption);
+                            $oIds[] = $valueO;
+                        }
+                    }
+                }
             }
 
             //update total in order table
@@ -95,7 +105,7 @@ class CheckoutController extends Controller
 
             //send order
             $data['order'] = Order::with('orderItems.product.product_image')->find($order->id);
-            $data['user'] = Auth::user(); 
+            $data['user'] = Auth::user();
 
             $to = env('MAIL_FROM_ADDRESS');
             $subject = 'New Order Received: #' . 'INV-'. date('Y', strtotime($data['order']->created_at)) . '-' . $data['order']->id;
@@ -114,20 +124,20 @@ class CheckoutController extends Controller
                 'From: '.env('MAIL_FROM_ADDRESS'),
                 'Reply-To: '.env('MAIL_FROM_ADDRESS')
             ];
- 
+
             // Send email
             mail($to, $subject, $adminMessage, implode("\r\n", $headers)); //for admin
             mail(Auth::user()->email, $subject, $customerMessage, implode("\r\n", $headers)); //for customers
 
             return redirect()->route('checkout.order-completed');
-            
+
         } else {
             \Session::flash('danger', 'Something went wrong. Please try again!');
             return redirect()->route('checkout');
         }
     }
 
-    public function orderCompleted(){   
+    public function orderCompleted(){
         $data['title'] = 'Order Completed';
         $order = Order::select('id', 'created_at')->where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->firstOrFail();
 
@@ -135,7 +145,7 @@ class CheckoutController extends Controller
             return redirect()->route('products')->with('danger', 'Your account needs to be updated with the orders.');
         }
 
-        $data['order_id'] = env('ORDER_PREFIX').'-'.date("Y", strtotime($order->created_at)).'-'.$order->id; 
+        $data['order_id'] = env('ORDER_PREFIX').'-'.date("Y", strtotime($order->created_at)).'-'.$order->id;
         return view('checkout.order-completed', $data);
     }
 }

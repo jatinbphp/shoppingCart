@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\OrderOption;
+use App\Models\OrderStockHistory;
+use App\Models\ProductStock;
 use App\Models\User;
 use App\Models\Products;
 use App\Models\ProductImages;
@@ -20,7 +23,7 @@ class ShoppingCartController extends Controller
         $this->middleware('auth');
     }
 
-    public function shoppingCart(){   
+    public function shoppingCart(){
         $data['title'] = 'Shopping Cart';
         $data['cart_products'] = getTotalCartProducts();
 
@@ -45,22 +48,41 @@ class ShoppingCartController extends Controller
         $cart = Cart::where('user_id', Auth::user()->id)->where('product_id', $input['product_id'])->where('options', json_encode($input['options']))->first();
 
         if(empty($cart)){
-            $input['options'] = json_encode($input['options']);
-            $input['user_id'] = Auth::user()->id;
-            Cart::create($input);
+            $option = $input['options'];
+            $oIds = [];
+            if(!empty($option)){
+                foreach ($option as $keyO => $valueO) {
+                    $oIds[] = $valueO;
+                }
+            }
+
+            $stock = $this->checkStock($input['product_id'],$oIds,1);
+
+            if(!empty($stock)){
+                if($stock['remaining_qty'] <= 0){
+                    $data['status'] = 0;
+                }else{
+                    $data['status'] = 1;
+                    $input['options'] = json_encode($input['options']);
+                    $input['user_id'] = Auth::user()->id;
+                    Cart::create($input);
+                }
+            }else{
+                $data['status'] = 0;
+            }
         } else{
             $cart['quantity'] = ($cart['quantity']+$input['quantity']);
             $cart->save();
         }
-
-        return count(getTotalCartProducts());
+        $data['cartCount'] = count(getTotalCartProducts());
+        return $data;
     }
 
-    public function cartview(){   
+    public function cartview(){
         $cart_products = [];
         if (Auth::check()) {
-            $userId = Auth::id();            
-            
+            $userId = Auth::id();
+
             $cart_products = Cart::with('product', 'product.product_image')->where('user_id', $userId)->orderBy('created_at', 'desc')->take(3)->get();
 
             if(count($cart_products)>0){
@@ -86,7 +108,7 @@ class ShoppingCartController extends Controller
     }
 
     public function removeProducttoCart(Request $request){
-        
+
         $input = $request->all();
         $user_id = Auth::user()->id;
 
@@ -95,7 +117,7 @@ class ShoppingCartController extends Controller
 
         $responseData = [
             'total' => count(getTotalCartProducts()),
-        ];        
+        ];
         return response()->json($responseData);
     }
 
