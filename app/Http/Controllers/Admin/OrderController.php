@@ -168,38 +168,49 @@ class OrderController extends Controller
             $orderTotal = 0;
             foreach ($order_products as $key => $value) {
 
-                $orderTotal += ($value->product->price*$value->quantity);
-
-                 $inputOrderItem = [
-                    'order_id' => $order->id,
-                    'product_id' => $value->product_id,
-                    'product_name' => $value->product->product_name,
-                    'product_sku' => $value->product->sku,
-                    'product_price' => $value->product->price,
-                    'product_qty' => $value->quantity,
-                    'sub_total' => ($value->product->price*$value->quantity),
-                ];
-
-                $OrderItem = OrderItem::create($inputOrderItem);
-
                 $options = json_decode($value->options);
+                $oIds = [];
                 if(!empty($options)){
                     foreach ($options as $keyO => $valueO) {
+                        $oIds[] = $valueO;
+                    }
+                }
+                /*Stock Update During Order*/
+                $stock = $this->checkStock($value->product_id,$oIds,0, $order->id, $value->quantity, 0);
+                if($stock == 1){
+                    $orderTotal += ($value->product->price*$value->quantity);
 
-                        $product_option = ProductsOptions::where('id',$keyO)->first();
-                        $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
+                     $inputOrderItem = [
+                        'order_id' => $order->id,
+                        'product_id' => $value->product_id,
+                        'product_name' => $value->product->product_name,
+                        'product_sku' => $value->product->sku,
+                        'product_price' => $value->product->price,
+                        'product_qty' => $value->quantity,
+                        'sub_total' => ($value->product->price*$value->quantity),
+                    ];
 
-                        $inputOrderOption = [
-                            'order_id' => $order->id,
-                            'order_product_id' => $OrderItem->id,
-                            'product_option_id' => $keyO,
-                            'product_option_value_id' => $valueO,
-                            'name' => $product_option->option_name,
-                            'value' => $product_option_value->option_value,
-                            'price' => $product_option_value->option_price,
-                        ];
+                    $OrderItem = OrderItem::create($inputOrderItem);
 
-                        OrderOption::create($inputOrderOption);
+                    $options = json_decode($value->options);
+                    if(!empty($options)){
+                        foreach ($options as $keyO => $valueO) {
+
+                            $product_option = ProductsOptions::where('id',$keyO)->first();
+                            $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
+
+                            $inputOrderOption = [
+                                'order_id' => $order->id,
+                                'order_product_id' => $OrderItem->id,
+                                'product_option_id' => $keyO,
+                                'product_option_value_id' => $valueO,
+                                'name' => $product_option->option_name,
+                                'value' => $product_option_value->option_value,
+                                'price' => $product_option_value->option_price,
+                            ];
+
+                            OrderOption::create($inputOrderOption);
+                        }
                     }
                 }
                 //OrderOption
@@ -555,8 +566,8 @@ class OrderController extends Controller
                 $order->created_at,
                 $order->user->name . ' (' . $order->user->email . ')',
                 $productInformations, // JSON encoded products information
-                env('CURRENCY') . number_format($order->total_amount, 2),
-                env('CURRENCY') . number_format($order->total_amount, 2),
+                '£' . number_format($order->total_amount, 2),
+                '£' . number_format($order->total_amount, 2),
                 'Address Placeholder', // Replace with actual address field
                 $order->notes ?? '-',
                 $order->delivey_method,

@@ -47,33 +47,35 @@ class ShoppingCartController extends Controller
 
         $cart = Cart::where('user_id', Auth::user()->id)->where('product_id', $input['product_id'])->where('options', json_encode($input['options']))->first();
 
-        if(empty($cart)){
-            $option = $input['options'];
-            $oIds = [];
-            if(!empty($option)){
-                foreach ($option as $keyO => $valueO) {
-                    $oIds[] = $valueO;
-                }
+        $data = ['status' => 0];
+        $oIds = !empty($input['options']) ? array_values($input['options']) : [];
+
+        if (empty($cart)) {
+            $stock = $this->checkStock($input['product_id'], $oIds, 1);
+
+            if (!empty($stock) && $stock['remaining_qty'] > 0 && $stock['remaining_qty'] >= $input['quantity']) {
+                $input['options'] = json_encode($input['options']);
+                $input['user_id'] = Auth::user()->id;
+                Cart::create($input);
+                $data['status'] = 1;
             }
+        } else {
+            $cartOptions = !empty($cart['options']) ? json_decode($cart['options'], true) : [];
+            $oIds = !empty($cartOptions) ? array_values($cartOptions) : [];
 
-            $stock = $this->checkStock($input['product_id'],$oIds,1);
+            $stock = $this->checkStock($cart['product_id'], $oIds, 1);
 
-            if(!empty($stock)){
-                if($stock['remaining_qty'] <= 0){
-                    $data['status'] = 0;
-                }else{
+            if (!empty($stock) && $stock['remaining_qty'] > 0) {
+                $newQty = $cart['quantity'] + $input['quantity'];
+
+                if ($stock['remaining_qty'] >= $newQty) {
+                    $cart['quantity'] = $newQty;
+                    $cart->save();
                     $data['status'] = 1;
-                    $input['options'] = json_encode($input['options']);
-                    $input['user_id'] = Auth::user()->id;
-                    Cart::create($input);
                 }
-            }else{
-                $data['status'] = 0;
             }
-        } else{
-            $cart['quantity'] = ($cart['quantity']+$input['quantity']);
-            $cart->save();
         }
+
         $data['cartCount'] = count(getTotalCartProducts());
         return $data;
     }

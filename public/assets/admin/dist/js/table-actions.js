@@ -640,6 +640,12 @@ $(function () {
         var url = $('#add_stock_route').val();
         var totalCheck = $(".stockArr:checked").length;
         var i = 0;
+
+        if (totalCheck === 0) {
+            swal("Warning", "No option selected. Please select option to update stock.", "warning");
+            return;
+        }
+
         swal({
             title: "Are you sure?",
             text: "You want to add stock in bulk options?",
@@ -653,6 +659,8 @@ $(function () {
         },
         function(isConfirm) {
             if (isConfirm) {
+
+                var updated = 0;
                 $('.stockArr:checked').each(function() {
                     var pId = $(this).data('product');
                     var oId1 = $(this).data('option1');
@@ -660,6 +668,9 @@ $(function () {
                     var qty = $('#quantityInput_'+pId+'_'+oId1+'_'+oId2).val();
 
                     if(qty!='' && qty>0){
+
+                        updated = 1;
+
                         $.ajax({
                             url: url,
                             type: "POST",
@@ -676,14 +687,19 @@ $(function () {
                                 console.log('Increase I==>'+i);
                                 if(totalCheck == i){
                                     console.log('totalCheck = i')
-                                    swal("Success", "Your stock has been updated successfully!", "success");
+                                    
                                 }
                             }
                         });
-                    }else{
-                        swal("Warning", "Please add a quantity greater than 0.", "warning");
                     }
                 });
+
+                if(updated==0){
+                    swal("Warning", "Please add a quantity greater than 0.", "warning");
+                } else {
+                    swal("Success", "Your stock has been updated successfully!", "success");
+                    $('#selectAll').prop('checked', false);
+                }
             } else {
                 swal("Cancelled", "Your data safe!", "error");
             }

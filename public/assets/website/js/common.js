@@ -462,13 +462,21 @@ $(function () {
 });
 
 function SnackbarAlert(msg) {
-    Snackbar.show({
-        text: msg,
-        pos: 'top-right',
-        showAction: false,
-        actionText: "Dismiss",
-        duration: 3000,
-        textColor: '#fff',
-        backgroundColor: '#151515'
-    });
+    setTimeout(function() {
+        Snackbar.show({
+            text: msg,
+            pos: 'top-right',
+            showAction: false,
+            actionText: "Dismiss",
+            duration: 3000,
+            textColor: '#fff',
+            backgroundColor: '#151515'
+        });
+    }, 100);    
 }
+
+$(document).on('click', '#out_of_stock_button', function (event) {
+    event.preventDefault();
+    var msg = '<span class="text-danger">One or more products in your cart are out of stock.</br></br> Please review your cart and remove any out-of-stock products to proceed with your purchase.</span>';
+    SnackbarAlert(msg);
+});

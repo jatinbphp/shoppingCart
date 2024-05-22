@@ -69,8 +69,12 @@ class Controller extends BaseController
                     if($stock['remaining_qty'] <= 0){
                         $is_update = 0;
                     }else{
-                        $inStock['remaining_qty'] = $stock['remaining_qty'] - $pQty;
-                        $inStock['order_qty'] = $stock['order_qty'] + $pQty;
+                        if($stock['remaining_qty'] >= $pQty){
+                            $inStock['remaining_qty'] = $stock['remaining_qty'] - $pQty;
+                            $inStock['order_qty'] = $stock['order_qty'] + $pQty;
+                        } else {
+                            $is_update = 0;
+                        }
                     }
                 }
                 if($is_update == 1){
@@ -78,7 +82,7 @@ class Controller extends BaseController
 
                     $inOrderStock = [];
                     $inOrderStock['order_id'] = $orderId;
-                    $inOrderStock['type'] = 'order_cancelled';
+                    $inOrderStock['type'] = ($is_cancelled == 1) ? 'plus' : 'minus';
                     $inOrderStock['product_id'] = $pId;
                     $inOrderStock['option_id_value_1'] = $stock['option_id_value_1'];
                     $inOrderStock['option_id_value_2'] = $stock['option_id_value_2'];

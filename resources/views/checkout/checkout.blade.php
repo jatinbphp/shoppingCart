@@ -19,10 +19,8 @@
                 </div>
                 
                 @if(count($cart_products)>0)
-                    <div class="col-12 col-lg-4 col-md-12">
+                    <div class="col-12 col-lg-5 col-md-12">
                         @include('checkout.cart-info')
-
-                        {!! Form::submit('Place Your Order', ['class' => 'btn btn-block btn-dark mb-3']) !!}
                     </div>
                 @endif
             </div>

@@ -10,6 +10,7 @@ use App\Models\Setting;
 use App\Models\Category;
 use App\Models\ContentManagement;
 use App\Models\Review;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 /* below function for settings */
@@ -55,6 +56,8 @@ if (!function_exists('getTotalCartProducts')) {
     {
         if (Auth::check()) {
 
+            $defaultController = app(Controller::class);
+
             // if user selected categories product added in the cart. then that products will be deleted.
             // start
             $getParentAndSubCategoryIds = getParentAndSubCategoryIds();
@@ -80,6 +83,7 @@ if (!function_exists('getTotalCartProducts')) {
 
             if (count($cartProducts)>0){
                 foreach ($cartProducts as $key => $order) {
+                    $oIds = [];
                     $optionArray = [];
                     $options = json_decode($order->options);
                     if (!empty($options)) {
@@ -90,8 +94,23 @@ if (!function_exists('getTotalCartProducts')) {
                             if ($product_option && $product_option_value) {
                                 $optionArray[$product_option->option_name] = $product_option_value->option_value;
                             }
+
+                            $oIds[] = $valueO;
                         }
                     }
+
+                    $stock = $defaultController->checkStock($order->product_id,$oIds,1);
+
+                    $cartProducts[$key]['total_stock_quantity'] = 0;
+                    $cartProducts[$key]['out_of_stock'] = 0;
+                    if(!empty($stock)){
+                        if($stock['remaining_qty'] >= $order->quantity){
+                            $cartProducts[$key]['out_of_stock'] = 1;
+                        }
+
+                        $cartProducts[$key]['total_stock_quantity'] = $stock['remaining_qty'];
+                    }
+                    
                     $cartProducts[$key]['product_options'] = $optionArray;
                 }
             }

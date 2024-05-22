@@ -31,24 +31,28 @@
                                     </div>
                                     <div class="col d-flex align-items-center justify-content-between">
                                         <div class="cart_single_caption pl-2">
-                                            <h4 class="product_title fs-md ft-medium mb-2 lh-2">{{$value->product->product_name}}</h4>
-                                            <p class="mb-2 lh-2">Qty: {{ env('CURRENCY') }}{{ number_format($value->product->price, 2) }} X {{$value->quantity}}</p>
-
+                                            <h4 class="product_title fs-md ft-medium mb-1 lh-2">{{$value->product->product_name}}</h4>
+                                            <p class="mb-1 lh-2">Qty: {{ env('CURRENCY') }}{{ number_format($value->product->price, 2) }} X {{$value->quantity}}</p>
+                                            
                                             @if(!empty($value->product_options))
                                                 @foreach($value->product_options as $keyO => $keyV)
                                                     @if($keyO=='COLOR')
-                                                        <p class="mb-2 lh-2">
+                                                        <p class="mb-1 lh-2">
                                                             <span class="text-dark">{{$keyO}}: <i class="fas fa-square" style="color:  {{$keyV}}  "></i></span>
                                                         </p>
                                                     @else
-                                                        <p class="mb-2 lh-2">
+                                                        <p class="mb-1 lh-2">
                                                             <span class="text-dark">{{$keyO}}: {{$keyV}}</span>
                                                         </p>
                                                     @endif
                                                 @endforeach
                                             @endif
 
-                                            <p class="mb-2 lh-1">Total: {{ env('CURRENCY') }}{{ number_format(($value->product->price*$value->quantity), 2) }}</p>
+                                            <p class="mb-1 lh-2">Total: {{ env('CURRENCY') }}{{ number_format(($value->product->price*$value->quantity), 2) }}</p>
+
+                                            @if($value->out_of_stock==0)
+                                                <p class="mb-1 lh-2 text-danger">This product is currently out of stock. We have only <?php echo $value->total_stock_quantity; ?> quantity left.</p>
+                                            @endif
 
                                             <!-- @php
                                                 $quantity = [];
@@ -57,7 +61,7 @@
                                                 }
                                             @endphp
 
-                                            {{ Form::select('quantity', $quantity, $value->quantity, ['class' => 'mb-2 custom-select w-auto', 'id' => 'update-quantity', 'data-id' => $value->id, 'data-url' => route('cart.update-quantity')]) }} -->
+                                            {{ Form::select('quantity', $quantity, $value->quantity, ['class' => 'mb-1 custom-select w-auto', 'id' => 'update-quantity', 'data-id' => $value->id, 'data-url' => route('cart.update-quantity')]) }} -->
 
                                         </div>
                                         <div class="fls_last">
