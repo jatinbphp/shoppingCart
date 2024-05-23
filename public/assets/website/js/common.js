@@ -278,13 +278,7 @@ $(function () {
                 } else {
                     $('#addProductToCartForm')[0].reset(); // Resetting the form
                 }
-                if(response.status == 1){
-                    var msg = 'Your product was added to cart successfully!';
-                }
-                if(response.status == 0){
-                    var msg = 'Your selected variant is out of stock. Please select other variant.';
-                }
-                SnackbarAlert(msg);
+                SnackbarAlert(response.message);
             },
             error: function(xhr, status, error){
                 var errors = JSON.parse(xhr.responseText).errors;

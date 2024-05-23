@@ -12,6 +12,7 @@
         </div>
         @php
         $subTotal = 0;
+        $out_of_stock = 1;
         @endphp
         @if(count($cart_products)>0)
             <div class="row justify-content-between">
@@ -51,17 +52,21 @@
                                             <p class="mb-1 lh-2">Total: {{ env('CURRENCY') }}{{ number_format(($value->product->price*$value->quantity), 2) }}</p>
 
                                             @if($value->out_of_stock==0)
-                                                <p class="mb-1 lh-2 text-danger">This product is currently out of stock. We have only <?php echo $value->total_stock_quantity; ?> quantity left.</p>
+                                                <p class="mb-1 lh-2 text-danger">Available Quanity : {{$value->total_stock_quantity}}</p>
+
+                                                @php
+                                                $out_of_stock = 0;
+                                                @endphp
                                             @endif
 
-                                            <!-- @php
+                                            @php
                                                 $quantity = [];
                                                 for ($i = 1; $i <= 10; $i++) {
                                                     $quantity[$i] = $i;
                                                 }
                                             @endphp
 
-                                            {{ Form::select('quantity', $quantity, $value->quantity, ['class' => 'mb-1 custom-select w-auto', 'id' => 'update-quantity', 'data-id' => $value->id, 'data-url' => route('cart.update-quantity')]) }} -->
+                                            {{ Form::select('quantity', $quantity, $value->quantity, ['class' => 'mb-1 custom-select w-auto', 'id' => 'update-quantity', 'data-id' => $value->id, 'data-url' => route('cart.update-quantity')]) }}
 
                                         </div>
                                         <div class="fls_last">
@@ -103,7 +108,13 @@
                             </ul>
                         </div>
                     </div>
-                    <a class="btn btn-block btn-dark mb-3" href="{{route('checkout')}}">Proceed to Checkout</a>
+
+                    @if($out_of_stock==1)
+                        <a class="btn btn-block btn-dark mb-3" href="{{route('checkout')}}">Proceed to Checkout</a>
+                    @else
+                        <a class="btn btn-block btn-dark mb-3" href="javascript:void(0)" id="out_of_stock_button">Proceed to Checkout</a>
+                    @endif
+                    
                     <a class="btn-link text-dark ft-medium" href="{{route('products')}}">
                         <i class="ti-back-left mr-2"></i> Continue Shopping
                     </a>

@@ -41,6 +41,31 @@ class CheckoutController extends Controller
         $order_products = Cart::with('product')->where('user_id',Auth::user()->id)->where('order_id',0)->get();
         if(!empty($order_products)){
 
+            $error = 0;
+            foreach ($order_products as $value) {
+                $cartOptions = !empty($value->options) ? json_decode($value->options, true) : [];
+                $oIds = !empty($cartOptions) ? array_values($cartOptions) : [];
+                $stock = $this->checkStock($value->product_id, $oIds, 1);
+
+                if (!empty($stock) && $stock['remaining_qty'] > 0) {
+                    $newQty = $value->quantity;
+                    $remaining_qty = $stock['remaining_qty'];
+
+                    if ($stock['remaining_qty'] < $newQty) {
+                        $error = 1;
+                        break; // No need to continue if there's an error
+                    }
+                } else {
+                    $error = 1;
+                    break; // No need to continue if there's an error
+                }
+            }
+
+            if($error==1){
+                \Session::flash('danger', 'Something went wrong. Please try again!');
+                return redirect()->route('checkout');
+            }
+
             $input['user_id'] = Auth::user()->id;
 
             if($input['address_id']==0){

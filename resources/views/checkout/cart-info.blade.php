@@ -46,7 +46,7 @@ $out_of_stock = 1;
                             </p>
 
                             @if($value->out_of_stock==0)
-                                <p class="mb-1 lh-2 text-danger">This product is currently out of stock. We have only <?php echo $value->total_stock_quantity; ?> quantity left.</p>
+                                <p class="mb-1 lh-2 text-danger">Available Quanity : {{$value->total_stock_quantity}}</p>
 
                                 @php
                                 $out_of_stock = 0;

@@ -10,6 +10,7 @@
                 </div>
             </div>
         </div>
+        @include ('common.error')
         {!! Form::open(['url' => route('checkout-order-placed'), 'id' => 'CheckoutForm', 'class' => 'form-horizontal','files'=>true]) !!}
             <div class="row justify-content-between">
                 <div class="col-12 col-lg-7 col-md-12">

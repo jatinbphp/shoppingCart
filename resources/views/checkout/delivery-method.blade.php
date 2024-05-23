@@ -1,7 +1,7 @@
 <h5 class="mb-2 ft-medium">Delivery Method</h5>
 <div class="row mb-4">
     <div class="col-12 col-lg-12 col-xl-12 col-md-12">
-        <div class="panel-group" id="payaccordion">
+        <div class="panel-group payaccordion" id="delivey_method">
             <div class="accordion">
                 <article class="panel panel-default border">
                     <input id="delivey_method_f" type="radio" name="delivey_method" value="Next Day Delivery (order before 12pm)" checked>

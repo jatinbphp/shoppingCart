@@ -1,7 +1,7 @@
 <h5 class="mb-2 ft-medium">Delivery Address</h5>
 <div class="row mb-4">
     <div class="col-12 col-lg-12 col-xl-12 col-md-12">
-        <div class="panel-group" id="payaccordion">
+        <div class="panel-group payaccordion" id="delivery_address">
             <div class="accordion">
                 @if(!empty($user_addresses))
                     @foreach($user_addresses as $keyA => $address)
@@ -10,7 +10,7 @@
                             <label class="article-lable" for="address_{{ $address->id }}">
                                 <h5>{{ $address->title }}</h5>
                             </label>
-                            <div id="address_{{ $address->id }}" class="panel-collapse collapse show" aria-labelledby="pay" data-parent="#payaccordion">
+                            <div id="address_{{ $address->id }}" class="panel-collapse collapse show" aria-labelledby="pay" data-parent="#delivery_address">
                                 <div class="panel-body">
                                     <h5 class="ft-medium mb-1">
                                         {{ $address->first_name}} {{$address->last_name}}
@@ -58,7 +58,7 @@
                     <label class="article-lable" for="address_new">
                         <h5>Add a New Address</h5>
                     </label>
-                    <div id="address_new" class="panel-collapse collapse show" aria-labelledby="pay" data-parent="#payaccordion">
+                    <div id="address_new" class="panel-collapse collapse show" aria-labelledby="pay" data-parent="#delivery_address">
                         <div class="panel-body">
                             @include ('my-addresses.form')
                         </div>
