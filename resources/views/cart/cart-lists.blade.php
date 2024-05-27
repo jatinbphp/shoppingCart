@@ -52,21 +52,21 @@
                                             <p class="mb-1 lh-2">Total: {{ env('CURRENCY') }}{{ number_format(($value->product->price*$value->quantity), 2) }}</p>
 
                                             @if($value->out_of_stock==0)
-                                                <p class="mb-1 lh-2 text-danger">Available Quanity : {{$value->total_stock_quantity}}</p>
+                                                <p class="mb-1 lh-2 text-danger">Available Quanity : {{$value->total_stock_quantity}}. </br>To proceed with the remaining quantity, please <b><a href="javascript:void(0)" id="update-remaining-cart" data-id="{{$value->id}}" data-url="{{route('cart.update-remaining-quantity')}}">click here,</a></b>.</p>
 
                                                 @php
                                                 $out_of_stock = 0;
                                                 @endphp
                                             @endif
 
-                                            @php
+                                            <!-- @php
                                                 $quantity = [];
                                                 for ($i = 1; $i <= 10; $i++) {
                                                     $quantity[$i] = $i;
                                                 }
                                             @endphp
 
-                                            {{ Form::select('quantity', $quantity, $value->quantity, ['class' => 'mb-1 custom-select w-auto', 'id' => 'update-quantity', 'data-id' => $value->id, 'data-url' => route('cart.update-quantity')]) }}
+                                            {{ Form::select('quantity', $quantity, $value->quantity, ['class' => 'mb-1 custom-select w-auto', 'id' => 'update-quantity', 'data-id' => $value->id, 'data-url' => route('cart.update-quantity')]) }} -->
 
                                         </div>
                                         <div class="fls_last">

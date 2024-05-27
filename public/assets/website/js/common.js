@@ -323,6 +323,52 @@ $(function () {
         });
     });
 
+    $(document).on('click', '#update-remaining-cart', function (event) {
+        event.preventDefault();
+
+        var url = $(this).attr('data-url');
+        var id = $(this).attr('data-id');
+        var quantity = $(this).val();;
+
+        swal({
+            title: "Are you sure?",
+            text: "You want to update quantity with remaining quantity?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes, Update',
+            cancelButtonText: "No, cancel",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm) {
+            if (isConfirm) {
+
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') },
+                    data: {
+                        'quantity': quantity,
+                        'id': id,
+                    },
+                    success: function(response) {
+                        swal("Updated", "Your data successfully updated!", "success");
+
+                        setTimeout(function() {
+                            location.reload();
+                        }, 2000);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('AJAX Error:', textStatus, errorThrown);
+                    }
+                });
+            } else {
+                swal("Cancelled", "Your data safe!", "error");
+            }
+        });
+    });
+
     $('#reviewForm').submit(function(e) {
         e.preventDefault();
         var formData = $(this).serialize();

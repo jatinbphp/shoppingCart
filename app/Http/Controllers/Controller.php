@@ -48,7 +48,7 @@ class Controller extends BaseController
         return strtolower($returnString);
     }
 
-    public function checkStock($pId, $oIds, $is_cart, $orderId = null, $pQty = null, $is_cancelled = null){
+    public function checkStock($pId, $oIds, $is_cart, $orderId = null, $pQty = null, $is_cancelled = null, $is_edit = null){
         $stock = ProductStock::where('product_id',$pId)
             ->where(function($query) use ($oIds) {
                 $query->where('option_id_value_1', $oIds[0])
@@ -65,6 +65,10 @@ class Controller extends BaseController
                 if($is_cancelled == 1){
                     $inStock['remaining_qty'] = $stock['remaining_qty'] + $pQty;
                     $inStock['order_qty'] = $stock['order_qty'] - $pQty;
+                    $type = 'plus';
+                    if($is_edit == 1){
+                        $type = 'editorder';
+                    }
                 }else{
                     if($stock['remaining_qty'] <= 0){
                         $is_update = 0;
@@ -76,13 +80,14 @@ class Controller extends BaseController
                             $is_update = 0;
                         }
                     }
+                    $type = 'minus';
                 }
                 if($is_update == 1){
                     $stock->update($inStock);
 
                     $inOrderStock = [];
                     $inOrderStock['order_id'] = $orderId;
-                    $inOrderStock['type'] = ($is_cancelled == 1) ? 'plus' : 'minus';
+                    $inOrderStock['type'] = $type;
                     $inOrderStock['product_id'] = $pId;
                     $inOrderStock['option_id_value_1'] = $stock['option_id_value_1'];
                     $inOrderStock['option_id_value_2'] = $stock['option_id_value_2'];

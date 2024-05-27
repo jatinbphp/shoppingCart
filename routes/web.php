@@ -93,6 +93,7 @@ Route::post('cart/remove-cart', [ShoppingCartController::class,'removeProducttoC
 Route::post('cart/add-product-to-cart', [ShoppingCartController::class,'addProductToCart'])->name('cart.add-product')->middleware(['removePublic']);
 Route::get('cart', [ShoppingCartController::class, 'shoppingCart'])->name('shopping-cart')->middleware(['removePublic']);
 Route::post('cart/update-quantity', [ShoppingCartController::class, 'updateQuantity'])->name('cart.update-quantity')->middleware(['removePublic']);
+Route::post('cart/update-remaining-quantity', [ShoppingCartController::class, 'updateRemainingQuantity'])->name('cart.update-remaining-quantity')->middleware(['removePublic']);
 
 /*Checkout*/
 Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout')->middleware(['removePublic']);

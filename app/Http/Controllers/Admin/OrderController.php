@@ -79,7 +79,7 @@ class OrderController extends Controller
                 if(!empty($OrderItems)){
                     foreach ($OrderItems as $key => $value) {
 
-                        $optionsArray = OrderOption::where('order_product_id',$value->id)->get();
+                        $optionsArray = OrderOption::where('order_product_id',$value->id)->orderBy('id', 'DESC')->get();
 
                         $options = [];
                         $options_text = [];
@@ -163,6 +163,33 @@ class OrderController extends Controller
         $input = $request->all();
         $order_products = Cart::with('product')->where('csrf_token',csrf_token())->where('order_id',0)->get();
         if(!empty($order_products)){
+
+            $error = 0;
+            foreach ($order_products as $value) {
+                $cartOptions = !empty($value->options) ? json_decode($value->options, true) : [];
+                $oIds = !empty($cartOptions) ? array_values($cartOptions) : [];
+                $stock = $this->checkStock($value->product_id, $oIds, 1);
+
+                if (!empty($stock) && $stock['remaining_qty'] > 0) {
+                    $newQty = $value->quantity;
+                    $remaining_qty = $stock['remaining_qty'];
+
+                    if ($stock['remaining_qty'] < $newQty) {
+                        $error = 1;
+                        break; // No need to continue if there's an error
+                    }
+                } else {
+                    $error = 1;
+                    break; // No need to continue if there's an error
+                }
+            }
+
+            if($error==1){
+                \Session::flash('danger', 'Something went wrong. Please try again!');
+                Cart::where('csrf_token',csrf_token())->where('order_id',0)->delete();
+                return redirect()->route('orders.index');
+            }
+
             $order = Order::create($input);
 
             $orderTotal = 0;
@@ -261,52 +288,80 @@ class OrderController extends Controller
     public function update(Request $request)
     {
         $input = $request->all();
+
+        $order = Order::with('orderItems','orderItems.orderOptions')->find($input['order_id']);
+
+        if ($order) {
+            /*Update Stock When Order Edit*/
+            if(count($order['orderItems']) > 0){
+                foreach ($order['orderItems'] as $oItem){
+                    if(count($oItem['orderOptions']) > 0){
+                        $oIds = [$oItem['orderOptions'][0]['product_option_value_id'], $oItem['orderOptions'][1]['product_option_value_id']];
+                        /*Stock Update During Order Edit*/
+                        $this->checkStock($oItem->product_id,$oIds,0, $order->id, $oItem->product_qty, 1, 1);
+                    }
+                }
+            }
+        }
+
         $order_products = Cart::with('product')->where('csrf_token',csrf_token())->where('order_id',$input['order_id'])->get();
         if(!empty($order_products)){
 
             OrderItem::where('order_id',$input['order_id'])->delete();
             OrderOption::where('order_id',$input['order_id'])->delete();
 
-            $order = Order::find($input['order_id']);
+            //$order = Order::find($input['order_id']);
 
             $orderTotal = 0;
             foreach ($order_products as $key => $value) {
 
-                $orderTotal += ($value->product->price*$value->quantity);
-
-                 $inputOrderItem = [
-                    'order_id' => $order->id,
-                    'product_id' => $value->product_id,
-                    'product_name' => $value->product->product_name,
-                    'product_sku' => $value->product->sku,
-                    'product_price' => $value->product->price,
-                    'product_qty' => $value->quantity,
-                    'sub_total' => ($value->product->price*$value->quantity),
-                ];
-
-                $OrderItem = OrderItem::create($inputOrderItem);
-
                 $options = json_decode($value->options);
+                $oIds = [];
                 if(!empty($options)){
                     foreach ($options as $keyO => $valueO) {
-
-                        $product_option = ProductsOptions::where('id',$keyO)->first();
-                        $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
-
-                        $inputOrderOption = [
-                            'order_id' => $order->id,
-                            'order_product_id' => $OrderItem->id,
-                            'product_option_id' => $keyO,
-                            'product_option_value_id' => $valueO,
-                            'name' => $product_option->option_name,
-                            'value' => $product_option_value->option_value,
-                            'price' => $product_option_value->option_price,
-                        ];
-
-                        OrderOption::create($inputOrderOption);
+                        $oIds[] = $valueO;
                     }
                 }
-                //OrderOption
+                /*Stock Update During Order*/
+                $stock = $this->checkStock($value->product_id,$oIds,0, $order->id, $value->quantity, 0);
+                if($stock == 1){
+
+                    $orderTotal += ($value->product->price*$value->quantity);
+
+                     $inputOrderItem = [
+                        'order_id' => $order->id,
+                        'product_id' => $value->product_id,
+                        'product_name' => $value->product->product_name,
+                        'product_sku' => $value->product->sku,
+                        'product_price' => $value->product->price,
+                        'product_qty' => $value->quantity,
+                        'sub_total' => ($value->product->price*$value->quantity),
+                    ];
+
+                    $OrderItem = OrderItem::create($inputOrderItem);
+
+                    $options = json_decode($value->options);
+                    if(!empty($options)){
+                        foreach ($options as $keyO => $valueO) {
+
+                            $product_option = ProductsOptions::where('id',$keyO)->first();
+                            $product_option_value = ProductsOptionsValues::where('id', $valueO)->first();
+
+                            $inputOrderOption = [
+                                'order_id' => $order->id,
+                                'order_product_id' => $OrderItem->id,
+                                'product_option_id' => $keyO,
+                                'product_option_value_id' => $valueO,
+                                'name' => $product_option->option_name,
+                                'value' => $product_option_value->option_value,
+                                'price' => $product_option_value->option_price,
+                            ];
+
+                            OrderOption::create($inputOrderOption);
+                        }
+                    }
+                }
+                    //OrderOption
             }
 
             //update total in order table
@@ -329,6 +384,18 @@ class OrderController extends Controller
     public function destroy(string $id)
     {
         $order = Order::findOrFail($id);
+
+        /*Update Stock When Order Delete*/
+        if(count($order['orderItems']) > 0){
+            foreach ($order['orderItems'] as $oItem){
+                if(count($oItem['orderOptions']) > 0){
+                    $oIds = [$oItem['orderOptions'][0]['product_option_value_id'], $oItem['orderOptions'][1]['product_option_value_id']];
+                    /*Stock Update During Order*/
+                    $this->checkStock($oItem->product_id,$oIds,0, $order->id, $oItem->product_qty, 1);
+                }
+            }
+        }
+
         if(!empty($order)){
             $order->delete();
             return 1;
@@ -348,20 +415,59 @@ class OrderController extends Controller
         ]);
 
         $input = $request->all();
+        $data = ['status' => 0];
+        $remaining_qty = 0;
 
         $cart = Cart::where('csrf_token',csrf_token())->where('order_id', $input['order_id'])->where('user_id', 0)->where('added_by_admin', 1)->where('product_id', $input['product_id'])->where('options', json_encode($input['options']))->first();
 
         if(empty($cart)){
-            $input['added_by_admin'] = 1;
-            $input['options'] = json_encode($input['options']);
-            $input['csrf_token'] = $input['_token'];
-            Cart::create($input);
+
+            $oIds = !empty($input['options']) ? array_values($input['options']) : [];
+            $stock = $this->checkStock($input['product_id'], $oIds, 1);
+
+            if (!empty($stock) && $stock['remaining_qty'] > 0) {
+                $remaining_qty = $stock['remaining_qty'];
+
+                if ($stock['remaining_qty'] >= $input['quantity']) {
+
+                    $input['added_by_admin'] = 1;
+                    $input['options'] = json_encode($input['options']);
+                    $input['csrf_token'] = $input['_token'];
+                    Cart::create($input);
+
+                    $data['status'] = 1;
+                    $data['message'] = 'Your product was added to cart successfully!';
+
+                } else {
+                    $data['message'] = 'We apologize, but it seems you\'ve already added the maximum quantity of this product to your cart. We currently have '.$remaining_qty.' quantity left in stock.';
+                }
+            } else {
+                $data['message'] = 'We apologize, but it seems you\'ve already added the maximum quantity of this product to your cart. We currently have '.$remaining_qty.' quantity left in stock.';
+            }
         } else{
-            $cart['quantity'] = ($cart['quantity']+$input['quantity']);
-            $cart->save();
+            $cartOptions = !empty($cart->options) ? json_decode($cart->options, true) : [];
+            $oIds = !empty($cartOptions) ? array_values($cartOptions) : [];
+            $stock = $this->checkStock($cart->product_id, $oIds, 1);
+
+            if (!empty($stock) && $stock['remaining_qty'] > 0) {
+                $newQty = $cart->quantity + $input['quantity'];
+                $remaining_qty = $stock['remaining_qty'];
+
+                if ($stock['remaining_qty'] >= $newQty) {
+                    $cart['quantity'] = $newQty;
+                    $cart->save();
+
+                    $data['status'] = 1;
+                    $data['message'] = 'Your product was added to cart successfully!';
+                } else {
+                    $data['message'] = 'We apologize, but it seems you\'ve already added the maximum quantity of this product to your cart. We currently have '.$remaining_qty.' quantity left in stock.';
+                }
+            } else {
+                $data['message'] = 'We apologize, but it seems you\'ve already added the maximum quantity of this product to your cart. We currently have '.$remaining_qty.' quantity left in stock.';
+            }
         }
 
-        return 1;
+        return $data;
     }
 
     public function getAddressesByUser($userId)

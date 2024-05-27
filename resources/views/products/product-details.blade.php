@@ -60,7 +60,7 @@
                                 <span class="ft-bold theme-cl fs-lg mr-2">
                                     {{ env('CURRENCY') }}{{ number_format($product['price'], 2) }}
                                 </span>
-                                <span class="ft-regular text-success bg-light-success py-1 px-2 fs-sm">In Stock</span>
+                                <!-- <span class="ft-regular text-success bg-light-success py-1 px-2 fs-sm">In Stock</span> -->
                             </div>
                         </div>
                     </div>

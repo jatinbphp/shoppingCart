@@ -46,7 +46,7 @@ $out_of_stock = 1;
                             </p>
 
                             @if($value->out_of_stock==0)
-                                <p class="mb-1 lh-2 text-danger">Available Quanity : {{$value->total_stock_quantity}}</p>
+                                <small class="mb-1 lh-2 text-danger">Available Quanity : {{$value->total_stock_quantity}}.</br>To proceed with the remaining quantity, please <b><a href="javascript:void(0)" id="update-remaining-cart" data-id="{{$value->id}}" data-url="{{route('cart.update-remaining-quantity')}}">click here,</a></b>.</small>
 
                                 @php
                                 $out_of_stock = 0;

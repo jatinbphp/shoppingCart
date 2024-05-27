@@ -56,13 +56,18 @@ class ShoppingCartController extends Controller
             $oIds = !empty($input['options']) ? array_values($input['options']) : [];
             $stock = $this->checkStock($input['product_id'], $oIds, 1);
 
-            if (!empty($stock) && $stock['remaining_qty'] > 0 && $stock['remaining_qty'] >= $input['quantity']) {
+            if (!empty($stock) && $stock['remaining_qty'] > 0) {
                 $remaining_qty = $stock['remaining_qty'];
-                $input['options'] = json_encode($input['options']);
-                $input['user_id'] = Auth::user()->id;
-                Cart::create($input);
-                $data['status'] = 1;
-                $data['message'] = 'Your product was added to cart successfully!';
+
+                if ($stock['remaining_qty'] >= $input['quantity']) {
+                    $input['options'] = json_encode($input['options']);
+                    $input['user_id'] = Auth::user()->id;
+                    Cart::create($input);
+                    $data['status'] = 1;
+                    $data['message'] = 'Your product was added to cart successfully!';
+                } else {
+                    $data['message'] = '<span class="text-danger">We apologize, but it seems you\'ve already added the maximum quantity of this product to your cart. </br></br>We currently have '.$remaining_qty.' quantity left in stock.</span>';    
+                }
             } else {
                 $data['message'] = '<span class="text-danger">We apologize, but it seems you\'ve already added the maximum quantity of this product to your cart. </br></br>We currently have '.$remaining_qty.' quantity left in stock.</span>';
             }
@@ -179,4 +184,40 @@ class ShoppingCartController extends Controller
         return response()->json(['status' => 200, 'message' => $response['message']]);
     }
 
+    public function updateRemainingQuantity(Request $request){
+        // Validate the incoming request
+        $request->validate([
+            'id' => 'required|integer',
+        ]);
+
+        // Find the cart item by user_id and id
+        $cart = Cart::where('user_id', Auth::user()->id)
+                    ->where('id', $request->id)
+                    ->first();
+
+        // If the cart item doesn't exist, return a 404 response
+        if (!$cart) {
+            return response()->json(['status' => 404, 'message' => 'Product not found.'], 404);
+        }
+
+        // Decode cart options
+        $cartOptions = !empty($cart->options) ? json_decode($cart->options, true) : [];
+        $oIds = !empty($cartOptions) ? array_values($cartOptions) : [];
+
+        // Check stock for the product and its options
+        $stock = $this->checkStock($cart->product_id, $oIds, 1);
+
+        // Initialize response data
+        $remaining_qty = !empty($stock) ? $stock['remaining_qty'] : 0;
+
+        if ($remaining_qty > 0) {
+            $cart->update(['quantity' => $stock['remaining_qty']]);
+            $response = ['status' => 1, 'message' => 'Your quantity has been successfully updated.'];
+        } else {
+            $response = ['status' => 0, 'message' => '<span class="text-danger">We apologize, but it seems you\'ve already added the maximum quantity of this product to your cart. </br></br>We currently have '.$remaining_qty.' quantity left in stock.</span>'];
+        }
+
+        // Return a response
+        return response()->json(['status' => 200, 'message' => $response['message']]);
+    }
 }

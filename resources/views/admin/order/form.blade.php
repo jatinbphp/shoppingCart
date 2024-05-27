@@ -259,7 +259,13 @@ $(document).ready(function(){
                 $('#myModal').modal('hide');
                 $('#addProductForm')[0].reset(); // Resetting the form
                 reloadOrderProductsTable();
-                swal("Success", "Your product has been added to the order!", "success");
+
+                if(response.status==1){
+                    swal("Success", response.message, "success");    
+                } else {
+                    swal("Warning", response.message, "warning");
+                }
+                
             },
             error: function(xhr, status, error){
                 var errors = JSON.parse(xhr.responseText).errors;

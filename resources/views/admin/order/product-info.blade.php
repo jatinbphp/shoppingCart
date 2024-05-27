@@ -33,7 +33,7 @@
                                 {{ json_decode($options_text)->SIZE }}
                             @endif
                         @endif
-                        <a class="editOption" href="javascript:void(0)" data-option_id="{{ $keyO }}" data-option_value_id="{{ $valueO }}" data-product_id="{{ $product['id'] }}" data-id="{{ $id }}">Edit</a>
+                        <a style= "display: none;" class="editOption" href="javascript:void(0)" data-option_id="{{ $keyO }}" data-option_value_id="{{ $valueO }}" data-product_id="{{ $product['id'] }}" data-id="{{ $id }}">Edit</a>
                     </small>
                 </p>
             @endforeach

@@ -494,6 +494,7 @@ class ProductController extends Controller
             ProductStock::create($input);
         } else{
             $input['total_qty'] = ($input['qty']+$existStock['total_qty']);
+            $input['remaining_qty'] = (($input['qty']+$existStock['total_qty'])-$existStock['order_qty']);
             $existStock->update($input);
         }
 
