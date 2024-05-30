@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('user_id')->default(0);
             $table->integer('product_id')->default(0);
             $table->integer('quantity')->default(0);
+            $table->integer('main_quantity')->default(0);
             $table->text('options')->nullable();
             $table->integer('added_by_admin')->default(0);
             $table->longText('csrf_token')->nullable();

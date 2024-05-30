@@ -62,6 +62,8 @@ class OrderController extends Controller
                 ->make(true);
         }
 
+        Cart::where('csrf_token',csrf_token())->where('order_id',0)->delete();
+
         return view('admin.order.index', $data);
     }
 
@@ -79,7 +81,7 @@ class OrderController extends Controller
                 if(!empty($OrderItems)){
                     foreach ($OrderItems as $key => $value) {
 
-                        $optionsArray = OrderOption::where('order_product_id',$value->id)->orderBy('id', 'DESC')->get();
+                        $optionsArray = OrderOption::where('order_product_id',$value->id)->orderBy('id', 'ASC')->get();
 
                         $options = [];
                         $options_text = [];
@@ -95,6 +97,7 @@ class OrderController extends Controller
                             'added_by_admin' => 1,
                             'product_id' => $value->product_id,
                             'quantity' => $value->product_qty,
+                            'main_quantity' => $value->product_qty,
                             'options' => json_encode($options),
                             'options_text' => json_encode($options_text),
                             'csrf_token' => csrf_token()
@@ -307,6 +310,32 @@ class OrderController extends Controller
         $order_products = Cart::with('product')->where('csrf_token',csrf_token())->where('order_id',$input['order_id'])->get();
         if(!empty($order_products)){
 
+            $error = 0;
+            foreach ($order_products as $value) {
+                $cartOptions = !empty($value->options) ? json_decode($value->options, true) : [];
+                $oIds = !empty($cartOptions) ? array_values($cartOptions) : [];
+                $stock = $this->checkStock($value->product_id, $oIds, 1);
+
+                if (!empty($stock) && $stock['remaining_qty'] > 0) {
+                    $newQty = $value->quantity;
+                    $remaining_qty = $stock['remaining_qty'];
+
+                    if ($stock['remaining_qty'] < $newQty) {
+                        $error = 1;
+                        break; // No need to continue if there's an error
+                    }
+                } else {
+                    $error = 1;
+                    break; // No need to continue if there's an error
+                }
+            }
+
+            if($error==1){
+                \Session::flash('danger', 'Something went wrong. Please try again!');
+                Cart::where('csrf_token',csrf_token())->where('order_id',0)->delete();
+                return redirect()->route('orders.index');
+            }
+
             OrderItem::where('order_id',$input['order_id'])->delete();
             OrderOption::where('order_id',$input['order_id'])->delete();
 
@@ -450,17 +479,36 @@ class OrderController extends Controller
             $stock = $this->checkStock($cart->product_id, $oIds, 1);
 
             if (!empty($stock) && $stock['remaining_qty'] > 0) {
-                $newQty = $cart->quantity + $input['quantity'];
-                $remaining_qty = $stock['remaining_qty'];
+                
 
-                if ($stock['remaining_qty'] >= $newQty) {
-                    $cart['quantity'] = $newQty;
-                    $cart->save();
+                if(!empty($input['order_id'])){
+                    $newQty = ($cart->quantity + $input['quantity'])-$cart->main_quantity;
+                    $newUQty = $cart->quantity + $input['quantity'];
+                    $remaining_qty = ($stock['remaining_qty']-($cart->quantity-$cart->main_quantity));
 
-                    $data['status'] = 1;
-                    $data['message'] = 'Your product was added to cart successfully!';
+                    if ($stock['remaining_qty'] >= $newQty) {
+                        $cart['quantity'] = $newUQty;
+                        $cart->save();
+
+                        $data['status'] = 1;
+                        $data['message'] = 'Your product was added to cart successfully!';
+                    } else {
+                        $data['message'] = 'We apologize, but it seems you\'ve already added the maximum quantity of this product to your cart. We currently have '.$remaining_qty.' quantity left in stock.';
+                    }
                 } else {
-                    $data['message'] = 'We apologize, but it seems you\'ve already added the maximum quantity of this product to your cart. We currently have '.$remaining_qty.' quantity left in stock.';
+
+                    $newQty = $cart->quantity + $input['quantity'];
+                    $remaining_qty = $stock['remaining_qty'];
+
+                    if ($stock['remaining_qty'] >= $newQty) {
+                        $cart['quantity'] = $newQty;
+                        $cart->save();
+
+                        $data['status'] = 1;
+                        $data['message'] = 'Your product was added to cart successfully!';
+                    } else {
+                        $data['message'] = 'We apologize, but it seems you\'ve already added the maximum quantity of this product to your cart. We currently have '.$remaining_qty.' quantity left in stock.';
+                    }
                 }
             } else {
                 $data['message'] = 'We apologize, but it seems you\'ve already added the maximum quantity of this product to your cart. We currently have '.$remaining_qty.' quantity left in stock.';
